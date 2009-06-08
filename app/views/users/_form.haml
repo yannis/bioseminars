@@ -6,7 +6,5 @@
 = f.password_field :password
 = f.label :password_confirmation, 'Confirm Password'
 = f.password_field :password_confirmation
-= f.label :laboratory_id
-= f.collection_select :laboratory_id, @laboratories, :id, :name, :include_blank => true
 = f.label :role_id
 = f.collection_select :role_id, @roles, :id, :name

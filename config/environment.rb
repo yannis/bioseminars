@@ -42,13 +42,15 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
   
-  ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!( 
+
+end
+
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!( 
     :time_only => '%H:%M',
     :rfc2445 => '%Y%m%dT%H%M00',
     :rfc822 => '%a, %d %b %Y %H:%M:%S +0100'
   )
-  # ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
-  #     :month => '%B',
-  #     :time_only => '%H:%M'
-  # )
-end
+  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
+      :month => '%B',
+      :time_only => '%H:%M'
+  )

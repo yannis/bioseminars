@@ -6,11 +6,11 @@ class UsersController < ApplicationController
     if logged_in?
       @user = current_user
       respond_to do |format|
-        format.html { redirect_to (user_path(@user)) }
+        format.html { redirect_to(user_path(@user)) }
       end
     else
       respond_to do |format|
-        format.html { redirect_to (login_path) }
+        format.html { redirect_to(login_path) }
       end
     end
   end
@@ -69,6 +69,5 @@ class UsersController < ApplicationController
   
   def set_variables
     @roles = Role.find(:all)
-    @laboratories = Laboratory.find(:all)
   end
 end
