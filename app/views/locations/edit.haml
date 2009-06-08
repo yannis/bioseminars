@@ -1,0 +1,7 @@
+- @title ||= "Edit location “#{@location.name}”"
+%h2
+  = @title
+= error_messages_for :location
+- form_for :location, :url => location_path(@location), :html => { :method => :put, :class => 'with_blocks'} do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  = submit_tag 'Update'

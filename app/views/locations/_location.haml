@@ -1,0 +1,10 @@
+%tr[location]
+  %td
+    = link_to_unless_current h(location.name), location_path(location)
+  %td
+    = h(location.description)
+  %td
+    = link_to(h(location.building.name), building_path(location.building)) unless location.building.blank?
+  %td
+    - links = [edit_link(location)]
+    = links.join(' · ')

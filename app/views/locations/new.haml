@@ -1,0 +1,6 @@
+- @title ||= 'New location'
+%h2
+  = @title
+- form_for @location, :html => {:class => 'with_blocks'} do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  = f.submit "Create"

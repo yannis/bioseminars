@@ -1,0 +1,7 @@
+- @title ||= 'New seminar'
+%h2
+  = @title
+= error_messages_for :seminar
+- form_for @seminar, :html => {:class => 'with_blocks'} do |f|
+  = render :partial => 'form', :locals => {:f => f}
+  = f.submit "Create"

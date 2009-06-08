@@ -1,0 +1,8 @@
+%tr[building]
+  %td
+    = link_to_unless_current h(building.name), building_path(building)
+  %td
+    = h(building.description)
+  %td
+    - links = [edit_link(building)]
+    = links.join(' · ')

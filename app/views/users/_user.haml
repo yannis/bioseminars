@@ -1,0 +1,10 @@
+%tr[user]
+  %td
+    = link_to_unless_current h(user.name), user_path(user)
+  %td=h user.email
+  %td
+    = link_to(user.role.name, role_path(user.role)) if user.role
+  %td
+    - links = [edit_link(user)]
+    - links << destroy_link(user)
+    = links.join(' · ')

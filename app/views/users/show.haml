@@ -1,0 +1,6 @@
+- @title ||= "Showing user “#{@user.name}”"
+%h2
+  = @title
+%table
+  = render 'table_head'
+  = render @user
