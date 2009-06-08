@@ -1,9 +1,6 @@
 .DS_Store
 log/*
 tmp/*
-config/database.yml
-config/initializers/session_store.rb
-config/initializers/site_keys.rb
 db/schema.rb
 db/sphinx/*
 db/schema.sql
