@@ -24,6 +24,7 @@ role :db,  domain, :primary => true
 namespace :deploy do
   desc "Restart Application"
   task :restart, :roles => :app do
+    run "ln -s #{current_path}/public /Library/Webserver/Documents/seminars"
     run "touch #{current_path}/tmp/restart.txt"
   end
 end

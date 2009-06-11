@@ -23,6 +23,8 @@ form {
     height: 10em; }
   form.with_blocks .inline_in_form label, form.with_blocks .inline_in_form input {
     display: inline; }
+  form.with_blocks .inline_in_form input[type='text'] {
+    width: 10em; }
 
 #content {
   background-color: #FFF;
