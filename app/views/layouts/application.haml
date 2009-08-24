@@ -1,0 +1,40 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+  %head
+    %title
+      = @title || "wAllet"
+    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
+    %meta{:name=>"author", :content=>"Yannis Jaquet"}/
+    %meta{:name => "robots", :content => "noindex,nofollow"}
+    = javascript_include_tag  :defaults
+    = javascript_include_tag 'my_scripts.js'
+    = stylesheet_link_tag 'reset.css', :media => "screen, projection"
+    = stylesheet_link_tag 'fluid.gs.css', :media => "screen, projection"
+    = stylesheet_link_tag 'typography.css', :media => "screen, projection"
+    /[if IE]
+      = stylesheet_link_tag 'emastic/ie-min.css', :media => 'screen, projection'
+    / = stylesheet_link_tag 'screen', :media => "screen, projection"
+    / = stylesheet_link_tag 'print', :media => "print"
+    / = stylesheet_link_tag 'my_styles2', :media => "screen, projection"
+    = stylesheet_link_tag 'my_styles', :media => "screen, projection"
+    = yield :head
+  %body{:onload => "#{yield(:onload)}"}
+    .fluid_grid_layout
+      #banner_and_navigation.section
+        #banner.one.column
+          %h1
+            = link_to 'Seminars', root_path
+        #navigation.five.column
+          - if logged_in?
+            = render 'layouts/navigation'
+      #content.section
+        - unless flash[:notice].blank?
+          #flash_notice
+            .flash.success
+              = " "+flash[:notice]
+        - unless flash[:warning].blank?
+          #flash_warning
+            .flash.error
+              = " "+flash[:warning]
+        = yield :layout
+      #footer.section

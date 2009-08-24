@@ -1,0 +1,9 @@
+.DS_Store
+log/*
+tmp/*
+db/schema.rb
+db/sphinx/*
+db/schema.sql
+public/system
+index/*
+mymice.tmproj

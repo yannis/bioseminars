@@ -1,0 +1,16 @@
+%tr[seminar]
+  %td
+    = link_to_unless_current h(seminar.title), seminar_path(seminar)
+  %td
+    = seminar.speakers.map(&:name).join(', ')
+  %td
+    = seminar.speakers.map(&:affiliation).join(', ')
+  %td
+    = seminar.hosts.map(&:name).join(', ')
+  %td
+    = h(seminar.location)
+  %td
+    = seminar.schedule
+  %td
+    - links = [edit_link(seminar)]
+    = links.join(' · ')

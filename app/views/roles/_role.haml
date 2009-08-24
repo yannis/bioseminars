@@ -1,0 +1,6 @@
+%tr[role]
+  %td
+    = link_to_unless_current h(role.name), role_path(role)
+  %td
+    - links = [edit_link(role)]
+    = links.join(' · ')

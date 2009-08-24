@@ -1,0 +1,10 @@
+%tr[person]
+  %td
+    = link_to_unless_current h(person.name), person_path(person)
+  %td
+    = h(person.email)
+  %td
+    = h(person.affilitaion)
+  %td
+    - links = [edit_link(person)]
+    = links.join(' · ')

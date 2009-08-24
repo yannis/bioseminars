@@ -1,0 +1,9 @@
+= f.label :name
+= error_message_on "location", "name", :prepend_text => "Name ", :append_text => "!", :css_class => "input_error"
+= f.text_field :name
+= f.label :description
+= error_message_on "location", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
+= f.text_area :description
+= f.label :building_id
+= error_message_on "location", "building_id", :prepend_text => "Building ", :append_text => "!", :css_class => "input_error"
+= f.collection_select :building_id, @buildings, :id, :name, :include_blank => true

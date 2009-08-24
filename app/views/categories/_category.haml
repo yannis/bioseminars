@@ -1,0 +1,8 @@
+%tr[category]
+  %td
+    = link_to_unless_current h(category.name), category_path(category)
+  %td
+    = h(category.description)
+  %td
+    - links = [edit_link(category)]
+    = links.join(' · ')
