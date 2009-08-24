@@ -10,6 +10,9 @@ class Seminar < ActiveRecord::Base
   accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :hosts, :allow_destroy => true
   
+  default_scope :order => "seminars.start_on ASC"
+  named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
+  
   # before_validation :set_times
 
   # attr_writer :all_day

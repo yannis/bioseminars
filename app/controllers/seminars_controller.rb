@@ -5,6 +5,7 @@ class SeminarsController < ApplicationController
   # GET /seminars.xml
   def index
     @seminars = Seminar.find(:all)
+    @days_with_seminars = @seminars.map{|s| s.start_on.to_date}
 
     respond_to do |format|
       format.html # index.html.haml
