@@ -1,6 +1,4 @@
+- stylesheet 'calendar.css'
 - @title ||= "Listing seminars"
-%h2
-  = @title
-%table
-  = render 'table_head'
-  = render @seminars
+= calendar(:year => Date.current.year, :month => Date.current.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => Date.current.last_month.to_s(:month), :next_month_text => Date.current.next_month.to_s(:month)) do |d|
+  - render_calendar_cell(d)

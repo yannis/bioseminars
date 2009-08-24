@@ -53,7 +53,8 @@
   = error_message_on "seminar", "end_on", :prepend_text => "End ", :append_text => "!", :css_class => "input_error"
   = f.datetime_select :end_on
 = f.label :location_id
-= f.select :location_id, option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name)
+%select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
+  = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name)
 = f.label :category_id
 = f.collection_select :category_id, @categories, :id, :name
 = f.label :description

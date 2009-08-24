@@ -10,7 +10,10 @@
     = stylesheet_link_tag 'reset.css', :media => "screen, projection"
     = stylesheet_link_tag '960.css', :media => "screen, projection"
     = stylesheet_link_tag 'text.css', :media => "screen, projection"
+<<<<<<< HEAD:app/views/layouts/application.haml
+=======
     = stylesheet_link_tag 'navigation.css', :media => "screen, projection"
+>>>>>>> 9f35086daf84ea2f40239ef25e8215ec8d98641b:app/views/layouts/application.haml
     /[if IE]
     /  = stylesheet_link_tag 'emastic/ie-min.css', :media => 'screen, projection'
     / = stylesheet_link_tag 'screen', :media => "screen, projection"
@@ -20,10 +23,17 @@
     = yield :head
   %body{:onload => "#{yield(:onload)}"}
     .container_12
+<<<<<<< HEAD:app/views/layouts/application.haml
+      #banner.one.grid_2
+        %h1
+          = link_to 'Seminars', root_path
+      #navigation.grid_10
+=======
       #banner.one.grid_3
         %h1
           = link_to 'Seminars', root_path
       #navigation.grid_9
+>>>>>>> 9f35086daf84ea2f40239ef25e8215ec8d98641b:app/views/layouts/application.haml
         - if logged_in?
           = render 'layouts/navigation'
       .clear
@@ -37,6 +47,9 @@
             .flash.error
               = " "+flash[:warning]
         = yield :layout
+<<<<<<< HEAD:app/views/layouts/application.haml
+      #footer.grid_12
+=======
       - unless params[:controller] == 'sessions'
         #footer.grid_12
           .box
@@ -45,3 +58,4 @@
               –
               = link_to 'log', '/log.txt'
               = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+>>>>>>> 9f35086daf84ea2f40239ef25e8215ec8d98641b:app/views/layouts/application.haml

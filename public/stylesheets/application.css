@@ -1,0 +1,178 @@
+body {
+  background-color: #F2F5ED;
+  color: #333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px; }
+
+h1 {
+  margin: 0 0 .2em 0; }
+  h1 a {
+    text-decoration: none;
+    color: #FF5B00; }
+
+form {
+  margin: 0 1em; }
+  form label {
+    font-weight: bold; }
+  form.with_blocks label, form.with_blocks input {
+    display: block; }
+  form.with_blocks input, form.with_blocks select, form.with_blocks textarea {
+    margin: 0 0 1em 0; }
+  form.with_blocks textarea {
+    height: 10em; }
+  form.with_blocks .inline_in_form label, form.with_blocks .inline_in_form input {
+    display: inline; }
+  form.with_blocks .inline_in_form input[type='text'] {
+    width: 10em; }
+
+#content h2 {
+  padding: .5em;
+  text-align: left; }
+#content section {
+  padding: 1em; }
+
+.notice, .error {
+  width: 600px;
+  margin: 0 auto;
+  text-align: center; }
+
+.notice {
+  background-color: #c2d78c;
+  border: 1px solid #abc963; }
+
+.error {
+  background-color: #731b10;
+  border: 1px solid #541000;
+  color: #fff; }
+
+.fieldWithErrors {
+  display: table;
+  padding: 2px;
+  background-color: #731b10;
+  color: #fff;
+  font-weight: bold; }
+
+.fieldWithErrors label {
+  padding: 2px 8px; }
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid #731b10;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0; }
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #731b10;
+  color: #fff; }
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px; }
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square; }
+
+th {
+  text-align: left; }
+
+table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  font-size: 12px;
+  text-align: left;
+  border-collapse: collapse;
+  padding: 8px;
+  color: #669; }
+  table th {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 8px;
+    color: #039; }
+  table .odd {
+    background: #e8edff; }
+
+#banner {
+  margin-top: 1em; }
+
+#footer {
+  font-size: 1.2em;
+  background-color: #FFC200;
+  text-align: center;
+  padding: 1em 0 0 0;
+  margin: 1em auto;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -border-radius: 1em;
+  -webkit-box-shadow: 10px 10px 25px #ccc;
+  -moz-box-shadow: 10px 10px 25px #ccc;
+  box-shadow: 10px 10px 25px #ccc; }
+
+#navigation {
+  margin-top: 1em;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 0em; }
+  #navigation ul li {
+    margin: 0 .2em 0 0;
+    background-color: #FFC200;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    -border-radius: 1em;
+    -webkit-box-shadow: 10px 10px 25px #ccc;
+    -moz-box-shadow: 10px 10px 25px #ccc;
+    box-shadow: 10px 10px 25px #ccc; }
+    #navigation ul li a {
+      font-weight: bold;
+      color: #B80028; }
+  #navigation ul li.secondary {
+    font-size: .8em;
+    float: right; }
+    #navigation ul li.secondary form {
+      display: inline; }
+      #navigation ul li.secondary form input {
+        display: inline; }
+    #navigation ul li.secondary span.status {
+      width: auto;
+      float: left;
+      padding: 0 1em;
+      line-height: 2.77em;
+      height: 2.77em;
+      font-size: 0.9em; }
+      #navigation ul li.secondary span.status a {
+        float: none;
+        display: inline;
+        padding: 0;
+        height: auto;
+        line-height: auto;
+        background: transparent; }
+        #navigation ul li.secondary span.status a:hover {
+          color: #fff;
+          background: transparent; }
+      #navigation ul li.secondary span.status span {
+        text-transform: capitalize; }
+    #navigation ul li.secondary span#pending_order_link {
+      float: none;
+      width: auto;
+      padding: 0;
+      line-height: 2.77em;
+      height: 2.77em;
+      font-size: 0.9em; }
+  #navigation ul ul li ul {
+    top: 100%;
+    left: -25px;
+    list-style: none;
+    display: none;
+    z-index: 597; }
+  #navigation ul ul li:hover ul {
+    display: block;
+    margin-top: -2.1em;
+    left: 100%; }

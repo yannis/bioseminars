@@ -1,0 +1,5 @@
+24.8.2009
+Seminars calendar restyled.
+
+21.8.2009
+Upgrade to rails 2.3.3

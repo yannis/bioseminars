@@ -3,7 +3,7 @@ set :user, 'yannis'
 set :scm, :git
 # set :run_method, :run
 set :ssh_options, { :forward_agent => true }
-set :repository,  "ssh://yannis@129.194.56.197/Users/yannis/gitrepos/seminars/.git"
+set :repository,  "ssh://code@129.194.56.197/Users/code/gitrepos/seminars/.git"
 set :domain, "129.194.56.197"
 
 
@@ -24,7 +24,6 @@ role :db,  domain, :primary => true
 namespace :deploy do
   desc "Restart Application"
   task :restart, :roles => :app do
-    run "ln -s #{current_path}/public /Library/Webserver/Documents/seminars"
-    run "touch #{current_path}/tmp/restart.txt"
+    run "rm -fr /Library/Webserver/Documents/seminars; ln -s #{current_path}/public /Library/Webserver/Documents/seminars; touch #{current_path}/tmp/restart.txt"
   end
 end

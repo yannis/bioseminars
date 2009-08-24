@@ -85,6 +85,24 @@ form {
   font-size: 12px;
   list-style: square; }
 
+th {
+  text-align: left; }
+
+table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  font-size: 12px;
+  text-align: left;
+  border-collapse: collapse;
+  padding: 8px;
+  color: #669; }
+  table th {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 8px;
+    color: #039; }
+  table .odd {
+    background: #e8edff; }
+
 #nav {
   margin: 1em 0 0 0; }
 

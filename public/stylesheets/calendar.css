@@ -1,0 +1,54 @@
+table.calendar {
+  margin: 1em auto 0 auto; }
+  table.calendar thead tr th {
+    background-color: transparent; }
+  table.calendar td, table.calendar th {
+    width: 14.25%;
+    height: 8em;
+    text-align: left; }
+  table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
+    height: 2em; }
+  table.calendar td.normalDay {
+    border: 1px dotted #B80028; }
+  table.calendar .monthName th {
+    font-weight: normal;
+    text-align: right;
+    padding-top: 1em;
+    padding-bottom: 0.7em; }
+  table.calendar .dayName th {
+    font-size: 1em;
+    padding-top: 0.6em;
+    padding-bottom: 0.3em;
+    background-color: #303030;
+    color: white; }
+  table.calendar .otherMonth {
+    padding: 0.7em 1em;
+    color: #eeeeee; }
+  table.calendar .day {
+    padding: 0.7em 1em;
+    border-right: 1px solid white;
+    text-align: center;
+    border-bottom: 1px dotted #bbbbbb; }
+  table.calendar .specialDay {
+    padding: 0.7em 1em;
+    text-align: center;
+    color: white    a;
+    color-color: white;
+    color-text-decoration: none;
+    color-padding: 1em      &:visited;
+    color-padding-color: white;
+    color-padding-text-decoration: none;
+    color-padding-padding: 1em      &:hover;
+    color-padding-color: white;
+    color-padding-text-decoration: none;
+    color-padding-padding: 1em;
+    color-padding-color: white;
+    color-padding-background-color: black; }
+  table.calendar .weekendDay {
+    background-color: #eeeeee; }
+  table.calendar .today {
+    background-color: #1e90ff;
+    color: white; }
+  table.calendar .day_number {
+    display: block;
+    text-align: right; }
