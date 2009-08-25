@@ -4,6 +4,7 @@ set :scm, :git
 # set :run_method, :run
 set :ssh_options, { :forward_agent => true }
 set :repository,  "ssh://code@129.194.56.197/Users/code/gitrepos/seminars/.git"
+set :password, 'code@unige'
 set :domain, "129.194.56.197"
 
 
