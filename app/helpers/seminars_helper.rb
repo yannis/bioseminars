@@ -6,7 +6,17 @@ module SeminarsHelper
       sem << "<ul>"
       for s in Seminar.of_day(d)
         sem << '<li>'
-        sem << link_to( s.title, seminar_path(s))
+        sem << link_to( s.time_and_title, seminar_path(s), :onmouseover => "new Tip(this, 'kjdjhkdkj', {
+          style: 'protoblue', 
+          stem: 'bottomLeft',
+          hook: { tip: 'bottomLeft', mouse: true },
+          ajax: {
+            url: '#{seminar_path(s)}',
+            options: {
+              method: 'get'
+            }
+          }
+        }); return false;")
         sem << '</li>'
       end
       sem << "</ul>"

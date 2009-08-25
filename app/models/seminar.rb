@@ -49,7 +49,7 @@ class Seminar < ActiveRecord::Base
     elsif start_on.to_date == Date.today
       humanized_date = "Today"
     else
-      humanized_date = start_on.to_date.to_s("%e %B %Y")
+      humanized_date = start_on.to_date.to_s(:day_month_year)
     end
     if end_on.blank?
       if start_on.to_s(:time_only) == "00:00"
@@ -59,12 +59,12 @@ class Seminar < ActiveRecord::Base
       end
     else
       if start_on.to_date == end_on.to_date
-        schedule << humanized_date + start_on.to_s(", %H:%M") + " - " + end_on.to_s("%H:%M")
+        schedule << humanized_date + ', ' + start_on.to_s(:time_only) + "-" + end_on.to_s(:time_only)
       else
         if start_on.to_s(:time_only) == "00:00" and end_on.to_s(:time_only) == "00:00"
-          schedule << start_on.to_date.to_s("%e %B %Y") + " - " + end_on.to_date.to_s("%e %B %Y")
+          schedule << start_on.to_s(:day_month_year) + " - " + end_on.to_s(:day_month_year)
         else
-          schedule << start_on.to_s("%e %B %Y, %H:%M") + " - " + end_on.to_s("%e %B %Y, %H:%M")
+          schedule << start_on.to_s(:day_month_year_hour_minute) + " - " + end_on.to_s(:day_month_year_hour_minute)
         end
       end
     end
@@ -73,9 +73,16 @@ class Seminar < ActiveRecord::Base
   
   def when_and_where
     when_and_where = []
-    when_and_where << location unless location.blank?
+    when_and_where << location.name_and_building unless location.blank?
     when_and_where += schedule unless schedule.blank?
     return when_and_where.join(" - ")
+  end
+  
+  def time_and_title
+    time_and_title = []
+    time_and_title << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
+    time_and_title << title
+    return time_and_title.join(" - ")
   end
   
   # protected

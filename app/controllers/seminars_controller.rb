@@ -1,5 +1,6 @@
 class SeminarsController < ApplicationController
   
+  skip_before_filter :login_required, :only => ['index', 'show']
   before_filter :set_variables
   # GET /seminars
   # GET /seminars.xml
@@ -21,6 +22,7 @@ class SeminarsController < ApplicationController
     respond_to do |format|
       format.html # show.html.haml
       format.xml  { render :xml => @seminar }
+      format.js {render 'mini_seminar', :layout => false}
     end
   end
 

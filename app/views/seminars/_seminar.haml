@@ -11,6 +11,7 @@
     = h(seminar.location)
   %td
     = seminar.schedule
-  %td
-    - links = [edit_link(seminar)]
-    = links.join(' · ')
+  - if admin?
+    %td
+      - links = [edit_link(seminar)]
+      = links.join(' · ')
