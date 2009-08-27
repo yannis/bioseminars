@@ -8,7 +8,7 @@
   %td
     = seminar.hosts.map(&:name).join(', ')
   %td
-    = h(seminar.location)
+    = h(seminar.location.name_and_building)
   %td
     = seminar.schedule
   - if admin?

@@ -1,3 +1,11 @@
+27.8.2009
+Rewritten seminars form: add speakers and host dynamically.
+Added validation for the presence of host and speaker.
+
+26.8.2009
+Added a way to create all-day events.
+Added a way to get names from email address for seminar hosts.
+
 25.8.2009
 Added tooltips for events in the calendar /seminars.
 Skipped before_filter :login_required for the index and show actions of seminars.

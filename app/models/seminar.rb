@@ -2,16 +2,23 @@ class Seminar < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
   belongs_to :location
+  
   has_and_belongs_to_many :speakers, :class_name => 'Person', :join_table => "seminars_speakers"
   has_and_belongs_to_many :hosts, :class_name => 'Person', :join_table => "hosts_seminars"
-  
-  validates_presence_of :title, :start_on#, :location_id
   
   accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :hosts, :allow_destroy => true
   
+  validates_associated :hosts
+  validates_presence_of :title, :start_on, :end_on#, :location_id
+    
   default_scope :order => "seminars.start_on ASC"
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
+  named_scope :of_month, lambda{|datetime| {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", datetime.beginning_of_month.to_date, datetime.end_of_month.to_date, datetime.beginning_of_month.to_date, datetime.end_of_month.to_date]}}
+  named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]
+      
+  before_validation :set_end_on
+  after_save :check_presence_of_host_and_speaker
   
   # before_validation :set_times
 
@@ -90,4 +97,15 @@ class Seminar < ActiveRecord::Base
   # def set_times
   #   self.start_time = nil unless all_day == false
   # end
+  
+  private
+  
+  def set_end_on
+    self.end_on = (self.start_on+1.hour) if self.end_on.blank?    
+  end
+  
+  def check_presence_of_host_and_speaker
+    raise("Seminar should have at least 1 host.") if self.hosts.blank?
+    raise("Seminar should have at least 1 speaker.") if self.speakers.blank?
+  end
 end

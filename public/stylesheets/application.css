@@ -25,6 +25,8 @@ form {
     display: inline; }
   form.with_blocks .inline_in_form input[type='text'] {
     width: 10em; }
+  form input#seminar_all_day {
+    display: inline; }
 
 #content h2 {
   padding: .5em;

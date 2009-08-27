@@ -5,7 +5,8 @@ class SeminarsController < ApplicationController
   # GET /seminars
   # GET /seminars.xml
   def index
-    @seminars = Seminar.find(:all)
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    @seminars = Seminar.of_month(@date)
     @days_with_seminars = @seminars.map{|s| s.start_on.to_date}
 
     respond_to do |format|
@@ -20,7 +21,7 @@ class SeminarsController < ApplicationController
     @seminar = Seminar.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.haml
+      format.html {render 'show'}
       format.xml  { render :xml => @seminar }
       format.js {render 'mini_seminar', :layout => false}
     end
@@ -31,7 +32,6 @@ class SeminarsController < ApplicationController
   def new
     @seminar = Seminar.new
     @seminar.hosts.build
-    @seminar.speakers.build
     @seminar.speakers.build
 
     respond_to do |format|
@@ -49,7 +49,7 @@ class SeminarsController < ApplicationController
   # POST /seminars.xml
   def create
     @seminar = Seminar.new(params[:seminar])
-
+    flash[:error] = @seminar.errors.inspect
     respond_to do |format|
       if @seminar.save
         flash[:notice] = 'Seminar was successfully created.'
@@ -61,6 +61,11 @@ class SeminarsController < ApplicationController
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
       end
     end
+    rescue Exception => e
+      @seminar.errors.add(e, '')
+      respond_to do |format|
+        format.html { render 'new' }
+      end
   end
 
   # PUT /seminars/1
@@ -79,6 +84,11 @@ class SeminarsController < ApplicationController
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
       end
     end
+    rescue Exception => e
+      @seminar.errors.add(e, '')
+      respond_to do |format|
+        format.html { render 'edit' }
+      end
   end
 
   # DELETE /seminars/1
@@ -91,6 +101,14 @@ class SeminarsController < ApplicationController
       flash[:notice] = 'Seminar was successfully deleted.'
       format.html { redirect_to(seminars_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def insert_person_in_form
+    @seminar = params[:id] == 'new' ? Seminar.new : Seminar.find(params[:id])
+    @person = params[:person] == 'host' ? @seminar.hosts.build : @seminar.speakers.build
+    respond_to do |format|
+      format.js
     end
   end
   

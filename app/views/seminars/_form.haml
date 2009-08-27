@@ -1,57 +1,35 @@
 = f.label :title
 = error_message_on "seminar", "title", :prepend_text => "Title ", :append_text => "!", :css_class => "input_error"
 = f.text_field :title
-%strong
-  Speakers
-- if @seminar.new_record?
-  - f.fields_for :speakers do |fs|
-    .inline_in_form
-      = fs.label :name
-      = fs.text_field :name
-      = fs.label :affiliation
-      = fs.text_field :affiliation
-- else
-  - for speaker in @seminar.speakers
-    - fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
-      .inline_in_form
-        = fs.hidden_field :id
-        = fs.label :name
-        = fs.text_field :name
-        = fs.label :affiliation
-        = fs.text_field :affiliation
-        = fs.check_box '_delete'
-        = fs.label '_delete', 'Remove'
-%strong
-  Hosts
-- if @seminar.new_record?
-  - f.fields_for :hosts do |fs|
-    .inline_in_form
-      = fs.label :name
-      = fs.text_field :name
-      = fs.label :affiliation
-      = fs.text_field :affiliation
-- else
-  - for host in @seminar.hosts
-    - fields_for "seminar[hosts_attributes][#{host.id}]", host do |fs|
-      .inline_in_form
-        = fs.hidden_field :id
-        = fs.label :name
-        = fs.text_field :name
-        = fs.label :email
-        = fs.text_field :email
-        = fs.check_box '_delete'
-        = fs.label '_delete', 'Remove'
-= f.label :start_on
+#speakers
+  %strong
+    Speakers
+  = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'speaker'), :before => "Element.hide('insert_speaker_in_seminar_form'); Element.show('seminar_loader_new_speaker_in_form')", :complete => "Element.hide('seminar_loader_new_speaker_in_form'); Element.show('insert_speaker_in_seminar_form')"}, {:id => "insert_speaker_in_seminar_form"})
+  = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_speaker_in_form")
+  = render :partial => 'speaker', :locals => {:f => f}, :collection => @seminar.speakers
+#hosts
+  %strong
+    Hosts
+  = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'host'), :before => "Element.hide('insert_host_in_seminar_form'); Element.show('seminar_loader_new_host_in_form')", :complete => "Element.hide('seminar_loader_new_host_in_form'); Element.show('insert_host_in_seminar_form')"}, {:id => "insert_host_in_seminar_form"})
+  = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_host_in_form")
+  = render :partial => 'host', :locals => {:f => f}, :collection => @seminar.hosts
+
+= f.label :start_on, "Start on ( #{check_box_tag 'seminar[all_day]'} all day?)"
 %span#seminar_start_on.inline_in_form
   = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
-  = f.datetime_select :start_on
-  = label_tag "seminar[all_day]", 'all-day'
-  = check_box_tag "seminar[all_day]"
-  = observe_field :seminar_all_day, :function => "all_day('seminar_start_on'); all_day('seminar_end_on');"
-= f.label :end_on
+  = f.date_select :start_on
+  %span#start_on_time
+    = '—'+f.time_select(:start_on)
+  = link_to_function("now?", "set_now('seminar_start_on')")
+  = observe_field :seminar_all_day, :function => "all_day('start_on_time'); all_day('end_on_time');"
+= f.label :end_on, "End on (if blank, duration will default to 1 hour)"
 %span#seminar_end_on.inline_in_form
   = error_message_on "seminar", "end_on", :prepend_text => "End ", :append_text => "!", :css_class => "input_error"
-  = f.datetime_select :end_on
+  = f.date_select :end_on, :include_blank => true
+  %span#end_on_time
+    = '—'+f.time_select(:end_on, :include_blank => true)
+  = link_to_function("copy start time?", "copy_datetime('seminar_end_on', 'seminar_start_on')")
+  = link_to_function("blank?", "set_datetime_blank('seminar_end_on')")
 = f.label :location_id
 %select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
   = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name)
