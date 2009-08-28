@@ -3,26 +3,26 @@ class Seminar < ActiveRecord::Base
   belongs_to :category
   belongs_to :location
   
-  has_and_belongs_to_many :speakers, :class_name => 'Person', :join_table => "seminars_speakers"
-  has_and_belongs_to_many :hosts, :class_name => 'Person', :join_table => "hosts_seminars"
+  has_and_belongs_to_many :speakers
+  has_and_belongs_to_many :hosts
   
   accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :hosts, :allow_destroy => true
   
-  validates_associated :hosts
+  validates_associated :hosts, :speakers
   validates_presence_of :title, :start_on, :end_on#, :location_id
     
   default_scope :order => "seminars.start_on ASC"
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
   named_scope :of_month, lambda{|datetime| {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", datetime.beginning_of_month.to_date, datetime.end_of_month.to_date, datetime.beginning_of_month.to_date, datetime.end_of_month.to_date]}}
   named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]
-      
-  before_validation :set_end_on
+  
+  before_validation :set_end_on, :set_times_if_all_day
   after_save :check_presence_of_host_and_speaker
   
   # before_validation :set_times
 
-  # attr_writer :all_day
+  attr_accessor :all_day
   # attr_reader :all_day
   # 
   # def before_save
@@ -78,6 +78,10 @@ class Seminar < ActiveRecord::Base
     return schedule
   end
   
+  def days
+    (start_on.to_date..end_on.to_date).to_a
+  end
+  
   def when_and_where
     when_and_where = []
     when_and_where << location.name_and_building unless location.blank?
@@ -102,6 +106,11 @@ class Seminar < ActiveRecord::Base
   
   def set_end_on
     self.end_on = (self.start_on+1.hour) if self.end_on.blank?    
+  end
+  
+  def set_times_if_all_day
+    self.start_on = self.start_on.beginning_of_day if self.all_day == '1' 
+    self.end_on = self.end_on.end_of_day if self.all_day == '1' 
   end
   
   def check_presence_of_host_and_speaker

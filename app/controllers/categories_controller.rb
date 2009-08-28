@@ -29,6 +29,10 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html # new.html.haml
       format.xml  { render :xml => @category }
+      format.js{
+        @origin = params[:origin]
+        render :template => 'layouts/new.rjs'
+      }
     end
   end
 
@@ -47,10 +51,17 @@ class CategoriesController < ApplicationController
         flash[:notice] = 'Category was successfully created.'
         format.html { redirect_to(@category) }
         format.xml  { render :xml => @category, :status => :created, :location => @category }
+        format.js{
+          @origin = params[:origin]
+        }
       else
         flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @category.errors, :status => :unprocessable_entity }
+        format.js{
+          @origin = params[:origin]
+          render :template => 'layouts/new.rjs'
+        }
       end
     end
   end

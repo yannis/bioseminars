@@ -32,6 +32,10 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html # new.html.haml
       format.xml  { render :xml => @location }
+      format.js{
+        @origin = params[:origin]
+        render :template => 'layouts/new.rjs'
+      }
     end
   end
 
@@ -50,10 +54,17 @@ class LocationsController < ApplicationController
         flash[:notice] = 'Location was successfully created.'
         format.html { redirect_to(@location) }
         format.xml  { render :xml => @location, :status => :created, :location => @location }
+        format.js{
+          @origin = params[:origin]
+        }
       else
         flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @location.errors, :status => :unprocessable_entity }
+        format.js{
+          @origin = params[:origin]
+          render :template => 'layouts/new.rjs'
+        }
       end
     end
   end

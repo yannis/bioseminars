@@ -1,3 +1,8 @@
+28.8.2009
+Added ajax links in seminar form to create categories and locations on the fly.
+Added ajax links in location form to create buildings on the fly.
+Added links to navigate from one month to the previous/next in the calendar of /seminars.
+
 27.8.2009
 Rewritten seminars form: add speakers and host dynamically.
 Added validation for the presence of host and speaker.

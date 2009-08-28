@@ -17,24 +17,29 @@
 = f.label :start_on, "Start on ( #{check_box_tag 'seminar[all_day]'} all day?)"
 %span#seminar_start_on.inline_in_form
   = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
-  = f.date_select :start_on
+  = f.date_select(:start_on)
   %span#start_on_time
-    = '—'+f.time_select(:start_on)
+    = '—'+f.time_select(:start_on, :ignore_date => true)
   = link_to_function("now?", "set_now('seminar_start_on')")
   = observe_field :seminar_all_day, :function => "all_day('start_on_time'); all_day('end_on_time');"
+
 = f.label :end_on, "End on (if blank, duration will default to 1 hour)"
 %span#seminar_end_on.inline_in_form
   = error_message_on "seminar", "end_on", :prepend_text => "End ", :append_text => "!", :css_class => "input_error"
   = f.date_select :end_on, :include_blank => true
   %span#end_on_time
-    = '—'+f.time_select(:end_on, :include_blank => true)
+    = '—'+f.time_select(:end_on, :include_blank => true, :ignore_date => true)
   = link_to_function("copy start time?", "copy_datetime('seminar_end_on', 'seminar_start_on')")
   = link_to_function("blank?", "set_datetime_blank('seminar_end_on')")
-= f.label :location_id
+
+= f.label :location_id, 'Location '+my_link_to_remote(:location, :seminar)
 %select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
-  = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name)
-= f.label :category_id
-= f.collection_select :category_id, @categories, :id, :name
+  <option></option>
+  = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name, @seminar.location ? @seminar.location.id : nil)
+
+= f.label :category_id, 'Category '+my_link_to_remote(:category, :seminar)
+= f.collection_select :category_id, @categories, :id, :name, :include_blank => true
+
 = f.label :description
 = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
 = f.text_area :description

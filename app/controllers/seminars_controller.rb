@@ -7,7 +7,7 @@ class SeminarsController < ApplicationController
   def index
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @seminars = Seminar.of_month(@date)
-    @days_with_seminars = @seminars.map{|s| s.start_on.to_date}
+    @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
       format.html # index.html.haml
@@ -49,7 +49,7 @@ class SeminarsController < ApplicationController
   # POST /seminars.xml
   def create
     @seminar = Seminar.new(params[:seminar])
-    flash[:error] = @seminar.errors.inspect
+    flash[:warning] = @seminar.errors.inspect
     respond_to do |format|
       if @seminar.save
         flash[:notice] = 'Seminar was successfully created.'
@@ -62,9 +62,16 @@ class SeminarsController < ApplicationController
       end
     end
     rescue Exception => e
-      @seminar.errors.add(e, '')
-      respond_to do |format|
-        format.html { render 'new' }
+      unless @seminar.nil?
+        @seminar.errors.add(e, '')
+        respond_to do |format|
+          format.html { render 'new' }
+        end
+      else
+        flash[:warning] = e
+        respond_to do |format|
+          format.html { redirect_back_or_default(seminars_path) }
+        end       
       end
   end
 
