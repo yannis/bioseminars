@@ -1,3 +1,6 @@
+@import defines.sass
+
+
 body
   :background-color #F2F5ED
   :color #333
@@ -10,7 +13,7 @@ h1
   :margin 0 0 .2em 0
   a
     :text-decoration none
-    :color #FF5B00
+    :color = !darkgreen
 form
   label
     :font-weight bold
@@ -110,7 +113,8 @@ table
 
 #footer
   :font-size 1.2em
-  :background-color #FFC200
+  :color = !white
+  :background-color = !darkgreen
   :text-align center
   :padding 1em 0 0 0
   :margin 1em auto
@@ -120,6 +124,10 @@ table
   :-webkit-box-shadow 10px 10px 25px #ccc
   :-moz-box-shadow 10px 10px 25px #ccc
   :box-shadow 10px 10px 25px #ccc
+  a
+    :color = !white
+    :font-weight bold
+    :text-decoration none
 
 /// navigation
 #navigation
@@ -130,16 +138,16 @@ table
   ul
     li
       :margin 0 .2em 0 0
-      :background-color #FFC200
-      :-moz-border-radius 1em
-      :-webkit-border-radius 1em
-      :-border-radius 1em
+      :background-color = !darkgreen
+      :-moz-border-radius .8em
+      :-webkit-border-radius .8em
+      :-border-radius .8em
       :-webkit-box-shadow 10px 10px 25px #ccc
       :-moz-box-shadow 10px 10px 25px #ccc
       :box-shadow 10px 10px 25px #ccc
       a
         :font-weight bold
-        :color #B80028
+        :color = !white
       &:hover
     li.secondary
       :font-size .8em
@@ -156,6 +164,7 @@ table
         :line-height 2.77em
         :height 2.77em
         :font-size 0.9em
+        :color white
 
         a
           :float none

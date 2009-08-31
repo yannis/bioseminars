@@ -1,5 +1,5 @@
 body {
-  background-color: #4b7399;
+  background-color: #EAEAF0;
   color: #333;
   font-family: helvetica, arial, sans-serif;
   font-size: 13px;
@@ -91,7 +91,7 @@ form {
 ul.dropdown {
   height: 38px;
   margin: 0;
-  /* :background url('/images/navigation/ul_bac.gif') repeat-x*/ */
+  /* :background url('/images/navigation/ul_bac.gif') repeat-x */
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
   color: #BBB;
@@ -119,14 +119,14 @@ ul.dropdown {
       ul.dropdown li a:hover, ul.dropdown li a:focus, ul.dropdown li a:active {
         margin: 5px 0px 4px 0px;
         background-color: #B3B3B3;
-        /* :background url('/images/navigation/li_active_hover.gif') repeat-x*/ */
+        /* :background url('/images/navigation/li_active_hover.gif') repeat-x */
         border-left: 2px solid #f7941d;
         border-top: 2px solid #f7941d;
         border-right: 2px solid #FC6;
         border-bottom: 2px solid #FC6; }
     ul.dropdown li.selected a {
       margin: 5px 0px 4px 0px;
-      /* :background url('/images/navigation/li_active_hover.gif') repeat-x*/ */
+      /* :background url('/images/navigation/li_active_hover.gif') repeat-x */
       background-color: #B3B3B3;
       border-left: 2px solid #f7941d;
       border-top: 2px solid #f7941d;
@@ -139,9 +139,9 @@ ul.dropdown {
       border-right: 2px solid #f7941d;
       border-bottom: 2px solid #f7941d;
       background: none; }
-    ul.dropdown li:hover a,     ul.dropdown li:focus a,     ul.dropdown li:active a {
+    ul.dropdown li:hover a, ul.dropdown li:focus a, ul.dropdown li:active a {
       z-index: 599; }
-    ul.dropdown li:hover > ul,     ul.dropdown li:focus > ul,     ul.dropdown li:active > ul {
+    ul.dropdown li:hover > ul, ul.dropdown li:focus > ul, ul.dropdown li:active > ul {
       display: block; }
     ul.dropdown li ul {
       position: absolute;
@@ -168,14 +168,14 @@ ul.dropdown {
         border-right: 2px solid #f7941d;
         border-bottom: 2px solid #f7941d; }
         ul.dropdown li ul li a:hover, ul.dropdown li ul li a:focus, ul.dropdown li ul li a:active {
-          /* :background url('/images/navigation/li_active_hover.gif') repeat-x*/ */
+          /* :background url('/images/navigation/li_active_hover.gif') repeat-x */
           background-color: #B3B3B3;
           border-left: 0px solid #f7941d;
           border-top: 0px solid #f7941d;
           border-right: 2px solid #FC6;
           border-bottom: 2px solid #FC6;
           margin: 4px 4px 2px 6px; }
-          ul.dropdown li ul li a:hover ul,           ul.dropdown li ul li a:focus ul,           ul.dropdown li ul li a:active ul {
+          ul.dropdown li ul li a:hover ul, ul.dropdown li ul li a:focus ul, ul.dropdown li ul li a:active ul {
             margin-top: -15px; }
       ul.dropdown li ul ul {
         background-color: #F7941D;
