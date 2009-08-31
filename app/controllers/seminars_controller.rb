@@ -12,6 +12,25 @@ class SeminarsController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.xml  { render :xml => @seminars }
+      format.rss  { render :layout => false }
+      format.ics do
+        cal = Icalendar::Calendar.new
+        @seminars.each do |seminar|
+          cal_event = Icalendar::Event.new
+          cal_event.start = seminar.start_on.to_s(:rfc2445) unless seminar.start_on.blank?
+          cal_event.end = seminar.end_on.to_s(:rfc2445) unless seminar.end_on.blank?
+          cal_event.location = seminar.location.building.name + ", " + seminar.location.name unless seminar.location.blank?
+          summary = []
+          summary << seminar.title
+          summary << seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
+          summary << "Hosted by: "+seminar.hosts.map(&:name).join(', ')
+          cal_event.summary = summary.join(' | ')
+          cal_event.url = seminar_url(seminar)
+          cal_event.description = seminar.description unless seminar.description.blank?
+          cal.add_event(cal_event.to_ical)
+        end
+        render :text => cal.to_ical
+      end
     end
   end
 
@@ -24,6 +43,24 @@ class SeminarsController < ApplicationController
       format.html {render 'show'}
       format.xml  { render :xml => @seminar }
       format.js {render 'mini_seminar', :layout => false}
+      format.ics do
+        cal_event = Icalendar::Event.new
+        cal_event.start = @seminar.start_on.to_s(:rfc2445) unless @seminar.start_on.blank?
+        cal_event.end = @seminar.end_on.to_s(:rfc2445) unless @seminar.end_on.blank?
+        cal_event.location = @seminar.location.building.name + ", " + @seminar.location.name unless @seminar.location.blank?
+        summary = []
+        summary << @seminar.title
+        summary << @seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
+        cal_event.summary = summary.join(' | ')
+        cal_event.url = seminar_url(@seminar)
+        description = []
+        description << @seminar.description unless @seminar.description.blank?
+        description << "Hosted by: "+@seminar.hosts.map(&:name).join(', ')+'.'
+        cal_event.description = description.join(' ')
+        cal = Icalendar::Calendar.new
+        cal.add_event(cal_event.to_ical)
+        render :text => cal.to_ical
+      end
     end
   end
 

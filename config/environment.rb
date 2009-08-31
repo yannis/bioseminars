@@ -5,9 +5,9 @@ RAILS_GEM_VERSION = '2.3.3' unless defined? RAILS_GEM_VERSION
 
 if ENV['RAILS_ENV'] == 'production'
   # HOST = 'http://bioseminars.unige.ch'
-  HOST = 'http://129.194.56.197/seminars'
+  HOST = '129.194.56.197/seminars'
 else
-  HOST = 'http://localhost:3000'
+  HOST = 'localhost:3000'
 end
 
 # Bootstrap the Rails environment, frameworks, and default configuration
@@ -29,6 +29,7 @@ Rails::Initializer.run do |config|
   
   config.gem "haml", :version => '>= 2.0.9'
   config.gem 'mislav-will_paginate', :version => '~> 2.3.8', :lib => 'will_paginate', :source => 'http://gems.github.com'
+  config.gem 'icalendar'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -52,7 +53,7 @@ Rails::Initializer.run do |config|
 
 end
 
-ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!( 
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
     :time_only => '%H:%M',
     :rfc2445 => '%Y%m%dT%H%M00',
     :rfc822 => '%a, %d %b %Y %H:%M:%S +0100',
