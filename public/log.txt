@@ -1,3 +1,6 @@
+31.08.2009
+Added RSS and iCal feeds for seminars.
+
 28.8.2009
 Added ajax links in seminar form to create categories and locations on the fly.
 Added ajax links in location form to create buildings on the fly.

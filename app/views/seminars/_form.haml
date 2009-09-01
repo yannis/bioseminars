@@ -43,3 +43,7 @@
 = f.label :description
 = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
 = f.text_area :description
+
+= f.label :url
+= error_message_on "seminar", "url", :prepend_text => "URL ", :append_text => "!", :css_class => "input_error"
+= f.text_field :url

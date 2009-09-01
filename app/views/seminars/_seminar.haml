@@ -10,10 +10,12 @@
   %td
     = h(seminar.location.name_and_building) if seminar.location
   %td
+    = seminar.schedule
+  %td
     = h(seminar.category.name) if seminar.category
   %td
-    = seminar.schedule
-  - if logged_in? and admin?
-    %td
-      - links = [edit_link(seminar)]
-      = links.join(' · ')
+    = link_to('website', seminar.url) if seminar.url
+  %td
+    - links = [link_to('Save in iCal', seminar_path(seminar, :format => 'ics'))]
+    - links << edit_link(seminar) if logged_in? and admin?
+    = links.join(' · ')

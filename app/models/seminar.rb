@@ -84,8 +84,8 @@ class Seminar < ActiveRecord::Base
   
   def when_and_where
     when_and_where = []
-    when_and_where << location.name_and_building unless location.blank?
     when_and_where += schedule unless schedule.blank?
+    when_and_where << location.name_and_building unless location.blank?
     return when_and_where.join(" - ")
   end
   
