@@ -1,0 +1,12 @@
+%p
+  = @seminar.when_and_where
+%h3
+  = link_to_unless_current h(@seminar.title), seminar_path(@seminar)
+%p
+  = @seminar.speakers.map(&:name).join(', ')
+  = "(#{@seminar.speakers.map(&:affiliation).join(', ')})"
+- unless @seminar.hosts.empty?
+  %p
+    Hosted by:
+    = @seminar.hosts.map(&:name).join(', ')
+   

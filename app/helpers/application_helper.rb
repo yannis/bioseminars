@@ -50,4 +50,35 @@ module ApplicationHelper
   def destroy_link(object)
     link_to 'Destroy', eval("#{object.class.to_s.underscore}_path(object)"), :confirm => "Are you sure?", :method => :delete, :title => "Destroy #{object.class.to_s.underscore} #{'“'+object.name+'”' if object.respond_to?(:name)}"
   end
+  
+  def flash_in_rjs(notice=nil, warning=nil)
+    flash = []
+    unless notice.nil?
+      flash << "if ($('flash_notice')) {$('flash_notice').remove()}"
+      flash << "var g = new k.Growler(); g.info('#{notice}', {life: 5});"
+    end
+    unless warning.nil?
+      flash << "if ($('flash_notice')) {$('flash_warning').remove()}"
+      flash << "var g = new k.Growler(); g.error('#{warning}', {life: 5});"
+    end
+    return flash.join
+  end
+  
+  def my_link_to_remote(object_to_create, object_of_origin, object_to_create_index=nil, object_of_origin_index=nil, text='(+)', title=nil)
+    loader_id = "loader_new_#{object_to_create}#{object_to_create_index.nil? ? '' : '_'+object_to_create_index.to_s}#{object_of_origin}#{object_of_origin_index.nil? ? '' : ('_'+object_of_origin_index.to_s)}"
+    link_id = "create_#{object_to_create}#{object_to_create_index.nil? ? '' : '_'+object_to_create_index.to_s}_#{object_of_origin}#{object_of_origin_index.nil? ? '' : ('_'+object_of_origin_index.to_s)}"
+    loader = image_tag('ajax-loader.gif', :style => 'display: none', :id => loader_id)
+    href = object_to_create.to_s == 'mouse' ? eval("new2_mice_path(:mouse => {:name => ''}, :number => {:males => '1', :females => '0'})") : eval("new_#{object_to_create}_path") 
+    options = {:url => href, :before => "Element.hide('#{link_id}'); Element.show('#{loader_id}')", :complete => "Element.hide('#{loader_id}'); Element.show('#{link_id}')" , :method => :get}
+    opt = ["origin=#{object_of_origin}"]
+    opt << "index=#{object_to_create_index}" unless object_to_create_index.nil?
+    opt << "origin_index=#{object_of_origin_index}" unless object_of_origin_index.nil?
+    options[:with] = "'"+opt.join('&')+"'"
+    link = link_to_remote(
+      text, 
+      options,
+      {:id => "#{link_id}", :href => href, :title => title} 
+      )
+    link = link+loader
+  end
 end

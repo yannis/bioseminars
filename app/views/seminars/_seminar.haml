@@ -8,9 +8,12 @@
   %td
     = seminar.hosts.map(&:name).join(', ')
   %td
-    = h(seminar.location)
+    = h(seminar.location.name_and_building) if seminar.location
+  %td
+    = h(seminar.category.name) if seminar.category
   %td
     = seminar.schedule
-  %td
-    - links = [edit_link(seminar)]
-    = links.join(' · ')
+  - if logged_in? and admin?
+    %td
+      - links = [edit_link(seminar)]
+      = links.join(' · ')

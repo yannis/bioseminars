@@ -1,0 +1,1 @@
+page.insert_html :bottom, "#{params[:person].pluralize}", :partial => "#{params[:person]}.haml", :object => @person

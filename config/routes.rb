@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :locations
   map.resources :people
   map.resources :roles
-  map.resources :seminars
+  map.resources :seminars, :member => {:insert_person_in_form => :post}
   map.resource :session
   map.resources :users, :has_many => :orders
 

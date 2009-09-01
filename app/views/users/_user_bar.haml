@@ -8,5 +8,4 @@
         |
         = link_to "Pending order", pending_orders_path
   - else
-    = link_to_login_with_IP 'Not logged in', :style => 'border: none;'
     = "#{link_to "Log in",  login_path,  { :title => "Log in" }}"

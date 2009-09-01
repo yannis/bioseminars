@@ -3,6 +3,13 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.3' unless defined? RAILS_GEM_VERSION
 
+if ENV['RAILS_ENV'] == 'production'
+  # HOST = 'http://bioseminars.unige.ch'
+  HOST = 'http://129.194.56.197/seminars'
+else
+  HOST = 'http://localhost:3000'
+end
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -48,7 +55,9 @@ end
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!( 
     :time_only => '%H:%M',
     :rfc2445 => '%Y%m%dT%H%M00',
-    :rfc822 => '%a, %d %b %Y %H:%M:%S +0100'
+    :rfc822 => '%a, %d %b %Y %H:%M:%S +0100',
+    :day_month_year => "%e %B %Y",
+    :day_month_year_hour_minute => "%e %B %Y, %H:%M"
   )
   ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
       :month => '%B',

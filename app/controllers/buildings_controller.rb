@@ -30,6 +30,10 @@ class BuildingsController < ApplicationController
     respond_to do |format|
       format.html # new.html.haml
       format.xml  { render :xml => @building }
+      format.js{
+        @origin = params[:origin]
+        render :template => 'layouts/new.rjs'
+      }
     end
   end
 
@@ -48,10 +52,17 @@ class BuildingsController < ApplicationController
         flash[:notice] = 'Building was successfully created.'
         format.html { redirect_to(@building) }
         format.xml  { render :xml => @building, :status => :created, :location => @building }
+        format.js{
+          @origin = params[:origin]
+        }
       else
         flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @building.errors, :status => :unprocessable_entity }
+        format.js{
+          @origin = params[:origin]
+          render :template => 'layouts/new.rjs'
+        }
       end
     end
   end

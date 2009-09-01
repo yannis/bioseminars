@@ -1,0 +1,10 @@
+page << "if ($('#{params[:controller]}_div')) {"
+  page.replace_html "#{params[:controller]}_div", "#{render :partial => 'layouts/new'}<img id='ZoomClose' width='30' height='30' border='0' src='#{HOST}/images/closebox.png' onclick=\"remove_div_and_restablish_opacity('#{params[:controller]}_div'); 
+  return false\"/>"
+page << " } else {"
+  page.insert_html :before, "main", "<div id='#{params[:controller]}_div' class='ajax_div edit_box'>#{render :partial => 'layouts/new'}<img id='ZoomClose' width='30' height='30' border='0' src='#{HOST}/images/closebox.png' onclick=\"remove_div_and_restablish_opacity('#{params[:controller]}_div'); 
+  return false\"/></div>"
+  page << "var opacity = $('main').getStyle('opacity'); if (opacity != 0.3) {"
+    page << "new Effect.Opacity('main', { from: opacity, to: 0.3, duration: 1.0 });"
+  page << "}"
+page << "}"

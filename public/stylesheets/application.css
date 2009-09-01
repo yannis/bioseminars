@@ -25,6 +25,8 @@ form {
     display: inline; }
   form.with_blocks .inline_in_form input[type='text'] {
     width: 10em; }
+  form input#seminar_all_day {
+    display: inline; }
 
 #content h2 {
   padding: .5em;
@@ -176,3 +178,29 @@ table {
     display: block;
     margin-top: -2.1em;
     left: 100%; }
+
+.ajax_div {
+  z-index: 30;
+  width: 420px;
+  margin: 20px auto auto -210px;
+  padding: 10px;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -border-radius: 1em;
+  -webkit-box-shadow: 10px 10px 25px #ccc;
+  -moz-box-shadow: 10px 10px 25px #ccc;
+  box-shadow: 10px 10px 25px #ccc;
+  border: 2px solid #4AC0F2;
+  position: fixed;
+  left: 50%;
+  background-color: #F2F5ED; }
+  .ajax_div h2 {
+    margin: 0 auto; }
+  .ajax_div #ajax_form {
+    max-height: 600px;
+    overflow: auto; }
+  .ajax_div #ZoomClose {
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    cursor: pointer; }
