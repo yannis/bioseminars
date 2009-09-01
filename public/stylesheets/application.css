@@ -104,12 +104,13 @@ table {
   margin-top: 1em; }
 
 #footer {
-  font-size: 1.2em;
+  font-size: 1em;
+  line-height: .1em;
   color: white;
   background-color: #007e64;
   text-align: center;
-  padding: 1em 0 0 0;
-  margin: 1em auto;
+  padding: 1.2em 0 0 0;
+  margin: 1em 0 0 0;
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
   -border-radius: 1em;
@@ -172,12 +173,14 @@ table {
       line-height: 2.77em;
       height: 2.77em;
       font-size: 0.9em; }
-  #navigation ul ul li ul {
-    top: 100%;
-    left: -25px;
-    list-style: none;
-    display: none;
-    z-index: 597; }
+  #navigation ul ul li {
+    background-color: #005c42; }
+    #navigation ul ul li ul {
+      top: 100%;
+      left: -25px;
+      list-style: none;
+      display: none;
+      z-index: 597; }
   #navigation ul ul li:hover ul {
     display: block;
     margin-top: -2.1em;

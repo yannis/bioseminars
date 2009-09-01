@@ -9,14 +9,16 @@ table.calendar
     :width 14.25%
     :height 8em
     :text-align center
-    :color = !darkgreen   
+    :color = !verydarkgreen
+    a
+      :color = !verydarkgreen
+      :text-decoration none
   th.monthName, tr.dayName th, tr:first-child th
     :height 2em
   td.normalDay
     :border 1px dotted #{!darkgreen}
   .monthName th
     :font-weight bold
-    :text-align right
     :padding-top 1em
     :padding-bottom 0.7em
   .dayName th
@@ -47,7 +49,7 @@ table.calendar
         :color = !darkgreen
         :text-decoration none
         :padding 1em
-      &:hover
+      //&:hover
         :color white
         :text-decoration none
         :padding 1em
@@ -55,7 +57,7 @@ table.calendar
   .weekendDay
     :background-color = !lightgreen
   .today
-    :background-color #1e90ff
+    :background-color = !blue
     :color white
     a
       :color white

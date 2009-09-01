@@ -2,5 +2,5 @@
 - stylesheet '/javascripts/prototip2-2.1.0.1/css/prototip.css'
 - javascript '/javascripts/prototip2-2.1.0.1/js/prototip.js'
 - @title ||= "Listing seminars"
-= calendar(:year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month), seminars_path(:date => @date.last_month.to_s(:db))), :next_month_text => link_to(@date.next_month.to_s(:month), seminars_path(:date => @date.next_month.to_s(:db)))) do |d|
+= calendar(:year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month)+' <', seminars_path(:date => @date.last_month.to_s(:db))), :next_month_text => link_to('> '+@date.next_month.to_s(:month), seminars_path(:date => @date.next_month.to_s(:db)))) do |d|
   - render_calendar_cell(d)

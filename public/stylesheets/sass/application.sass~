@@ -30,8 +30,6 @@ form
         :display inline
       input[type='text']
         :width 10em
-  input#seminar_all_day
-    :display inline
 
 #content
   h2
@@ -114,12 +112,13 @@ table
   :margin-top 1em
 
 #footer
-  :font-size 1.2em
+  :font-size 1em
+  :line-height .1em
   :color = !white
   :background-color = !darkgreen
   :text-align center
   :padding 1em 0 0 0
-  :margin 1em auto
+  :margin 1em 0 0 0
   :-moz-border-radius 1em
   :-webkit-border-radius 1em
   :-border-radius 1em
@@ -191,6 +190,7 @@ table
         :font-size 0.9em
     ul
       li
+        :background-color = !verydarkgreen
         ul
           :top 100%
           :left -25px
@@ -202,8 +202,6 @@ table
           :display block
           :margin-top -2.1em
           :left 100%
-<<<<<<< HEAD:public/stylesheets/sass/application.sass
-=======
 .ajax_div
   :z-index 30
   :width 420px
@@ -229,4 +227,3 @@ table
     :left -15px
     :top -15px
     :cursor pointer
->>>>>>> af65ea7085cf884d7f16138a8dc7afe1f2895bf2:public/stylesheets/sass/application.sass
