@@ -9,7 +9,7 @@ h1 {
   margin: 0 0 .2em 0; }
   h1 a {
     text-decoration: none;
-    color: #FF5B00; }
+    color: #007e64; }
 
 form {
   margin: 0 1em; }
@@ -25,8 +25,6 @@ form {
     display: inline; }
   form.with_blocks .inline_in_form input[type='text'] {
     width: 10em; }
-  form input#seminar_all_day {
-    display: inline; }
 
 #content h2 {
   padding: .5em;
@@ -107,7 +105,8 @@ table {
 
 #footer {
   font-size: 1.2em;
-  background-color: #FFC200;
+  color: white;
+  background-color: #007e64;
   text-align: center;
   padding: 1em 0 0 0;
   margin: 1em auto;
@@ -117,6 +116,10 @@ table {
   -webkit-box-shadow: 10px 10px 25px #ccc;
   -moz-box-shadow: 10px 10px 25px #ccc;
   box-shadow: 10px 10px 25px #ccc; }
+  #footer a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none; }
 
 #navigation {
   margin-top: 1em;
@@ -125,16 +128,16 @@ table {
   padding: 0em; }
   #navigation ul li {
     margin: 0 .2em 0 0;
-    background-color: #FFC200;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -border-radius: 1em;
+    background-color: #007e64;
+    -moz-border-radius: .8em;
+    -webkit-border-radius: .8em;
+    -border-radius: .8em;
     -webkit-box-shadow: 10px 10px 25px #ccc;
     -moz-box-shadow: 10px 10px 25px #ccc;
     box-shadow: 10px 10px 25px #ccc; }
     #navigation ul li a {
       font-weight: bold;
-      color: #B80028; }
+      color: white; }
   #navigation ul li.secondary {
     font-size: .8em;
     float: right; }
@@ -148,7 +151,8 @@ table {
       padding: 0 1em;
       line-height: 2.77em;
       height: 2.77em;
-      font-size: 0.9em; }
+      font-size: 0.9em;
+      color: white; }
       #navigation ul li.secondary span.status a {
         float: none;
         display: inline;
