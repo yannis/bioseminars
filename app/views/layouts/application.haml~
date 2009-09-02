@@ -25,7 +25,7 @@
     .container_12#main
       #banner.one.grid_4
         %h1
-          = link_to 'BioSeminars', root_path
+          = link_to 'bioSeminars', root_path
           = link_to image_tag('rssIconS.png'), seminars_path(:format => 'rss')
           = link_to image_tag('ical_icon.png'), "webcal://#{HOST}#{seminars_path(:format => 'ics')}"
       #navigation.grid_8

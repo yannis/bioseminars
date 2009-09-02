@@ -5,8 +5,7 @@ table.calendar {
   table.calendar td, table.calendar th {
     width: 14.25%;
     height: 8em;
-    text-align: center;
-    color: #005c42; }
+    text-align: center; }
     table.calendar td a, table.calendar th a {
       color: #005c42;
       text-decoration: none; }
@@ -15,6 +14,7 @@ table.calendar {
   table.calendar td.normalDay {
     border: 1px dotted #007e64; }
   table.calendar .monthName {
+    color: #005c42;
     font-weight: bold;
     padding-top: 1em;
     padding-bottom: 0.7em; }
@@ -38,6 +38,12 @@ table.calendar {
     text-align: center;
     color: #007e64;
     font-weight: bold; }
+    table.calendar .specialDay ul {
+      list-style-type: none;
+      text-align: left;
+      padding: 0;
+      margin: 0;
+      text-indent: 0; }
     table.calendar .specialDay a {
       color: #007e64;
       text-decoration: none;

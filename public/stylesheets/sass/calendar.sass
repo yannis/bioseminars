@@ -9,7 +9,7 @@ table.calendar
     :width 14.25%
     :height 8em
     :text-align center
-    :color = !verydarkgreen
+    //:color #{!verydarkgreen} ! important
     a
       :color = !verydarkgreen
       :text-decoration none
@@ -18,6 +18,7 @@ table.calendar
   td.normalDay
     :border 1px dotted #{!darkgreen}
   .monthName
+    :color = !verydarkgreen
     :font-weight bold
     :padding-top 1em
     :padding-bottom 0.7em
@@ -41,6 +42,12 @@ table.calendar
     :text-align center
     :color = !darkgreen
     :font-weight bold
+    ul
+      :list-style-type none
+      :text-align left
+      :padding 0
+      :margin 0
+      :text-indent 0
     a
       :color = !darkgreen
       :text-decoration none

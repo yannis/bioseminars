@@ -32,7 +32,7 @@
   = f.date_select :end_on, :include_blank => true
   %span#end_on_time
     = '—'+f.time_select(:end_on, :include_blank => true, :ignore_date => true, :minute_step => 5)
-  = link_to_function("Copy start time", "copy_datetime('seminar_end_on', 'seminar_start_on')")
+  = link_to_function("copy start time?", "copy_datetime('seminar_end_on', 'seminar_start_on')")
   = link_to_function("Discard", "set_datetime_blank('seminar_end_on')")
 
 = f.label :location_id, 'Location '+my_link_to_remote(:location, :seminar)

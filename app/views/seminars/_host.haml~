@@ -5,7 +5,7 @@
       = fs.text_field :email, :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
       = fs.label :name
       = fs.text_field :name
-      = link_to_function 'Remove', "$('host_#{host.object_id}').remove()"
+      = link_to_function 'remove?', "$('host_#{host.object_id}').remove()"
 - else
   - fields_for "seminar[hosts_attributes][#{host.id}]", host do |fs|
     .inline_in_form

@@ -18,6 +18,11 @@ form
   label
     :font-weight bold
   :margin 0 1em
+  a
+    :background-color = !darkgreen
+    :color = !lightgreen
+    :text-decoration none
+    :padding 0 .1em
   &.with_blocks
     label, input
       :display block
@@ -37,6 +42,9 @@ form
     :text-align left
   section
     :padding 1em
+  //th
+    :background-color = !darkgreen
+    :color = !white
 .notice, .error
   :width 600px
   :margin 0 auto

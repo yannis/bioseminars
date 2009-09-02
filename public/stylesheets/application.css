@@ -15,6 +15,11 @@ form {
   margin: 0 1em; }
   form label {
     font-weight: bold; }
+  form a {
+    background-color: #007e64;
+    color: #e5f3e5;
+    text-decoration: none;
+    padding: 0 .1em; }
   form.with_blocks label, form.with_blocks input {
     display: block; }
   form.with_blocks input, form.with_blocks select, form.with_blocks textarea {

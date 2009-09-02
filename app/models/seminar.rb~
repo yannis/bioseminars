@@ -99,7 +99,7 @@ class Seminar < ActiveRecord::Base
   def time_and_category
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
-    time_and_category << category
+    time_and_category << title
     return time_and_category.join(", ")
   end
   
