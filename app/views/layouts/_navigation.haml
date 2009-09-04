@@ -1,5 +1,5 @@
 %ul.nav.main
-  - if logged_in? and admin?
+  - if logged_in? and basic_or_admin?
     - for nav in ["seminars", "locations", "categories", "users"] 
       - controllers_and_actions.each do |key,value|
         - if nav == value[:main_menu][:text]
@@ -24,6 +24,5 @@
                               = link_to_remote sub_menu2[:text], :url => sub_menu2[:path], :html => {:href => sub_menu2[:path]}
                             - else
                               = link_to sub_menu2[:text], sub_menu2[:path], {:id => "link_to_#{value[:main_menu][:text]}_#{sub_menu[:text]}_#{sub_menu2[:text]}"}
-  - unless params[:controller] == 'sessions'                            
-    %li.secondary
-      = render 'users/user_bar'
+  %li.secondary
+    = render 'users/user_bar'

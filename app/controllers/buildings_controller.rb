@@ -1,4 +1,6 @@
 class BuildingsController < ApplicationController
+  
+  before_filter :admin_required
     
   # GET /buildings
   # GET /buildings.xml

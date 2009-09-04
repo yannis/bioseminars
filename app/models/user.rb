@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   
+  has_many :seminars, :dependent => :destroy
+  
   belongs_to :role
   belongs_to :laboratory
   has_many :orders
@@ -64,7 +66,7 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
   
-  def admin?
+  def basic?
     role.name=='admin'
   end
 

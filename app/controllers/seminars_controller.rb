@@ -1,6 +1,7 @@
 class SeminarsController < ApplicationController
   
   skip_before_filter :login_required, :only => ['index', 'show']
+  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy']
   before_filter :set_variables
   # GET /seminars
   # GET /seminars.xml
@@ -68,34 +69,46 @@ class SeminarsController < ApplicationController
   # GET /seminars/new.xml
   def new
     @seminar = Seminar.new
+    @seminar.start_on = params[:origin].to_time(:local) if params[:origin]
     @seminar.hosts.build
     @seminar.speakers.build
+    
 
     respond_to do |format|
       format.html # new.html.haml
       format.xml  { render :xml => @seminar }
+      format.js{
+        @origin = params[:origin]
+        render :template => 'layouts/new.rjs'
+      }
     end
   end
 
   # GET /seminars/1/edit
   def edit
-    @seminar = Seminar.find(params[:id])
+    @seminar = Seminar.all_for_user(current_user).find(params[:id])
   end
 
   # POST /seminars
   # POST /seminars.xml
   def create
-    @seminar = Seminar.new(params[:seminar])
-    flash[:warning] = @seminar.errors.inspect
+    @seminar = current_user.seminars.new(params[:seminar])
     respond_to do |format|
       if @seminar.save
         flash[:notice] = 'Seminar was successfully created.'
         format.html { redirect_to(@seminar) }
         format.xml  { render :xml => @seminar, :status => :created, :location => @seminar }
+        format.js{
+          @origin = params[:origin]
+        }
       else
         flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
+        format.js{
+          @origin = params[:origin]
+          render :template => 'layouts/new.rjs'
+        }
       end
     end
     rescue Exception => e
@@ -105,7 +118,7 @@ class SeminarsController < ApplicationController
           format.html { render 'new' }
         end
       else
-        flash[:warning] = e
+        flash[:warning] = e unless e.blank?
         respond_to do |format|
           format.html { redirect_back_or_default(seminars_path) }
         end       
@@ -115,8 +128,7 @@ class SeminarsController < ApplicationController
   # PUT /seminars/1
   # PUT /seminars/1.xml
   def update
-    @seminar = Seminar.find(params[:id])
-
+    @seminar = Seminar.all_for_user(current_user).find(params[:id])
     respond_to do |format|
       if @seminar.update_attributes(params[:seminar])
         flash[:notice] = 'Seminar was successfully updated.'
@@ -138,7 +150,7 @@ class SeminarsController < ApplicationController
   # DELETE /seminars/1
   # DELETE /seminars/1.xml
   def destroy
-    @seminar = Seminar.find(params[:id])
+    @seminar = Seminar.all_for_user(current_user).find(params[:id])
     @seminar.destroy
 
     respond_to do |format|
@@ -149,7 +161,7 @@ class SeminarsController < ApplicationController
   end
   
   def insert_person_in_form
-    @seminar = params[:id] == 'new' ? Seminar.new : Seminar.find(params[:id])
+    @seminar = params[:id] == 'new' ? Seminar.new : Seminar.all_for_user(current_user).find(params[:id])
     @person = params[:person] == 'host' ? @seminar.hosts.build : @seminar.speakers.build
     respond_to do |format|
       format.js

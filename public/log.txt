@@ -1,3 +1,10 @@
+4.9.2009
+Added a way to add seminars directly from the calendar.
+Added dual roles (basic/admin). Basic can create, edit, destroy their own seminars. Admin can do... everything.
+
+3.9.2009
+Added Javascript disabled detection.
+
 31.08.2009
 Added RSS and iCal feeds for seminars.
 

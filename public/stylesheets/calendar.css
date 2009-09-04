@@ -6,13 +6,13 @@ table.calendar {
     width: 14.25%;
     height: 8em;
     text-align: center; }
-    table.calendar td a, table.calendar th a {
+    table.calendar td a,     table.calendar th a {
       color: #005c42;
       text-decoration: none; }
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay {
-    border: 1px dotted #007e64; }
+    border: 1px dotted #{!darkgreen}; }
   table.calendar .monthName {
     color: #005c42;
     font-weight: bold;
@@ -33,7 +33,7 @@ table.calendar {
     text-align: center;
     border-bottom: 1px dotted #bbbbbb; }
   table.calendar .specialDay {
-    border: 2px dotted #007e64;
+    border: 2px dotted #{!darkgreen};
     padding: 0.7em 1em;
     text-align: center;
     color: #007e64;
@@ -47,7 +47,11 @@ table.calendar {
     table.calendar .specialDay a {
       color: #007e64;
       text-decoration: none;
-      padding: 1em; }
+      padding: 1em;
+      color: white;
+      text-decoration: none;
+      padding: 1em;
+      background-color: #007e64; }
       table.calendar .specialDay a:visited {
         color: #007e64;
         text-decoration: none;

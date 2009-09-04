@@ -117,7 +117,9 @@ module CalendarHelper
     end
     cal << "</tr></thead><tbody><tr>"
     beginning_of_week(first, first_weekday).upto(first - 1) do |d|
-      cal << %(<td class="#{options[:other_month_class]})
+      #added by Yannis 3.9.2009
+      cal << %(<td  id='#{d.to_s}' class="#{options[:other_month_class]})
+      # cal << %(<td class="#{options[:other_month_class]})
       cal << " weekendDay" if weekend?(d)
       if options[:accessible]
         cal << %(">#{d.day}<span class="hidden"> #{Date::MONTHNAMES[d.month]}</span></td>)
@@ -129,6 +131,7 @@ module CalendarHelper
       cell_text, cell_attrs = block.call(cur)
       cell_text  ||= cur.mday
       cell_attrs ||= {}
+      cell_attrs[:id] = cur.to_s #added by Yannis 3.9.2009
       cell_attrs[:class] ||= options[:day_class]
       cell_attrs[:class] += " weekendDay" if [0, 6].include?(cur.wday) 
       cell_attrs[:class] += " today" if (cur == (Time.respond_to?(:zone) ? Time.zone.now.to_date : Date.today)) and options[:show_today]
@@ -137,7 +140,7 @@ module CalendarHelper
       cal << "</tr><tr>" if cur.wday == last_weekday
     end
     (last + 1).upto(beginning_of_week(last + 7, first_weekday) - 1)  do |d|
-      cal << %(<td class="#{options[:other_month_class]})
+      cal << %(<td  id='#{d.to_s}' class="#{options[:other_month_class]})
       cal << " weekendDay" if weekend?(d)
       if options[:accessible]
         cal << %(">#{d.day}<span class='hidden'> #{Date::MONTHNAMES[d.mon]}</span></td>)

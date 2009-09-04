@@ -14,8 +14,10 @@
   %td
     = h(seminar.category.name) if seminar.category
   %td
-    = link_to('website', seminar.url) if seminar.url
+    = link_to('website', seminar.url) unless seminar.url.blank?
   %td
     - links = [link_to('Save in iCal', seminar_path(seminar, :format => 'ics'))]
-    - links << edit_link(seminar) if logged_in? and admin?
+    - if logged_in? and seminar.editable_or_destroyable_by_user?(current_user)
+      - links << edit_link(seminar)
+      - links << destroy_link(seminar)
     = links.join(' · ')

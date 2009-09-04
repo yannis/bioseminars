@@ -1,5 +1,6 @@
 class LocationsController < ApplicationController
   
+  before_filter :admin_required, :only => [:destroy]
   before_filter :set_variables, :only => [:new, :create, :edit, :update]
   
   # GET /locations

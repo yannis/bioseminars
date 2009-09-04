@@ -1,6 +1,5 @@
 @import defines.sass
 
-
 table.calendar
   :margin 1em auto 0 auto
   thead tr th

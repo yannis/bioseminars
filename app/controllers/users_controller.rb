@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   
+  before_filter :admin_required
   before_filter :set_variables, :only => [:new, :create, :edit, :update]
 
   def home
@@ -32,7 +33,7 @@ class UsersController < ApplicationController
   end
  
   def create
-    logout_keeping_session!
+    # logout_keeping_session!
     @user = User.new(params[:user])
     success = @user && @user.save
     if success && @user.errors.empty?
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
       # reset session
-      self.current_user = @user # !! now logged in
+      # self.current_user = @user # !! now logged in
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else

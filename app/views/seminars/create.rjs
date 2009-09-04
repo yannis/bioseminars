@@ -1,0 +1,21 @@
+page << flash_in_rjs(flash[:notice], flash[:warning])
+page << "if ($('#{params[:controller]}_div')) {remove_div_and_restablish_opacity('#{params[:controller]}_div')}"
+
+if flash[:warning].blank?
+  page << "var td = $('#{@origin}');"
+  page << "var semi = new Element('li').update('#{link_to(@seminar.time_and_category, seminar_path(@seminar))}');"
+  page << "if ($('#{@origin}_seminars')) {
+    var list = $('#{@origin}_seminars');
+    list.insert(semi);
+  } else {
+    var list = new Element('ul');
+    list.setAttribute('id', '#{@origin}_seminars');
+    list.setAttribute('style', 'list-style-type: none');
+    list.update(semi);
+    td.insert(list);
+  };"
+  # # page << "if ($$('##{@origin} ul').length != 0) {var list = $$('##{@origin} ul')[0]; } else {
+  # page << "var list = new Element('ul'); list.update(semi); };"
+  page << "new Effect.Highlight('#{@origin}', {duration: 5});"
+end
+flash.discard

@@ -16,9 +16,14 @@ class Seminar < ActiveRecord::Base
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
   named_scope :of_month, lambda{|datetime| {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", datetime.beginning_of_month.to_date, datetime.end_of_month.to_date, datetime.beginning_of_month.to_date, datetime.end_of_month.to_date]}}
   named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]
-  
+  named_scope :all_for_user, lambda{|user|
+    if user.role.name == 'basic'
+      {:conditions => ["seminars.user_id = ?", user.id]}
+    end
+  }
   before_validation :set_end_on, :set_times_if_all_day
   after_save :check_presence_of_host_and_speaker
+  before_destroy :destroy_speakers_and_hosts
   
   # before_validation :set_times
 
@@ -99,8 +104,16 @@ class Seminar < ActiveRecord::Base
   def time_and_category
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
-    time_and_category << category
-    return time_and_category.join(", ")
+    if category.name
+      time_and_category << category.name
+    else
+      time_and_category << truncate(h(name), 15)
+    end
+    return time_and_category.join(": ")
+  end
+
+  def editable_or_destroyable_by_user?(auser)
+    user == auser || auser.role.name == 'admin'
   end
   
   # protected
@@ -123,5 +136,10 @@ class Seminar < ActiveRecord::Base
   def check_presence_of_host_and_speaker
     raise("Seminar should have at least 1 host.") if self.hosts.blank?
     raise("Seminar should have at least 1 speaker.") if self.speakers.blank?
+  end
+  
+  def destroy_speakers_and_hosts
+    Speaker.destroy(speakers)
+    Host.destroy(hosts)
   end
 end

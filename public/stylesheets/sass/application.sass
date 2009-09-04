@@ -1,6 +1,5 @@
 @import defines.sass
 
-
 body
   :background-color #F2F5ED
   :color #333
@@ -8,21 +7,17 @@ body
   :font-size   13px
   :line-height 18px
 
-
 h1
   :margin 0 0 .2em 0
   a
     :text-decoration none
     :color = !darkgreen
+h2
+  :line-height 1em
 form
   label
     :font-weight bold
   :margin 0 1em
-  a
-    :background-color = !darkgreen
-    :color = !lightgreen
-    :text-decoration none
-    :padding 0 .1em
   &.with_blocks
     label, input
       :display block
@@ -42,9 +37,6 @@ form
     :text-align left
   section
     :padding 1em
-  //th
-    :background-color = !darkgreen
-    :color = !white
 .notice, .error
   :width 600px
   :margin 0 auto
@@ -97,6 +89,17 @@ form
 #errorExplanation ul li 
   :font-size 12px
   :list-style square
+  
+#javascript_disabled_notification
+  :font-size 1.2em
+  :padding 1em
+  :border 2px solid #F6402D
+  :background #FF7D58
+  :width 60%
+  :margin auto
+  :padding 1em
+  :border 2px solid #F6402D
+  :background-color #FF7D58
 
 th
   :text-align left

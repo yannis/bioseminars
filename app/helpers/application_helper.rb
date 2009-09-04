@@ -17,26 +17,25 @@ module ApplicationHelper
     # navigation[:orders] = {:main_menu => {:text => "orders", :path => orders_path}, :sub_menus => [{:text => "new", :path => new_order_path}], :highlight_in_controller => ["orders"]}
     # navigation[:orders][:sub_menus] << {:text => "categories", :path => categories_path, :sub_menus => [{:text => "new", :path => new_category_path}]}
     navigation[:seminars] = {:main_menu => {:text => "seminars", :path => seminars_path}, :sub_menus => [{:text => "new", :path => new_seminar_path}], :highlight_in_controller => ["seminars"]}
-    navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [{:text => "new", :path => new_location_path}], :highlight_in_controller => ["locations"]}
-    navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => [{:text => "new", :path => new_building_path}]}
-    navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [{:text => "new", :path => new_category_path}], :highlight_in_controller => ["categories"]}
-    navigation[:users] = {:main_menu => {:text => "users", :path => users_path}, :sub_menus => [{:text => "new", :path => new_user_path}], :highlight_in_controller => ["users"]}
-    # navigation[:products] = {:main_menu => {:text => "products", :path => products_path}, :sub_menus => [{:text => "new", :path => new_product_path}], :highlight_in_controller => ["products"]}
-    # navigation[:products][:sub_menus] << {:text => "brands", :path => brands_path, :sub_menus => [{:text => "new", :path => new_brand_path}]}
-    # navigation[:alleles][:sub_menus] << {:text => "PCRs", :path => pcrs_path, :sub_menus => [{:text => "new", :path => new_pcr_path}]}
-    # if current_user.labadmin?
-    #   navigation[:laboratory] = {:main_menu => {:text => "laboratory", :path => laboratory_path(current_user.laboratory.id)}, :sub_menus => [], :highlight_in_controller => ["laboratory"]}
-    #   navigation[:laboratory][:sub_menus] << {:text => "users", :path => laboratory_users_path(current_user.laboratory.id), :sub_menus => [{:text => "new", :path => new_laboratory_user_path(current_user.laboratory.id)}]}
-    # end
-    # 
-    # if current_user.admin?
-    #   navigation[:laboratories] = {:main_menu => {:text => "laboratories", :path => laboratories_path}, :sub_menus => [{:text => "new", :path => new_laboratory_path}], :highlight_in_controller => ["laboratories_path"]}
-    # end
+      navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [{:text => "new", :path => new_location_path}], :highlight_in_controller => ["locations"]}
+    if current_user.role.name == 'admin'
+      navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => [{:text => "new", :path => new_building_path}]}
+      navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [{:text => "new", :path => new_category_path}], :highlight_in_controller => ["categories"]}
+      navigation[:users] = {:main_menu => {:text => "users", :path => users_path}, :sub_menus => [{:text => "new", :path => new_user_path}], :highlight_in_controller => ["users"]}
+    end
     return navigation
+  end
+  
+  def basic?
+    current_user.role.to_s == 'admin'
   end
   
   def admin?
     current_user.role.to_s == 'admin'
+  end
+  
+  def basic_or_admin?
+    current_user.role.to_s == 'admin' || current_user.role.to_s == 'basic'
   end
   
   def new_link(object_s, nested_in_object=nil)
