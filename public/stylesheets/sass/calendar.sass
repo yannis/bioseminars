@@ -14,7 +14,7 @@ table.calendar
       :text-decoration none
   th.monthName, tr.dayName th, tr:first-child th
     :height 2em
-  td.normalDay
+  td.normalDay, td.specialDay
     :border 1px dotted
     :border-color = !verydarkgreen
   .monthName
@@ -52,7 +52,6 @@ table.calendar
       &:visited
         :color = !darkgreen
         :text-decoration none
-        :padding 1em
   .weekendDay
     :background-color = !lightgreen
   .today
