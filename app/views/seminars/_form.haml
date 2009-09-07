@@ -5,25 +5,27 @@
 = error_message_on "seminar", "title", :prepend_text => "Title ", :append_text => "!", :css_class => "input_error"
 = f.text_field :title
 #speakers
-  %strong
+  .label
     Speakers
-  = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'speaker'), :before => "Element.hide('insert_speaker_in_seminar_form'); Element.show('seminar_loader_new_speaker_in_form')", :complete => "Element.hide('seminar_loader_new_speaker_in_form'); Element.show('insert_speaker_in_seminar_form')"}, {:id => "insert_speaker_in_seminar_form"})
+    = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'speaker'), :before => "Element.hide('insert_speaker_in_seminar_form'); Element.show('seminar_loader_new_speaker_in_form')", :complete => "Element.hide('seminar_loader_new_speaker_in_form'); Element.show('insert_speaker_in_seminar_form')"}, {:id => "insert_speaker_in_seminar_form"})
   = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_speaker_in_form")
   = render :partial => 'speaker', :locals => {:f => f}, :collection => @seminar.speakers
 #hosts
-  %strong
+  .label
     Hosts
-  = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'host'), :before => "Element.hide('insert_host_in_seminar_form'); Element.show('seminar_loader_new_host_in_form')", :complete => "Element.hide('seminar_loader_new_host_in_form'); Element.show('insert_host_in_seminar_form')"}, {:id => "insert_host_in_seminar_form"})
+    = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'host'), :before => "Element.hide('insert_host_in_seminar_form'); Element.show('seminar_loader_new_host_in_form')", :complete => "Element.hide('seminar_loader_new_host_in_form'); Element.show('insert_host_in_seminar_form')"}, {:id => "insert_host_in_seminar_form"})
   = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_host_in_form")
   = render :partial => 'host', :locals => {:f => f}, :collection => @seminar.hosts
 
-= f.label :start_on, "Start on (All day? #{check_box_tag 'seminar[all_day]'})"
+= f.label :start_on, "Start on"
 %span#seminar_start_on.inline_in_form
   = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
   = f.date_select(:start_on)
   %span#start_on_time
     = '—'+f.time_select(:start_on, :ignore_date => true, :minute_step => 5)
   = link_to_function("Now", "set_now('seminar_start_on')")
+  = f.label :all_day, "All day?"
+  = check_box_tag 'seminar[all_day]'
   = observe_field :seminar_all_day, :function => "all_day('start_on_time'); all_day('end_on_time');"
 
 = f.label :end_on, "End on (if blank, duration will default to 1 hour)"

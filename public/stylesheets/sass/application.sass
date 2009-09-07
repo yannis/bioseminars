@@ -15,8 +15,9 @@ h1
 h2
   :line-height 1em
 form
-  label
+  label, .label
     :font-weight bold
+    :margin 1em 0 .3em 0
   :margin 0 1em
   &.with_blocks
     label, input
@@ -24,12 +25,19 @@ form
     input, select, textarea
       :margin 0 0 1em 0
     textarea
-      :height 10em
+      :height 6em
     .inline_in_form
-      label, input
+      label, input, .label
         :display inline
       input[type='text']
         :width 10em
+  #speakers, #hosts
+    label
+      :font-weight normal
+  label[for='seminar_all_day']
+    :font-weight normal
+  #seminar_all_day
+    :top 0
 
 #content
   h2

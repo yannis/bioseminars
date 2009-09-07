@@ -2,6 +2,27 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+# my addition
+
+require 'mocha'
+require 'authenticated_test_helper'
+require 'test/rails'
+
+# require File.dirname(__FILE__) + '/../vendor/plugins/acts_as_taggable_redux/lib/acts_as_taggable'
+# require File.dirname(__FILE__) + '/../vendor/plugins/acts_as_taggable_redux/lib/tag'
+# require File.dirname(__FILE__) + '/../vendor/plugins/acts_as_taggable_redux/lib/tagging'
+# require File.dirname(__FILE__) + '/../test/fixtures/thing'
+
+# Request Forgery Protection hack
+# form_authenticity_token causes an error in test mode because protect_against_forgery is turned off.
+# module ActionController
+#   module RequestForgeryProtection
+#     def form_authenticity_token
+#       return "form_authenticity_token OVERRIDE!"
+#     end
+#   end
+# end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the

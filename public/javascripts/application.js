@@ -170,7 +170,7 @@ function  set_new_seminar_function(auth_token){
   var tds = $$('table.calendar td.normalDay').concat($$('table.calendar td.specialDay'));
   tds.each(function(td){
     // td.setAttribute('ondblclick', "new_seminar('"+td.id+"', '"+auth_token+"' )");
-    td.insert("<span style='float: right; font-size: smaller; vertical-align: top'><a id='new_seminar_"+td.id+"' href='#' onclick=\"new_seminar('"+td.id+"\', \'"+auth_token+"\' ); return false;\" >(+)</a><img id='loader_new_seminar_"+td.id+"' style='display: none;' src='/seminars/images/ajax-loader.gif' alt='Ajax-loader'/></span>");
+    td.insert({top: "<span style='float: left; font-size: smaller; vertical-align: top'><a id='new_seminar_"+td.id+"' href='#' onclick=\"new_seminar('"+td.id+"\', \'"+auth_token+"\' ); return false;\" >(+)</a><img id='loader_new_seminar_"+td.id+"' style='display: none;' src='/seminars/images/ajax-loader.gif' alt='Ajax-loader'/></span>"});
   });
   
   // tds.each(function(item){

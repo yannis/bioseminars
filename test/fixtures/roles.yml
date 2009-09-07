@@ -1,7 +1,7 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# 
+basic:
+  name: basic
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+admin:
+  name: admin

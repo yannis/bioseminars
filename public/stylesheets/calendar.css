@@ -12,7 +12,8 @@ table.calendar {
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay {
-    border: 1px dotted #{!darkgreen}; }
+    border: 1px dotted;
+    border-color: #005c42; }
   table.calendar .monthName {
     color: #005c42;
     font-weight: bold;
@@ -33,9 +34,6 @@ table.calendar {
     text-align: center;
     border-bottom: 1px dotted #bbbbbb; }
   table.calendar .specialDay {
-    border: 2px dotted #{!darkgreen};
-    padding: 0.7em 1em;
-    text-align: center;
     color: #007e64;
     font-weight: bold; }
     table.calendar .specialDay ul {
@@ -47,11 +45,7 @@ table.calendar {
     table.calendar .specialDay a {
       color: #007e64;
       text-decoration: none;
-      padding: 1em;
-      color: white;
-      text-decoration: none;
-      padding: 1em;
-      background-color: #007e64; }
+      font-weight: normal; }
       table.calendar .specialDay a:visited {
         color: #007e64;
         text-decoration: none;

@@ -9,14 +9,14 @@ table.calendar
     :width 14.25%
     :height 8em
     :text-align center
-    //:color #{!verydarkgreen} ! important
     a
       :color = !verydarkgreen
       :text-decoration none
   th.monthName, tr.dayName th, tr:first-child th
     :height 2em
   td.normalDay
-    :border 1px dotted #{!darkgreen}
+    :border 1px dotted
+    :border-color = !verydarkgreen
   .monthName
     :color = !verydarkgreen
     :font-weight bold
@@ -37,9 +37,6 @@ table.calendar
     :text-align center
     :border-bottom 1px dotted #bbbbbb
   .specialDay
-    :border 2px dotted #{!darkgreen}
-    :padding 0.7em 1em
-    :text-align center
     :color = !darkgreen
     :font-weight bold
     ul
@@ -51,16 +48,11 @@ table.calendar
     a
       :color = !darkgreen
       :text-decoration none
-      :padding 1em
+      :font-weight normal
       &:visited
         :color = !darkgreen
         :text-decoration none
         :padding 1em
-      //&:hover
-        :color white
-        :text-decoration none
-        :padding 1em
-        :background-color = !darkgreen
   .weekendDay
     :background-color = !lightgreen
   .today
