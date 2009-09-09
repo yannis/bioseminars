@@ -41,6 +41,8 @@
 %select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
   <option></option>
   = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name, @seminar.location ? @seminar.location.id : nil)
+  %optgroup{:label => 'undetermined'}
+    = options_from_collection_for_select(Location.without_building, :id, :name, @seminar.location ? @seminar.location.id : nil)
 
 = f.label :description
 = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"

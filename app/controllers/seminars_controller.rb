@@ -1,7 +1,7 @@
 class SeminarsController < ApplicationController
   
   skip_before_filter :login_required, :only => ['index', 'show']
-  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy']
+  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'insert_person_in_form']
   before_filter :set_variables
   # GET /seminars
   # GET /seminars.xml

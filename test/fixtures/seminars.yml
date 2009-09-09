@@ -1,6 +1,6 @@
 # # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 # 
-# one:
+# seminar1:
 #   title: MyString
 #   description: MyText
 #   start_on: 2009-06-06 11:05:01
@@ -9,7 +9,7 @@
 #   category_id: 1
 #   user_id: 1
 # 
-# two:
+# seminar2:
 #   title: MyString
 #   description: MyText
 #   start_on: 2009-06-06 11:05:01

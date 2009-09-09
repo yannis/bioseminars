@@ -170,7 +170,7 @@ function  set_new_seminar_function(auth_token){
   var tds = $$('table.calendar td.normalDay').concat($$('table.calendar td.specialDay'));
   tds.each(function(td){
     // td.setAttribute('ondblclick', "new_seminar('"+td.id+"', '"+auth_token+"' )");
-    td.insert({top: "<span style='float: left; font-size: smaller; vertical-align: top'><a id='new_seminar_"+td.id+"' href='#' onclick=\"new_seminar('"+td.id+"\', \'"+auth_token+"\' ); return false;\" >(+)</a><img id='loader_new_seminar_"+td.id+"' style='display: none;' src='/seminars/images/ajax-loader.gif' alt='Ajax-loader'/></span>"});
+    td.insert({top: "<span style='float: left; font-size: smaller; vertical-align: top'><a id='new_seminar_"+td.id+"' href='#' onclick=\"new_seminar('"+td.id+"\', \'"+auth_token+"\' ); return false;\" >(+)</a><img id='loader_new_seminar_"+td.id+"' style='display: none;' src='/images/ajax-loader.gif' alt='Ajax-loader'/></span>"});
   });
   
   // tds.each(function(item){
@@ -187,6 +187,6 @@ function new_seminar(date, auth_token) {
   // alert(date+': '+al+': #'+date+' ul');
   Element.hide('new_seminar_'+date);
   Element.show('loader_new_seminar_'+date);
-  new Ajax.Request('/seminars/seminars/new?origin='+date, {asynchronous:true, evalScripts:true, parameters:'authenticity_token=' + encodeURIComponent(auth_token), onComplete:function(request){Element.hide('loader_new_seminar_'+date); Element.show('new_seminar_'+date)}});
+  new Ajax.Request('/seminars/new?origin='+date, {asynchronous:true, evalScripts:true, parameters:'authenticity_token=' + encodeURIComponent(auth_token), onComplete:function(request){Element.hide('loader_new_seminar_'+date); Element.show('new_seminar_'+date)}});
   return false;
 }

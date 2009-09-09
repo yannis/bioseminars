@@ -42,11 +42,10 @@
             .flash.error
               = " "+flash[:warning]
         = yield :layout
-      - unless params[:controller] == 'sessions'
-        #footer.grid_12
-          .box
-            %p
-              © University of Geneva 2009
-              –
-              = link_to 'log', '/log.txt'
-              = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+      #footer.grid_12
+        .box
+          %p
+            © University of Geneva 2009
+            –
+            = link_to 'log', '/log.txt'
+            = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'

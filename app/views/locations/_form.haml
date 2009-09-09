@@ -8,4 +8,4 @@
 
 = f.label :building_id, "Building "+(admin? ? my_link_to_remote(:building, :location) : '')
 = error_message_on "location", "building_id", :prepend_text => "Building ", :append_text => "!", :css_class => "input_error"
-= f.collection_select :building_id, @buildings, :id, :name
+= f.collection_select :building_id, @buildings, :id, :name, :include_blank => true

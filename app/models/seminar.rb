@@ -24,59 +24,62 @@ class Seminar < ActiveRecord::Base
   before_validation :set_end_on, :set_times_if_all_day
   after_save :check_presence_of_host_and_speaker
   before_destroy :destroy_speakers_and_hosts
-  
-  # before_validation :set_times
 
   attr_accessor :all_day
-  # attr_reader :all_day
-  # 
-  # def before_save
-  #   self.start_time = nil if self.all_day == '1'
+  
+  # def start_humanized_date
+  #   if start_on
+  #     if start_on == Date.today - 1
+  #       start_humanized_date = "Yesterday"
+  #     elsif start_on == Date.today + 1
+  #       start_humanized_date = "Tomorrow"
+  #     elsif start_on == Date.today
+  #       start_humanized_date = "Today"
+  #     else
+  #       start_humanized_date = start_on.to_s(:long)
+  #     end
+  #     start_humanized_date = start_humanized_date + ", " + start_on.to_s(:db_with_zone) unless start_on.blank?
+  #     return start_humanized_date 
+  #   else
+  #     return nil
+  #   end
   # end
   
-  def start_humanized_date
-    if start_date
-      if start_date == Date.today - 1
-        start_humanized_date = "Yesterday"
-      elsif start_date == Date.today + 1
-        start_humanized_date = "Tomorrow"
-      elsif start_date == Date.today
-        start_humanized_date = "Today"
-      else
-        start_humanized_date = start_date.to_s(:long)
-      end
-      start_humanized_date = start_humanized_date + ", " + start_time.to_s(:db_with_zone) unless start_time.blank?
-      return start_humanized_date 
+  def human_date(datetime)
+    if datetime.to_date == Date.today - 1
+      human_date = "Yesterday"
+    elsif datetime.to_date == Date.today + 1
+      human_date = "Tomorrow"
+    elsif datetime.to_date == Date.today
+      human_date = "Today"
     else
-      return nil
+      human_date = datetime.to_date.to_s(:day_month_year)
     end
   end
   
+  def human_time(datetime)
+    datetime.to_s(:time_only)
+  end
+  
   def schedule
-    schedule = []
-    if start_on.to_date == Date.today - 1
-      humanized_date = "Yesterday"
-    elsif start_on.to_date == Date.today + 1
-      humanized_date = "Tomorrow"
-    elsif start_on.to_date == Date.today
-      humanized_date = "Today"
-    else
-      humanized_date = start_on.to_date.to_s(:day_month_year)
-    end
     if end_on.blank?
-      if start_on.to_s(:time_only) == "00:00"
-        schedule << humanized_date
+      if human_time(start_on) == "00:00"
+        schedule = human_date(start_on)
       else
-        schedule << humanized_date + ', ' + start_on.to_s(:time_only)
+        schedule = human_date(start_on) + ', ' + human_time(start_on)
       end
     else
       if start_on.to_date == end_on.to_date
-        schedule << humanized_date + ', ' + start_on.to_s(:time_only) + "-" + end_on.to_s(:time_only)
-      else
-        if start_on.to_s(:time_only) == "00:00" and end_on.to_s(:time_only) == "00:00"
-          schedule << start_on.to_s(:day_month_year) + " - " + end_on.to_s(:day_month_year)
+        if human_time(start_on) == "00:00" and human_time(end_on) == "23:59"
+          schedule = human_date(start_on)
         else
-          schedule << start_on.to_s(:day_month_year_hour_minute) + " - " + end_on.to_s(:day_month_year_hour_minute)
+          schedule = human_date(start_on) + ', ' + human_time(start_on) + "-" + human_time(end_on)
+        end
+      else
+        if human_time(start_on) == "00:00" and human_time(end_on) == "23:59"
+          schedule =  human_date(start_on) + " - " + human_date(end_on)
+        else
+          schedule = "#{human_date(start_on)}, #{human_time(start_on)} - #{human_date(end_on)}, #{human_time(end_on)}"
         end
       end
     end
@@ -89,7 +92,7 @@ class Seminar < ActiveRecord::Base
   
   def when_and_where
     when_and_where = []
-    when_and_where += schedule unless schedule.blank?
+    when_and_where << schedule unless schedule.blank?
     when_and_where << location.name_and_building unless location.blank?
     return when_and_where.join(" - ")
   end
@@ -125,7 +128,7 @@ class Seminar < ActiveRecord::Base
   private
   
   def set_end_on
-    self.end_on = (self.start_on+1.hour) if self.end_on.blank?    
+    self.end_on = (self.start_on+1.hour) if self.end_on.blank? and !self.start_on.blank?
   end
   
   def set_times_if_all_day

@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :categories
   map.resources :locations
   map.resources :people
-  map.resources :roles
+  # map.resources :roles
   map.resources :seminars, :member => {:insert_person_in_form => :post}
   map.resource :session
   map.resources :users, :has_many => :orders
@@ -13,6 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   # map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
+  map.forgot_password '/forgot_password', :controller => 'users', :action => 'forgot_password'
+  map.reset_password '/reset_password/:reset_code', :controller => 'users', :action => 'reset_password', :reset_code => nil
 
   # The priority is based upon order of creation: first created -> highest priority.
 

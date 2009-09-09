@@ -1,7 +1,9 @@
 # # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 # 
 basic:
+  id: 1
   name: basic
 
 admin:
+  id: 2
   name: admin
