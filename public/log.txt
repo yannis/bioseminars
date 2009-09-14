@@ -1,3 +1,9 @@
+11.9.2009
+Added Hoptoad plugin for exception notification.
+
+9.9.2009
+Added Unit and Functional tests.
+
 4.9.2009
 Added a way to add seminars directly from the calendar.
 Added dual roles (basic/admin). Basic can create, edit, destroy their own seminars. Admin can do... everything.

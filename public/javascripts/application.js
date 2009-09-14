@@ -190,3 +190,10 @@ function new_seminar(date, auth_token) {
   new Ajax.Request('/seminars/new?origin='+date, {asynchronous:true, evalScripts:true, parameters:'authenticity_token=' + encodeURIComponent(auth_token), onComplete:function(request){Element.hide('loader_new_seminar_'+date); Element.show('new_seminar_'+date)}});
   return false;
 }
+
+
+function copy(text) {
+  if (window.clipboardData) {
+    window.clipboardData.setData("Text",text);
+  }
+}

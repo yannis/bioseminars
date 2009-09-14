@@ -21,8 +21,9 @@ class SeminarsControllerTest < ActionController::TestCase
       @building = Building.create(:name => 'ScIII')
       @location = Location.create(:name => '4059', :building => @building)
       @category = Category.create(:name => 'LSS')
-      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}})
-      @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}})
+      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}}, :user => users(:basic))
+      @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}}, :user => users(:admin))
+      
     end
 
     context "when not logged_in," do
@@ -109,6 +110,30 @@ class SeminarsControllerTest < ActionController::TestCase
         should "assigns to 2 seminars" do
           assert_equal assigns(:seminars).size, 2
         end
+      end
+      
+      context "on :delete to :destroy with  :id => @seminar1.id" do #@seminar1 belongs to basic
+        setup do
+          delete :destroy, :id => @seminar1.id
+        end
+        
+        should_change("the number of seminars", :by => -1) { Seminar.count }
+        should_change("the number of speakers", :by => -1) { Speaker.count }
+        should_change("the number of hosts", :by => -1) { Host.count }
+        should_redirect_to("seminars index view") {seminars_url}
+        should_set_the_flash_to "Seminar was successfully deleted."
+      end
+      
+      context "on :delete to :destroy with  :id => @seminar2.id" do #@seminar1 belongs to admin
+        setup do
+          delete :destroy, :id => @seminar2.id
+        end
+        
+        should_redirect_to("seminar's show view") { seminars_url }
+        should_change("the number of seminars", :by => 0) { Seminar.count }
+        should_change("the number of speakers", :by => 0) { Speaker.count }
+        should_change("the number of hosts", :by => 0) { Host.count }
+        should_set_the_flash_to "Seminar not deleted."
       end
     end
     

@@ -21,6 +21,8 @@ class Seminar < ActiveRecord::Base
       {:conditions => ["seminars.user_id = ?", user.id]}
     end
   }
+  named_scope :of_categories, lambda{|categories| {:conditions => ["seminars.category_id IN (?)", categories.map{|c| c.id}]}}
+  
   before_validation :set_end_on, :set_times_if_all_day
   after_save :check_presence_of_host_and_speaker
   before_destroy :destroy_speakers_and_hosts
@@ -113,6 +115,18 @@ class Seminar < ActiveRecord::Base
       time_and_category << truncate(h(name), 15)
     end
     return time_and_category.join(": ")
+  end
+  
+  def time_location_and_category
+    time_and_category = []
+    time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
+    time_and_category << location.name_and_building unless location.blank?
+    if category.name
+      time_and_category << category.name
+    else
+      time_and_category << truncate(h(name), 15)
+    end
+    return time_and_category.join(" - ")
   end
 
   def editable_or_destroyable_by_user?(auser)

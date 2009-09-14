@@ -2,7 +2,7 @@
 %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
   %head
     %title
-      = @title || "wAllet"
+      = @title || "bioSeminars"
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
     %meta{:name=>"author", :content=>"Yannis Jaquet"}/
     %meta{:name => "robots", :content => "noindex,nofollow"}
@@ -49,3 +49,6 @@
             –
             = link_to 'log', '/log.txt'
             = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+          %p
+            Create
+            = link_to 'custom feeds', new_feed_path

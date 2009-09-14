@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :buildings
   map.resources :categories
+  map.resources :feeds
   map.resources :locations
   map.resources :people
   # map.resources :roles

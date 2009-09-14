@@ -7,7 +7,8 @@ class SeminarsController < ApplicationController
   # GET /seminars.xml
   def index
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
-    @seminars = Seminar.of_month(@date)
+    @categories = Category.find(params[:categories].split(' ')) if params[:categories]
+    @seminars = @categories.nil? ? Seminar.of_month(@date) : Seminar.of_month(@date).of_categories(@categories)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
@@ -152,9 +153,14 @@ class SeminarsController < ApplicationController
   def destroy
     @seminar = Seminar.all_for_user(current_user).find(params[:id])
     @seminar.destroy
-
+    flash[:notice] = 'Seminar was successfully deleted.'
     respond_to do |format|
-      flash[:notice] = 'Seminar was successfully deleted.'
+      format.html { redirect_to(seminars_url) }
+      format.xml  { head :ok }
+    end
+  rescue
+    respond_to do |format|
+      flash[:warning] = 'Seminar not deleted.'
       format.html { redirect_to(seminars_url) }
       format.xml  { head :ok }
     end

@@ -1,0 +1,13 @@
+- @title ||= 'Your feeds'
+%h2
+  = @title
+%h3 RSS feed
+%p
+  = link_to @rss_feed, @rss_feed, :id => 'rss_feed'
+%h3 iCal/ICS feed
+%p
+  %a{:href => "webcal://#{HOST}#{seminars_path(:format => 'ics', :categories => @categories.map{|c| c.id}.join(' '))}"}
+    = "webcal://#{HOST}#{seminars_path(:format => 'ics', :categories => @categories.map{|c| c.id}.join(' '))}"
+%h3 XML feed
+%p
+  = link_to @xml_feed, @xml_feed
