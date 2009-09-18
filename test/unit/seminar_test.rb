@@ -21,7 +21,7 @@ class SeminarTest < ActiveSupport::TestCase
     setup do
       @building = Building.create(:name => 'ScIII')
       @location = Location.create(:name => '4059', :building => @building)
-      @category = Category.create(:name => 'LSS')
+      @category = Category.create(:name => 'Life Science Seminar Series', :acronym => 'LSSS', :color => 'F0A9BB' )
       @seminar = users(:basic).seminars.new(:title => 'a nice seminar title', :start_on => Time.parse("#{Date.current} 12:00:00"), :location => @location, :category => @category)
     end
 
@@ -39,6 +39,10 @@ class SeminarTest < ActiveSupport::TestCase
       
       should "be valid" do
         assert @seminar.valid?, @seminar.errors.full_messages.to_sentence
+      end
+      
+      should 'have color == F0A9BB' do
+        assert_equal @seminar.color, 'F0A9BB'
       end
       
       should "be editable_or_destroyable_by_user?(users(:basic))" do
@@ -68,8 +72,8 @@ class SeminarTest < ActiveSupport::TestCase
         assert_equal @seminar.time_and_title, '12:00 - a nice seminar title'
       end
       
-      should 'have time_and_category == "12:00: LSS"' do
-        assert_equal @seminar.time_and_category, '12:00: LSS'
+      should 'have time_and_category == "12:00: Life Science Seminar Series"' do
+        assert_equal @seminar.time_and_category, '12:00: Life Science Seminar Series'
       end
       
       context "if the seminar now belongs to users(:admin)," do
@@ -117,8 +121,8 @@ class SeminarTest < ActiveSupport::TestCase
           assert_equal @seminar.when_and_where, '2009-01-01, 11:00 - 2009-01-05, 13:00 - 4059 (ScIII)'
         end
         
-        should 'have time_and_category == "11:00: LSS"' do
-          assert_equal @seminar.time_and_category, '11:00: LSS'
+        should 'have time_and_category == "11:00: Life Science Seminar Series"' do
+          assert_equal @seminar.time_and_category, '11:00: Life Science Seminar Series'
         end
         
         should 'have schedule == "2009-01-01, 11:00 - 2009-01-05, 13:00"' do
@@ -157,8 +161,8 @@ class SeminarTest < ActiveSupport::TestCase
           assert_equal @seminar.when_and_where, 'Today - 4059 (ScIII)'
         end
 
-        should 'have time_and_category == "LSS"' do
-          assert_equal @seminar.time_and_category, 'LSS'
+        should 'have time_and_category == "Life Science Seminar Series"' do
+          assert_equal @seminar.time_and_category, 'Life Science Seminar Series'
         end
         
         should 'have schedule == "Today"' do

@@ -30,6 +30,10 @@ class UserTest < ActiveSupport::TestCase
       assert_equal @user.role_id, 1
     end
     
+    should 'have his nickname == user' do
+      assert_equal @user.nickname, 'u.name'
+    end
+    
     should 'be valid' do
       assert @user.valid?, @user.errors.full_messages.to_sentence
     end

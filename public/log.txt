@@ -1,3 +1,7 @@
+18.9.2009
+Added iframe and object for sharing.
+Added color and acronym to categories.
+
 11.9.2009
 Added Hoptoad plugin for exception notification.
 Added feeds creation for seminars grouped by categories.

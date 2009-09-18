@@ -133,6 +133,10 @@ class Seminar < ActiveRecord::Base
     user == auser || auser.role.name == 'admin'
   end
   
+  def color
+    category.color || '005C42'
+  end
+  
   # protected
   # 
   # def set_times
