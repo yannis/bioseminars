@@ -1,9 +1,0 @@
-= f.label :name
-= error_message_on "person", "name", :prepend_text => "Name *", :append_text => "!", :css_class => "input_error"
-= f.text_field :name
-= f.label :email
-= error_message_on "person", "email", :prepend_text => "Email ", :append_text => "!", :css_class => "input_error"
-= f.text_field :email
-= f.label :affiliation
-= error_message_on "person", "affiliation", :prepend_text => "Affiliation ", :append_text => "!", :css_class => "input_error"
-= f.text_field :affiliation

@@ -3,9 +3,5 @@
     Logged in as
     = link_to_current_user :content_method => :name
     = "(#{link_to "Log out", logout_path, { :title => "Log out" }})"
-    - if session[:order]
-      %span#pending_order_link
-        |
-        = link_to "Pending order", pending_orders_path
   - else
     = "#{link_to "Log in",  login_path,  { :title => "Log in" }}"

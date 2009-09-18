@@ -109,10 +109,10 @@ class Seminar < ActiveRecord::Base
   def time_and_category
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
-    if category.name
+    if category
       time_and_category << category.name
     else
-      time_and_category << truncate(h(name), 15)
+      time_and_category << title[0..15]
     end
     return time_and_category.join(": ")
   end
@@ -124,7 +124,7 @@ class Seminar < ActiveRecord::Base
     if category.name
       time_and_category << category.name
     else
-      time_and_category << truncate(h(name), 15)
+      time_and_category << title[0..15]
     end
     return time_and_category.join(" - ")
   end
