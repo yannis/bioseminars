@@ -97,6 +97,11 @@ class User < ActiveRecord::Base
   def recently_reset_password?
     @reset_password
   end
+  
+  # for a user 'Firstname Middlename Lastname' gives 'F.Lastname'
+  def nickname
+    name.gsub(/^(\w)(?:\w+ )+(\w+)/, '\1.\2')
+  end
 
   protected
   
