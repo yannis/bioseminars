@@ -7,10 +7,10 @@
   = "(#{@seminar.speakers.map(&:affiliation).join(', ')})"
 - unless @seminar.hosts.empty?
   %p
-    Hosted by:
+    Hosted by
     = @seminar.hosts.map(&:name).join(', ')
 - unless @seminar.user.blank?
   %p{:style => 'font-size: smaller; text-align: right'}
-    recorded by
+    Edited by
     = @seminar.user.name
    
