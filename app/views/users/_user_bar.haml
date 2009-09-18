@@ -1,7 +1,7 @@
 %span#user_bar.status
   - if logged_in?
     Logged in as
-    = link_to_current_user :content_method => :name
-    = "(#{link_to "Log out", logout_path, { :title => "Log out" }})"
+    = "#{link_to_current_user :content_method => :name, :content_text => current_user.nickname}"
+    = " (#{link_to "Log out", logout_path, { :title => "Log out" }})"
   - else
     = "#{link_to "Log in",  login_path,  { :title => "Log in" }}"

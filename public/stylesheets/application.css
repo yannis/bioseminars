@@ -11,25 +11,30 @@ h1 {
     text-decoration: none;
     color: #007e64; }
 
+h2 {
+  line-height: 1em; }
+
 form {
   margin: 0 1em; }
-  form label {
-    font-weight: bold; }
-  form a {
-    background-color: #007e64;
-    color: #e5f3e5;
-    text-decoration: none;
-    padding: 0 .1em; }
+  form label, form .label {
+    font-weight: bold;
+    margin: 1em 0 .3em 0; }
   form.with_blocks label, form.with_blocks input {
     display: block; }
   form.with_blocks input, form.with_blocks select, form.with_blocks textarea {
     margin: 0 0 1em 0; }
   form.with_blocks textarea {
-    height: 10em; }
-  form.with_blocks .inline_in_form label, form.with_blocks .inline_in_form input {
+    height: 6em; }
+  form.with_blocks .inline_in_form label, form.with_blocks .inline_in_form input, form.with_blocks .inline_in_form .label {
     display: inline; }
   form.with_blocks .inline_in_form input[type='text'] {
     width: 10em; }
+  form #speakers label, form #hosts label {
+    font-weight: normal; }
+  form label[for='seminar_all_day'] {
+    font-weight: normal; }
+  form #seminar_all_day {
+    top: 0; }
 
 #content h2 {
   padding: .5em;
@@ -37,7 +42,7 @@ form {
 #content section {
   padding: 1em; }
 
-.notice, .error {
+.notice, .warning {
   width: 600px;
   margin: 0 auto;
   text-align: center; }
@@ -46,7 +51,7 @@ form {
   background-color: #c2d78c;
   border: 1px solid #abc963; }
 
-.error {
+.warning {
   background-color: #731b10;
   border: 1px solid #541000;
   color: #fff; }
@@ -86,6 +91,17 @@ form {
 #errorExplanation ul li {
   font-size: 12px;
   list-style: square; }
+
+#javascript_disabled_notification {
+  font-size: 1.2em;
+  padding: 1em;
+  border: 2px solid #F6402D;
+  background: #FF7D58;
+  width: 60%;
+  margin: auto;
+  padding: 1em;
+  border: 2px solid #F6402D;
+  background-color: #FF7D58; }
 
 th {
   text-align: left; }
@@ -193,8 +209,8 @@ table {
 
 .ajax_div {
   z-index: 30;
-  width: 420px;
-  margin: 20px auto auto -210px;
+  width: 480px;
+  margin: 20px auto auto -240px;
   padding: 10px;
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;

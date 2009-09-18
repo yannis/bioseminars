@@ -25,7 +25,7 @@ class SeminarsController < ApplicationController
           summary = []
           summary << seminar.title
           summary << seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
-          summary << "Hosted by: "+seminar.hosts.map(&:name).join(', ')
+          summary << "Hosted by "+seminar.hosts.map(&:name).join(', ')
           cal_event.summary = summary.join(' | ')
           cal_event.url = seminar_url(seminar)
           cal_event.description = seminar.description unless seminar.description.blank?
@@ -57,7 +57,7 @@ class SeminarsController < ApplicationController
         cal_event.url = seminar_url(@seminar)
         description = []
         description << @seminar.description unless @seminar.description.blank?
-        description << "Hosted by: "+@seminar.hosts.map(&:name).join(', ')+'.'
+        description << "Hosted by "+@seminar.hosts.map(&:name).join(', ')+'.'
         cal_event.description = description.join(' ')
         cal = Icalendar::Calendar.new
         cal.add_event(cal_event.to_ical)
