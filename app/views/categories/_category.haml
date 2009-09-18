@@ -1,6 +1,10 @@
 %tr[category]
   %td
+    - unless category.color.blank?
+      %span.color{:style => "background-color: ##{category.color}"}
     = link_to_unless_current h(category.name), category_path(category)
+  %td
+    =h category.acronym
   %td
     = h(category.description)
   %td

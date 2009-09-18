@@ -15,6 +15,7 @@ class SeminarsController < ApplicationController
       format.html # index.html.haml
       format.xml  { render :xml => @seminars }
       format.rss  { render :layout => false }
+      format.iframe  { render 'iframe.haml', :layout => 'iframe' }
       format.ics do
         cal = Icalendar::Calendar.new
         @seminars.each do |seminar|

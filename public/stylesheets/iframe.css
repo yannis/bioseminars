@@ -1,0 +1,7 @@
+#iframe {
+  width: 480px;
+  font-size: 11px; }
+  #iframe table tr td {
+    max-height: 40px;
+    max-width: 50px;
+    font-size: 9px; }

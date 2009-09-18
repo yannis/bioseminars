@@ -1,6 +1,11 @@
 = f.label :name
 = error_message_on "category", "name", :prepend_text => "Name ", :append_text => "!", :css_class => "input_error"
 = f.text_field :name
+= f.label :acronym
+= f.text_field :acronym
+= f.label :color
+= f.text_field :color
 = f.label :description
 = error_message_on "category", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
 = f.text_area :description
+= javascript_tag "new Control.ColorPicker('category_color');"

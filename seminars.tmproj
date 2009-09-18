@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>app/models/seminar.rb</string>
+	<string>app/views/users/_user_bar.haml</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -112,30 +112,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>97</integer>
+				<integer>45</integer>
 				<key>line</key>
-				<integer>11</integer>
+				<integer>13</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>45</integer>
-				<key>line</key>
-				<integer>11</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>97</integer>
-				<key>line</key>
-				<integer>11</integer>
-			</dict>
 		</dict>
 		<key>app/controllers/locations_controller.rb</key>
 		<dict>
@@ -156,14 +140,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>60</integer>
+				<integer>63</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>17</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>129</integer>
+			<integer>9</integer>
 		</dict>
 		<key>app/controllers/sessions_controller.rb</key>
 		<dict>
@@ -198,9 +182,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>199</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>20</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
@@ -211,16 +195,16 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>192</integer>
+				<integer>10</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>20</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>199</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>20</integer>
 			</dict>
 		</dict>
 		<key>app/helpers/roles_helper.rb</key>
@@ -242,9 +226,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>45</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>8</integer>
+				<integer>28</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -277,7 +261,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>18</integer>
 		</dict>
 		<key>app/models/building.rb</key>
 		<dict>
@@ -618,9 +602,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>21</integer>
 				<key>line</key>
-				<integer>4</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -632,9 +616,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>61</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>10</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -646,9 +630,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>10</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -674,30 +658,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>53</integer>
+				<integer>42</integer>
 				<key>line</key>
 				<integer>4</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>45</integer>
-				<key>line</key>
-				<integer>4</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>53</integer>
-				<key>line</key>
-				<integer>4</integer>
-			</dict>
 		</dict>
 		<key>app/views/categories/index.haml</key>
 		<dict>
@@ -718,9 +686,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>4</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -762,9 +730,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>32</integer>
+				<integer>90</integer>
 				<key>line</key>
-				<integer>12</integer>
+				<integer>19</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -832,12 +800,12 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>33</integer>
+				<integer>34</integer>
 			</dict>
 			<key>columnSelection</key>
-			<false/>
+			<true/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
@@ -845,16 +813,16 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>59</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>43</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>33</integer>
+				<integer>34</integer>
 			</dict>
 		</dict>
 		<key>app/views/layouts/application.haml~</key>
@@ -870,6 +838,36 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>app/views/layouts/iframe.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>11</integer>
+				<key>line</key>
+				<integer>21</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
 		</dict>
 		<key>app/views/layouts/new.rjs</key>
 		<dict>
@@ -1233,19 +1231,49 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>app/views/seminars/index.haml</key>
+		<key>app/views/seminars/iframe.haml</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>397</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
 		</dict>
 		<key>app/views/seminars/index.rss.builder</key>
 		<dict>
@@ -1350,14 +1378,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>0</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
 		</dict>
 		<key>app/views/users/_form.haml</key>
 		<dict>
@@ -1422,9 +1466,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>8</integer>
+				<integer>43</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -1554,7 +1598,7 @@
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>32</integer>
+				<integer>31</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
@@ -1565,16 +1609,16 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>121</integer>
+				<integer>43</integer>
 				<key>line</key>
-				<integer>32</integer>
+				<integer>31</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>32</integer>
+				<integer>31</integer>
 			</dict>
 		</dict>
 		<key>config/environments/development.rb</key>
@@ -1638,9 +1682,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>46</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -1935,6 +1979,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>db/migrate/20090918123328_add_color_and_acronym_to_categories.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>doc/README_FOR_APP</key>
 		<dict>
 			<key>caret</key>
@@ -1971,6 +2029,34 @@
 				<integer>0</integer>
 				<key>line</key>
 				<integer>51</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>nbproject/project.properties</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>nbproject/project.xml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -2126,28 +2212,26 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>100</integer>
+				<integer>248</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>73</integer>
-			<key>selectFrom</key>
+			<integer>199</integer>
+		</dict>
+		<key>public/stylesheets/sass/iframe.sass</key>
+		<dict>
+			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>21</integer>
 				<key>line</key>
-				<integer>109</integer>
+				<integer>6</integer>
 			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>100</integer>
-			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>public/stylesheets/text.css</key>
 		<dict>
@@ -2163,7 +2247,7 @@
 			<key>firstVisibleLine</key>
 			<integer>17</integer>
 		</dict>
-		<key>sd.sql</key>
+		<key>script/plugin</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -2861,6 +2945,7 @@
 		<string>app/views/sessions/new.haml</string>
 		<string>app/views/categories/_table_head.haml</string>
 		<string>app/views/categories/edit.haml</string>
+		<string>db/migrate/20090918123328_add_color_and_acronym_to_categories.rb</string>
 		<string>app/views/categories/index.haml</string>
 		<string>app/views/categories/show.haml</string>
 		<string>app/views/categories/new.haml</string>
@@ -2883,7 +2968,6 @@
 		<string>public/log.txt</string>
 		<string>db/migrate/20090606091821_create_categories.rb</string>
 		<string>db/migrate/20090831143600_add_url_to_seminars.rb</string>
-		<string>sd.sql</string>
 		<string>public/stylesheets/sass/application.sass</string>
 		<string>test/test_helper.rb</string>
 		<string>test/unit/building_test.rb</string>
@@ -2901,7 +2985,11 @@
 		<string>test/fixtures/users.yml</string>
 		<string>public/stylesheets/text.css</string>
 		<string>app/controllers/seminars_controller.rb</string>
+		<string>app/views/layouts/iframe.haml</string>
+		<string>nbproject/project.properties</string>
+		<string>nbproject/project.xml</string>
 		<string>app/views/seminars/index.rss.builder</string>
+		<string>app/views/seminars/iframe.haml</string>
 		<string>app/views/seminars/insert_person_in_form.rjs</string>
 		<string>app/views/seminars/mini_seminar.haml</string>
 		<string>app/views/seminars/new.haml</string>
@@ -3001,6 +3089,8 @@
 		<string>app/controllers/sessions_controller.rb</string>
 		<string>config/routes.rb</string>
 		<string>plugin:install</string>
+		<string>script/plugin</string>
+		<string>public/stylesheets/sass/iframe.sass</string>
 		<string>app/controllers/users_controller.rb</string>
 		<string>vendor/plugins/shoulda/test/rails_root/config/routes.rb</string>
 		<string>db/migrate/20090909092337_add_reset_code_to_users.rb</string>
@@ -3011,6 +3101,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{339, -222}, {1600, 1174}}</string>
+	<string>{{320, 4}, {1600, 1174}}</string>
 </dict>
 </plist>

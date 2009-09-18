@@ -11,5 +11,6 @@ class FeedsController < ApplicationController
     @rss_feed = seminars_url(:format => 'rss', :categories => @categories.map{|c| c.id}.join(' '))
     @ics_feed = seminars_url(:format => 'ics', :categories => @categories.map{|c| c.id}.join(' '))
     @xml_feed = seminars_url(:format => 'xml', :categories => @categories.map{|c| c.id}.join(' '))
+    @iframe = seminars_url(:format => 'iframe', :categories => @categories.map{|c| c.id}.join(' '))
   end
 end
