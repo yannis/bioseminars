@@ -27,3 +27,10 @@ set :branch, "master"
 role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
+
+namespace :deploy do
+  desc "Restart Application"
+  task :restart, :roles => :app do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+end

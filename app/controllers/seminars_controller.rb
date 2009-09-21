@@ -9,14 +9,22 @@ class SeminarsController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
     @seminars = @categories.nil? ? Seminar.of_month(@date) : Seminar.of_month(@date).of_categories(@categories)
+    @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
-      format.html # index.html.haml
-      format.xml  { render :xml => @seminars }
-      format.rss  { render :layout => false }
+      format.html
       format.iframe  { render 'iframe.haml', :layout => 'iframe' }
+      format.xml  {
+        @seminars = @seminars_for_feeds
+        render :xml => @seminars
+      }
+      format.rss  {
+        @seminars = @seminars_for_feeds
+        render :layout => false
+      }
       format.ics do
+        @seminars = @seminars_for_feeds
         cal = Icalendar::Calendar.new
         @seminars.each do |seminar|
           cal_event = Icalendar::Event.new
