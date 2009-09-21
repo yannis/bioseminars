@@ -5,8 +5,9 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 if ENV['RAILS_ENV'] == 'production'
   # HOST = 'http://bioseminars.unige.ch'
-  SHORT_HOST = '129.194.56.197'
-  HOST = '129.194.56.197/seminars'
+  # SHORT_HOST = '129.194.56.197'
+  # HOST = '129.194.56.197/seminars'
+  SHORT_HOST = HOST = 'bioseminars.unige.ch'
 else  
   SHORT_HOST = 'localhost:3000'
   HOST = 'localhost:3000'
