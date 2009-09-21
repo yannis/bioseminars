@@ -1,5 +1,6 @@
 .DS_Store
 log/*
+nbproject/*
 tmp/*
 db/schema.rb
 db/sphinx/*

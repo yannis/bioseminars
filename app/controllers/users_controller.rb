@@ -107,11 +107,6 @@ class UsersController < ApplicationController
     flash[:warning] = 'Unable to match reset code.'
     redirect_to forgot_password_path
   end
-
-  # for a user 'Firstname Middlename Lastname' gives 'F.Lastname'
-  def nickname
-    @user.name.gsub(/^(\w)(?:\w+ )+(\w+)/, '\1.\2')
-  end
   
   protected
   

@@ -9,4 +9,5 @@
     = h(category.description)
   %td
     - links = [edit_link(category)]
+    - links << destroy_link(category)
     = links.join(' · ')
