@@ -7,7 +7,7 @@ xml.rss :version => "2.0", "xmlns:atom" => "http://www.w3.org/2005/Atom" do
     xml.webMaster "Yannis.Jaquet@unige.ch"
     for seminar in @seminars.sort{|x,y| y.start_on <=> x.start_on }
       xml.item do
-        xml.title seminar.time_location_and_category
+        xml.title seminar.date_time_location_and_category
         total_description = []
         total_description << "<h3>#{seminar.speakers[0..1].map{|s| s.name+' ('+s.affiliation+')'}}</h3>"
         total_description << "<h4>“#{seminar.title}”</h4>"

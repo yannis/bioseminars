@@ -16,6 +16,7 @@ class Seminar < ActiveRecord::Base
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
   named_scope :of_month, lambda{|datetime| {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", datetime.beginning_of_month.to_date, datetime.end_of_month.to_date, datetime.beginning_of_month.to_date, datetime.end_of_month.to_date]}}
   named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]
+  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current, Time.current]
   named_scope :all_for_user, lambda{|user|
     if user.role.name == 'basic'
       {:conditions => ["seminars.user_id = ?", user.id]}
@@ -110,7 +111,7 @@ class Seminar < ActiveRecord::Base
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
     if category
-      time_and_category << category.name
+      time_and_category << category.acronym ? category.acronym : category.name
     else
       time_and_category << title[0..15]
     end
@@ -121,8 +122,20 @@ class Seminar < ActiveRecord::Base
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
     time_and_category << location.name_and_building unless location.blank?
-    if category.name
-      time_and_category << category.name
+    if category
+      time_and_category << category.acronym ? category.acronym : category.name
+    else
+      time_and_category << title[0..15]
+    end
+    return time_and_category.join(" - ")
+  end
+
+  def date_time_location_and_category
+    time_and_category = []
+    time_and_category << start_on.strftime("%d.%m.%Y %H:%M")
+    time_and_category << location.name_and_building unless location.blank?
+    if category
+      time_and_category << category.acronym ? category.acronym : category.name
     else
       time_and_category << title[0..15]
     end

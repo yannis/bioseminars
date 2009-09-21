@@ -10,6 +10,7 @@ class SeminarsController < ApplicationController
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
     @seminars = @categories.nil? ? Seminar.of_month(@date) : Seminar.of_month(@date).of_categories(@categories)
     @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
+    @seminars_for_rss = @categories.nil? ? Seminar.now_or_future() : Seminar.now_or_future.of_categories(@categories)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
@@ -20,7 +21,7 @@ class SeminarsController < ApplicationController
         render :xml => @seminars
       }
       format.rss  {
-        @seminars = @seminars_for_feeds
+        @seminars = @seminars_for_rss
         render :layout => false
       }
       format.ics do
