@@ -1,7 +1,10 @@
 #iframe {
+  margin: 0 1em;
   width: 480px;
   font-size: 11px; }
-  #iframe table tr td {
-    max-height: 40px;
-    max-width: 50px;
-    font-size: 9px; }
+  #iframe table {
+    margin: 0; }
+    #iframe table tr td {
+      max-height: 40px;
+      max-width: 50px;
+      font-size: 9px; }

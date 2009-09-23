@@ -1,13 +1,13 @@
-- @title ||= 'Generate RSS and iCal feed'
-%h2
-  = @title
-- form_tag feeds_path do |f|
-  .label
-    Chose the categories/series you want to follow
-  %ul
-  - for category in Category.find(:all)
-    %li
-      = check_box_tag "category_ids[]", category.id
-      = label_tag "category_ids[]", category.name
-  %br
-  = submit_tag 'Generate feeds URLs'
+- @title ||= 'Generate custom RSS, iCal/ICS feeds (and more...)'
+.grid_6.prefix_3.suffix_3
+  - form_tag feeds_path, :id => 'form_for_feeds' do |f|
+    %fieldset
+      %legend
+        Chose the categories/series you want to follow
+      %ul
+        - for category in Category.find(:all)
+          %li
+            = check_box_tag "category_ids[]", category.id
+            = label_tag "category_ids[]", category.name
+        %li
+          = create_button 'Generate feeds URLs'

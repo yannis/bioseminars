@@ -1,7 +1,9 @@
 - @title ||= 'New seminar'
-%h2
-  = @title
-= error_messages_for :seminar
-- form_for @seminar, :html => {:class => 'with_blocks'} do |f|
-  = render :partial => 'form', :locals => {:f => f}
-  = f.submit "Create"
+.grid_8.prefix_2.suffix_2
+  = error_messages_for :user
+  - form_for @seminar, :url => seminars_path, :html => {:class => 'with_blocks'} do |f|
+    %fieldset
+      %legend
+        = @title
+      = render :partial => 'form', :locals => {:f => f}
+      = create_button

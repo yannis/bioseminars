@@ -63,6 +63,14 @@ Prototip.Styles = {
     stem: { height: 12, width: 15 }
   },
 
+  'bioseminars': {
+    className: 'bioseminars',
+    border: 6,
+    borderColor: '#007E64',
+    radius: 6,
+    stem: { height: 12, width: 15 }
+  },
+
   'protogrey': {
     className: 'protogrey',
     border: 6,

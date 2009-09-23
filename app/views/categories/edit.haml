@@ -4,9 +4,11 @@
 - javascript '/colorpicker/scriptaculous/slider.js'
 - javascript '/colorpicker/yahoo.color.js'
 - @title ||= "Edit category “#{@category.name}”"
-%h2
-  = @title
-= error_messages_for :category
-- form_for :category, :url => category_path(@category), :html => { :method => :put, :class => 'with_blocks'} do |f|
-  = render :partial => 'form', :locals => {:f => f}
-  = submit_tag 'Update'
+.grid_4.prefix_4.suffix_4
+  = error_messages_for :category
+  - form_for :category, :url => category_path(@category), :html => { :method => :put, :class => 'with_blocks'} do |f|
+    %fieldset
+      %legend
+        = @title
+      = render :partial => 'form', :locals => {:f => f}
+      = update_button

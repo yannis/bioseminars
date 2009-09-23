@@ -5,6 +5,19 @@ table.calendar
   :margin 1em auto 0 auto
   thead tr th
     :background-color transparent
+  tr.dayName 
+  tr.dayName th:first-child
+    :-moz-border-radius .5em 0 0 .5em
+    :-webkit-border-radius 0
+    :-webkit-border-top-left-radius .5em
+    :-webkit-border-bottom-left-radius .5em
+    :border-radius .5em 0 0 0
+  tr.dayName th:last-child
+    :-moz-border-radius 0 .5em .5em 0
+    :-webkit-border-radius 0
+    :-webkit-border-top-right-radius .5em
+    :-webkit-border-bottom-right-radius .5em
+    :border-radius 0 .5em .5em 0
   td, th
     :width 14.25%
     :height 8em
@@ -16,7 +29,10 @@ table.calendar
     :height 2em
   td.normalDay, td.specialDay
     :border 1px dotted
+    :color = !darkgreen
     :border-color = !verydarkgreen
+    .day_number
+      :font-weight bold
   .monthName
     :color = !verydarkgreen
     :font-weight bold
@@ -26,41 +42,39 @@ table.calendar
     :font-size 1em
     :padding-top 0.6em
     :padding-bottom 0.3em
-    :background-color = !verydarkgreen
+    :background-color = !green
     :color white
   .otherMonth
     :padding 0.7em 1em
-    :color = !lightgreen
+    :color = !background
+  .otherMonth.weekendDay
+    :color = !veryverylightgreen
   .day
     :padding 0.7em 1em
     :border-right 1px solid white
     :text-align center
     :border-bottom 1px dotted #bbbbbb
   .specialDay
-    :color = !darkgreen
-    :font-weight bold
     ul
       :list-style-type none
       :text-align left
       :padding 0
       :margin 0
       :text-indent 0
+      li a
+        :font-family Helvetica, Arial, Sans-Serif
     a
       :color = !darkgreen
       :text-decoration none
       :font-weight normal
+      :font-size .9em
       &:visited
         :color = !darkgreen
         :text-decoration none
   .weekendDay
-    :background-color = !lightgreen
+    :background-color = !veryverylightgreen
   .today
-    :background-color = !blue
-    :color white
-    a
-      :color white
-      &:visited
-        :color white
+    :background-color = !veryverylightorange
   .day_number
     :display block
     :text-align right

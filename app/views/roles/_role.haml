@@ -1,4 +1,4 @@
-%tr[role]
+%tr[role]{:class => cycle('', 'odd')}
   %td
     = link_to_unless_current h(role.name), role_path(role)
   %td

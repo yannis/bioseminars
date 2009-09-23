@@ -2,5 +2,7 @@
 %h2
   = @title
 %table
-  = render 'table_head'
-  = render @seminar
+  %thead
+    = render 'table_head'
+  %tbody
+    = render @seminar

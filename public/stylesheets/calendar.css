@@ -1,21 +1,40 @@
+/* !darkgreen = #007E64 */
+/* !verydarkgreen = !darkgreen - #222222 */
+/* !lightgreen = #E5F3E5 */
+
 table.calendar {
   margin: 1em auto 0 auto; }
   table.calendar thead tr th {
     background-color: transparent; }
+  table.calendar tr.dayName th:first-child {
+    -moz-border-radius: .5em 0 0 .5em;
+    -webkit-border-radius: 0;
+    -webkit-border-top-left-radius: .5em;
+    -webkit-border-bottom-left-radius: .5em;
+    border-radius: .5em 0 0 0; }
+  table.calendar tr.dayName th:last-child {
+    -moz-border-radius: 0 .5em .5em 0;
+    -webkit-border-radius: 0;
+    -webkit-border-top-right-radius: .5em;
+    -webkit-border-bottom-right-radius: .5em;
+    border-radius: 0 .5em .5em 0; }
   table.calendar td, table.calendar th {
     width: 14.25%;
     height: 8em;
     text-align: center; }
-    table.calendar td a,     table.calendar th a {
-      color: #005c42;
+    table.calendar td a, table.calendar th a {
+      color: #003a20;
       text-decoration: none; }
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay, table.calendar td.specialDay {
     border: 1px dotted;
-    border-color: #005c42; }
-  table.calendar .monthName {
     color: #005c42;
+    border-color: #003a20; }
+    table.calendar td.normalDay .day_number, table.calendar td.specialDay .day_number {
+      font-weight: bold; }
+  table.calendar .monthName {
+    color: #003a20;
     font-weight: bold;
     padding-top: 1em;
     padding-bottom: 0.7em; }
@@ -23,41 +42,38 @@ table.calendar {
     font-size: 1em;
     padding-top: 0.6em;
     padding-bottom: 0.3em;
-    background-color: #005c42;
+    background-color: #007e64;
     color: white; }
   table.calendar .otherMonth {
     padding: 0.7em 1em;
-    color: #e5f3e5; }
+    color: #f7f2e5; }
+  table.calendar .otherMonth.weekendDay {
+    color: #ccffcc; }
   table.calendar .day {
     padding: 0.7em 1em;
     border-right: 1px solid white;
     text-align: center;
     border-bottom: 1px dotted #bbbbbb; }
-  table.calendar .specialDay {
-    color: #007e64;
-    font-weight: bold; }
-    table.calendar .specialDay ul {
-      list-style-type: none;
-      text-align: left;
-      padding: 0;
-      margin: 0;
-      text-indent: 0; }
-    table.calendar .specialDay a {
-      color: #007e64;
-      text-decoration: none;
-      font-weight: normal; }
-      table.calendar .specialDay a:visited {
-        color: #007e64;
-        text-decoration: none; }
+  table.calendar .specialDay ul {
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    text-indent: 0; }
+    table.calendar .specialDay ul li a {
+      font-family: Helvetica, Arial, Sans-Serif; }
+  table.calendar .specialDay a {
+    color: #005c42;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: .9em; }
+    table.calendar .specialDay a:visited {
+      color: #005c42;
+      text-decoration: none; }
   table.calendar .weekendDay {
-    background-color: #e5f3e5; }
+    background-color: #ccffcc; }
   table.calendar .today {
-    background-color: #1e90ff;
-    color: white; }
-    table.calendar .today a {
-      color: white; }
-      table.calendar .today a:visited {
-        color: white; }
+    background-color: #ffff88; }
   table.calendar .day_number {
     display: block;
     text-align: right; }

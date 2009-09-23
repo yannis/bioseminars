@@ -52,8 +52,8 @@ class SeminarsControllerTest < ActionController::TestCase
         should_render_without_layout
         should_render_template 'index.rss'
 
-        should "assigns to 2 seminars" do
-          assert_equal assigns(:seminars).size, 2
+        should "assigns to 1 seminars" do #A future seminar
+          assert_equal assigns(:seminars).size, 1
         end
       end
       
@@ -66,8 +66,8 @@ class SeminarsControllerTest < ActionController::TestCase
         should_respond_with :success
         should_render_without_layout
 
-        should "assigns to 2 seminars" do
-          assert_equal assigns(:seminars).size, 2
+        should "assigns to 1 seminars" do #A future seminar
+          assert_equal assigns(:seminars).size, 1
         end
       end
       

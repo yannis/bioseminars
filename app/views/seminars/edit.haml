@@ -1,7 +1,9 @@
 - @title ||= "Edit seminar “#{@seminar.title}”"
-%h2
-  = @title
-= error_messages_for :seminar
-- form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :class => 'with_blocks'} do |f|
-  = render :partial => 'form', :locals => {:f => f}
-  = submit_tag 'Update'
+.grid_8.prefix_2.suffix_2
+  = error_messages_for :seminar
+  - form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :class => 'with_blocks'} do |f|
+    %fieldset
+      %legend
+        = @title
+      = render :partial => 'form', :locals => {:f => f}
+      = update_button

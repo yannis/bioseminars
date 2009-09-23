@@ -3,21 +3,9 @@ module SeminarsHelper
     day_number = "<span class='day_number'>#{d.mday}</span>"
     if @days_with_seminars.include?(d)          # (days that are in the array listOfSpecialDays) one CSS class,
       sem = [day_number]
-      sem << "<ul id='#{d.to_s}_seminars'>"
+      sem << "<ul id='seminars_#{d.to_s}'>"
       for s in Seminar.of_day(d)
-        sem << '<li>'
-        sem << link_to( h(s.time_and_category), seminar_path(s), {:style => "color: #{'#'+s.color}", :onmouseover => "new Tip(this, 'kjdjhkdkj', {
-          style: 'protoblue', 
-          stem: 'bottomLeft',
-          hook: { tip: 'bottomLeft', mouse: true },
-          ajax: {
-            url: '#{seminar_path(s)}',
-            options: {
-              method: 'get'
-            }
-          }
-        }); return false;"})
-        sem << '</li>'
+        sem << render(:partial => 'seminars/seminar_for_calendar', :locals => {:seminar => s})
       end
       sem << "</ul>"
       [sem.join, {:class => "specialDay"}]      # "specialDay", and gives the rest of the days another CSS class,

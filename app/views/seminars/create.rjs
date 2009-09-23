@@ -3,19 +3,15 @@ page << "if ($('#{params[:controller]}_div')) {remove_div_and_restablish_opacity
 
 if flash[:warning].blank?
   page << "var td = $('#{@origin}');"
-  page << "var semi = new Element('li').update('#{link_to(@seminar.time_and_category, seminar_path(@seminar))}');"
-  page << "if ($('#{@origin}_seminars')) {
-    var list = $('#{@origin}_seminars');
-    list.insert(semi);
+  page << "if ($('#{@origin.gsub('date_', 'seminars_')}')) {
+    var list = $('#{@origin.gsub('date_', 'seminars_')}');
   } else {
     var list = new Element('ul');
-    list.setAttribute('id', '#{@origin}_seminars');
-    list.setAttribute('style', 'list-style-type: none');
-    list.update(semi);
+    list.setAttribute('id', '#{@origin.gsub('date_', 'seminars_')}');
+    list.setAttribute('style', 'list-style-type: none; font-size: 0.9em; text-align: left; padding: 0; margin: 0');
     td.insert(list);
   };"
-  # # page << "if ($$('##{@origin} ul').length != 0) {var list = $$('##{@origin} ul')[0]; } else {
-  # page << "var list = new Element('ul'); list.update(semi); };"
-  page << "new Effect.Highlight('#{@origin}', {duration: 5});"
+  page.insert_html :bottom, @origin.gsub('date_', 'seminars_'), :partial => 'seminars/seminar_for_calendar', :locals => {:seminar => @seminar}
+  page << "new Effect.Highlight('#{@origin}', {duration: 5, startcolor: '#007E64', endcolor: '#f7f2e5'});"
 end
 flash.discard

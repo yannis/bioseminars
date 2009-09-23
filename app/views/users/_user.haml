@@ -1,4 +1,4 @@
-%tr[user]
+%tr[user]{:class => cycle('', 'odd')}
   %td
     = link_to_unless_current h(user.name), user_path(user)
   %td=h user.email

@@ -56,7 +56,7 @@ class Seminar < ActiveRecord::Base
     elsif datetime.to_date == Date.today
       human_date = "Today"
     else
-      human_date = datetime.to_date.to_s(:day_month_year)
+      human_date = datetime.to_date.to_s(:dotted_day_month_year)
     end
   end
   
@@ -111,11 +111,11 @@ class Seminar < ActiveRecord::Base
     time_and_category = []
     time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
     if category
-      time_and_category << category.acronym ? category.acronym : category.name
+      time_and_category << (category.acronym.blank? ? category.name : category.acronym)
     else
       time_and_category << title[0..15]
     end
-    return time_and_category.join(": ")
+    return time_and_category.join(" ")
   end
   
   def time_location_and_category

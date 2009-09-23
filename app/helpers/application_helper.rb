@@ -12,6 +12,18 @@ module ApplicationHelper
     content_for(:onload){ content }
   end
   
+  def update_button
+    "<span class='button inline_in_form'>"+submit_tag('Update', :class => "confirm button") + ' or ' + link_to('cancel', back_path)+"</span>"
+  end
+  
+  def create_button(text=nil)
+    "<span class='button inline_in_form'>"+submit_tag(text || 'Create', :class => "confirm button") + ' or ' + link_to('cancel', back_path)+"</span>"
+  end
+
+  def destroy_button
+    "<span class='button inline_in_form'>"+submit_tag('Destroy', :class => "confirm button") + ' or ' + link_to('cancel', back_path)+"</span>"
+  end
+  
   def controllers_and_actions
     navigation = {}
     # navigation[:orders] = {:main_menu => {:text => "orders", :path => orders_path}, :sub_menus => [{:text => "new", :path => new_order_path}], :highlight_in_controller => ["orders"]}

@@ -1,4 +1,4 @@
-%tr[category]
+%tr[category]{:class => cycle('', 'odd')}
   %td
     - unless category.color.blank?
       %span.color{:style => "background-color: ##{category.color}"}

@@ -43,9 +43,9 @@ protected
   # Track failed login attempts
   def note_failed_signin
     #modified by YJ to wor with email 3.6.2009
-    # flash[:error] = "Couldn't log you in as '#{params[:login]}'"
+    # flash[:warning] = "Couldn't log you in as '#{params[:login]}'"
     # logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
-    flash[:error] = "Couldn't log you in as '#{params[:email]}'"
+    flash[:warning] = "Couldn't log you in as '#{params[:email]}'"
     logger.warn "Failed login for '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 end

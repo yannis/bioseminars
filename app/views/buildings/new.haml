@@ -1,6 +1,9 @@
 - @title ||= 'New building'
-%h2
-  = @title
-- form_for @building, :html => {:class => 'with_blocks'} do |f|
-  = render :partial => 'form', :locals => {:f => f}
-  = f.submit "Create"
+.grid_4.prefix_4.suffix_4
+  = error_messages_for :user
+  - form_for @building, :url => buildings_path, :html => {:class => 'with_blocks'} do |f|
+    %fieldset
+      %legend
+        = @title
+      = render :partial => 'form', :locals => {:f => f}
+      = create_button

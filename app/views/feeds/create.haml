@@ -15,11 +15,11 @@
 %p
   = link_to @iframe, @iframe
 %h3 Embed code
-.grid_12
-  .grid_8
+.container_12
+  .grid_7
     %object{:type => "text/html", :data => @iframe, :style => "width:500px;height:600px;"}
       %p Calendar not loading...
-  .grid_4
+  .grid_5
     %textarea{:style => ''}
       = "<object type='text/html' style='width: 500px; height: 600px;' data='http://localhost:3000/seminars.iframe?categories=2+3+4'><p>Calendar not loading...</p></object>"
 .clear

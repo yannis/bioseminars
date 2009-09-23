@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.forgot_password '/forgot_password', :controller => 'users', :action => 'forgot_password'
   map.reset_password '/reset_password/:reset_code', :controller => 'users', :action => 'reset_password', :reset_code => nil
+  map.back '/back', :controller => 'seminars', :action => 'back'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

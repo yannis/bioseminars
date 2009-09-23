@@ -11,6 +11,6 @@
     #content
       - if flash[:notice]
         %p.notice= flash[:notice]
-      - elsif flash[:error]
-        %p.error= flash[:error]
+      - elsif flash[:warning]
+        %p.error= flash[:warning]
       = yield
