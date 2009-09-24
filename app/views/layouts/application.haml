@@ -47,11 +47,13 @@
       #footer.grid_12
         .container_12
           .grid_3.one
-            = image_tag 'fac_sciences_pant.png', :id => 'logo_fac'
+            = link_to(image_tag('fac_sciences_pant.png', :id => 'logo_fac'), 'http://www.unige.ch/sciences')
           #footer_box.grid_9
             %ul
               %li
-                © University of Geneva 2009
+                &copy;
+                = link_to 'University of Geneva', 'http://www.unige.ch'
+                2009
               %li
                 = link_to 'RSS', seminars_path(:format => 'rss'), :id => 'rss_feed_link'
               %li

@@ -4,7 +4,7 @@ module SeminarsHelper
     if @days_with_seminars.include?(d)          # (days that are in the array listOfSpecialDays) one CSS class,
       sem = [day_number]
       sem << "<ul id='seminars_#{d.to_s}'>"
-      for s in Seminar.of_day(d)
+      for s in @seminars.of_day(d)
         sem << render(:partial => 'seminars/seminar_for_calendar', :locals => {:seminar => s})
       end
       sem << "</ul>"

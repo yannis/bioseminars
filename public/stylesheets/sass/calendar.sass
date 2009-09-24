@@ -3,6 +3,8 @@
 
 table.calendar
   :margin 1em auto 0 auto
+  tr:first-child th
+    :vertical-align bottom
   thead tr th
     :background-color transparent
   tr.dayName 
@@ -36,8 +38,7 @@ table.calendar
   .monthName
     :color = !verydarkgreen
     :font-weight bold
-    :padding-top 1em
-    :padding-bottom 0.7em
+    :font-size 145%
   .dayName th
     :font-size 1em
     :padding-top 0.6em

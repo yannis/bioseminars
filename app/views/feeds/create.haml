@@ -1,6 +1,5 @@
 - @title ||= 'Your feeds'
-%h2
-  = @title
+%h2= @title
 %h3 RSS feed
 %p
   = link_to @rss_feed, @rss_feed, :id => 'rss_feed'
@@ -11,15 +10,18 @@
 %h3 XML feed
 %p
   = link_to @xml_feed, @xml_feed
-%h3 Calendar for iFrame
-%p
-  = link_to @iframe, @iframe
-%h3 Embed code
+%h3 Integrate a calendar in your website
 .container_12
   .grid_7
+    %h4
+      Resulting mini-calendar
     %object{:type => "text/html", :data => @iframe, :style => "width:500px;height:600px;"}
       %p Calendar not loading...
   .grid_5
-    %textarea{:style => ''}
-      = "<object type='text/html' style='width: 500px; height: 600px;' data='http://localhost:3000/seminars.iframe?categories=2+3+4'><p>Calendar not loading...</p></object>"
+    %h4
+      Embed code
+    %textarea{:style => 'height: 8em'}
+      = "<object type='text/html' style='width: 500px; height: 600px;' data='#{@iframe}'><p>Your calendar cannot be loaded. See all the different seminars <a href='http://bioseminars.unige.ch'>here</a></p></object>"
+    Link to calendar (for iFrame):
+    = link_to(@iframe, @iframe)
 .clear
