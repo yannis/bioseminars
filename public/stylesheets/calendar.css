@@ -3,9 +3,9 @@
 /* !lightgreen = #E5F3E5 */
 
 table.calendar {
-  margin: 1em auto 0 auto; }
+  margin: 0 auto; }
   table.calendar tr:first-child th {
-    vertical-align: bottom; }
+    vertical-align: middle; }
   table.calendar thead tr th {
     background-color: transparent; }
   table.calendar tr.dayName th:first-child {
