@@ -61,6 +61,8 @@ form {
       width: 10em; }
   form .button {
     margin: 1em 0 0 0; }
+  form #speakers input[type=text], form #hosts input[type=text] {
+    width: 15em; }
   form #speakers label, form #hosts label {
     font-weight: normal; }
   form label[for='seminar_all_day'] {
@@ -277,13 +279,6 @@ table {
           background: transparent; }
       #navigation ul li.secondary span.status span {
         text-transform: capitalize; }
-    #navigation ul li.secondary span#pending_order_link {
-      float: none;
-      width: auto;
-      padding: 0;
-      line-height: 2.77em;
-      height: 2.77em;
-      font-size: 0.9em; }
   #navigation ul ul li {
     background-color: #005c42; }
     #navigation ul ul li ul {

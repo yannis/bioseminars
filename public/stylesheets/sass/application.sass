@@ -58,6 +58,8 @@ form
   .button
     :margin 1em 0 0 0
   #speakers, #hosts
+    input[type=text]
+      :width 15em
     label
       :font-weight normal
   label[for='seminar_all_day']
@@ -279,16 +281,8 @@ table
           &:hover
             :color #fff
             :background transparent
-
         span
           :text-transform capitalize
-      span#pending_order_link
-        :float none
-        :width auto
-        :padding 0
-        :line-height 2.77em
-        :height 2.77em
-        :font-size 0.9em
     ul
       li
         :background-color = !darkgreen
