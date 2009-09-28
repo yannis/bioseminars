@@ -21,18 +21,18 @@
 %span#seminar_start_on.inline_in_form
   = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
   = f.date_select(:start_on)
-  %span#start_on_time
+  %span#start_on_time{:style => @seminar.all_day? ? 'display: none' : ''}
     = '—'+f.time_select(:start_on, :ignore_date => true, :minute_step => 5)
   = link_to_function("Now", "set_now('seminar_start_on')")
   = f.label :all_day, "All day?"
-  = check_box_tag 'seminar[all_day]'
+  = f.check_box :all_day
   = observe_field :seminar_all_day, :function => "all_day('start_on_time'); all_day('end_on_time');"
 
 = f.label :end_on, "End on (if blank, duration will default to 1 hour)"
 %span#seminar_end_on.inline_in_form
   = error_message_on "seminar", "end_on", :prepend_text => "End ", :append_text => "!", :css_class => "input_error"
   = f.date_select :end_on, :include_blank => true
-  %span#end_on_time
+  %span#end_on_time{:style => @seminar.all_day? ? 'display: none' : ''}
     = '—'+f.time_select(:end_on, :include_blank => true, :ignore_date => true, :minute_step => 5)
   = link_to_function("Copy start time", "copy_datetime('seminar_end_on', 'seminar_start_on')")
   = link_to_function("Discard", "set_datetime_blank('seminar_end_on')")
@@ -43,6 +43,10 @@
   = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name, @seminar.location ? @seminar.location.id : nil)
   %optgroup{:label => 'undetermined'}
     = options_from_collection_for_select(Location.without_building, :id, :name, @seminar.location ? @seminar.location.id : nil)
+%span#seminar_internal.inline_in_form
+  = f.check_box :internal
+  = f.label :internal, 'Internal (an internal seminar will not be shown on calendar)'
+  = error_message_on "seminar", "internal", :prepend_text => "Internal ", :append_text => "!", :css_class => "input_error"
 
 = f.label :description
 = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"

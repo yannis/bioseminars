@@ -69,7 +69,7 @@ class SeminarTest < ActiveSupport::TestCase
       end
       
       should 'have time_and_title == "12:00 - a nice seminar title"' do
-        assert_equal @seminar.time_and_title, '12:00 - a nice seminar title'
+        assert_equal @seminar.start_time_and_title, '12:00 - a nice seminar title'
       end
       
       should 'have time_and_category == "12:00: LSSS"' do
@@ -130,31 +130,37 @@ class SeminarTest < ActiveSupport::TestCase
         end
       end
       
-      context "when start_on == 2009-01-01 00:00 and end_on == 2009-01-05 23:59" do
+      context "when :all_day => true" do
         setup do
-          @seminar.update_attributes(:start_on => Time.parse("2009-01-01 00:00:00"), :end_on => Time.parse("2009-01-05 23:59:00"))
+          @seminar.update_attributes(:all_day => true)
         end
 
         should 'have when_and_where == "2009-01-01 - 2009-01-05 - 4059 (ScIII)"' do
-          assert_equal @seminar.when_and_where, '2009-01-01 - 2009-01-05 - 4059 (ScIII)'
+          assert_equal @seminar.when_and_where, 'Today - 4059 (ScIII)'
         end
         
         should 'have schedule == "2009-01-01 - 2009-01-05"' do
-          assert_equal @seminar.schedule, "2009-01-01 - 2009-01-05"
+          assert_equal @seminar.schedule, "Today"
+        end
+      end
+      
+      context "when :all_day => true and :end_on == 2.days.since" do
+        setup do
+          @seminar.update_attributes(:all_day => true, :end_on => 2.days.since)
+        end
+
+        should 'have when_and_where == "2009-01-01 - 2009-01-05 - 4059 (ScIII)"' do
+          assert_equal @seminar.when_and_where, "Today - #{2.days.since.to_date.to_s(:db)} - 4059 (ScIII)"
+        end
+        
+        should 'have schedule == "2009-01-01 - 2009-01-05"' do
+          assert_equal @seminar.schedule, "Today - #{2.days.since.to_date.to_s(:db)}"
         end
       end
     
       context "when updated to set time to all-day" do
         setup do
-          @seminar.update_attributes(:all_day => '1')
-        end
-    
-        should 'have start_on == start_on.beginning_of_day' do
-          assert_equal @seminar.start_on, @seminar.start_on.beginning_of_day
-        end
-    
-        should 'have end_on  == end_on.end_of_day' do
-          assert_equal @seminar.end_on, @seminar.end_on.end_of_day
+          @seminar.update_attributes(:all_day => true)
         end
 
         should 'have when_and_where == "Today - 4059 (ScIII)"' do
@@ -177,6 +183,15 @@ class SeminarTest < ActiveSupport::TestCase
         
         should_change("the number of speakers", :by => -1) { Speaker.count }
         should_change("the number of hosts", :by => -1) { Host.count }
+      end
+      
+      context 'when @seminar is internal' do
+        setup do
+          @seminar.update_attributes(:internal => true)
+        end
+        should 'have time_and_category == "12:00 LSSS <span class=redstar>*</span>"' do
+          assert_equal @seminar.time_and_category, "12:00 LSSS <span class='redstar'>*</span>"
+        end
       end
     end
   end

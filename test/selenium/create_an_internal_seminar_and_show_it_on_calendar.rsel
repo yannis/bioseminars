@@ -1,0 +1,19 @@
+setup :fixtures => :all
+current_date_to_string = Date.current.to_s(:db)
+
+delete_cookie 'display_int_seminar', '/'
+include_partial 'login'
+click "new_seminar_date_#{current_date_to_string}"
+wait_for_element_present "seminars_div"
+type "seminar_title", "anInternalSeminar"
+type "css=.speaker_name", "aSpeaker"
+type "css=.speaker_affiliation", "anAffiliation"
+type "css=.host_name", "anHost"
+type "css=.host_email", "anEmail@unige.ch"
+select "seminar_start_on_4i", "label=14"
+click "//input[@id='seminar_internal']"
+click "//select[@id='seminar_location_id']/optgroup[1]/option[1]"
+click "commit"
+wait_for_element_present "css=.Growler-notice"
+click "//input[@id='internal']"
+wait_for_element_present "link=exact:14:00 ThisIsACategoryName *"

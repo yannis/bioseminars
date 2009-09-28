@@ -1,6 +1,9 @@
 %p
   by
   = @seminar.speakers.map{|s| "<strong>#{h(s.name)}</strong> (#{h(s.affiliation)})"}.join(', ')
+- if @seminar.internal?
+  %p.alert_internal
+    This seminar is not public
 %p
   = @seminar.when_and_where
 - unless @seminar.hosts.empty?

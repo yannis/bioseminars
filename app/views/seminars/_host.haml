@@ -2,17 +2,17 @@
   - fields_for "seminar[hosts_attributes][#{host.object_id}]" do |fs|
     .inline_in_form{:id => "host_#{host.object_id}"}
       = fs.label :name
-      = fs.text_field :name
+      = fs.text_field :name, :class => 'host_name'
       = fs.label :email
-      = fs.text_field :email, :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
+      = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
       = link_to_function 'Remove', "$('host_#{host.object_id}').remove()"
 - else
   - fields_for "seminar[hosts_attributes][#{host.id}]", host do |fs|
     .inline_in_form
       = fs.hidden_field :id
       = fs.label :name
-      = fs.text_field :name
+      = fs.text_field :name, :class => 'host_name'
       = fs.label :email
-      = fs.text_field :email, :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
+      = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
       = fs.check_box '_delete'
       = fs.label '_delete', 'Remove'

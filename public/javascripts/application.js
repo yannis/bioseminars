@@ -1,8 +1,30 @@
-function calculate_total_price(form_id) {
-  var total_price = 0;
-  $$('.price').each(function(item){total_price =+ parseFloat(item.value)});
-  $('order_price').value = total_price;
+// Cookies (http://www.quirksmode.org/js/cookies.html)
+
+function createCookie(name,value,days) {
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  } else var expires = "";
+  document.cookie = name+"="+encodeURIComponent(value)+expires+"; path=/";
 }
+
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+function eraseCookie(name) {
+  createCookie(name,"",-1);
+}
+
+//#########
 
 function set_datetime_blank(target_id) {
   var datetime_array = ['1i', '2i', '3i', '4i', '5i'];
@@ -30,7 +52,7 @@ function set_time_to_zero(target_id) {
 function all_day(target_id) {
   if ($('seminar_all_day').checked==true) {
     $(target_id).hide();
-    set_time_to_zero(target_id);
+    // set_time_to_zero(target_id);
     // able_or_disable_datetime_select(target_id, '');
     // set_datetime_blank(target_id);
   } else {
@@ -196,4 +218,16 @@ function copy(text) {
   if (window.clipboardData) {
     window.clipboardData.setData("Text",text);
   }
+}
+
+function show_internal_seminars(value) {
+  var semi_lis = $$('.seminar.internal');
+  semi_lis.each(function(li) {
+    if (value == 'true' && li.getStyle('display') != 'block') {
+      li.setStyle('display: block');
+    } else if (li.getStyle('display') != 'none') {
+      li.setStyle('display: none');
+    }
+  });
+  createCookie('display_int_seminar', value, 365);
 }

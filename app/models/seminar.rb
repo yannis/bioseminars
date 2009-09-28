@@ -23,12 +23,16 @@ class Seminar < ActiveRecord::Base
     end
   }
   named_scope :of_categories, lambda{|categories| {:conditions => ["seminars.category_id IN (?)", categories.map{|c| c.id}]}}
+  named_scope :internal, lambda{|internal|
+    if internal == false
+      {:conditions => ["seminars.internal = ?", internal]}
+    end
+  }
+  named_scope :all_day_first, :order => "all_day DESC, seminars.start_on ASC"
   
-  before_validation :set_end_on, :set_times_if_all_day
+  before_validation :set_end_on
   after_save :check_presence_of_host_and_speaker
   before_destroy :destroy_speakers_and_hosts
-
-  attr_accessor :all_day
   
   # def start_humanized_date
   #   if start_on
@@ -64,22 +68,26 @@ class Seminar < ActiveRecord::Base
     datetime.to_s(:time_only)
   end
   
+  def start_time
+    all_day? ? nil : human_time(start_on)
+  end
+  
   def schedule
     if end_on.blank?
-      if human_time(start_on) == "00:00"
+      if all_day?
         schedule = human_date(start_on)
       else
         schedule = human_date(start_on) + ', ' + human_time(start_on)
       end
     else
       if start_on.to_date == end_on.to_date
-        if human_time(start_on) == "00:00" and human_time(end_on) == "23:59"
+        if all_day?
           schedule = human_date(start_on)
         else
           schedule = human_date(start_on) + ', ' + human_time(start_on) + "-" + human_time(end_on)
         end
       else
-        if human_time(start_on) == "00:00" and human_time(end_on) == "23:59"
+        if all_day?
           schedule =  human_date(start_on) + " - " + human_date(end_on)
         else
           schedule = "#{human_date(start_on)}, #{human_time(start_on)} - #{human_date(end_on)}, #{human_time(end_on)}"
@@ -100,27 +108,28 @@ class Seminar < ActiveRecord::Base
     return when_and_where.join(" - ")
   end
   
-  def time_and_title
+  def start_time_and_title
     time_and_title = []
-    time_and_title << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
+    time_and_title << start_time unless start_time.nil?
     time_and_title << title
     return time_and_title.join(" - ")
   end
   
   def time_and_category
     time_and_category = []
-    time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
+    time_and_category << start_time unless start_time.nil?
     if category
       time_and_category << (category.acronym.blank? ? category.name : category.acronym)
     else
       time_and_category << title[0..15]
     end
+    time_and_category << "<span class='redstar'>*</span>" if internal?
     return time_and_category.join(" ")
   end
   
   def time_location_and_category
     time_and_category = []
-    time_and_category << start_on.to_s(:time_only) unless start_on.to_s(:time_only) == "00:00"
+    time_and_category << start_time unless start_time.nil?
     time_and_category << location.name_and_building unless location.blank?
     if category
       time_and_category << category.acronym ? category.acronym : category.name
@@ -160,11 +169,6 @@ class Seminar < ActiveRecord::Base
   
   def set_end_on
     self.end_on = (self.start_on+1.hour) if self.end_on.blank? and !self.start_on.blank?
-  end
-  
-  def set_times_if_all_day
-    self.start_on = self.start_on.beginning_of_day if self.all_day == '1' 
-    self.end_on = self.end_on.end_of_day if self.all_day == '1' 
   end
   
   def check_presence_of_host_and_speaker

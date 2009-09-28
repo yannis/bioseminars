@@ -70,11 +70,13 @@ form
       :margin 1em 0 0 0
       :list-style none
       :list-style-position outside
-      
+form#show_internal_seminars
+  :margin 1em 0 0 0
+input[type=checkbox]
+  :top 0
 
 #content
   h2
-    :padding .5em
     :text-align left
   section
     :padding 1em
@@ -334,3 +336,19 @@ table
   :margin 0.2em 0.5em 0 0
   :width 1em
   :height 1em
+.redstar
+  :font-family "Lucida Grande", arial, helvetica ,sans-serif
+  :color = !red
+  :font-size 218%
+  :vertical-align bottom
+.seminar
+  :margin-top 3em
+  .time_and_location
+    :font-weight bold
+    :color = !orange
+  .admin_links
+    :text-align right
+.alert_internal
+  :color = !red
+  :text-align center
+  :font-size 145%

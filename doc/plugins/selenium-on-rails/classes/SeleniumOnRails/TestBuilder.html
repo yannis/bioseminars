@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: SeleniumOnRails::TestBuilder</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">SeleniumOnRails::TestBuilder</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder_rb.html">
+                vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Builds Selenium test <a href="TestBuilder.html#M000157">table</a> using a
+high-level Ruby interface. Normally invoked through <a
+href="RSelenese.html">SeleniumOnRails::RSelenese</a>.
+</p>
+<p>
+See <a
+href="TestBuilderActions.html">SeleniumOnRails::TestBuilderActions</a> for
+the available actions and <a
+href="TestBuilderAccessors.html">SeleniumOnRails::TestBuilderAccessors</a>
+for the available checks.
+</p>
+<p>
+For more information on the commands supported by <a
+href="TestBuilder.html">TestBuilder</a>, see the Selenium Commands
+Documentation at <a
+href="http://release.openqa.org/selenium-core/nightly/reference.html">release.openqa.org/selenium-core/nightly/reference.html</a>.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000163">collection_arg</a>&nbsp;&nbsp;
+      <a href="#M000158">command</a>&nbsp;&nbsp;
+      <a href="#M000160">command_and_wait</a>&nbsp;&nbsp;
+      <a href="#M000159">command_verbatim</a>&nbsp;&nbsp;
+      <a href="#M000155">exactize</a>&nbsp;&nbsp;
+      <a href="#M000161">make_command_waiting</a>&nbsp;&nbsp;
+      <a href="#M000156">new</a>&nbsp;&nbsp;
+      <a href="#M000154">selenize</a>&nbsp;&nbsp;
+      <a href="#M000157">table</a>&nbsp;&nbsp;
+      <a href="#M000162">url_arg</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="TestBuilderActions.html">SeleniumOnRails::TestBuilderActions</a></span>
+        <span class="include-name"><a href="TestBuilderAccessors.html">SeleniumOnRails::TestBuilderAccessors</a></span>
+        <span class="include-name"><a href="TestBuilderUserActions.html">SeleniumOnRails::TestBuilderUserActions</a></span>
+        <span class="include-name"><a href="TestBuilderUserAccessors.html">SeleniumOnRails::TestBuilderUserAccessors</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000156" class="method-detail">
+        <a name="M000156"></a>
+
+        <div class="method-heading">
+          <a href="#M000156" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(view)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a <a href="TestBuilder.html#M000156">new</a> <a
+href="TestBuilder.html">TestBuilder</a> for <em>view</em>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000156-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000156-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 50</span>
+50:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">view</span>
+51:     <span class="ruby-ivar">@view</span> = <span class="ruby-identifier">view</span>
+52:     <span class="ruby-ivar">@output</span> = <span class="ruby-value str">''</span>
+53:     <span class="ruby-ivar">@xml</span> = <span class="ruby-constant">Builder</span><span class="ruby-operator">::</span><span class="ruby-constant">XmlMarkup</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">:indent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@output</span>
+54:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000154" class="method-detail">
+        <a name="M000154"></a>
+
+        <div class="method-heading">
+          <a href="#M000154" class="method-signature">
+          <span class="method-name">selenize</span><span class="method-args">(str)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Convert <em>str</em> to a Selenium <a
+href="TestBuilder.html#M000158">command</a> name.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000154-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000154-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 39</span>
+39:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">selenize</span> <span class="ruby-identifier">str</span>
+40:     <span class="ruby-identifier">str</span>.<span class="ruby-identifier">camelize</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/^[A-Z]/</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">downcase</span> }
+41:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000158" class="method-detail">
+        <a name="M000158"></a>
+
+        <div class="method-heading">
+          <a href="#M000158" class="method-signature">
+          <span class="method-name">command</span><span class="method-args">(cmd, target=nil, value=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add a <a href="TestBuilder.html#M000156">new</a> test <a
+href="TestBuilder.html#M000158">command</a> using <em>cmd</em>,
+<em>target</em> and <em>value</em>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000158-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000158-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 65</span>
+65:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">command</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">target</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">value</span>=<span class="ruby-keyword kw">nil</span>
+66:     <span class="ruby-ivar">@xml</span>.<span class="ruby-identifier">tr</span> <span class="ruby-keyword kw">do</span>
+67:       <span class="ruby-identifier">_tdata</span> <span class="ruby-identifier">cmd</span>
+68:       <span class="ruby-identifier">_tdata</span> <span class="ruby-identifier">target</span>
+69:       <span class="ruby-identifier">_tdata</span> <span class="ruby-identifier">value</span>
+70:     <span class="ruby-keyword kw">end</span>
+71:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000160" class="method-detail">
+        <a name="M000160"></a>
+
+        <div class="method-heading">
+          <a href="#M000160" class="method-signature">
+          <span class="method-name">command_and_wait</span><span class="method-args">(cmd, target=nil, value=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as <em><a href="TestBuilder.html#M000158">command</a></em> but add
+<em>AndWait</em> to the name of <em>cmd</em>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000160-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000160-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 76</span>
+76:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">command_and_wait</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">target</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">value</span>=<span class="ruby-keyword kw">nil</span>
+77:     <span class="ruby-identifier">command_verbatim</span> <span class="ruby-identifier">cmd</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'AndWait'</span>, <span class="ruby-identifier">target</span>, <span class="ruby-identifier">value</span>
+78:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000159" class="method-detail">
+        <a name="M000159"></a>
+
+        <div class="method-heading">
+          <span class="method-name">command_verbatim</span><span class="method-args">(cmd, target=nil, value=nil)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="TestBuilder.html#M000158">command</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000155" class="method-detail">
+        <a name="M000155"></a>
+
+        <div class="method-heading">
+          <a href="#M000155" class="method-signature">
+          <span class="method-name">exactize</span><span class="method-args">(pattern)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Prepends <em>pattern</em> with &#8216;exact:&#8217; if it would be
+considered containing string-match pattern otherwise.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000155-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000155-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 45</span>
+45:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exactize</span> <span class="ruby-identifier">pattern</span>
+46:     <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value str">':'</span>) <span class="ruby-operator">?</span> <span class="ruby-node">&quot;exact:#{pattern}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">pattern</span>
+47:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000161" class="method-detail">
+        <a name="M000161"></a>
+
+        <div class="method-heading">
+          <a href="#M000161" class="method-signature">
+          <span class="method-name">make_command_waiting</span><span class="method-args">() {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Re routes commands in the provided block to <a
+href="TestBuilder.html#M000160">command_and_wait</a> instead of <a
+href="TestBuilder.html#M000158">command</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000161-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000161-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 82</span>
+82:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make_command_waiting</span>
+83:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">:alias_method</span>, <span class="ruby-identifier">:command</span>, <span class="ruby-identifier">:command_and_wait</span>
+84:     <span class="ruby-keyword kw">yield</span>
+85:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">:alias_method</span>, <span class="ruby-identifier">:command</span>, <span class="ruby-identifier">:command_verbatim</span> 
+86:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000157" class="method-detail">
+        <a name="M000157"></a>
+
+        <div class="method-heading">
+          <a href="#M000157" class="method-signature">
+          <span class="method-name">table</span><span class="method-args">(title) {|self| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add a <a href="TestBuilder.html#M000156">new</a> <a
+href="TestBuilder.html#M000157">table</a> of tests, and return the HTML.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000157-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000157-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 57</span>
+57:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">table</span> <span class="ruby-identifier">title</span>
+58:     <span class="ruby-ivar">@xml</span>.<span class="ruby-identifier">table</span> <span class="ruby-keyword kw">do</span>
+59:       <span class="ruby-ivar">@xml</span>.<span class="ruby-identifier">tr</span> <span class="ruby-keyword kw">do</span> <span class="ruby-ivar">@xml</span>.<span class="ruby-identifier">th</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">:colspan</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>) <span class="ruby-keyword kw">end</span>
+60:       <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
+61:     <span class="ruby-keyword kw">end</span>
+62:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000163" class="method-detail">
+        <a name="M000163"></a>
+
+        <div class="method-heading">
+          <a href="#M000163" class="method-signature">
+          <span class="method-name">collection_arg</span><span class="method-args">(arg)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+If <em>arg</em> is an array formats <em>arg</em> to a textual
+representation. Otherwise return unchanged.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000163-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000163-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 98</span>
+ 98:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">collection_arg</span> <span class="ruby-identifier">arg</span>
+ 99:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
+100:       <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/[\\,]/</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\\#{s}&quot;</span> } }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">','</span>)
+101:     <span class="ruby-keyword kw">else</span>
+102:       <span class="ruby-identifier">arg</span>
+103:     <span class="ruby-keyword kw">end</span>
+104:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000162" class="method-detail">
+        <a name="M000162"></a>
+
+        <div class="method-heading">
+          <a href="#M000162" class="method-signature">
+          <span class="method-name">url_arg</span><span class="method-args">(url)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+If <em>url</em> is a string, return unchanged. Otherwise, pass it to
+ActionView#UrlHelper#url_for.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000162-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000162-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/selenium-on-rails/lib/selenium_on_rails/test_builder.rb, line 92</span>
+92:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">url_arg</span> <span class="ruby-identifier">url</span>
+93:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">url</span>.<span class="ruby-identifier">instance_of?</span>(<span class="ruby-constant">String</span>) <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">url</span> <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">exactize</span>(<span class="ruby-ivar">@view</span>.<span class="ruby-identifier">url_for</span>(<span class="ruby-identifier">url</span>)) <span class="ruby-keyword kw">end</span>
+94:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

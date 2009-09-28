@@ -8,7 +8,8 @@ class SeminarsController < ApplicationController
   def index
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
-    @seminars = @categories.nil? ? Seminar.of_month(@date) : Seminar.of_categories(@categories).of_month(@date)
+    @internal = params[:internal] == 'true' ? true : false
+    @seminars = @categories.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories).all_day_first
     @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
@@ -40,6 +41,9 @@ class SeminarsController < ApplicationController
           cal_event.description = seminar.description unless seminar.description.blank?
           cal.add_event(cal_event.to_ical)
         end
+        format.js {
+          render 'index.haml'
+        }
         render :text => cal.to_ical
       end
     end

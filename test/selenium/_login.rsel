@@ -1,0 +1,10 @@
+open "/login"
+wait_for_page_to_load "30000"
+type "email", "aaron@example.com"
+type "password", "monkey"
+click "remember_me"
+click "commit"
+wait_for_page_to_load "30000"
+assert_text_present("Logged in successfully")
+assert_text_present("admin")
+assert_title "Listing seminars"

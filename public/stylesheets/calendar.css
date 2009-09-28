@@ -30,6 +30,7 @@ table.calendar {
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay, table.calendar td.specialDay {
+    vertical-align: top;
     border: 1px dotted;
     color: #005c42;
     border-color: #003a20; }
@@ -61,8 +62,20 @@ table.calendar {
     padding: 0;
     margin: 0;
     text-indent: 0; }
-    table.calendar .specialDay ul li a {
-      font-family: Helvetica, Arial, Sans-Serif; }
+    table.calendar .specialDay ul li {
+      margin: 0;
+      padding: 0; }
+      table.calendar .specialDay ul li.all_day {
+        width: 100%;
+        margin: 0 10px 0 -5px; }
+        table.calendar .specialDay ul li.all_day a {
+          font-weight: bold;
+          display: block;
+          margin: 0;
+          padding: .1em .5em 0 .5em;
+          width: 100%; }
+      table.calendar .specialDay ul li a {
+        font-family: Helvetica, Arial, Sans-Serif; }
   table.calendar .specialDay a {
     color: #005c42;
     text-decoration: none;

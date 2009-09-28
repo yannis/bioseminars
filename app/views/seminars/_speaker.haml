@@ -21,17 +21,17 @@
   - fields_for "seminar[speakers_attributes][#{speaker.object_id}]" do |fs|
     .inline_in_form{:id => "speaker_#{speaker.object_id}"}
       = fs.label :name
-      = fs.text_field :name
+      = fs.text_field :name, :class => 'speaker_name'
       = fs.label :affiliation
-      = fs.text_field :affiliation
+      = fs.text_field :affiliation, :class => 'speaker_affiliation'
       = link_to_function 'Remove', "$('speaker_#{speaker.object_id}').remove()"
 - else
   - fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
     .inline_in_form
       = fs.hidden_field :id
       = fs.label :name
-      = fs.text_field :name
+      = fs.text_field :name, :class => 'speaker_name'
       = fs.label :affiliation
-      = fs.text_field :affiliation
+      = fs.text_field :affiliation, :class => 'speaker_affiliation'
       = fs.check_box '_delete'
       = fs.label '_delete', 'Remove'
