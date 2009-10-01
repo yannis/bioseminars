@@ -64,6 +64,7 @@ class UsersController < ApplicationController
   
   def update
     @user = User.all_for_user(current_user).find(params[:id])
+    params[:user].delete(:role_id) if current_user.basic?
 
     respond_to do |format|
       if @user.update_attributes(params[:user])

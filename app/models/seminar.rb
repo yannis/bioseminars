@@ -20,6 +20,8 @@ class Seminar < ActiveRecord::Base
   named_scope :all_for_user, lambda{|user|
     if user.role.name == 'basic'
       {:conditions => ["seminars.user_id = ?", user.id]}
+    else
+      {}
     end
   }
   named_scope :of_categories, lambda{|categories| {:conditions => ["seminars.category_id IN (?)", categories.map{|c| c.id}]}}

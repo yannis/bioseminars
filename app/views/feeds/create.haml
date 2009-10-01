@@ -15,8 +15,10 @@
   .grid_7
     %h4
       Resulting mini-calendar
-    %object{:type => "text/html", :data => @iframe, :style => "width:500px;height:600px;"}
-      %p Calendar not loading...
+    %object{:type => "text/html", :data => @iframe, :style => "width:500px; height:600px;"}
+      %p 
+        Your calendar cannot be loaded. See all the different seminars
+        = link_to 'here' 'http://bioseminars.unige.ch'
   .grid_5
     %h4
       Embed code

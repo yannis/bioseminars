@@ -261,7 +261,7 @@ class UsersControllerTest < ActionController::TestCase
       end
 
       should_assign_to :user
-      should_redirect_to("basic user show page") { user_url(users(:basic)) }
+      should_redirect_to("user_path(users(:basic))") { user_path(users(:basic)) }
       should "assign user to users(:basic)" do
         assert_equal assigns(:user), users(:basic)
       end

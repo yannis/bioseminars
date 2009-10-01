@@ -23,7 +23,11 @@ class SeminarsControllerTest < ActionController::TestCase
       @category = Category.create(:name => 'LSS')
       @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}}, :user => users(:basic))
       @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}}, :user => users(:admin))
-      
+    end
+    
+    should 'be valid' do
+      assert @seminar1.valid?
+      assert @seminar2.valid?
     end
 
     context "when not logged_in," do

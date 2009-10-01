@@ -6,6 +6,8 @@ table.calendar {
   margin: 0 auto; }
   table.calendar tr:first-child th {
     vertical-align: middle; }
+    table.calendar tr:first-child th a {
+      color: #003a20; }
   table.calendar thead tr th {
     background-color: transparent; }
   table.calendar tr.dayName th:first-child {
@@ -25,8 +27,9 @@ table.calendar {
     height: 8em;
     text-align: center; }
     table.calendar td a, table.calendar th a {
-      color: #003a20;
       text-decoration: none; }
+    table.calendar td a.add_seminar_link, table.calendar th a.add_seminar_link {
+      color: #003a20; }
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay, table.calendar td.specialDay {
@@ -60,30 +63,31 @@ table.calendar {
     list-style-type: none;
     text-align: left;
     padding: 0;
-    margin: 0;
-    text-indent: 0; }
+    margin: 0; }
     table.calendar .specialDay ul li {
-      margin: 0;
-      padding: 0; }
+      margin: 0 0 0 1em;
+      padding: 0;
+      list-style: disc outside;
+      text-indent: -.3em; }
       table.calendar .specialDay ul li.all_day {
+        margin: 0;
+        list-style: none;
         width: 100%;
-        margin: 0 10px 0 -5px; }
+        margin: 0 10px 0 -6px;
+        padding: .1em .5em 0 .5em;
+        text-indent: 0; }
         table.calendar .specialDay ul li.all_day a {
+          color: #FFFFFF;
           font-weight: bold;
           display: block;
           margin: 0;
-          padding: .1em .5em 0 .5em;
           width: 100%; }
       table.calendar .specialDay ul li a {
-        font-family: Helvetica, Arial, Sans-Serif; }
-  table.calendar .specialDay a {
-    color: #005c42;
-    text-decoration: none;
-    font-weight: normal;
-    font-size: .9em; }
-    table.calendar .specialDay a:visited {
-      color: #005c42;
-      text-decoration: none; }
+        font-family: Helvetica, Arial, Sans-Serif;
+        color: inherit;
+        text-decoration: none;
+        font-weight: normal;
+        font-size: .9em; }
   table.calendar .weekendDay {
     background-color: #ccffcc; }
   table.calendar .today {
