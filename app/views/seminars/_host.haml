@@ -5,6 +5,8 @@
       = fs.text_field :name, :class => 'host_name'
       = fs.label :email
       = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
+      .auto_complete{:id => "seminar_hosts_attributes_#{host.object_id}_email_auto_complete"}
+        = auto_complete_field("seminar_hosts_attributes_#{host.object_id}_email", :url => auto_complete_for_host_email_seminars_path, :skip_style => true, :method => :get, :tokens => ",")
       = link_to_function 'Remove', "$('host_#{host.object_id}').remove()"
 - else
   - fields_for "seminar[hosts_attributes][#{host.id}]", host do |fs|
@@ -14,5 +16,7 @@
       = fs.text_field :name, :class => 'host_name'
       = fs.label :email
       = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
+      .auto_complete{:id => "seminar_hosts_attributes_#{host.id}_email_auto_complete"}
+        = auto_complete_field("seminar_hosts_attributes_#{host.id}_email", :url => auto_complete_for_host_email_seminars_path, :skip_style => true, :method => :get, :tokens => ",")
       = fs.check_box '_delete'
       = fs.label '_delete', 'Remove'

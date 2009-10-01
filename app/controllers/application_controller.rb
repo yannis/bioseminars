@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   
   before_filter :login_required
-  before_filter :store_location, :only => ["index", "show"]
+  before_filter :store_location, :only => ["index", "show", 'edit', 'update']
 
   
   def back

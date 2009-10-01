@@ -4,9 +4,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :categories
   map.resources :feeds
   map.resources :locations
-  map.resources :people
   # map.resources :roles
-  map.resources :seminars, :member => {:insert_person_in_form => :post}
+  map.resources :seminars, :member => {:insert_person_in_form => :post}, :collection => {:auto_complete_for_host_email => :get}
   map.resource :session
   map.resources :users, :has_many => :orders
 

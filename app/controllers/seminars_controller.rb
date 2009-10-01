@@ -3,6 +3,11 @@ class SeminarsController < ApplicationController
   skip_before_filter :login_required, :only => ['index', 'show']
   before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'insert_person_in_form']
   before_filter :set_variables
+  
+  def auto_complete_for_host_email
+    auto_complete_responder_for_host_email(params[:seminar][:hosts_attributes].map{|key,value| value[:email]}.to_s)
+  end
+  
   # GET /seminars
   # GET /seminars.xml
   def index
@@ -188,6 +193,16 @@ class SeminarsController < ApplicationController
   end
   
   protected
+  
+  def auto_complete_responder_for_host_email(value)
+    if value.nil?
+      render( :inline => '')
+    else
+      @value = value
+      @emails = Host.find(:all, :select => 'email', :conditions => [ 'LOWER(hosts.email) LIKE ?', @value.downcase + '%'], :order => 'hosts.email ASC')
+      render( :inline => "<%= auto_complete_result(@emails, 'email') %>")
+    end
+  end
   
   def set_variables
     @buildings = Building.find :all
