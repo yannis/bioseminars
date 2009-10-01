@@ -223,10 +223,12 @@ function copy(text) {
 function show_internal_seminars(value) {
   var semi_lis = $$('.seminar.internal');
   semi_lis.each(function(li) {
-    if (value == 'true' && li.getStyle('display') != 'block') {
-      li.setStyle('display: block');
-    } else if (li.getStyle('display') != 'none') {
-      li.setStyle('display: none');
+    if (value == 'true' && li.hasClassName('hidden_seminar')) {
+      li.removeClassName('hidden_seminar');
+      // li.show();
+    } else if (value != 'true' && !li.hasClassName('hidden_seminar')) {
+      li.addClassName('hidden_seminar');
+      // li.hide();
     }
   });
   createCookie('display_int_seminar', value, 365);
