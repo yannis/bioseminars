@@ -38,7 +38,7 @@ class SeminarsController < ApplicationController
           cal_event.end = seminar.end_on.to_s(:rfc2445) unless seminar.end_on.blank?
           cal_event.location = seminar.location.building.name + ", " + seminar.location.name unless seminar.location.blank?
           summary = []
-          summary << seminar.title
+          summary << seminar.mini_seminar_title
           summary << seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
           summary << "Hosted by "+seminar.hosts.map(&:name).join(', ')
           cal_event.summary = summary.join(' | ')
