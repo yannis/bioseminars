@@ -1,0 +1,1 @@
+page.replace_html 'publications', :partial => 'publications', :locals => {:publications => @publications}

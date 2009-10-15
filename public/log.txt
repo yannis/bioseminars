@@ -1,5 +1,14 @@
+15.10.200
+Few bug fixes.
+Pictures, documents and publications can be attached to seminars.
+The title of a seminar is now linked to its speaker.
+
+1.10.2009
+Added auto-completion on Hosts email in seminars form.
+
 28.09.2009
-Added the possibility to flag a seminar as internal. Added the possibility to show/hide internal seminars in the calendar.
+Added the possibility to flag a seminar as internal.
+Added the possibility to show/hide internal seminars in the calendar.
 
 24.9.2009
 Corrected a bug affecting display of seminars of selected categories in the calendar.

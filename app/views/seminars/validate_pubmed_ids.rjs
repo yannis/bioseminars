@@ -1,0 +1,8 @@
+page.show 'publications_validation'
+page.replace_html 'publications_validation', @messages.map{|m|
+  if m == 'invalid'
+    "<p style='color:red'>invalid</p>"
+  else
+    "<p style='color:green'>#{m.title}</p>"
+  end
+}

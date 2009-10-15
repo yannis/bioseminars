@@ -33,6 +33,8 @@ Rails::Initializer.run do |config|
   config.gem "haml", :version => '>= 2.2.3'
   config.gem 'mislav-will_paginate', :version => '~> 2.3.8', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'icalendar'
+  config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
+  config.gem 'bio', :version => '>=1.3.1'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -76,5 +78,6 @@ ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   )
   ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
       :month => '%B',
+      :dotted_day_month_year => "%e %B %Y",
       :time_only => '%H:%M'
   )

@@ -1,6 +1,6 @@
 class SeminarsController < ApplicationController
   
-  skip_before_filter :login_required, :only => ['index', 'show']
+  skip_before_filter :login_required, :only => ['index', 'show', 'load_publications']
   before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'insert_person_in_form']
   before_filter :set_variables
   
@@ -91,7 +91,8 @@ class SeminarsController < ApplicationController
     @seminar.start_on = params[:origin].to_time(:local) if params[:origin]
     @seminar.hosts.build
     @seminar.speakers.build
-    
+    @seminar.documents.build
+    @seminar.pictures.build
 
     respond_to do |format|
       format.html # new.html.haml
@@ -106,6 +107,8 @@ class SeminarsController < ApplicationController
   # GET /seminars/1/edit
   def edit
     @seminar = Seminar.all_for_user(current_user).find(params[:id])
+    @seminar.documents.build if @seminar.documents.blank?
+    @seminar.pictures.build if @seminar.pictures.blank?
   end
 
   # POST /seminars
@@ -130,18 +133,18 @@ class SeminarsController < ApplicationController
         }
       end
     end
-    rescue Exception => e
-      unless @seminar.nil?
-        @seminar.errors.add(e, '')
-        respond_to do |format|
-          format.html { render 'new' }
-        end
-      else
-        flash[:warning] = e unless e.blank?
-        respond_to do |format|
-          format.html { redirect_back_or_default(seminars_path) }
-        end       
-      end
+    # rescue Exception => e
+    #   unless @seminar.nil?
+    #     @seminar.errors.add(e, '')
+    #     respond_to do |format|
+    #       format.html { render 'new' }
+    #     end
+    #   else
+    #     flash[:warning] = e unless e.blank?
+    #     respond_to do |format|
+    #       format.html { redirect_back_or_default(seminars_path) }
+    #     end       
+    #   end
   end
 
   # PUT /seminars/1
@@ -187,6 +190,31 @@ class SeminarsController < ApplicationController
   def insert_person_in_form
     @seminar = params[:id] == 'new' ? Seminar.new : Seminar.all_for_user(current_user).find(params[:id])
     @person = params[:person] == 'host' ? @seminar.hosts.build : @seminar.speakers.build
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def load_publications
+    @seminar = Seminar.find(params[:id])
+    @publications = @seminar.publications
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def validate_pubmed_ids
+    pubmed_ids = params[:pubmed_ids]
+    @messages = []
+    entries = Bio::PubMed.efetch(pubmed_ids.scan(/\d+/).map{|e| e.to_i})# searches PubMed and get entry
+    for entry in entries
+      publication = Bio::MEDLINE.new(entry)
+      unless publication.title.blank? and publication.authors.blank? and publication.journal.blank?
+        @messages << publication
+      else
+        @messages << 'invalid'
+      end
+    end
     respond_to do |format|
       format.js
     end

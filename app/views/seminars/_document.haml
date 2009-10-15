@@ -1,0 +1,11 @@
+.document
+  - if document.new_record?
+    - fields_for "seminar[documents_attributes]['index_to_replace_with_js']" do |document_form|
+      = document_form.file_field :data
+      = link_to_function "delete", "$(this).up('div.document').remove()"
+  - else
+    - fields_for "seminar[documents_attributes][#{document.id}]", document do |document_form|
+      = document_form.hidden_field :id
+      = "#{document.data_file_name} (#{link_to(number_to_human_size(document.data_file_size), document.data.url)})"
+      = document_form.check_box '_delete'
+      = document_form.label '_delete', 'Remove'

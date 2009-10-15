@@ -1,9 +1,9 @@
-- @title ||= "Edit seminar “#{@seminar.title}”"
-.grid_8.prefix_2.suffix_2
-  = error_messages_for :seminar
-  - form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = update_button
+- @title ||= "Edit seminar#{@seminar.mini_seminar_title.blank? ? '' : ' “'+@seminar.mini_seminar_title+'”'}"
+= error_messages_for :seminar
+- form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :multipart => true, :class => 'with_blocks'} do |f|
+  %fieldset
+    %legend
+      = @title
+      (<span class='red_dot'>•</span> mandatory fields)
+    = render :partial => 'form', :locals => {:f => f}
+    = update_button

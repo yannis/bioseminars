@@ -179,12 +179,9 @@ function get_name_from_email(source, target) {
   if (email.match('@') != null) {
     var name_with_dot = email.split('@')[0];
     if (name_with_dot.match('.') != null) {
-      var name = name_with_dot.split('.');
-      var capitalized_name = name.each(function(i) {
-        i.capitalize();
-      }).join(' ');
+      var name = name_with_dot.gsub('.', ' ').gsub(/\w+/, function(i){return i[0].capitalize()});
     }
-    $(target).value = capitalized_name;
+    $(target).value = name;
   }
 }
 
@@ -232,4 +229,8 @@ function show_internal_seminars(value) {
     }
   });
   createCookie('display_int_seminar', value, 365);
+}
+
+function remove_field(element) {
+  element.up().style.color = '#cc0000';
 }

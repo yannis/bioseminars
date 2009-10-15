@@ -1,0 +1,24 @@
+%h3
+  Publications
+%dl
+  - for publication in publications
+    %dt
+      = link_to publication.title, "http://www.ncbi.nlm.nih.gov/pubmed/#{publication.pmid}"
+    %dd
+      %p
+        %strong
+          = publication.authors
+      %p
+        - in_journal = []
+        - in_journal << publication.journal unless publication.journal.blank?
+        - in_journal << publication.date unless publication.date.blank?
+        - in_journal << publication.volume unless publication.volume.blank?
+        - in_journal << publication.issue unless publication.issue.blank?
+        - in_journal << publication.pages unless publication.pages.blank?
+        = in_journal.compact.join(", ")
+      - unless publication.abstract.blank?
+        %p
+          = link_to_function('Show abstract', nil, :id => "show_abstract_#{publication.object_id}"){|page| page.toggle("abstract_#{publication.object_id}"); page << "$('show_abstract_#{publication.object_id}').innerHTML = $('abstract_#{publication.object_id}').getStyle('display') == 'none' ? 'show abstract' : 'hide abstract'"}
+          %br/
+          %span{:style => "display: none", :id => "abstract_#{publication.object_id}"}
+            = publication.abstract

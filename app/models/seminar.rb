@@ -1,22 +1,37 @@
+require 'bio'
 class Seminar < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
   belongs_to :location
-  
+  has_many :documents, :as => :model, :dependent  => :destroy
+  has_many :pictures, :as => :model, :dependent  => :destroy
   has_and_belongs_to_many :speakers
   has_and_belongs_to_many :hosts
   
   accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :hosts, :allow_destroy => true
+  accepts_nested_attributes_for :documents, :allow_destroy => true
+  accepts_nested_attributes_for :pictures, :allow_destroy => true
   
-  validates_associated :hosts, :speakers
-  validates_presence_of :title, :start_on, :end_on#, :location_id
+  validates_associated :hosts, :speakers, :documents, :pictures
+  validates_presence_of :start_on, :end_on#, :title, :location_id
+  validates_each :end_on do |model, attr, value|
+    unless model.end_on.blank?
+      if model.end_on < model.start_on
+        model.errors.add(attr, ": The seminar end time cannot be anterior to seminar start time.")
+      end
+    end
+  end
     
-  default_scope :order => "seminars.start_on ASC", :include => 'category'
-  named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", datetime.to_date, datetime.to_date, datetime.to_date]}}
-  named_scope :of_month, lambda{|datetime| {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", datetime.beginning_of_month.to_date, datetime.end_of_month.to_date, datetime.beginning_of_month.to_date, datetime.end_of_month.to_date]}}
-  named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]
-  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current, Time.current]
+  default_scope :order => "seminars.start_on ASC", :include => ['category', 'hosts', 'speakers']
+  
+  named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc]}}
+  
+  
+  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc, datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc, datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc]}}
+  
+  named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current.utc, Time.current.utc]
+  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc]
   named_scope :all_for_user, lambda{|user|
     if user.role.name == 'basic'
       {:conditions => ["seminars.user_id = ?", user.id]}
@@ -100,7 +115,7 @@ class Seminar < ActiveRecord::Base
   end
   
   def days
-    (start_on.to_date..end_on.to_date).to_a
+    (start_on.in_time_zone.to_date..end_on.in_time_zone.to_date).to_a
   end
   
   def when_and_where
@@ -161,16 +176,45 @@ class Seminar < ActiveRecord::Base
     category.color || '005C42'
   end
   
-  # protected
-  # 
-  # def set_times
-  #   self.start_time = nil unless all_day == false
-  # end
+  def only_one_speaker?
+    speakers.size == 1
+  end
   
-  private
+  def mini_seminar_title
+    if title.blank?
+      if speakers.size == 1 and !speakers.first.title.blank?
+        mini_title = speakers.first.title
+      else
+        mini_title = ''
+      end
+    else
+      mini_title = title
+    end
+    return mini_title
+  end
+  
+  def publications
+    publications = []
+    unless pubmed_ids.nil?
+      entries = Bio::PubMed.efetch(pubmed_ids.scan(/\d+/).map{|e| e.to_i})# searches PubMed and get entry
+      for entry in entries
+        publication = Bio::MEDLINE.new(entry)
+        publications << publication unless publication.title.blank? and publication.authors.blank? and publication.journal.blank?
+      end
+    end
+    return publications
+  end
+  
+  protected
   
   def set_end_on
-    self.end_on = (self.start_on+1.hour) if self.end_on.blank? and !self.start_on.blank?
+    unless self.start_on.blank?
+      self.end_on = (self.start_on+1.hour) if self.end_on.blank?
+      if self.all_day == true
+        self.start_on = self.start_on.to_time.beginning_of_day
+        self.end_on = self.end_on.to_time.end_of_day
+      end
+    end
   end
   
   def check_presence_of_host_and_speaker

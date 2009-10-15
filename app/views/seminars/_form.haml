@@ -1,23 +1,26 @@
-= f.label :category_id, 'Category '+(admin? ? my_link_to_remote(:category, :seminar) : '')
+= f.label :category_id, "<span class='red_dot'>• </span>Category "+(admin? ? my_link_to_remote(:category, :seminar) : '')
 = f.collection_select :category_id, @categories, :id, :name# , :include_blank => true
 
-= f.label :title
-= error_message_on "seminar", "title", :prepend_text => "Title ", :append_text => "!", :css_class => "input_error"
-= f.text_field :title
 #speakers
   .label
+    %span.red_dot •
     Speakers
     = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'speaker'), :before => "Element.hide('insert_speaker_in_seminar_form'); Element.show('seminar_loader_new_speaker_in_form')", :complete => "Element.hide('seminar_loader_new_speaker_in_form'); Element.show('insert_speaker_in_seminar_form')"}, {:id => "insert_speaker_in_seminar_form"})
   = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_speaker_in_form")
   = render :partial => 'speaker', :locals => {:f => f}, :collection => @seminar.speakers
 #hosts
   .label
+    %span.red_dot •
     Hosts
     = link_to_remote("(+)", {:url => insert_person_in_form_seminar_path(:id => (@seminar.new_record? ? 'new': @seminar.id), :person => 'host'), :before => "Element.hide('insert_host_in_seminar_form'); Element.show('seminar_loader_new_host_in_form')", :complete => "Element.hide('seminar_loader_new_host_in_form'); Element.show('insert_host_in_seminar_form')"}, {:id => "insert_host_in_seminar_form"})
   = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_host_in_form")
   = render :partial => 'host', :locals => {:f => f}, :collection => @seminar.hosts
+  
+= f.label :title, "Title (if multi-speakers event, e.g. conference)"
+= error_message_on "seminar", "title", :prepend_text => "Title ", :append_text => "!", :css_class => "input_error"
+= f.text_field :title
 
-= f.label :start_on, "Start on"
+= f.label :start_on, "<span class='red_dot'>• </span>Start on"
 %span#seminar_start_on.inline_in_form
   = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
   = f.date_select(:start_on)
@@ -37,7 +40,7 @@
   = link_to_function("Copy start time", "copy_datetime('seminar_end_on', 'seminar_start_on')")
   = link_to_function("Discard", "set_datetime_blank('seminar_end_on')")
 
-= f.label :location_id, 'Location '+my_link_to_remote(:location, :seminar)
+= f.label :location_id, "<span class='red_dot'>• </span>Location "+my_link_to_remote(:location, :seminar)
 %select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
   <option></option>
   = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name, @seminar.location ? @seminar.location.id : nil)
@@ -47,6 +50,22 @@
   = f.check_box :internal
   = f.label :internal, 'Internal (an internal seminar will not be shown on calendar)'
   = error_message_on "seminar", "internal", :prepend_text => "Internal ", :append_text => "!", :css_class => "input_error"
+
+#documents.inline_in_form
+  = f.label :documents, "Documents "+add_object_link("(+)", f, Document.new, "document", "#documents")
+  = render :partial => 'document', :locals => { :form => f}, :collection => @seminar.documents
+
+#pictures.inline_in_form
+  = f.label :pictures, "Pictures "+add_object_link("(+)", f, Picture.new, "picture", "#pictures")
+  = render :partial => 'picture', :locals => { :form => f}, :collection => @seminar.pictures
+
+= f.label :pubmed_ids
+= error_message_on "seminar", "pubmed_ids", :prepend_text => "Pubmed ids ", :append_text => "!", :css_class => "input_error"
+= f.text_field :pubmed_ids
+= observe_field 'seminar_pubmed_ids', :url => validate_pubmed_ids_seminars_path, :before => "Element.show('publications_validation')", :frequency => 0.25, :with => "'pubmed_ids='+value"
+#publications_validation{:style => 'display: none'}
+  %p#big_ajax_loader
+    = image_tag 'ajax-loader.gif'
 
 = f.label :description
 = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"

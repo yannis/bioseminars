@@ -24,6 +24,8 @@
       = fs.text_field :name, :class => 'speaker_name'
       = fs.label :affiliation
       = fs.text_field :affiliation, :class => 'speaker_affiliation'
+      = fs.label :title
+      = fs.text_field :title, :class => 'speaker_title'
       = link_to_function 'Remove', "$('speaker_#{speaker.object_id}').remove()"
 - else
   - fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
@@ -33,5 +35,7 @@
       = fs.text_field :name, :class => 'speaker_name'
       = fs.label :affiliation
       = fs.text_field :affiliation, :class => 'speaker_affiliation'
+      = fs.label :title
+      = fs.text_field :title, :class => 'speaker_title'
       = fs.check_box '_delete'
       = fs.label '_delete', 'Remove'

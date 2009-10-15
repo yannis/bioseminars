@@ -1,11 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.resources :buildings
-  map.resources :categories
+  map.resources :categories, :has_many => :seminars
   map.resources :feeds
   map.resources :locations
   # map.resources :roles
-  map.resources :seminars, :member => {:insert_person_in_form => :post}, :collection => {:auto_complete_for_host_email => :get}
+  map.resources :seminars, :member => {:insert_person_in_form => :post, :load_publications => :post}, :collection => {:auto_complete_for_host_email => :get, :validate_pubmed_ids => :post}
   map.resource :session
   map.resources :users, :has_many => :orders
 

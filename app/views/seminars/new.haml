@@ -1,9 +1,9 @@
 - @title ||= 'New seminar'
-.grid_8.prefix_2.suffix_2
-  = error_messages_for :user
-  - form_for @seminar, :url => seminars_path, :html => {:class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = create_button
+= error_messages_for :seminar
+- form_for @seminar, :url => seminars_path, :html => {:class => 'with_blocks', :multipart => true} do |f|
+  %fieldset
+    %legend
+      = @title
+      (<span class='red_dot'>•</span> mandatory fields)
+    = render :partial => 'form', :locals => {:f => f}
+    = create_button

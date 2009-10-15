@@ -1,0 +1,11 @@
+.picture
+  - if picture.new_record?
+    - fields_for "seminar[pictures_attributes]['index_to_replace_with_js']" do |picture_form|
+      = picture_form.file_field :data
+      = link_to_function "delete", "$(this).up('div.picture').remove()"
+  - else
+    - fields_for "seminar[pictures_attributes][#{picture.id}]", picture do |picture_form|
+      = picture_form.hidden_field :id
+      = image_tag(picture.data.url(:thumb))
+      = picture_form.check_box '_delete'
+      = picture_form.label '_delete', 'Remove'

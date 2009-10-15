@@ -21,8 +21,8 @@ class SeminarsControllerTest < ActionController::TestCase
       @building = Building.create(:name => 'ScIII')
       @location = Location.create(:name => '4059', :building => @building)
       @category = Category.create(:name => 'LSS')
-      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}}, :user => users(:basic))
-      @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}}, :user => users(:admin))
+      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'semi title'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}}, :user => users(:basic))
+      @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2', :title => 'semi title 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}}, :user => users(:admin))
     end
     
     should 'be valid' do
@@ -202,7 +202,7 @@ class SeminarsControllerTest < ActionController::TestCase
 
       context "on :post to :create with valid params" do
         setup do
-          post :create, :seminar => {:title => 'a third nice seminar title', :start_on => Time.parse("#{11.days.since} 16:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 3', :affiliation => 'speaker affiliation 3'}}, :hosts_attributes => {0 => {:name => 'host name 3', :email => 'host email 3'}}}
+          post :create, :seminar => {:title => 'a third nice seminar title', :start_on => Time.parse("#{11.days.since} 16:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 3', :affiliation => 'speaker affiliation 3', :title => 'a nice title'}}, :hosts_attributes => {0 => {:name => 'host name 3', :email => 'host email 3'}}}
         end
 
         should_assign_to :seminar
@@ -212,6 +212,12 @@ class SeminarsControllerTest < ActionController::TestCase
         should_change("the number of speakers", :by => 1) { Speaker.count }
         should_change("the number of hosts", :by => 1) { Host.count }
         should_set_the_flash_to "Seminar was successfully created."
+        should "have the name of the speaker capitalized" do
+          assert_equal assigns(:seminar).speakers.first.name, 'Speaker Name 3'
+        end
+        should "have the name of the host capitalized" do
+          assert_equal assigns(:seminar).hosts.first.name, 'Host Name 3'
+        end
       end
 
       context "on :put to :update with valid params for :id => @seminar1.id" do

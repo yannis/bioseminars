@@ -39,7 +39,7 @@ form
       :font-size 164%
   label, .label
     :font-weight bold
-    :margin 1em 0 .3em 0
+    :margin .5em 0 .3em 0
   :margin 0 1em
   &.with_blocks
     label, input
@@ -317,13 +317,16 @@ table
   h2
     :margin 0 auto
   #ajax_form
-    :max-height 600px
+    :max-height 550px
     :overflow auto
   #ZoomClose
     :position absolute
     :left -15px
     :top -15px
     :cursor pointer
+#seminars_div.ajax_div
+  :width 880px
+  :margin 20px auto auto -450px
 .color
   :display block
   :float left
@@ -365,3 +368,44 @@ div.auto_complete
       :color #800
       :margin 0
       :padding 0
+#pictures
+  ul
+    :list-style none
+    :margin 0
+    li
+      :float left
+      :margin-right 1em
+  a img
+    :border .5em solid white
+    :-webkit-box-shadow 5px 5px 12px #999
+    :-moz-box-shadow 5px 5px 12px #999
+    :box-shadow 5px 5px 12px #999
+#ZoomImage
+  :border 1em solid white
+  :-webkit-box-shadow 10px 10px 25px #999
+  :-moz-box-shadow 10px 10px 25px #999
+  :box-shadow 10px 10px 25px #999
+#publications
+  dl
+    dd
+      p
+        :margin-bottom 0
+      p:last-child
+        :margin-bottom 1em
+  p#big_ajax_loader
+    :text-align center
+    :font-weight bold
+    img
+      :display block
+      :position relative
+      :margin 1em auto 0 auto
+      :background-color = !green
+      :padding 1em
+      :-moz-border-radius 1em
+      :-webkit-border-radius 1em
+      :-border-radius 1em
+#documents, #pictures, #publications
+  h3
+    :margin 1em 0 .6em 0
+.red_dot
+  :color red

@@ -6,13 +6,17 @@ class SeminarTest < ActiveSupport::TestCase
   should_belong_to :user
   should_belong_to :category
   should_belong_to :location
+  should_have_many :pictures
+  should_have_many :documents
   should_have_and_belong_to_many :speakers
   should_have_and_belong_to_many :hosts
 
-  should_validate_presence_of :title, :start_on, :end_on
+  should_validate_presence_of :start_on, :end_on
   
-  should_have_named_scope("of_day('2009-01-01 12:00:00')", {:conditions=>["(seminars.end_on IS NULL AND DATE(seminars.start_on) = ?) OR (DATE(seminars.start_on) <= ? AND DATE(seminars.end_on) >= ?)", Date.parse('2009-01-01 12:00:00'), Date.parse('2009-01-01 12:00:00'), Date.parse('2009-01-01 12:00:00')]})
-  should_have_named_scope("of_month(Date.parse('2009-01-01 12:00:00'))", {:conditions => ["(DATE(seminars.start_on) >= ? AND DATE(seminars.start_on) <= ?) OR (DATE(seminars.end_on) >= ? AND DATE(seminars.end_on) <= ?)", Date.parse('2009-01-01 12:00:00').beginning_of_month, Date.parse('2009-01-01 12:00:00').end_of_month, Date.parse('2009-01-01 12:00:00').beginning_of_month, Date.parse('2009-01-01 12:00:00').end_of_month]})
+  should_have_named_scope("of_day('#{Time.parse('2009-01-01 01:00:00')}')", {:conditions=>["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day, Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day, Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day]})
+  
+  should_have_named_scope("of_month(Date.parse('2009-01-01 12:00:00'))", {:conditions=>["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc]})
+  
   # should_have_named_scope("past", {:conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]})
   should_have_named_scope("all_for_user(User.find_by_name('basic'))", {:conditions => ["seminars.user_id = ?", 1]})
   should_have_named_scope("all_for_user(User.find_by_name('admin'))")
@@ -30,10 +34,10 @@ class SeminarTest < ActiveSupport::TestCase
         @seminar.save
       end
     end
-    
+        
     context "when hosts and speakers are added," do
       setup do
-        @seminar.update_attributes(:speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}})
+        @seminar.update_attributes(:speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}})
         @seminar.save
       end
       
@@ -76,6 +80,18 @@ class SeminarTest < ActiveSupport::TestCase
         assert_equal @seminar.time_and_category, '12:00 LSSS'
       end
       
+      context "if end_on < start_on," do
+        setup do
+          @seminar.update_attributes(:end_on => @seminar.start_on-2.days)
+        end
+
+        should "not be valid" do
+          assert !@seminar.valid?, @seminar.errors.full_messages.to_sentence
+          assert @seminar.errors.invalid?(:end_on)
+        end
+      end
+      
+      
       context "if the seminar now belongs to users(:admin)," do
         setup do
           @seminar.update_attributes(:user => users(:admin))
@@ -117,16 +133,16 @@ class SeminarTest < ActiveSupport::TestCase
           @seminar.update_attributes(:start_on => Time.parse("2009-01-01 11:00:00"), :end_on => Time.parse("2009-01-05 13:00:00"))
         end
         
-        should 'have when_and_where == "2009-01-01, 11:00 - 2009-01-05, 13:00 - 4059 (ScIII)"' do
-          assert_equal @seminar.when_and_where, '2009-01-01, 11:00 - 2009-01-05, 13:00 - 4059 (ScIII)'
+        should 'have when_and_where == " 1 January 2009, 11:00 -  5 January 2009, 13:00 - 4059 (ScIII)"' do
+          assert_equal @seminar.when_and_where, ' 1 January 2009, 11:00 -  5 January 2009, 13:00 - 4059 (ScIII)'
         end
         
         should 'have time_and_category == "11:00: LSSS"' do
           assert_equal @seminar.time_and_category, '11:00 LSSS'
         end
         
-        should 'have schedule == "2009-01-01, 11:00 - 2009-01-05, 13:00"' do
-          assert_equal @seminar.schedule, "2009-01-01, 11:00 - 2009-01-05, 13:00"
+        should 'have schedule == "1 January 2009, 11:00 -  5 January 2009, 13:00"' do
+          assert_equal @seminar.schedule, " 1 January 2009, 11:00 -  5 January 2009, 13:00"
         end
       end
       
@@ -150,11 +166,11 @@ class SeminarTest < ActiveSupport::TestCase
         end
 
         should 'have when_and_where == "2009-01-01 - 2009-01-05 - 4059 (ScIII)"' do
-          assert_equal @seminar.when_and_where, "Today - #{2.days.since.to_date.to_s(:db)} - 4059 (ScIII)"
+          assert_equal @seminar.when_and_where, "Today - #{2.days.since.to_date.to_s(:dotted_day_month_year)} - 4059 (ScIII)"
         end
         
         should 'have schedule == "2009-01-01 - 2009-01-05"' do
-          assert_equal @seminar.schedule, "Today - #{2.days.since.to_date.to_s(:db)}"
+          assert_equal @seminar.schedule, "Today - #{2.days.since.to_date.to_s(:dotted_day_month_year)}"
         end
       end
     
@@ -191,6 +207,20 @@ class SeminarTest < ActiveSupport::TestCase
         end
         should 'have time_and_category == "12:00 LSSS <span class=redstar>*</span>"' do
           assert_equal @seminar.time_and_category, "12:00 LSSS <span class='redstar'>*</span>"
+        end
+      end
+      
+      context 'with a pubmed_id' do
+        setup do
+          @seminar.update_attributes(:pubmed_ids => '19557678 19498168, 19266017')
+        end
+        
+        should "have 3 publications" do
+          assert @seminar.publications.size, 3
+        end
+        
+        should "have the title of one of the publications == 'Epigenetic temporal control of mouse Hox genes in vivo.'" do
+          assert @seminar.publications.map(&:title).include?('Epigenetic temporal control of mouse Hox genes in vivo.')
         end
       end
     end
