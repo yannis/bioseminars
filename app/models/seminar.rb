@@ -136,7 +136,7 @@ class Seminar < ActiveRecord::Base
     time_and_category = []
     time_and_category << start_time unless start_time.nil?
     if category
-      time_and_category << (category.acronym.blank? ? category.name : category.acronym)
+      time_and_category << (category.acronym_or_name)
     else
       time_and_category << title[0..15]
     end
@@ -149,7 +149,7 @@ class Seminar < ActiveRecord::Base
     time_and_category << start_time unless start_time.nil?
     time_and_category << location.name_and_building unless location.blank?
     if category
-      time_and_category << category.acronym ? category.acronym : category.name
+      time_and_category << category.acronym_or_name
     else
       time_and_category << title[0..15]
     end
@@ -161,7 +161,7 @@ class Seminar < ActiveRecord::Base
     time_and_category << start_on.strftime("%d.%m.%Y %H:%M")
     time_and_category << location.name_and_building unless location.blank?
     if category
-      time_and_category << category.acronym ? category.acronym : category.name
+      time_and_category << category.acronym_or_name
     else
       time_and_category << title[0..15]
     end
@@ -173,7 +173,7 @@ class Seminar < ActiveRecord::Base
   end
   
   def color
-    category.color || '005C42'
+    category.color || '007E64'
   end
   
   def only_one_speaker?

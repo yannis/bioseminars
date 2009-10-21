@@ -1,12 +1,19 @@
-- stylesheet 'prototip.css'
-- stylesheet 'calendar.css'
-- javascript '/javascripts/prototip2-2.1.0.1/js/prototip.js'
-- if logged_in? and basic_or_admin?
-  - onload "set_new_seminar_function('#{form_authenticity_token}')"
+- javascript '/javascripts/FancyZoom_1.1/js-global/FancyZoom.js'
+- javascript '/javascripts/FancyZoom_1.1/js-global/FancyZoomHTML.js'
+- functions_to_load = ["setupZoom()"]
+- for seminar in @seminars.select{|s| !s.pubmed_ids.blank?}
+  - functions_to_load << remote_function(:url => load_publications_seminar_path(seminar))
+- onload functions_to_load.join(';')
 - @title ||= "Listing seminars"
-= calendar(:accessible => true, :year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month)+' &lt;', seminars_path(:date => @date.last_month.to_s(:db))), :next_month_text => link_to('&gt; '+@date.next_month.to_s(:month), seminars_path(:date => @date.next_month.to_s(:db)))) do |d|
-  - render_calendar_cell(d)
-- form_tag seminars_path, :id => 'show_internal_seminars' do
-  = check_box_tag :internal, true, cookies[:display_int_seminar] == "true"
-  = label_tag :internal, "Show internal seminars (<span class='redstar'>*</span>). Internal seminars are not public."
-  = observe_field 'internal', :function => 'show_internal_seminars(value)'
+#seminar_list.grid_9.alpha
+  = will_paginate @seminars
+  = render @seminars
+  .clear
+.grid_3.omega
+  %p.link_to_calendar
+    = link_to 'Show calendar', calendar_seminars_path
+  %fieldset
+    %legend Categories
+    = render 'categories_menu'
+    = link_to 'Create feeds for this selection', feeds_path, :method => 'post'
+.clear

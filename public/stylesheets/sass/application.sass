@@ -15,28 +15,46 @@ h1
     :color = !green
     &:hover
       :color = !verydarkgreen
+h2
+  :padding-left 0
+  :line-height 1em
+h3, h4
+  :margin 1.5em auto .6em auto
 a
   :text-decoration underline
   img
     :text-decoration none
-h2
-  :line-height 1em
-  :padding-left 0
-form
-  fieldset
+
+fieldset
+  :padding 1em
+  .categories_to_show
     :margin 1em 0 0 0
-    :border 2px solid
-    :border-color = !green
-    :-moz-border-radius 1em
-    :-webkit-border-radius 1em
-    :-border-radius 1em
-    :-webkit-box-shadow 10px 10px 25px #ccc
-    :-moz-box-shadow 10px 10px 25px #ccc
-    :box-shadow 10px 10px 25px #ccc
-    legend
-      :margin 0 1em
-      :color = !green
-      :font-size 164%
+  &.columns_4
+    :padding 0
+    p
+      :padding .4em 0 0 1em
+    .categories_to_show
+      li
+        :display inline-block
+        :width 220px
+        :margin 0
+        :padding .4em 0 0 0
+        &:last-child
+  :margin 1em 0 0 0
+  :border 2px solid
+  :border-color = !green
+  :-moz-border-radius 1em
+  :-webkit-border-radius 1em
+  :-border-radius 1em
+  :-webkit-box-shadow 10px 10px 25px #ccc
+  :-moz-box-shadow 10px 10px 25px #ccc
+  :box-shadow 10px 10px 25px #ccc
+  legend
+    :margin 0 1em
+    :color = !green
+    :font-size 164%
+
+form
   label, .label
     :font-weight bold
     :margin .5em 0 .3em 0
@@ -82,6 +100,8 @@ input[type=checkbox]
     :text-align left
   section
     :padding 1em
+.flash
+  :margin-bottom 1em
 .notice, .warning
   :width 100%
   :margin 0 auto
@@ -187,18 +207,17 @@ table
   :margin-top 1em
 
 #footer
-  :margin 1em 0 0 0
+  :margin-top 1em
   #footer_box
     :text-align center
-    :display block
-    :position relative
     :height 74px
+    :width 710px
     :overflow hidden
     :font-size 118%
     :color = !veryverylightgreen
     :background-color = !green
     :padding 0
-    :margin 13px 0 0 0
+    :margin-top 13px
     :-moz-border-radius 1em
     :-webkit-border-radius 1em
     :-border-radius 1em
@@ -223,17 +242,17 @@ table
       :margin 1em auto 0 auto
       :list-style none
       li
-        :float left
+        :display inline-block
         :margin-left 1em
         :padding-left 1em
         :border-left 1px solid
         :border-color = !veryverylightgreen
       li:first-child
         :border none
-
 /// navigation
 #navigation
   :margin-top 1.6em
+  :margin-bottom 1.6em
   :font-weight bold
   :font-size 118%
   :padding 0em
@@ -328,9 +347,9 @@ table
   :width 880px
   :margin 20px auto auto -450px
 .color
-  :display block
-  :float left
-  :margin 0.2em 0.5em 0 0
+  :display inline-block
+  :margin 0
+  :vertical-align middle
   :width 1em
   :height 1em
 .redstar
@@ -339,17 +358,19 @@ table
   :font-size 218%
   :vertical-align bottom
 .seminar
-  :margin-top 3em
   .time_and_location
     :font-weight bold
     :color = !orange
   .admin_links
     :text-align right
+  &.hidden_seminar
+    :display none
+.showing_seminar
+  :margin-top 3em
 .alert_internal
   :color = !red
   :text-align center
   :font-size 145%
-  
 div.auto_complete
   :width 350px
   :background #fff
@@ -385,7 +406,7 @@ div.auto_complete
   :-webkit-box-shadow 10px 10px 25px #999
   :-moz-box-shadow 10px 10px 25px #999
   :box-shadow 10px 10px 25px #999
-#publications
+.seminar_publications
   dl
     dd
       p
@@ -409,3 +430,66 @@ div.auto_complete
     :margin 1em 0 .6em 0
 .red_dot
   :color red
+#seminar_list
+  .seminar
+    :margin-top 1.5em
+    :padding-top 10px
+    :border 2px solid
+    :border-color = !green
+    :-moz-border-radius 1em
+    :-webkit-border-radius 1em
+    :-border-radius 1em
+    .time_and_location
+    .title_and_content
+      :width 440px
+      .alert_internal
+        :margin 0
+    
+    
+      
+  
+  
+      
+.pagination
+  :font-weight bold
+  :font-size 118%
+  :padding 0em
+  a, span
+    :margin 0 .2em 0 0
+    :padding .6em 1em
+    :background-color = !green
+    :-moz-border-radius .8em
+    :-webkit-border-radius .8em
+    :-border-radius .8em
+    :-webkit-box-shadow 10px 10px 25px #ccc
+    :-moz-box-shadow 10px 10px 25px #ccc
+    :box-shadow 10px 10px 25px #ccc
+  span.disabled
+    :color = !verylightgreen
+    :background-color = !background
+    :border none
+    :-webkit-box-shadow none
+    :-moz-box-shadow none
+    :box-shadow none
+  span.current
+    :color = !veryverylightgreen
+    :background-color = !verylightred
+  a
+    :-moz-border-radius .8em
+    :-webkit-border-radius .8em
+    :-border-radius .8em
+    :color = !veryverylightgreen
+    :text-decoration none
+    &:hover, &:focus
+      :border-color = !verydarkgreen
+      :background = !darkgreen
+      :color = !veryverylightgreen
+  .page_info
+    :color #aaa
+    :padding-top .8em
+  .prev_page, .next_page
+    :border-width 2px
+  .prev_page
+    :margin-right .5em
+  .next_page
+    :margin-left .5em

@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :feeds
   map.resources :locations
   # map.resources :roles
-  map.resources :seminars, :member => {:insert_person_in_form => :post, :load_publications => :post}, :collection => {:auto_complete_for_host_email => :get, :validate_pubmed_ids => :post}
+  map.resources :seminars, :member => {:insert_person_in_form => :post, :load_publications => :post}, :collection => {:auto_complete_for_host_email => :get, :validate_pubmed_ids => :post, :calendar => :get}
   map.resource :session
   map.resources :users, :has_many => :orders
 
@@ -50,7 +50,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
-  map.root :controller => "seminars", :action => 'index'
+  map.root :controller => "seminars", :action => 'calendar'
 
   # See how all your routes lay out with "rake routes"
 

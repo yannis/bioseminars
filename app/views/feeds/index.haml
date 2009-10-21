@@ -1,0 +1,46 @@
+- @title ||= 'Custom feeds'
+.container_12
+  .grid_9
+    = @internal
+    %br
+    = eval(cookies[:__CJ_show_internal_seminars]).inspect
+    %h2= @title
+    %h3 RSS feed
+    %p
+      = link_to @rss_feed, @rss_feed, :id => 'rss_feed'
+    %h3 iCal/ICS feed
+    %p
+      = link_to @ics_feed, @ics_feed
+    %h3 XML feed
+    %p
+      = link_to @xml_feed, @xml_feed
+    %h3 Integrate a calendar in your website
+    %object{:type => "text/html", :data => @iframe, :style => "width:710px; height: 500px;"}
+      %p 
+        = "Your calendar cannot be loaded. See all the different seminars #{link_to('here', 'http://bioseminars.unige.ch')}."
+    %h4
+      Embed code
+    %textarea{:style => 'height: 6em; width: 710px'}
+      = "<object type='text/html' style='width: 500px; height: 600px;' data='#{@iframe}'><p>Your calendar cannot be loaded. See all the different seminars <a href='http://bioseminars.unige.ch/seminars/calendar.iframe'>here</a></p></object>"
+    %p
+      Link to calendar (for iFrame):
+      = link_to(@iframe, @iframe)
+  .grid_3
+    - form_tag feeds_path, :html => {:id => 'form_for_feeds'} do |f|
+      %fieldset#create_feeds
+        %legend
+          Categories
+        %ul.categories_to_show
+          %li
+            = check_box_tag 'internal', true, @internal
+            = label_tag :internal, "Internal seminars (<span class='redstar'>*</span>). Internal seminars are not public."
+            = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
+          - for category in Category.all
+            %li{:style => ''}
+              = check_box_tag "category_ids[]", category.id, @selected_categories.include?(category), :id => "categories_#{category.id}"
+              - unless category.color.blank?
+                %span.color{:style => "background-color: ##{category.color}"}
+              = link_to_unless_current h(category.acronym_or_name), category_path(category), :style => "color: ##{category.color}"
+              = observe_field "categories_#{category.id}", :function => "show_or_hide_seminars_with_class(value, '#{category.id}')"
+        = submit_tag 'Refresh feeds'
+.clear

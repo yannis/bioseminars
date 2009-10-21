@@ -1,7 +1,7 @@
 - if @seminar.only_one_speaker?
   %p
     by
-    = @seminar.speakers.map{|s| "<strong>#{h(s.name)}</strong> (#{h(s.affiliation)})"}.join(', ')
+    = @seminar.speakers.map{|s| s.bold_name_and_affiliation}.join(', ')
 - else
   %dl
     - for speaker in @seminar.speakers
@@ -9,7 +9,7 @@
         = speaker.title
       %dd
         by
-        = "#{h(speaker.name)} (#{h(speaker.affiliation)})"
+        = h(speaker.name_and_affiliation)
 - if @seminar.internal?
   %p.alert_internal
     This seminar is not public
@@ -27,10 +27,9 @@
     - message << pluralize(@seminar.publications.size, 'publication') unless @seminar.publications.blank?
     = link_to message.join(', ')+' are attached to this seminar', seminar_path(@seminar)
 %p
-  - links = []
+  - links = [link_to('Details', seminar_path(@seminar))]
   - links << link_to('Website', @seminar.url) unless @seminar.url.blank?
   - links << link_to('Save in iCal', seminar_path(@seminar, :format => 'ics'))
-  - links << link_to('Show', seminar_path(@seminar))
   - if logged_in? and @seminar.editable_or_destroyable_by_user?(current_user)
     - links << edit_link(@seminar)
     - links << destroy_link(@seminar)

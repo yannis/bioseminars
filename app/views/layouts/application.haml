@@ -26,46 +26,49 @@
       = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id), :title => "“#{category.name}” seminars"
     = yield :head
   %body{:onload => "#{yield(:onload)}"}
-    .container_12#main
+    .container_12#banner_and_nav
       #banner.one.grid_4
         %h1
           = link_to 'bioSeminars', root_path, :class => 'banner_font'
       #navigation.grid_8
         = render 'layouts/navigation'
       .clear
-      #content.grid_12
-        = render 'layouts/javascript_disabled_notification'
-        - unless flash[:notice].blank?
-          #flash_notice
-            .flash.notice
-              = " "+flash[:notice]
-        - unless flash[:warning].blank?
-          #flash_warning
-            .flash.warning
-              = " "+flash[:warning]
-        = yield :layout
-      #footer.grid_12
-        .container_12
-          .grid_3.one
-            = link_to(image_tag('fac_sciences_pant.png', :id => 'logo_fac'), 'http://www.unige.ch/sciences')
-          #footer_box.grid_9
-            %ul
-              %li
-                &copy;
-                = link_to 'University of Geneva', 'http://www.unige.ch'
-                2009
-              %li
-                = link_to 'RSS', seminars_path(:format => 'rss'), :id => 'rss_feed_link'
-              %li
-                = link_to 'iCal/ICS', "webcal://#{HOST}#{seminars_path(:format => 'ics')}", :id => 'ical_feed_link'
-              %li
-                Create
-                = link_to 'custom feeds', new_feed_path
-            %ul
-              %li
-                = link_to 'log', '/log.txt'
-                = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
-              %li
-                contact the
-                = mail_to "yannis.jaquet@unige.ch, gregory.theiler@unige.ch", 'webmasters', :encode => :hex
-          .clear
+    .container_12#flash_and_co
+      = render 'layouts/javascript_disabled_notification'
+      - unless flash[:notice].blank?
+        #flash_notice
+          .flash.notice
+            = " "+flash[:notice]
+      - unless flash[:warning].blank?
+        #flash_warning
+          .flash.warning
+            = " "+flash[:warning]
+      .clear
+    .container_12
+      = yield :layout
+      .clear
+    .container_12#footer
+      .grid_3
+        = link_to(image_tag('fac_sciences_pant.png', :id => 'logo_fac'), 'http://www.unige.ch/sciences')
+      .grid_9.omega#footer_box
+        %ul
+          %li
+            &copy;
+            = link_to 'University of Geneva', 'http://www.unige.ch'
+            2009
+          %li
+            = link_to 'RSS', seminars_path(:format => 'rss'), :id => 'rss_feed_link'
+          %li
+            = link_to 'iCal/ICS', "webcal://#{HOST}#{seminars_path(:format => 'ics')}", :id => 'ical_feed_link'
+          %li
+            Create
+            = link_to 'custom feeds', feeds_path
+        %ul
+          %li
+            = link_to 'log', '/log.txt'
+            = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+          %li
+            contact the
+            = mail_to "yannis.jaquet@unige.ch, gregory.theiler@unige.ch", 'webmasters', :encode => :hex
+      .clear
+      

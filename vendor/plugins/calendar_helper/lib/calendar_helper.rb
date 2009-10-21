@@ -99,11 +99,12 @@ module CalendarHelper
     # TODO Use some kind of builder instead of straight HTML
     cal = %(<table class="#{options[:table_class]}" border="0" cellspacing="0" cellpadding="0">)
     cal << %(<thead><tr>)
+    cal << %(<th>#{link_to 'Go to today', calendar_seminars_path(:date => Date.current)}</th>)
     if options[:previous_month_text] or options[:next_month_text]
       cal << %(<th colspan="2">#{options[:previous_month_text]}</th>)
-      colspan=3
+      colspan=2
     else
-      colspan=7
+      colspan=76
     end
     cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}">#{Date::MONTHNAMES[options[:month]]} #{options[:year]}</th>)
     cal << %(<th colspan="2">#{options[:next_month_text]}</th>) if options[:next_month_text]

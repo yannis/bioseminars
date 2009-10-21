@@ -1,1 +1,1 @@
-page.replace_html 'publications', :partial => 'publications', :locals => {:publications => @publications}
+page.replace_html "publications_for_seminar_#{@seminar.id}", :partial => 'publications', :locals => {:publications => @publications}

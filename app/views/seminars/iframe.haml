@@ -6,4 +6,4 @@
 - @title ||= "Listing seminars"
 = calendar(:accessible => true, :year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month)+' &lt;', seminars_path(:date => @date.last_month.to_s(:db), :format => 'iframe')), :next_month_text => link_to('&gt; '+@date.next_month.to_s(:month), seminars_path(:date => @date.next_month.to_s(:db), :format => 'iframe'))) do |d|
   - render_calendar_cell(d)
-= link_to 'Show larger calendar', seminars_url
+= link_to 'Show larger calendar', calendar_seminars_url

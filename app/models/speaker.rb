@@ -5,6 +5,18 @@ class Speaker < ActiveRecord::Base
   
   before_validation :capitalize_name
   
+  def name_and_affiliation
+    name_and_affiliation = [name]
+    name_and_affiliation << "(#{affiliation})" unless affiliation.blank?
+    return name_and_affiliation.join(' ')
+  end
+  
+  def bold_name_and_affiliation
+    name_and_affiliation = ["<strong>#{name}</strong>"]
+    name_and_affiliation << "(#{affiliation})" unless affiliation.blank?
+    return name_and_affiliation.join(' ')
+  end
+  
   private
   
   def capitalize_name

@@ -95,6 +95,3 @@ table.calendar {
   table.calendar .day_number {
     display: block;
     text-align: right; }
-
-.hidden_seminar {
-  display: none; }

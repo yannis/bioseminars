@@ -1,0 +1,15 @@
+- stylesheet 'prototip.css'
+- stylesheet 'calendar.css'
+- javascript '/javascripts/prototip2-2.1.0.1/js/prototip.js'
+- if logged_in? and basic_or_admin?
+  - onload "set_new_seminar_function('#{form_authenticity_token}')"
+- @title ||= "Calendar"
+= calendar(:accessible => true, :year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month)+' &lt;', calendar_seminars_path(:date => @date.last_month.to_s(:db))), :next_month_text => link_to('&gt; '+@date.next_month.to_s(:month), calendar_seminars_path(:date => @date.next_month.to_s(:db)))) do |d|
+  - render_calendar_cell(d)
+%p
+  = link_to 'Show as list', seminars_path
+%fieldset.columns_4
+  %legend Categories
+  = render 'categories_menu'
+  %p.generate_feeds_link
+    = link_to 'Create feeds for this selection', feeds_path, :method => 'post'

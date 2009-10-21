@@ -1,3 +1,151 @@
+Array.prototype.index = function(val) {
+  for(var i = 0, l = this.length; i < l; i++) {
+    if(this[i] == val) return i;
+  }
+  return null;
+}
+
+Array.prototype.include = function(val) {
+  return this.index(val) !== null;
+}
+
+// http://www.lalit.org/wordpress/wp-content/uploads/2008/06/cookiejar.js
+
+var CookieJar = Class.create();
+
+CookieJar.prototype = {
+
+	/**
+	 * Append before all cookie names to differntiate them.
+	 */
+	appendString: "__CJ_",
+
+	/**
+	 * Initializes the cookie jar with the options.
+	 */
+	initialize: function(options) {
+		this.options = {
+			expires: 3600,		// seconds (1 hr)
+			path: '',			// cookie path
+			domain: '',			// cookie domain
+			secure: ''			// secure ?
+		};
+		Object.extend(this.options, options || {});
+
+		if (this.options.expires != '') {
+			var date = new Date();
+			date = new Date(date.getTime() + (this.options.expires * 1000));
+			this.options.expires = '; expires=' + date.toGMTString();
+		}
+		if (this.options.path != '') {
+			this.options.path = '; path=' + escape(this.options.path);
+		}
+		if (this.options.domain != '') {
+			this.options.domain = '; domain=' + escape(this.options.domain);
+		}
+		if (this.options.secure == 'secure') {
+			this.options.secure = '; secure';
+		} else {
+			this.options.secure = '';
+		}
+	},
+
+	/**
+	 * Adds a name values pair.
+	 */
+	put: function(name, value) {
+		name = this.appendString + name;
+		cookie = this.options;
+		var type = typeof value;
+		switch(type) {
+		  case 'undefined':
+		  case 'function' :
+		  case 'unknown'  : return false;
+		  case 'boolean'  : 
+		  case 'string'   : 
+		  case 'number'   : value = String(value.toString());
+		}
+		var cookie_str = name + "=" + escape(Object.toJSON(value));
+		try {
+			document.cookie = cookie_str + cookie.expires + cookie.path + cookie.domain + cookie.secure;
+		} catch (e) {
+			return false;
+		}
+		return true;
+	},
+
+	/**
+	 * Removes a particular cookie (name value pair) form the Cookie Jar.
+	 */
+	remove: function(name) {
+		name = this.appendString + name;
+		cookie = this.options;
+		try {
+			var date = new Date();
+			date.setTime(date.getTime() - (3600 * 1000));
+			var expires = '; expires=' + date.toGMTString();
+			document.cookie = name + "=" + expires + cookie.path + cookie.domain + cookie.secure;
+		} catch (e) {
+			return false;
+		}
+		return true;
+	},
+
+	/**
+	 * Return a particular cookie by name;
+	 */
+	get: function(name) {
+		name = this.appendString + name;
+		var cookies = document.cookie.match(name + '=(.*?)(;|$)');
+		if (cookies) {
+			return (unescape(cookies[1])).evalJSON();
+		} else {
+			return null;
+		}
+	},
+
+	/**
+	 * Empties the Cookie Jar. Deletes all the cookies.
+	 */
+	empty: function() {
+		keys = this.getKeys();
+		size = keys.size();
+		for(i=0; i<size; i++) {
+			this.remove(keys[i]);
+		}
+	},
+
+	/**
+	 * Returns all cookies as a single object
+	 */
+	getPack: function() {
+		pack = {};
+		keys = this.getKeys();
+
+		size = keys.size();
+		for(i=0; i<size; i++) {
+			pack[keys[i]] = this.get(keys[i]);
+		}
+		return pack;
+	},
+
+	/**
+	 * Returns all keys.
+	 */
+	getKeys: function() {
+		keys = $A();
+		keyRe= /[^=; ]+(?=\=)/g;
+		str  = document.cookie;
+		CJRe = new RegExp("^" + this.appendString);
+		while((match = keyRe.exec(str)) != undefined) {
+			if (CJRe.test(match[0].strip())) {
+				keys.push(match[0].strip().gsub("^" + this.appendString,""));
+			}
+		}
+		return keys;
+	}
+};
+
 // Cookies (http://www.quirksmode.org/js/cookies.html)
 
 function createCookie(name,value,days) {
@@ -217,18 +365,73 @@ function copy(text) {
   }
 }
 
-function show_internal_seminars(value) {
-  var semi_lis = $$('.seminar.internal');
-  semi_lis.each(function(li) {
-    if (value == 'true' && li.hasClassName('hidden_seminar')) {
-      li.removeClassName('hidden_seminar');
-      // li.show();
-    } else if (value != 'true' && !li.hasClassName('hidden_seminar')) {
-      li.addClassName('hidden_seminar');
-      // li.hide();
-    }
+// function show_or_hide_internal_seminars(value) {
+//   var semi_lis = $$('.seminar.internal');
+//   semi_lis.each(function(li) {
+//     if (value == 'true' && li.hasClassName('hidden_seminar')) {
+//       li.removeClassName('hidden_seminar');
+//       // li.show();
+//     } else if (value != 'true' && !li.hasClassName('hidden_seminar')) {
+//       li.addClassName('hidden_seminar');
+//       // li.hide();
+//     }
+//   });
+//   createCookie('display_int_seminar', value, 365);
+// }
+
+function show_or_hide_seminars_with_class(value, id) {
+  jar = new CookieJar({
+    expires:31536000,   // seconds
+    path: '/'
   });
-  createCookie('display_int_seminar', value, 365);
+  
+  if (jar.get('seminars_to_show')){
+    seminars_to_show = jar.get('seminars_to_show');
+  } else {
+    seminars_to_show = []
+  }
+    
+  if (jar.get('show_internal_seminars')){
+    show_internal_seminars = jar.get('show_internal_seminars').include('true');
+  } else {
+    show_internal_seminars = false
+  }
+  
+  if (id == 'internal') {
+    var show_internal_seminars = (value == 'true')
+    jar.put('show_internal_seminars', show_internal_seminars);
+  } else {
+    if (value == 'true') {
+      if (!seminars_to_show.include(id)) { seminars_to_show.push(id) }
+    } else {
+      seminars_to_show = seminars_to_show.without(id);
+    }
+    jar.put('seminars_to_show', seminars_to_show);
+  }
+  var semi_lis = $$('.seminar');
+  semi_lis.each(function(li) {
+    var class_names = $w(li.className);
+    var categ_id = class_names.toString().match(/category_\d+/)[0].match(/\d+/)[0];
+  // alert(categ_id);
+    if (seminars_to_show.include(categ_id)) {
+      if (class_names.include('internal') && show_internal_seminars == false) {
+        if (!class_names.include('hidden_seminar')) {
+          li.addClassName('hidden_seminar');
+        }
+      } else {
+        if (class_names.include('hidden_seminar')) {
+          li.removeClassName('hidden_seminar');
+        }
+      }
+    } else {
+      if (!class_names.include('hidden_seminar')) {
+        li.addClassName('hidden_seminar');
+      }
+    }
+    
+  // alert(categ_id);
+  });
+  // $('cookies_value').innerHTML = seminars_to_show;
 }
 
 function remove_field(element) {

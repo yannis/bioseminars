@@ -18,31 +18,47 @@ h1 {
     h1 a:hover {
       color: #003a20; }
 
+h2 {
+  padding-left: 0;
+  line-height: 1em; }
+
+h3, h4 {
+  margin: 1.5em auto .6em auto; }
+
 a {
   text-decoration: underline; }
   a img {
     text-decoration: none; }
 
-h2 {
-  line-height: 1em;
-  padding-left: 0; }
+fieldset {
+  padding: 1em;
+  margin: 1em 0 0 0;
+  border: 2px solid;
+  border-color: #007e64;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -border-radius: 1em;
+  -webkit-box-shadow: 10px 10px 25px #ccc;
+  -moz-box-shadow: 10px 10px 25px #ccc;
+  box-shadow: 10px 10px 25px #ccc; }
+  fieldset .categories_to_show {
+    margin: 1em 0 0 0; }
+  fieldset.columns_4 {
+    padding: 0; }
+    fieldset.columns_4 p {
+      padding: .4em 0 0 1em; }
+    fieldset.columns_4 .categories_to_show li {
+      display: inline-block;
+      width: 220px;
+      margin: 0;
+      padding: .4em 0 0 0; }
+  fieldset legend {
+    margin: 0 1em;
+    color: #007e64;
+    font-size: 164%; }
 
 form {
   margin: 0 1em; }
-  form fieldset {
-    margin: 1em 0 0 0;
-    border: 2px solid;
-    border-color: #007e64;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -border-radius: 1em;
-    -webkit-box-shadow: 10px 10px 25px #ccc;
-    -moz-box-shadow: 10px 10px 25px #ccc;
-    box-shadow: 10px 10px 25px #ccc; }
-    form fieldset legend {
-      margin: 0 1em;
-      color: #007e64;
-      font-size: 164%; }
   form label, form .label {
     font-weight: bold;
     margin: .5em 0 .3em 0; }
@@ -86,6 +102,9 @@ input[type=checkbox] {
   text-align: left; }
 #content section {
   padding: 1em; }
+
+.flash {
+  margin-bottom: 1em; }
 
 .notice, .warning {
   width: 100%;
@@ -188,18 +207,17 @@ table {
   margin-top: 1em; }
 
 #footer {
-  margin: 1em 0 0 0; }
+  margin-top: 1em; }
   #footer #footer_box {
     text-align: center;
-    display: block;
-    position: relative;
     height: 74px;
+    width: 710px;
     overflow: hidden;
     font-size: 118%;
     color: #ccffcc;
     background-color: #007e64;
     padding: 0;
-    margin: 13px 0 0 0;
+    margin-top: 13px;
     -moz-border-radius: 1em;
     -webkit-border-radius: 1em;
     -border-radius: 1em;
@@ -224,7 +242,7 @@ table {
       margin: 1em auto 0 auto;
       list-style: none; }
       #footer #footer_box ul li {
-        float: left;
+        display: inline-block;
         margin-left: 1em;
         padding-left: 1em;
         border-left: 1px solid;
@@ -234,6 +252,7 @@ table {
 
 #navigation {
   margin-top: 1.6em;
+  margin-bottom: 1.6em;
   font-weight: bold;
   font-size: 118%;
   padding: 0em; }
@@ -326,9 +345,9 @@ table {
   margin: 20px auto auto -450px; }
 
 .color {
-  display: block;
-  float: left;
-  margin: 0.2em 0.5em 0 0;
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
   width: 1em;
   height: 1em; }
 
@@ -338,13 +357,16 @@ table {
   font-size: 218%;
   vertical-align: bottom; }
 
-.seminar {
+.seminar .time_and_location {
+  font-weight: bold;
+  color: #c77d00; }
+.seminar .admin_links {
+  text-align: right; }
+.seminar.hidden_seminar {
+  display: none; }
+
+.showing_seminar {
   margin-top: 3em; }
-  .seminar .time_and_location {
-    font-weight: bold;
-    color: #c77d00; }
-  .seminar .admin_links {
-    text-align: right; }
 
 .alert_internal {
   color: #bd001a;
@@ -388,14 +410,14 @@ div.auto_complete {
   -moz-box-shadow: 10px 10px 25px #999;
   box-shadow: 10px 10px 25px #999; }
 
-#publications dl dd p {
+.seminar_publications dl dd p {
   margin-bottom: 0; }
-#publications dl dd p:last-child {
+.seminar_publications dl dd p:last-child {
   margin-bottom: 1em; }
-#publications p#big_ajax_loader {
+.seminar_publications p#big_ajax_loader {
   text-align: center;
   font-weight: bold; }
-  #publications p#big_ajax_loader img {
+  .seminar_publications p#big_ajax_loader img {
     display: block;
     position: relative;
     margin: 1em auto 0 auto;
@@ -410,3 +432,60 @@ div.auto_complete {
 
 .red_dot {
   color: red; }
+
+#seminar_list .seminar {
+  margin-top: 1.5em;
+  padding-top: 10px;
+  border: 2px solid;
+  border-color: #007e64;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -border-radius: 1em; }
+  #seminar_list .seminar .title_and_content {
+    width: 440px; }
+    #seminar_list .seminar .title_and_content .alert_internal {
+      margin: 0; }
+
+.pagination {
+  font-weight: bold;
+  font-size: 118%;
+  padding: 0em; }
+  .pagination a, .pagination span {
+    margin: 0 .2em 0 0;
+    padding: .6em 1em;
+    background-color: #007e64;
+    -moz-border-radius: .8em;
+    -webkit-border-radius: .8em;
+    -border-radius: .8em;
+    -webkit-box-shadow: 10px 10px 25px #ccc;
+    -moz-box-shadow: 10px 10px 25px #ccc;
+    box-shadow: 10px 10px 25px #ccc; }
+  .pagination span.disabled {
+    color: #44c2a8;
+    background-color: #f7f2e5;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .pagination span.current {
+    color: #ccffcc;
+    background-color: #ff445e; }
+  .pagination a {
+    -moz-border-radius: .8em;
+    -webkit-border-radius: .8em;
+    -border-radius: .8em;
+    color: #ccffcc;
+    text-decoration: none; }
+    .pagination a:hover, .pagination a:focus {
+      border-color: #003a20;
+      background: #005c42;
+      color: #ccffcc; }
+  .pagination .page_info {
+    color: #aaa;
+    padding-top: .8em; }
+  .pagination .prev_page, .pagination .next_page {
+    border-width: 2px; }
+  .pagination .prev_page {
+    margin-right: .5em; }
+  .pagination .next_page {
+    margin-left: .5em; }

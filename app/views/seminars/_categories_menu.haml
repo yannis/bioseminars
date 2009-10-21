@@ -1,0 +1,13 @@
+- form_tag seminars_path do
+  %ul.categories_to_show
+    %li
+      = check_box_tag :internal, true, show_internal_seminars?
+      = label_tag :internal, "<span class='redstar'>*</span> Internal seminars (not public)"
+      = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
+    - for category in Category.all
+      %li
+        = check_box_tag "categories[]", true, show_category?(category), :id => "categories_#{category.id}", :style => "background-color: red"
+        - unless category.color.blank?
+          %span.color{:style => "background-color: ##{category.color}"}
+        = link_to_unless_current h(category.acronym_or_name), category_path(category), :style => "color: ##{category.color}"
+        = observe_field "categories_#{category.id}", :function => "show_or_hide_seminars_with_class(value, '#{category.id}')"

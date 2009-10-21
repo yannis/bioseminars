@@ -1,6 +1,6 @@
 class SeminarsController < ApplicationController
   
-  skip_before_filter :login_required, :only => ['index', 'show', 'load_publications']
+  skip_before_filter :login_required, :only => ['index', 'calendar', 'show', 'load_publications']
   before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'insert_person_in_form']
   before_filter :set_variables
   
@@ -11,16 +11,13 @@ class SeminarsController < ApplicationController
   # GET /seminars
   # GET /seminars.xml
   def index
-    @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
-    @seminars = @categories.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories).all_day_first
+    @seminars = @categories.nil? ? Seminar.all.paginate(:page => params[:page]) : Seminar.of_categories(@categories).paginate(:page => params[:page])
     @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
-    @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
       format.html
-      format.iframe  { render 'iframe', :layout => 'layouts/iframe' }
       format.xml  {
         @seminars = @seminars_for_feeds
         render :xml => @seminars
@@ -46,11 +43,23 @@ class SeminarsController < ApplicationController
           cal_event.description = seminar.description unless seminar.description.blank?
           cal.add_event(cal_event.to_ical)
         end
-        format.js {
-          render 'index.haml'
-        }
         render :text => cal.to_ical
       end
+    end
+  end
+  
+  
+  def calendar
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    @categories = Category.find(params[:categories].split(' ')) if params[:categories]
+    @internal = params[:internal] == 'true' ? true : false
+    @seminars = @categories.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories).all_day_first
+    @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
+    @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
+
+    respond_to do |format|
+      format.html
+      format.iframe  { render 'iframe', :layout => 'layouts/iframe' }
     end
   end
 

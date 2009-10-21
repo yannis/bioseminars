@@ -1,3 +1,7 @@
+21.10.2009
+Added a seminars listing.
+Added a way to show and hide seminars in the calendar and list depending on their category.
+
 15.10.200
 Few bug fixes.
 Pictures, documents and publications can be attached to seminars.
