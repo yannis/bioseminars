@@ -1,0 +1,10 @@
+- obj_sym = object.class.to_s.humanize.downcase
+%h3
+  = "Create a #{obj_sym}"
+- form_remote_for object do |f|
+  = render :partial => "#{obj_sym.pluralize}/form", :locals => {:f => f}
+  %p
+    %span.button.inline_in_form
+      = submit_tag('Create', :class => "confirm button")
+      or
+      = link_to_function 'cancel', "clearForm(this.up('form'))"

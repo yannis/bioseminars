@@ -19,7 +19,7 @@ class UsersControllerTest < ActionController::TestCase
         get :index
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -28,7 +28,7 @@ class UsersControllerTest < ActionController::TestCase
         get :show, :id => users(:basic).id
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -37,7 +37,7 @@ class UsersControllerTest < ActionController::TestCase
         get :show, :id => users(:admin).id
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -46,7 +46,7 @@ class UsersControllerTest < ActionController::TestCase
         get :new
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -55,7 +55,7 @@ class UsersControllerTest < ActionController::TestCase
         post :create, :user => {:name => 'new user', :email => 'new_user@example.com', :password => 'pass23', :password_confirmation => 'pass23'}
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
 
@@ -64,7 +64,7 @@ class UsersControllerTest < ActionController::TestCase
         get :edit, :id => users(:basic).id
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -73,7 +73,7 @@ class UsersControllerTest < ActionController::TestCase
         get :edit, :id => users(:admin).id
       end
 
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
 
@@ -82,7 +82,7 @@ class UsersControllerTest < ActionController::TestCase
         put :update, :id => users(:basic).id, :user => {:name => 'new basic name'}
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
     end
     
@@ -188,7 +188,7 @@ class UsersControllerTest < ActionController::TestCase
         get :index
       end
       
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_respond_with 302
       should_set_the_flash_to "No credentials."
     end
@@ -220,7 +220,7 @@ class UsersControllerTest < ActionController::TestCase
         get :new
       end
 
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_set_the_flash_to "No credentials."
     end
     
@@ -229,7 +229,7 @@ class UsersControllerTest < ActionController::TestCase
         post :create, :user => {:name => 'new user', :email => 'new_user@example.com', :password => 'pass23', :password_confirmation => 'pass23'}
       end
 
-      should_redirect_to("login page") { new_session_url }
+      should_redirect_to("login page") { login_path }
       should_set_the_flash_to "No credentials."
     end
 
@@ -272,8 +272,8 @@ class UsersControllerTest < ActionController::TestCase
       #       should_redirect_to("seminar's show view") { seminar_url(assigns(:seminar)) }
       #       should_respond_with 302
       #       should_change("the number of seminars", :by => 1) { Seminar.count }
-      #       should_change("the number of speakers", :by => 1) { Speaker.count }
-      #       should_change("the number of hosts", :by => 1) { Host.count }
+      #       should_change "Speaker.count", :by => 1
+      #       should_change "Host.count", :by => 1
       #       should_set_the_flash_to "Seminar was successfully created."
     
   end

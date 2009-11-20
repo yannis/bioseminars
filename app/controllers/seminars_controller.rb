@@ -1,19 +1,36 @@
 class SeminarsController < ApplicationController
   
   skip_before_filter :login_required, :only => ['index', 'calendar', 'show', 'load_publications']
-  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'insert_person_in_form']
+  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy']
   before_filter :set_variables
-  
-  def auto_complete_for_host_email
-    auto_complete_responder_for_host_email(params[:seminar][:hosts_attributes].map{|key,value| value[:email]}.to_s)
-  end
+  before_filter :set_next_seminar, :only => ['index', 'show', 'calendar']
   
   # GET /seminars
   # GET /seminars.xml
   def index
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
-    @seminars = @categories.nil? ? Seminar.all.paginate(:page => params[:page]) : Seminar.of_categories(@categories).paginate(:page => params[:page])
+    if @categories.nil?
+      if params[:scope].blank? or params[:scope] == 'future'
+        params[:scope] = 'future'
+        @seminars_to_paginate = Seminar.now_or_future
+      elsif params[:scope] == 'all'
+        @seminars_to_paginate = Seminar.all
+      elsif params[:scope] == 'past'
+        @seminars_to_paginate = Seminar.past
+      end
+    else
+      if params[:scope].blank? or params[:scope] == 'future'
+        params[:scope] = 'future'
+        @seminars_to_paginate = Seminar.now_or_future
+      elsif params[:scope] == 'all'
+        @seminars_to_paginate = Seminar.all
+      elsif params[:scope] == 'past'
+        @seminars_to_paginate = Seminar.past
+      end
+    end
+    @seminars = @seminars_to_paginate.paginate(:page => params[:page])
+    @seminars = @seminars_to_paginate.paginate(:page => '1') and params[:page] = '1' if @seminars.size == 0
     @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
 
     respond_to do |format|
@@ -53,6 +70,7 @@ class SeminarsController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
+    # @seminars_to_paginate = @categories.nil? ? Seminar.all : Seminar.of_categories(@categories)
     @seminars = @categories.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories).all_day_first
     @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
@@ -97,11 +115,9 @@ class SeminarsController < ApplicationController
   # GET /seminars/new.xml
   def new
     @seminar = Seminar.new
-    @seminar.start_on = params[:origin].to_time(:local) if params[:origin]
+    @seminar.start_on = params[:origin] ? params[:origin].to_time(:local) : Time.current
     @seminar.hosts.build
     @seminar.speakers.build
-    @seminar.documents.build
-    @seminar.pictures.build
 
     respond_to do |format|
       format.html # new.html.haml
@@ -116,13 +132,12 @@ class SeminarsController < ApplicationController
   # GET /seminars/1/edit
   def edit
     @seminar = Seminar.all_for_user(current_user).find(params[:id])
-    @seminar.documents.build if @seminar.documents.blank?
-    @seminar.pictures.build if @seminar.pictures.blank?
   end
 
   # POST /seminars
   # POST /seminars.xml
   def create
+    params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
     @seminar = current_user.seminars.new(params[:seminar])
     respond_to do |format|
       if @seminar.save
@@ -133,7 +148,7 @@ class SeminarsController < ApplicationController
           @origin = params[:origin]
         }
       else
-        flash.now[:error] = 'Something went wrong.'
+        flash[:warning] = 'Seminar not saved.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
         format.js{
@@ -142,23 +157,24 @@ class SeminarsController < ApplicationController
         }
       end
     end
-    # rescue Exception => e
-    #   unless @seminar.nil?
-    #     @seminar.errors.add(e, '')
-    #     respond_to do |format|
-    #       format.html { render 'new' }
-    #     end
-    #   else
-    #     flash[:warning] = e unless e.blank?
-    #     respond_to do |format|
-    #       format.html { redirect_back_or_default(seminars_path) }
-    #     end       
-    #   end
+    rescue Exception => e
+      unless @seminar.nil?
+        @seminar.errors.add_to_base(e)
+        respond_to do |format|
+          format.html { render 'new' }
+        end
+      else
+        flash[:warning] = e || 'Unable to create seminar'
+        respond_to do |format|
+          format.html { redirect_back_or_default(seminars_path) }
+        end       
+      end
   end
 
   # PUT /seminars/1
   # PUT /seminars/1.xml
   def update
+    params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
     @seminar = Seminar.all_for_user(current_user).find(params[:id])
     respond_to do |format|
       if @seminar.update_attributes(params[:seminar])
@@ -166,16 +182,12 @@ class SeminarsController < ApplicationController
         format.html { redirect_to(@seminar) }
         format.xml  { head :ok }
       else
-        flash.now[:error] = 'Something went wrong.'
+        # flash[:warning] = 'Seminar not updated.'
         format.html { render :action => "edit" }
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
       end
     end
-    rescue Exception => e
-      @seminar.errors.add(e, '')
-      respond_to do |format|
-        format.html { render 'edit' }
-      end
+
   end
 
   # DELETE /seminars/1
@@ -187,20 +199,14 @@ class SeminarsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(seminars_url) }
       format.xml  { head :ok }
+      format.js { render 'layouts/remove_from_table' }
     end
   rescue
     respond_to do |format|
       flash[:warning] = 'Seminar not deleted.'
       format.html { redirect_to(seminars_url) }
       format.xml  { head :ok }
-    end
-  end
-  
-  def insert_person_in_form
-    @seminar = params[:id] == 'new' ? Seminar.new : Seminar.all_for_user(current_user).find(params[:id])
-    @person = params[:person] == 'host' ? @seminar.hosts.build : @seminar.speakers.build
-    respond_to do |format|
-      format.js
+      format.js { render 'layouts/remove_from_table' }
     end
   end
   
@@ -229,20 +235,19 @@ class SeminarsController < ApplicationController
     end
   end
   
-  protected
-  
-  def auto_complete_responder_for_host_email(value)
-    if value.nil?
-      render( :inline => '')
-    else
-      @value = value
-      @emails = Host.find(:all, :select => 'email', :conditions => [ 'LOWER(hosts.email) LIKE ?', @value.downcase + '%'], :order => 'hosts.email ASC')
-      render( :inline => "<%= auto_complete_result(@emails, 'email') %>")
-    end
+  def about
+    
   end
+  
+  protected
   
   def set_variables
     @buildings = Building.find :all
     @categories = Category.find(:all)
+    @next_seminar = Seminar.next.first
+  end
+  
+  def set_next_seminar
+    @next_seminar = Seminar.next.first
   end
 end

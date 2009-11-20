@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
   attr_accessible :email, :name, :password, :password_confirmation, :role_id
   
-  default_scope :order => "users.name ASC"
+  default_scope :order => "users.name ASC", :include => 'role'
   named_scope :all_for_user, lambda{ |a_user| 
     if a_user.basic?
       {:conditions => ["users.id = ?", a_user.id]}
@@ -101,6 +101,10 @@ class User < ActiveRecord::Base
   # for a user 'Firstname Middlename Lastname' gives 'F.Lastname'
   def nickname
     name.gsub(/^(\w)(?:\w+ )+(\w+)/, '\1.\2')
+  end
+  
+  def can_be_destroyed?
+    seminars.blank?
   end
 
   protected

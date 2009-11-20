@@ -1,0 +1,92 @@
+/* !darkgreen = #007E64 */
+/* !verydarkgreen = !darkgreen - #222222 */
+/* !lightgreen = #E5F3E5 */
+
+.calendar_date_select {
+  color: #333;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  -border-radius: .5em;
+  border: 2px solid;
+  border-color: #007e64;
+  display: block;
+  width: 190px;
+  z-index: 1000;
+  background-color: #f7f2e5; }
+
+iframe.ie6_blocker {
+  position: absolute;
+  z-index: 999; }
+
+.calendar_date_select {
+  margin: 0; }
+  .calendar_date_select thead {
+    background-color: #007e64; }
+    .calendar_date_select thead th {
+      font-weight: bold;
+      color: #FFF;
+      padding: 0; }
+  .calendar_date_select .cds_buttons {
+    text-align: center;
+    padding: .1em 0 0 0; }
+    .calendar_date_select .cds_buttons span.at_sign {
+      display: none; }
+    .calendar_date_select .cds_buttons a {
+      color: #df223c;
+      font-size: 9px; }
+  .calendar_date_select .cds_footer {
+    padding: .1em;
+    text-align: center;
+    font-weight: bold; }
+  .calendar_date_select table {
+    margin: 0px;
+    padding: 0px; }
+    .calendar_date_select table span {
+      font-size: 15px;
+      font-weight: bold; }
+  .calendar_date_select select {
+    font-size: 11px; }
+  .calendar_date_select .cds_header {
+    padding: 2px 0 0 0;
+    margin: 0 auto;
+    background-color: #007e64;
+    text-align: center; }
+    .calendar_date_select .cds_header a {
+      font-size: 145%;
+      line-height: 1em;
+      font-weight: bold;
+      color: #ff445e !important; }
+      .calendar_date_select .cds_header a:hover {
+        color: white; }
+      .calendar_date_select .cds_header a.prev {
+        float: left; }
+      .calendar_date_select .cds_header a.next {
+        float: right; }
+      .calendar_date_select .cds_header a.close {
+        float: right;
+        display: none; }
+    .calendar_date_select .cds_header select.month {
+      width: 90px; }
+    .calendar_date_select .cds_header select.year {
+      width: 61px; }
+  .calendar_date_select td {
+    width: 20px;
+    height: 18px;
+    text-align: center;
+    vertical-align: middle; }
+    .calendar_date_select td.weekend {
+      background-color: #ccffcc; }
+    .calendar_date_select td .other {
+      opacity: .5; }
+  .calendar_date_select tbody td {
+    border: 1px dotted;
+    border-color: #007e64; }
+  .calendar_date_select td.selected {
+    background-color: #FFFF88; }
+  .calendar_date_select td:hover {
+    background-color: #ccc; }
+  .calendar_date_select td.disabled div {
+    color: #454545; }
+
+.fieldWithErrors .calendar_date_select {
+  border: 2px solid red; }

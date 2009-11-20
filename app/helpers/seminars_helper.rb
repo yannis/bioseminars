@@ -1,6 +1,10 @@
 module SeminarsHelper
   def render_calendar_cell(d)
-    day_number = "<span class='day_number'>#{d.mday}</span>"
+    day_number = "<span class='day_info'>"
+    day_number += "<span class='month_name'>#{Date::MONTHNAMES[d.mon]}</span>" unless d == Date.current or d.month == Date.current.month
+    day_number += " <span class='day_today'>Today</span>" if d == Date.current
+    day_number += " <span class='day_number'>#{d.mday}</span>"
+    day_number += "</span>"
     if @days_with_seminars.include?(d)          # (days that are in the array listOfSpecialDays) one CSS class,
       sem = [day_number]
       sem << "<ul id='seminars_#{d.to_s}'>"
@@ -22,6 +26,28 @@ module SeminarsHelper
       html.appendTo(jQuery("#{where}")).slideDown('slow');
     }
   end
+  
+  def link_to_insert_person(person)
+    html = render :partial => "seminars/#{person}", :object => eval(person.classify).new
+    link_to_function "Add another #{person}", %{
+      var new_object_id = new Date().getTime();
+      var new_element = #{js html}.replace(/index_to_replace_with_js/g, new_object_id);
+      Element.insert(this, {before: new_element});}, :class => 'add_link'
+  end
+  
+  
+  def add_doc_or_pic_link
+    html = render :partial => 'seminars/doc_or_pic'
+    link_to_function '(+)', %{
+      var new_object_id = new Date().getTime();
+      var new_element = #{js html}.replace(/index_to_replace_with_js/g, new_object_id);
+      Element.insert('document_or_picture', {bottom: new_element});}
+  end
+  
+    # 
+    # var new_object_id = new Date().getTime();
+    # 
+    # Element.insert('document_or_picture', {bottom: '#{escape_javascript(html)}'})
 
   def js(data)
     if data.respond_to? :to_json

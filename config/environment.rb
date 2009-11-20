@@ -35,6 +35,8 @@ Rails::Initializer.run do |config|
   config.gem 'icalendar'
   config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
   config.gem 'bio', :version => '>=1.3.1'
+  config.gem "calendar_date_select"
+  config.gem 'htmlentities'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -46,7 +48,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-  config.active_record.observers = :user_observer
+  config.active_record.observers = :user_observer, :seminar_observer
 
   # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
   # Run "rake -D time" for a list of tasks for finding time zone names.
@@ -65,19 +67,24 @@ Rails::Initializer.run do |config|
     :domain => "mail.zoo.unige.ch"
   }
   
+  
+  
+  config.action_view.field_error_proc = Proc.new{ |html_tag, instance| "<span class='fieldWithErrors'>#{html_tag}</span>" }
+
 
 end
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
-    :time_only => '%H:%M',
-    :rfc2445 => '%Y%m%dT%H%M00',
-    :rfc822 => '%a, %d %b %Y %H:%M:%S +0100',
-    :day_month_year => "%e %B %Y",
-    :dotted_day_month_year => "%e %B %Y",
-    :day_month_year_hour_minute => "%e %B %Y, %H:%M"
-  )
-  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
-      :month => '%B',
-      :dotted_day_month_year => "%e %B %Y",
-      :time_only => '%H:%M'
-  )
+  :time_only => '%H:%M',
+  :rfc2445 => '%Y%m%dT%H%M00',
+  :rfc822 => '%a, %d %b %Y %H:%M:%S +0100',
+  :day_month_year => "%e %B %Y",
+  :dotted_day_month_year => "%e %B %Y",
+  :day_month_year_hour_minute => "%e %B %Y, %H:%M"
+)
+ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!( 
+  :month => '%B',
+  :dotted_day_month_year => "%e %B %Y",
+  :time_only => '%H:%M'
+)
+CalendarDateSelect.format = :db

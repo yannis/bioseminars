@@ -1,6 +1,9 @@
-= f.label :name
-= error_message_on "building", "name", :prepend_text => "Name ", :append_text => "!", :css_class => "input_error"
-= f.text_field :name
-= f.label :description
-= error_message_on "building", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
-= f.text_area :description
+.label_and_input
+  = f.label :name, "<span class='red_asterisk'>*</span> Name"
+  = f.text_field :name
+  = f.my_error_message_on :name
+  
+.label_and_input
+  = f.label :description
+  = f.text_area :description
+  = f.my_error_message_on :description

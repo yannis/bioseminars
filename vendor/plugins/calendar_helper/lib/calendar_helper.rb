@@ -68,7 +68,7 @@ module CalendarHelper
     raise(ArgumentError, "No year given")  unless options.has_key?(:year)
     raise(ArgumentError, "No month given") unless options.has_key?(:month)
 
-    block                        ||= Proc.new {|d| nil}
+    block ||= Proc.new {|d| nil}
 
     defaults = {
       :table_class => 'calendar',
@@ -97,17 +97,19 @@ module CalendarHelper
     end
 
     # TODO Use some kind of builder instead of straight HTML
-    cal = %(<table class="#{options[:table_class]}" border="0" cellspacing="0" cellpadding="0">)
+    cal = %(<table class="#{options[:table_class]}" cellspacing="0" cellpadding="0">)
     cal << %(<thead><tr>)
-    cal << %(<th>#{link_to 'Go to today', calendar_seminars_path(:date => Date.current)}</th>)
     if options[:previous_month_text] or options[:next_month_text]
-      cal << %(<th colspan="2">#{options[:previous_month_text]}</th>)
-      colspan=2
+      colspan=4
     else
-      colspan=76
+      colspan=7
     end
-    cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}">#{Date::MONTHNAMES[options[:month]]} #{options[:year]}</th>)
-    cal << %(<th colspan="2">#{options[:next_month_text]}</th>) if options[:next_month_text]
+    cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}"><h2>#{Date::MONTHNAMES[options[:month]]} #{options[:year]}</h2></th>)
+    today_previous_next_links = []
+    today_previous_next_links << options[:previous_month_text] if options[:previous_month_text]
+    today_previous_next_links << options[:next_month_text] if options[:next_month_text]
+    today_previous_next_links << link_to('<br/>Today', calendar_seminars_path(:date => Date.current), :class => 'link_to_today') unless first.to_s == Date.current.beginning_of_month.to_s
+    cal << %(<th class='links_to_today_previous_next' colspan="3">#{today_previous_next_links.join(' ')}</th>)
     cal << %(</tr><tr class="#{options[:day_name_class]}">)
     day_names.each do |d|
       unless d[options[:abbrev]].eql? d
@@ -116,17 +118,29 @@ module CalendarHelper
         cal << "<th scope='col'>#{d[options[:abbrev]]}</th>"
       end
     end
-    cal << "</tr></thead><tbody><tr>"
+    cal << "</tr></thead><tbody>"
     beginning_of_week(first, first_weekday).upto(first - 1) do |d|
       #added by Yannis 3.9.2009
-      cal << %(<td  id='date_#{d.to_s}' class="#{options[:other_month_class]})
-      # cal << %(<td class="#{options[:other_month_class]})
-      cal << " weekendDay" if weekend?(d)
+      # cal << %(<td  id='date_#{d.to_s}' class="#{})
+      # # cal << %(<td class="#{options[:other_month_class]})
+      # cal << " weekendDay" if weekend?(d)
+      cal << "<tr>" if d.wday == first_weekday
       if options[:accessible]
-        cal << %(">#{d.day}<span class="hidden"> #{Date::MONTHNAMES[d.month]}</span></td>)
+        cell_text, cell_attrs = block.call(d)
+        cell_text  ||= d.mday
+        cell_attrs ||= {}
+        cell_attrs[:id] = 'date_'+d.to_s #added by Yannis 3.9.2009
+        cell_attrs[:class] ||= options[:day_class]
+        cell_attrs[:class] += ' '+options[:other_month_class]
+        cell_attrs[:class] += " weekendDay" if [0, 6].include?(d.wday) 
+        cell_attrs[:class] += " today" if (d == (Time.respond_to?(:zone) ? Time.zone.now.to_date : Date.today)) and options[:show_today]
+        cell_attrs = cell_attrs.map {|k, v| %(#{k}="#{v}") }.join(" ")
+        cal << "<td #{cell_attrs}>#{cell_text}</td>"
+        # cal << %(">#{d.day}<span class="hidden"> #{Date::MONTHNAMES[d.mon]}</span></td>)
       else
         cal << %(">#{d.day}</td>)
       end
+      cal << "</tr>" if d.wday == last_weekday
     end unless first.wday == first_weekday
     first.upto(last) do |cur|
       cell_text, cell_attrs = block.call(cur)
@@ -137,19 +151,32 @@ module CalendarHelper
       cell_attrs[:class] += " weekendDay" if [0, 6].include?(cur.wday) 
       cell_attrs[:class] += " today" if (cur == (Time.respond_to?(:zone) ? Time.zone.now.to_date : Date.today)) and options[:show_today]
       cell_attrs = cell_attrs.map {|k, v| %(#{k}="#{v}") }.join(" ")
+      cal << "<tr>" if cur.wday == first_weekday
       cal << "<td #{cell_attrs}>#{cell_text}</td>"
-      cal << "</tr><tr>" if cur.wday == last_weekday
+      cal << "</tr>" if cur.wday == last_weekday
     end
     (last + 1).upto(beginning_of_week(last + 7, first_weekday) - 1)  do |d|
-      cal << %(<td  id='date_#{d.to_s}' class="#{options[:other_month_class]})
-      cal << " weekendDay" if weekend?(d)
+      cal << "<tr>" if d.wday == first_weekday
+      # cal << %(<td  id='date_#{d.to_s}' class="#{options[:other_month_class]})
+      # cal << " weekendDay" if weekend?(d)
       if options[:accessible]
-        cal << %(">#{d.day}<span class='hidden'> #{Date::MONTHNAMES[d.mon]}</span></td>)
+        # cal << %(">#{d.day}<span class='hidden'> #{Date::MONTHNAMES[d.mon]}</span></td>)
+        cell_text, cell_attrs = block.call(d)
+        cell_text  ||= d.mday
+        cell_attrs ||= {}
+        cell_attrs[:id] = 'date_'+d.to_s #added by Yannis 3.9.2009
+        cell_attrs[:class] ||= options[:day_class]
+        cell_attrs[:class] += ' '+options[:other_month_class]
+        cell_attrs[:class] += " weekendDay" if [0, 6].include?(d.wday) 
+        cell_attrs[:class] += " today" if (d == (Time.respond_to?(:zone) ? Time.zone.now.to_date : Date.today)) and options[:show_today]
+        cell_attrs = cell_attrs.map {|k, v| %(#{k}="#{v}") }.join(" ")
+        cal << "<td #{cell_attrs}>#{cell_text}</td>"
       else
         cal << %(">#{d.day}</td>)        
       end
+      cal << "</tr>" if d.wday == last_weekday
     end unless last.wday == last_weekday
-    cal << "</tr></tbody></table>"
+    cal << "</tbody></table>"
   end
   
   private

@@ -1,4 +1,7 @@
 %tr[category]{:class => cycle('', 'odd')}
+  - if admin? and index?
+    %td
+      = image_tag 'drag_handle.gif', :id => "drag_handle_#{category.id}", :class => 'handle'
   %td
     - unless category.color.blank?
       %span.color{:style => "background-color: ##{category.color}"}
@@ -8,6 +11,10 @@
   %td
     = h(category.description)
   %td
-    - links = [edit_link(category)]
-    - links << destroy_link(category)
-    = links.join(' · ')
+    = category.seminars.size
+  - if admin?
+    %td
+      - links = [link_to_remote('Edit', :url => edit_category_path(category), :method => :get, :html => {:href => edit_category_path(category)})]
+      - links << destroy_remote_link(category) if category.no_more_seminars? and index?
+      - links << destroy_link(category) if category.no_more_seminars? and !index?
+      = links.join(' · ')

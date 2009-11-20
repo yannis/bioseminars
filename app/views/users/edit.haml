@@ -1,10 +1,8 @@
 - @title ||= "Edit user “#{@user.name}”"
 - @user.password = @user.password_confirmation = nil
-.grid_4.prefix_4.suffix_4
-  = error_messages_for :user
-  - form_for :user, :url => user_path(@user), :html => { :method => :put, :class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = update_button
+.large_form
+  - form_for @user do |f|
+    %h2
+      = @title
+    = render :partial => 'form', :locals => {:f => f}
+    = update_button

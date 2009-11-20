@@ -1,19 +1,21 @@
 class Speaker < ActiveRecord::Base
   has_and_belongs_to_many :seminars
   
-  validates_presence_of :name, :title
+  validates_presence_of :name
+  validates_presence_of :title
   
   before_validation :capitalize_name
   
   def name_and_affiliation
     name_and_affiliation = [name]
     name_and_affiliation << "(#{affiliation})" unless affiliation.blank?
-    return name_and_affiliation.join(' ')
+    #see http://htmlentities.rubyforge.org/
+    return HTMLEntities.new.encode(name_and_affiliation.join(' '))
   end
   
   def bold_name_and_affiliation
-    name_and_affiliation = ["<strong>#{name}</strong>"]
-    name_and_affiliation << "(#{affiliation})" unless affiliation.blank?
+    name_and_affiliation = ["<strong>#{HTMLEntities.new.encode(name)}</strong>"]
+    name_and_affiliation << "(#{HTMLEntities.new.encode(affiliation)})" unless affiliation.blank?
     return name_and_affiliation.join(' ')
   end
   

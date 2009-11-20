@@ -4,12 +4,12 @@ class SpeakerTest < ActiveSupport::TestCase
   fixtures :all
 
   should_have_and_belong_to_many :seminars
-  
   should_validate_presence_of :name
+  should_validate_presence_of :title
   
   context "A speaker" do
     setup do
-      @speaker = Host.create(:name => 'speaker1 name', :email => 'speaker1@emil.com')
+      @speaker = Speaker.create(:name => 'speaker1 NAME', :email => 'speaker1@emil.com', :affiliation => 'IFOM-FIRC, University of Milan, Italy', :title => 'Alternative activation of SREBP in Drosophila')
     end
 
     should "be valid" do
@@ -18,6 +18,14 @@ class SpeakerTest < ActiveSupport::TestCase
     
     should "have his name capitalized" do
       assert_equal @speaker.name, 'Speaker1 Name'
+    end
+    
+    should "have name_and_affiliation" do
+      assert_equal @speaker.name_and_affiliation, 'Speaker1 Name (IFOM-FIRC, University of Milan, Italy)'
+    end
+
+    should "have bold_name_and_affiliation" do
+      assert_equal @speaker.bold_name_and_affiliation, '<strong>Speaker1 Name</strong> (IFOM-FIRC, University of Milan, Italy)'
     end
   end
 end

@@ -48,7 +48,7 @@ class <%= controller_class_name %>Controller < ApplicationController
         format.html { redirect_to(@<%= file_name %>) }
         format.xml  { render :xml => @<%= file_name %>, :status => :created, :location => @<%= file_name %> }
       else
-        flash.now[:error] = 'Something went wrong.'
+        flash[:warning] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @<%= file_name %>.errors, :status => :unprocessable_entity }
       end
@@ -66,7 +66,7 @@ class <%= controller_class_name %>Controller < ApplicationController
         format.html { redirect_to(@<%= file_name %>) }
         format.xml  { head :ok }
       else
-        flash.now[:error] = 'Something went wrong.'
+        flash[:warning] = 'Something went wrong.'
         format.html { render :action => "edit" }
         format.xml  { render :xml => @<%= file_name %>.errors, :status => :unprocessable_entity }
       end

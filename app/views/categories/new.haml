@@ -4,11 +4,9 @@
 - javascript '/colorpicker/scriptaculous/slider.js'
 - javascript '/colorpicker/yahoo.color.js'
 - @title ||= 'New category'
-.grid_4.prefix_4.suffix_4
-  = error_messages_for :user
-  - form_for @category, :url => categories_path, :html => {:class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = create_button
+.large_form
+  %h2
+    = @title
+  - form_for @category do |f|
+    = render :partial => 'form', :locals => {:f => f}
+    = create_button

@@ -15,7 +15,7 @@ class SeminarTest < ActiveSupport::TestCase
   
   should_have_named_scope("of_day('#{Time.parse('2009-01-01 01:00:00')}')", {:conditions=>["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day, Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day, Time.parse('2009-01-01 01:00:00').utc.beginning_of_day, Time.parse('2009-01-01 01:00:00').utc.end_of_day]})
   
-  should_have_named_scope("of_month(Date.parse('2009-01-01 12:00:00'))", {:conditions=>["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc, Time.parse('2009-01-01 12:00:00').end_of_month.utc]})
+  should_have_named_scope("of_month(Date.parse('2009-01-01 12:00:00'))", {:conditions=>["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", Time.parse('2009-01-01 12:00:00').beginning_of_month.utc-7.days, Time.parse('2009-01-01 12:00:00').end_of_month.utc+7.days, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc-7.days, Time.parse('2009-01-01 12:00:00').end_of_month.utc+7.days, Time.parse('2009-01-01 12:00:00').beginning_of_month.utc-7.days, Time.parse('2009-01-01 12:00:00').end_of_month.utc+7.days]})
   
   # should_have_named_scope("past", {:conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current, Time.current]})
   should_have_named_scope("all_for_user(User.find_by_name('basic'))", {:conditions => ["seminars.user_id = ?", 1]})
@@ -37,8 +37,8 @@ class SeminarTest < ActiveSupport::TestCase
         
     context "when hosts and speakers are added," do
       setup do
-        @seminar.update_attributes(:speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}})
-        @seminar.save
+        @seminar.update_attributes(:speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title'}}, :hosts_attributes => {'index_to_replace_with_js' => {:name => 'host name prout', :email => 'host@email.com'}}, :host_ids => ['1', '2'])
+        @seminar.reload
       end
       
       should "be valid" do
@@ -57,8 +57,12 @@ class SeminarTest < ActiveSupport::TestCase
         assert @seminar.editable_or_destroyable_by_user?(users(:admin))
       end
       
-      should_change("the number of speakers", :by => 1) { Speaker.count }
-      should_change("the number of hosts", :by => 1) { Host.count }
+      should_change "Speaker.count", :by => 1
+      should_change "Host.count", :by => 1
+      
+      should "have 3 hosts" do
+        assert_equal @seminar.hosts.size, 3
+      end
       
       should 'have a end_on == Time.parse("#{Date.current} 13:00:00")' do
         assert_equal @seminar.end_on, Time.parse("#{Date.current} 12:00:00")+1.hour
@@ -77,7 +81,7 @@ class SeminarTest < ActiveSupport::TestCase
       end
       
       should 'have time_and_category == "12:00: LSSS"' do
-        assert_equal @seminar.time_and_category, '12:00 LSSS'
+        assert_equal @seminar.time_and_category, '<strong>12:00</strong> LSSS'
       end
       
       context "if end_on < start_on," do
@@ -137,8 +141,8 @@ class SeminarTest < ActiveSupport::TestCase
           assert_equal @seminar.when_and_where, ' 1 January 2009, 11:00 -  5 January 2009, 13:00 - 4059 (ScIII)'
         end
         
-        should 'have time_and_category == "11:00: LSSS"' do
-          assert_equal @seminar.time_and_category, '11:00 LSSS'
+        should 'have time_and_category == "<strong>11:00</strong> LSSS"' do
+          assert_equal @seminar.time_and_category, '<strong>11:00</strong> LSSS'
         end
         
         should 'have schedule == "1 January 2009, 11:00 -  5 January 2009, 13:00"' do
@@ -197,16 +201,16 @@ class SeminarTest < ActiveSupport::TestCase
           @seminar.destroy
         end
         
-        should_change("the number of speakers", :by => -1) { Speaker.count }
-        should_change("the number of hosts", :by => -1) { Host.count }
+        should_change "Speaker.count", :by => -1
+        should_change "Host.count", :by => -3
       end
       
       context 'when @seminar is internal' do
         setup do
           @seminar.update_attributes(:internal => true)
         end
-        should 'have time_and_category == "12:00 LSSS <span class=redstar>*</span>"' do
-          assert_equal @seminar.time_and_category, "12:00 LSSS <span class='redstar'>*</span>"
+        should 'have time_and_category == <strong>12:00</strong> LSSS <span class="redstar">*</span>' do
+          assert_equal @seminar.time_and_category, "<strong>12:00</strong> LSSS <span class='redstar'>*</span>"
         end
       end
       
@@ -223,6 +227,36 @@ class SeminarTest < ActiveSupport::TestCase
           assert @seminar.publications.map(&:title).include?('Epigenetic temporal control of mouse Hox genes in vivo.')
         end
       end
+      
+      context "when a pdf and a picture are uploaded," do
+        setup do
+          @seminar.update_attributes(:doc_attributes => {'index_to_replace_with_js' => {:data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/test/fixtures/files/30_278_H.pdf", 'application/pdf')}, '54545465' => {:data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/test/fixtures/files/rails.png", 'image/png')}})
+        end
+        
+        should_change "Document.count", :by => 1
+        should_change "Picture.count", :by => 1
+
+        should "have a document" do
+          assert_equal @seminar.documents.size, 1
+        end
+
+        should "have a picture" do
+          assert_equal @seminar.pictures.size, 1
+        end
+        
+        context "and the picture is deleted" do
+          setup do
+            @seminar.update_attributes(:pictures_attributes => {"#{@seminar.pictures.first.id}" => {:_delete => '1', :id => "#{@seminar.pictures.first.id}"}})
+          end
+          
+          should_change "Picture.count", :by => -1
+
+          should "destroy the picture" do
+            assert_equal @seminar.reload.pictures.size, 0
+          end
+        end
+        
+      end      
     end
   end
 end

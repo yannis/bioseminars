@@ -1,0 +1,10 @@
+object = eval("@#{params[:controller].singularize}")
+obj_sym = object.class.to_s.humanize.downcase
+page << flash_in_rjs(flash[:notice], flash[:warning])
+if flash[:warning].blank?
+  page << "var poof = new Element('img', {src: '/images/poof.gif'});"
+  page << "var tr = $('#{obj_sym}_#{object.id}'); tr.removeClassName('odd'); tr.update(poof)"
+  page.visual_effect :SwitchOff, "#{obj_sym}_#{object.id}", :delay => 1
+  
+end
+flash.discard

@@ -1,41 +1,37 @@
-/ - if @seminar.new_record?
-/   - fields_for "seminar[speakers_attributes][#{@seminar.speakers.first.object_id}]" do |fs|
-/     .inline_in_form{:id => "speaker_#{@seminar.speakers.first.object_id}"}
-/       = fs.label :name
-/       = fs.text_field :name
-/       = fs.label :affiliation
-/       = fs.text_field :affiliation
-/       = link_to_function 'Remove', "$('speaker_#{@seminar.speakers.first.object_id}').remove()"
-/ - else
-/   - for speaker in @seminar.speakers
-/     - fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
-/       .inline_in_form
-/         = fs.hidden_field :id
-/         = fs.label :name
-/         = fs.text_field :name
-/         = fs.label :affiliation
-/         = fs.text_field :affiliation
-/         = fs.check_box '_delete'
-/         = fs.label '_delete', 'Remove'
 - if speaker.new_record?
-  - fields_for "seminar[speakers_attributes][#{speaker.object_id}]" do |fs|
-    .inline_in_form{:id => "speaker_#{speaker.object_id}"}
-      = fs.label :name
-      = fs.text_field :name, :class => 'speaker_name'
-      = fs.label :affiliation
-      = fs.text_field :affiliation, :class => 'speaker_affiliation'
-      = fs.label :title
-      = fs.text_field :title, :class => 'speaker_title'
-      = link_to_function 'Remove', "$('speaker_#{speaker.object_id}').remove()"
+  - fields_for "seminar[speakers_attributes][index_to_replace_with_js]" do |fs|
+    .inline_in_form.group{:id => "speaker_index_to_replace_with_js"}
+      .label_and_input
+        %div{:style => 'display: none'}
+          = fs.my_error_message_on :name, :object => speaker
+        = fs.label :name, "<span class='red_asterisk'>*</span> Name"
+        = fs.text_field :name, :class => 'speaker_name'
+        = fs.my_error_message_on :name, :object => speaker
+      .label_and_input
+        = fs.label :affiliation, 'Affiliation'
+        = fs.text_field :affiliation, :class => 'speaker_affiliation'
+        = fs.my_error_message_on :affiliation, :object => speaker
+      .label_and_input.seminar_title
+        = fs.label :title, "<span class='red_asterisk'>*</span> Seminar title"
+        = fs.text_field :title, :class => 'speaker_title'
+        = fs.my_error_message_on :title, :object => speaker
+      .label_and_input.remove_link
+        = link_to_function 'Remove', "$('speaker_index_to_replace_with_js').remove()"
 - else
   - fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
-    .inline_in_form
+    .inline_in_form.group{:id => "speaker_#{speaker.id}"}
       = fs.hidden_field :id
-      = fs.label :name
-      = fs.text_field :name, :class => 'speaker_name'
-      = fs.label :affiliation
-      = fs.text_field :affiliation, :class => 'speaker_affiliation'
-      = fs.label :title
-      = fs.text_field :title, :class => 'speaker_title'
-      = fs.check_box '_delete'
-      = fs.label '_delete', 'Remove'
+      .label_and_input
+        = fs.label :name, "<span class='red_asterisk'>*</span> Name", :object => speaker
+        = fs.text_field :name, :class => 'speaker_name'
+        = fs.my_error_message_on :name, :object => speaker
+      .label_and_input
+        = fs.label :affiliation, 'Affiliation'
+        = fs.text_field :affiliation, :class => 'speaker_affiliation'
+      .label_and_input.seminar_title
+        = fs.label :title, "<span class='red_asterisk'>*</span> Seminar title"
+        = fs.text_field :title, :class => 'speaker_title'
+        = fs.my_error_message_on :title, :object => speaker
+      .label_and_input.remove_link
+        = fs.label '_delete', 'Remove'
+        = fs.check_box '_delete'

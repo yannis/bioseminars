@@ -1,11 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.resources :buildings
-  map.resources :categories, :has_many => :seminars
+  map.resources :categories, :has_many => :seminars, :collection => {:sort => :post}
   map.resources :feeds
   map.resources :locations
   # map.resources :roles
-  map.resources :seminars, :member => {:insert_person_in_form => :post, :load_publications => :post}, :collection => {:auto_complete_for_host_email => :get, :validate_pubmed_ids => :post, :calendar => :get}
+  map.resources :seminars, :member => {:load_publications => :post}, :collection => {:validate_pubmed_ids => :post, :calendar => :get}
   map.resource :session
   map.resources :users, :has_many => :orders
 
@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'users', :action => 'forgot_password'
   map.reset_password '/reset_password/:reset_code', :controller => 'users', :action => 'reset_password', :reset_code => nil
   map.back '/back', :controller => 'seminars', :action => 'back'
+  map.about '/about', :controller => 'seminars', :action => 'about'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

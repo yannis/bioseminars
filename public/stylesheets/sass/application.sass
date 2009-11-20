@@ -1,495 +1,948 @@
 @import defines.sass
-
+=image_thumbnail
+  :border .2em solid white
+  :-webkit-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+  :-moz-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+  :box-shadow 2px 2px 5px rgba(0,0,0,.5)
+  :-moz-border-radius .2em
+  :-webkit-border-radius .2em
+  :-border-radius .2em
 body
   :background-color = !background
   :color #333
-  :font-family "Lucida Grande", arial, helvetica ,sans-serif
-  :font-size   11px
+  :font-family "Lucida Grande", helvetica, arial, sans-serif
+  :font-size   12px
   :line-height 1.5em
-
-h1
-  :font-size 436%
-  :margin 0 0 .2em 0
-  a
-    :text-decoration none
-    :color = !green
-    &:hover
-      :color = !verydarkgreen
-h2
-  :padding-left 0
-  :line-height 1em
-h3, h4
-  :margin 1.5em auto .6em auto
-a
-  :text-decoration underline
-  img
-    :text-decoration none
-
-fieldset
-  :padding 1em
-  .categories_to_show
-    :margin 1em 0 0 0
-  &.columns_4
-    :padding 0
-    p
-      :padding .4em 0 0 1em
-    .categories_to_show
-      li
-        :display inline-block
-        :width 220px
-        :margin 0
-        :padding .4em 0 0 0
-        &:last-child
-  :margin 1em 0 0 0
-  :border 2px solid
-  :border-color = !green
-  :-moz-border-radius 1em
-  :-webkit-border-radius 1em
-  :-border-radius 1em
-  :-webkit-box-shadow 10px 10px 25px #ccc
-  :-moz-box-shadow 10px 10px 25px #ccc
-  :box-shadow 10px 10px 25px #ccc
-  legend
-    :margin 0 1em
-    :color = !green
+  h1
+    :font-size 250%
+  h2
+    :font-size 218%
+    &.title
+      :margin-bottom 1em
+  h3
     :font-size 164%
-
+  h4
+    :font-size 145%
+  h5
+    :font-size 118%
+  a, a:visited
+    :text-decoration none
+    :color = !darkred
+    &:hover
+      :color = !veryverylightred      
+    :-webkit-transition-property color
+    :-webkit-transition-duration .2s
+    :-webkit-transition-timing-function linear
+    img
+      :text-decoration none
+    &[href^="http:"]
+      :background-repeat no-repeat
+      :background-position right center
+      :background-image url(icons/external.png)
+      :margin -2px 0
+      :padding 2px 14px 2px 0
+    &[href^="mailto:"]
+      :background-repeat no-repeat
+      :background-position right center
+      :background-image url(icons/email.png)
+      :padding 2px 20px 2px 0
+    &[href*="
+      &.pdf"]
+        :background-repeat no-repeat
+        :background-position left center
+        :background-image url(icons/pdf.png)
+        :margin -2px 0
+        :padding 2px 0 2px 18px
+      &.doc"]
+        :background-repeat no-repeat
+        :background-position left center
+        :background-image url(icons/doc.png)
+        :margin -2px 0
+        :padding 2px 0 2px 18px
+      &.xls"]
+        :background-repeat no-repeat
+        :background-position left center
+        :background-image url(/stylesheets/icons/xls.png)
+        :margin -2px 0
+        :padding 2px 0 2px 18px
+      &.rss"], &.rdf"]
+        :background-repeat no-repeat
+        :background-position right center
+        :background-image url(icons/feed.png)
+        :margin -2px 0
+        :padding 2px 22px 2px 0
+    &[href*=".xls"]
+      :background-repeat no-repeat
+      :background-position right center
+      :background-image url(icons/xls.png)
+      :margin -2px 0
+      :padding 2px 22px 2px 0
+    &[href*=".ics"]
+      :background-repeat no-repeat
+      :background-position left center
+      :background-image url(icons/ics.png)
+      :margin -2px 0
+      :padding 2px 0 2px 18px
+  // -> Main Container
+  #main_container
+    :margin 0 auto
+    //960px/12px = 80 (12px base font-size)
+    //:max-width 80em
+    :width 92%
+    
+    // -> Banner and navigation
+    #banner_and_navigation
+      :width 100%
+      :margin 0 0 1em 0
+      // -> Banner
+      #banner
+        :float left
+        :width 25%
+        :margin-top 1.4em
+        :overflow visible
+        h1
+          :font-size 436%
+          :margin  .1em 0 .2em 0
+          .banner_font
+            :font-size 80%
+          a
+            :z-index 500
+            :text-decoration none
+            :color = !green
+            &:hover
+              :color = !verylightred
+      // <- end banner
+      // -> Navigation
+      ul#navigation
+        :float right
+        :text-align center
+        :font-size 145%
+        :padding 0
+        :height 4em
+        :position relative
+        :top -1em
+        li
+          :float left
+          :height 2.5em
+          :margin 0 .5em
+          :background-color = !verylightgreen
+          :position relative
+          :z-index 100
+          a
+            :display block
+            :width 7em
+            :color = !white
+            :-moz-border-radius .5em
+            :-webkit-border-radius .5em
+            :-border-radius .5em
+            :-webkit-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+            :-moz-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+            :box-shadow 2px 2px 5px rgba(0,0,0,.5)
+            :-webkit-transition-property background-color
+            :-webkit-transition-duration .4s
+            :-webkit-transition-timing-function linear
+            :padding 1.4em 0em .5em 0em
+            :margin 0
+            :background-color = !verylightgreen
+            &:hover
+              :background-color = !veryverylightred
+            &:active
+              :background-color = !verylightred
+          &.selected
+            a
+              :background-color = !green
+              :padding 2em 0em .5em 0em
+              &:hover
+                :background-color = !lightred
+            &:hover
+              ul
+                :padding 3.6em 0 .5em 0
+                li a:hover
+                  :background-color = !lightred
+          ul
+            :height auto
+            :background-position 0 0 !important
+            :display none
+            :width 6em
+          &:hover
+            ul
+              :display block
+              :z-index -100
+              :position absolute
+              :top 0
+              :padding 3.1em 0 .5em 0
+              :margin 0 .5em
+              :-moz-border-radius .5em
+              :-webkit-border-radius .5em
+              :-border-radius .5em
+              :-webkit-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+              :-moz-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+              :box-shadow 2px 2px 5px rgba(0,0,0,.5)
+              :background-color = !verylightgreen
+              li
+                :float none
+                :z-index 20
+                :margin 0
+                :height 1.6em
+                a
+                  :padding .3em 0
+                  :margin 0
+                  :width 6em
+                  :background-color = !verylightgreen
+                  :-webkit-box-shadow none
+                  :-moz-box-shadow none
+                  :box-shadow none
+                  :-moz-border-radius 0
+                  :-webkit-border-radius 0
+                  :-border-radius 0
+                  &:hover
+                    :background-color = !veryverylightred
+                //ul
+                //  :position relative
+                //  :top -1.6em
+                //  :left 5.5em
+                //  :display none
+                //  :width 5em
+                //&:hover
+                //  ul
+                //    :display block
+                //    :z-index 10
+                //    :padding 0
+                //    :background-color = !veryverylightred
+                //    li
+                //      :background-color transparent
+                //      a
+                //        :-moz-border-radius 0 0 .5em .5em
+                //        :-webkit-border-radius 0 0 .5em .5em
+                //        :-border-radius 0 0 .5em .5em
+                //        :width 5em
+                //        :background-color transparent
+                      
+      // <- end Navigation
+    // <- end Banner and Navigation
+  // <- end Main Container
+  // -> Flash and Co
+  #flash_and_co
+    :width 100%
+    .flash
+      :margin-bottom 1em
+    .notice, .warning
+      :width 100%
+      :margin 0 auto 1em auto
+      :padding 1em 0
+      :text-align center
+      :font-size 1.5em
+      :font-weight 1.5em
+      :-moz-border-radius .5em
+      :-webkit-border-radius .5em
+      :-border-radius .5em
+      :border 2px solid
+    .notice
+      :background-color = !veryverylightgreen
+      :border-color = !green
+      :color = !verydarkgreen
+    .warning
+      :background-color = !veryverylightred
+      :border-color = !red
+      :color = !verydarkred
+  // <- end Flash and Co
+  #content
+    :min-height 35em
+    :margin-bottom 1em
+    table
+      &.list
+        :margin 0 0 1em 0
+        :padding 0
+        :width 100%
+        :border-collapse collapse
+        tr
+          th:first-child, td:first-child
+            :-moz-border-radius .5em 0 0 .5em
+            :-webkit-border-bottom-left-radius .5em
+            :-webkit-border-top-left-radius .5em
+            :border-radius .5em 0 0 .5em
+          th:last-child, td:last-child
+            :-moz-border-radius 0 .5em .5em 0
+            :-webkit-border-bottom-right-radius .5em
+            :-webkit-border-top-right-radius .5em
+            :border-radius 0 .5em .5em 0
+        thead
+          th
+            :color = !veryverylightgreen
+            :background-color = !green
+            :vertical-align middle
+        tbody
+          :color = !verydarkgreen
+          .odd
+            :background-color = !veryverylightgreen
+        td, th
+          :padding .2em .5em
+          :text-align left
+      &.calendar
+        .seminar
+          :border 0 none
+    .color
+      :display inline-block
+      :margin 0 .1em
+      :vertical-align middle
+      :width 1em
+      :height 1em
+    .admin_links
+      :text-align right
+      
+    #seminars
+      :margin-top 1em
+      :width 61%
+      h2
+        :font-size 145%
+      
+    //-> seminar unit
+    .seminar
+      :border-top 2px solid
+      :border-color = !verylightgreen
+      .time_and_location
+        :position relative
+        :border-bottom 1px dotted
+        :border-color = !verylightgreen
+        :padding .5em 0
+        :color #333
+        :font-weight bold
+      .title_and_content
+        h2, h3, p
+          :line-height 1.5em
+          :margin .6em 0
+        ul li
+          :margin .6em 0
+        p.creator
+          :text-align right
+      &.hidden_seminar
+        :display none
+      ul#pictures      
+        :list-style none
+        :margin 0
+        li
+          :float left
+          :margin-right 1em
+          & a img
+            +image_thumbnail
+      .seminar_publications
+        dl
+          dt
+            :font-size 118%
+          dd
+            p
+              :margin-bottom 0
+            p:last-child
+              :margin-bottom 1em
+        p#big_ajax_loader
+          :text-align center
+          :font-weight bold
+          img
+            :display block
+            :position relative
+            :margin 1em auto 0 auto
+            :background-color = !green
+            :padding 1em
+            :-moz-border-radius 1em
+            :-webkit-border-radius 1em
+            :-border-radius 1em
+    //<- seminar unit
+    //-> left column
+    .left_column
+      :float left
+      :width 73%
+      h3, h4
+        :line-height 1.5em
+        :margin 1em 0 .5em 0
+      dl
+        dt
+          :font-size 118%
+          :font-weight bold
+        dd
+          :margin-bottom 1em
+      #links_to_next_and_previous
+        :margin-bottom 1em
+        :text-align right
+        a
+          :padding .5em
+          :-moz-border-radius .5em
+          :-webkit-border-radius .5em
+          :-border-radius .5em
+          :background-color = !verylightred
+          :color #FFF
+          :font-weight bold
+          &:hover
+            :background-color = !veryverylightred
+          
+    //<- left column
+    //-> right column
+    .right_column
+      :float right
+      :width 25%
+      #categories
+        :background-color #FFF
+        :-moz-border-radius .5em
+        :-webkit-border-radius .5em
+        :-border-radius .5em
+        :padding 1em
+        :z-index 50
+        h3
+          :color = !lightred
+          :margin 0
+          :padding-bottom 1em
+        ul
+          :border-top 2px solid
+          :border-top-color = !background
+          li
+            :display block
+            :padding .3em 0
+            :margin 0
+            :overflow hidden
+            :border-bottom 1px solid
+            :border-bottom-color = !background
+            label, span.label
+              :float left
+              :width 80%
+            input
+              &[type=checkbox]
+              :float right
+            &:last-child
+              :border none
+            .label
+              :font-weight normal
+        &.categories_hidden
+          :margin-bottom 1em
+          .title
+            a
+              :float right
+          #ZoomClose
+            :display none
+          .hidden_categories
+            :display none
+          
+        &.all_categories_shown
+          :width 100%
+          :position absolute
+          :left 8%
+          :width 80%
+          :background-color #FFF
+          :padding 1em 1em 1em 1em
+          :-moz-border-radius .5em
+          :-webkit-border-radius .5em
+          :-border-radius .5em
+          :-webkit-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+          :-moz-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+          :box-shadow 2px 2px 5px rgba(0,0,0,.5)
+          :border 2px solid
+          :border-color = !green
+          img#ZoomClose
+            :display block
+            :position absolute
+            :left -15px
+            :top -15px
+            :cursor pointer
+            :z-index 20
+          .title a
+            :display none
+          #all_categories
+            :width 100%
+            :border-top 2px solid
+            :border-top-color = !background
+            ul
+              :float left
+              :width 23%
+              :margin 0 1%
+              :border none
+        #create_feeds_link
+          :display block
+          :text-align right
+          :margin-top 1em
+          a
+            :-moz-background-clip border
+            :-moz-background-inline-policy continuous
+            :-moz-background-origin padding
+            :padding 1px 0 5px 19px
+            :background transparent url('/images/rssIconS.png') no-repeat scroll left top
+    //<- right column
+    //-> Pagination
+    .pagination
+      :font-size 118%
+      :margin 1em 0
+      a, span
+        :margin 0 .2em 0 0
+        :padding .3em .5em
+        :background-color = !green
+        :-moz-border-radius .5em
+        :-webkit-border-radius .5em
+        :-border-radius .5em
+      span.disabled
+        :color = !verylightgreen
+        :background-color transparent
+        :border none
+      span.current
+        :color = !veryverylightgreen
+        :background-color = !verylightred
+      a
+        :-moz-border-radius .5em
+        :-webkit-border-radius .5em
+        :-border-radius .5em
+        :color #FFF
+        :text-decoration none
+        &:hover, &:focus
+          :border-color = !verydarkgreen
+          :background = !darkgreen
+          :color = !veryverylightgreen
+      .page_info
+        :color #aaa
+        :padding-top .8em
+      .prev_page, .next_page
+        :border-width 2px
+      .prev_page
+        :margin-right .5em
+      .next_page
+        :margin-left .5em
+    //<- Pagination
+    // -> .box
+    .box, .large_form
+      :background-color white
+      :padding 1em
+      :margin-bottom 1em
+      :-moz-border-radius .5em
+      :-webkit-border-radius .5em
+      :-border-radius .5em
+      h3, h4
+        :color = !lightred
+      h3        
+        :margin 0
+        :padding-bottom 1em
+        :border-bottom 2px solid
+        :border-bottom-color = !background
+      h4, p
+        :margin 0 0 .6em 0
+        :padding 0
+    .box
+      #mandatory_fields
+        :float right
+        :margin 0
+      .label_and_input
+        :margin-bottom 1em
+        label, input[type=text], input[type=password], textarea
+          :display block
+          :width 97%
+      form
+        :padding-top 1em
+        :width 100%
+        .group
+          :padding 0
+          :margin-bottom 1em
+          label
+            :text-align right
+            :float left
+            :width 30%
+          input, textarea, select
+            :float right
+            :width 65%
+      p
+        :margin-bottom 1em
+        &:last-child
+          :margin-bottom 0
+      textarea
+        :width 100%
+        :height 3em
+        
+      &#new_or_edit_form
+        :position fixed
+        :width 20%
+    //<- end .box
+    // -> #about
+    #about
+      p
+        :font-size 118%
+        :margin-bottom 1em
+    //<- #about
+    //-> .scope_and_pagination
+    .scope_and_pagination
+      :width 100%
+      :margin-bottom 1em
+      #scope_selector
+        :display inline-block
+        :font-size 118%
+        select
+          :font-size 100%
+      .pagination
+        :display inline-block
+        :margin 0
+    //<- scope_and_pagination
+  //<- end Content
+  //-> Ajax div
+  .ajax_div, .large_form
+    a
+      :text-decoration underline
+    form
+      :margin-top 1em
+    #mandatory_fields
+      :float right
+    .label_and_input
+      label
+        :margin-bottom .2em
+        &[for=seminar_all_day]
+          :display inline
+      #seminar_all_day
+        :display inline
+      input[type=text]
+        :width 50%   
+    input[type=checkbox]
+      :display inline
+      :width auto
+    h2, h3
+      :line-height 1.5em
+      :margin 0
+      :padding-bottom 1em
+      :border-bottom 2px solid
+      :border-bottom-color = !background
+    h2
+      :color = !verylightred
+    h3, h4
+      :color = !lightred
+    h3
+      :padding-bottom 1em
+      :border-bottom 2px solid
+      :border-bottom-color = !background
+    h4, p
+      :margin 0 0 .6em 0
+      :padding 0
+    
+    select
+      :width 20%
+      &.date_time
+        :width auto
+    textarea
+      :height 6em
+      :width 50%
+    fieldset
+      :margin 0 0 1em 0
+      :padding 1em
+      :border 2px solid
+      :border-color = !background
+      legend
+        :-moz-border-radius .5em
+        :-webkit-border-radius .5em
+        :-border-radius .5em
+        :padding .5em
+        :font-size 1em
+        :border 2px solid
+        :border-color = !background
+      textarea
+        :height 6em
+        :width 50%
+      &#speakers, &#hosts
+        .inline_in_form
+          :display block
+          :width 100%
+          :margin-bottom 0
+          .label_and_input
+            :display block
+            :float left
+            :width 20%
+            :margin-right 2em
+            label, input, .formError, select, .label
+              :display block
+              :width 100%
+            select
+              :position relative
+              :top 5px
+            &.seminar_title
+              :width 40%
+            &.remove_link
+              :width 5%
+              a
+                :-moz-background-clip border
+                :-moz-background-inline-policy continuous
+                :-moz-background-origin padding
+                :padding 1px 0 5px 19px
+                :background transparent url('/images/delete.png') no-repeat scroll left top
+                :display block
+                :margin-top 2em
+            &.or_create
+              :display block
+              :margin-top 2em
+              :width 8em
+              :font-weight bold
+        .add_link
+          :-moz-background-clip border
+          :-moz-background-inline-policy continuous
+          :-moz-background-origin padding
+          :padding 1px 0 5px 19px
+          :background transparent url('/images/add.png') no-repeat scroll left top
+      #documents, #pictures, .document_or_picture
+        :margin-bottom 1em
+      #pictures
+        a img
+          +image_thumbnail
+    .label_and_input
+      :margin-bottom 1em
+      label, input[type=text], textarea, select
+        :display block
+      &.date_time
+        input[type=text], img.calendar_date_select_popup_icon
+          :display inline
+        input[type=text]
+          :width 15em
+    .group
+      :margin-bottom 1em
+    :background-color white
+    :padding 1em
+    :margin-bottom 1em
+    :-moz-border-radius .5em
+    :-webkit-border-radius .5em
+    :-border-radius .5em
+  .ajax_div    
+    :z-index 500
+    :width 50%
+    :left 25%
+    :top 2em
+    :padding 10px
+    :border 2px solid
+    :border-color = !green
+    :position fixed
+    #ajax_form
+      :padding 0 1em
+      :max-height 550px
+      :overflow auto
+    #ZoomClose
+      :position absolute
+      :left -15px
+      :top -15px
+      :cursor pointer
+    &#seminars_div
+      :width 90%
+      :left 4%
+    fieldset
+      :position inherit
+  //<- Ajax div
+  //-> large_form
+  .large_form
+    h2
+      :margin-bottom 0
+    #errorExplanation
+      :width 98%
+      :margin auto
+      :border 2px solid
+      :border-color = !darkred
+      :color = !darkred
+      :padding 1em
+      :margin-bottom 1em
+      :background-color = !veryverylightred
+      :-moz-border-radius .5em
+      :-webkit-border-radius .5em
+      :-border-radius .5em
+      h3
+        :color = !darkred
+        :border-bottom 0
+        :padding-bottom .6em
+      p
+        :font-weight bold
+      li
+        :color = !darkred
+        :font-size 118%
+        :font-weight bold
+  // <- large form
+  // -> Footer
+  #footer
+    :margin 2em 0 1em 0
+    :width 100%
+    #logo
+      :float left
+      :width 25%
+      #logo_fac
+        :width 100%
+    #footer_box
+      :float right
+      :width 73%
+      :position relative
+      :display block
+      :text-align center
+      :min-height 100% 
+      :overflow hidden
+      :color #FFF
+      :background-color = !green
+      :-moz-border-radius .5em
+      :-webkit-border-radius .5em
+      :-border-radius .5em
+      #rss_feed_link, #ical_feed_link
+        :-moz-background-clip border
+        :-moz-background-inline-policy continuous
+        :-moz-background-origin padding
+        :padding 1px 0 5px 19px
+      #rss_feed_link
+        :background transparent url('/images/rssIconS.png') no-repeat scroll left top
+      #ical_feed_link
+        :background transparent url('/images/ical_iconS.png') no-repeat scroll left top
+      a
+        :color #FFF
+        :font-weight bold
+        :text-decoration none
+      ul
+        :width 40%
+        :float left
+        :position relative
+        :list-style none
+        :text-align left
+        :margin 1em 5%
+        li
+          :width 100%
+          :font-size 118%
+          :padding .5em 0
+          :border-bottom 1px solid
+          :border-bottom-color = !lightgreen
+          :margin 0
+          &:last-child
+            :border none
+  // <- End Footer
+//-> Various
+span.by
+  :font-family Baskerville,"Goudy Old Style","Palatino","Book Antiqua",serif
+  :font-size 1.2em
+  :font-style italic
+  :font-weight normal
+  :line-height 1
 form
   label, .label
     :font-weight bold
-    :margin .5em 0 .3em 0
-  :margin 0 1em
-  &.with_blocks
-    label, input
-      :display block
-    input, select, textarea
-      :margin 0 0 1em 0
-    textarea
-      :height 6em
-      :width 300px
-    .inline_in_form
-      :display block
-      label, input, .label
-        :display inline
-      input[type='text']
-        :width 10em
-  .button
-    :margin 1em 0 0 0
-  #speakers, #hosts
-    input[type=text]
-      :width 15em
-    label
-      :font-weight normal
-  label[for='seminar_all_day']
-    :font-weight normal
-  #seminar_all_day
-    :top 0
-  ul
-    :margin 0
-    li
-      :margin 1em 0 0 0
-      :list-style none
-      :list-style-position outside
-form#show_internal_seminars
-  :margin 1em 0 0 0
-input[type=checkbox]
-  :top 0
-
-#content
-  h2
-    :text-align left
-  section
+  input[type=text], input[type=password], textarea
+    :border none
+    :background-color = !background
+    :border 1px solid
+    :border-color = !darkbackground
+    :padding 3px
+    :-moz-border-radius 3px
+    :-webkit-border-radius 3px
+    :-border-radius 3px
+  fieldset
     :padding 1em
-.flash
-  :margin-bottom 1em
-.notice, .warning
-  :width 100%
-  :margin 0 auto
-  :padding 1em 0
-  :text-align center
-  :font-size 1.5em
-  :font-weight 1.5em
-  :-moz-border-radius 1em
-  :-webkit-border-radius 1em
-  :-border-radius 1em
-
-.notice
-  :background-color = !veryverylightgreen
-  :border 2px solid
-  :border-color = !green
-  :color = !verydarkgreen
-
-.warning
-  :background-color = !veryverylightred
-  :border 2px solid
-  :border-color = !red
-  :color = !verydarkred 
-
-.fieldWithErrors
-  :display table
-  :padding 2px
-  :background-color #731b10
-  :color #fff
-  :font-weight bold
-
-.fieldWithErrors label
-  :padding 2px 8px
-
-#errorExplanation 
-  :width 400px
-  :border 2px solid #731b10
-  :padding 7px
-  :padding-bottom 12px
-  :margin-bottom 20px
-  :background-color #f0f0f0
-
-
-#errorExplanation h2 
-  :text-align left
-  :font-weight bold
-  :padding 5px 5px 5px 15px
-  :font-size 12px
-  :margin -7px
-  :background-color #731b10
-  :color #fff
-
-
-#errorExplanation p 
-  :color #333
-  :margin-bottom 0
-  :padding 5px
-
-
-#errorExplanation ul li 
-  :font-size 12px
-  :list-style square
-  
-#javascript_disabled_notification
-  :font-size 1.2em
-  :padding 1em
-  :border 2px solid #F6402D
-  :background #FF7D58
-  :width 60%
-  :margin auto
-  :padding 1em
-  :border 2px solid #F6402D
-  :background-color #FF7D58
-
-th
-  :text-align left
-
-table
-  :font-size 12px
-  :text-align left
-  :border-collapse collapse
-  tr
-    td:first-child, th:first-child
-      :-moz-border-radius .5em 0 0 .5em
-      :-webkit-border-radius 0
-      :-webkit-border-top-left-radius .5em
-      :-webkit-border-bottom-left-radius .5em
-      :border-radius .5em 0 0 0
-    td:last-child, th:last-child
-      :-moz-border-radius 0 .5em .5em 0
-      :-webkit-border-radius 0
-      :-webkit-border-top-right-radius .5em
-      :-webkit-border-bottom-right-radius .5em
-      :border-radius 0 .5em .5em 0
-  thead
-    th
-      :color = !veryverylightgreen
-      :background-color = !green
-  tbody
-    :color = !verydarkgreen
-    .odd
-      :background-color = !veryverylightgreen
-#banner
-  :margin-top 1em
-
-#footer
-  :margin-top 1em
-  #footer_box
-    :text-align center
-    :height 74px
-    :width 710px
-    :overflow hidden
-    :font-size 118%
-    :color = !veryverylightgreen
-    :background-color = !green
-    :padding 0
-    :margin-top 13px
-    :-moz-border-radius 1em
-    :-webkit-border-radius 1em
-    :-border-radius 1em
-    :-webkit-box-shadow 10px 10px 25px #ccc
-    :-moz-box-shadow 10px 10px 25px #ccc
-    :box-shadow 10px 10px 25px #ccc
-    #rss_feed_link, #ical_feed_link
-      :-moz-background-clip border
-      :-moz-background-inline-policy continuous
-      :-moz-background-origin padding
-      :background transparent url('/images/rssIconS.png') no-repeat scroll left top
-      :padding 1px 0 5px 19px
-    #rss_feed_link
-      :background transparent url('/images/rssIconS.png') no-repeat scroll left top
-    #ical_feed_link
-      :background transparent url('/images/ical_iconS.png') no-repeat scroll left top
-    a
-      :color = !veryverylightgreen
-      :font-weight bold
-    ul
-      :display inline-block
-      :margin 1em auto 0 auto
-      :list-style none
-      li
-        :display inline-block
-        :margin-left 1em
-        :padding-left 1em
-        :border-left 1px solid
-        :border-color = !veryverylightgreen
-      li:first-child
-        :border none
-/// navigation
-#navigation
-  :margin-top 1.6em
-  :margin-bottom 1.6em
-  :font-weight bold
-  :font-size 118%
-  :padding 0em
-  ul
-    li
-      :margin 0 .2em 0 0
-      :background-color = !green
-      :-moz-border-radius .8em
-      :-webkit-border-radius .8em
-      :-border-radius .8em
-      :-webkit-box-shadow 10px 10px 25px #ccc
-      :-moz-box-shadow 10px 10px 25px #ccc
-      :box-shadow 10px 10px 25px #ccc
-      a
-        :font-weight bold
-        :color = !white
-      &:hover
-        :background-color = !darkgreen
-    li.secondary
-      :font-size 100%
-      :background-color = !verylightred
-      :float right
-      form
-        :display inline
-        input
-          :display inline
-
-      span.status
-        :width auto
-        :float left
-        :padding 0 1em
-        :line-height 2.77em
-        :height 2.77em
-        :font-size 0.9em
-        :color white
-
-        a
-          :float none
-          :display inline
-          :padding 0
-          :height auto
-          :line-height auto
-          :background transparent
-
-          &:hover
-            :color #fff
-            :background transparent
-        span
-          :text-transform capitalize
-    ul
-      li
-        :background-color = !darkgreen
-        ul
-          :top 100%
-          :left -25px
-          :list-style none
-          :display none
-          :z-index 597
-      li:hover
-        :background-color = !verydarkgreen
-        ul
-          :display block
-          :margin-top -2.1em
-          :left 100%
-.ajax_div
-  :z-index 10000
-  :width 480px
-  :margin 20px auto auto -240px
-  :padding 10px
-  :-moz-border-radius 1em
-  :-webkit-border-radius 1em
-  :-border-radius 1em
-  :-webkit-box-shadow 10px 10px 25px #ccc
-  :-moz-box-shadow 10px 10px 25px #ccc
-  :box-shadow 10px 10px 25px #ccc
-  :border 2px solid
-  :border-color = !green
-  :position fixed
-  :left 50%
-  :background-color = !background
-  h2
     :margin 0 auto
-  #ajax_form
-    :max-height 550px
-    :overflow auto
-  #ZoomClose
-    :position absolute
-    :left -15px
-    :top -15px
-    :cursor pointer
-#seminars_div.ajax_div
-  :width 880px
-  :margin 20px auto auto -450px
-.color
-  :display inline-block
-  :margin 0
-  :vertical-align middle
-  :width 1em
-  :height 1em
-.redstar
-  :font-family "Lucida Grande", arial, helvetica ,sans-serif
-  :color = !red
-  :font-size 218%
-  :vertical-align bottom
-.seminar
-  .time_and_location
-    :font-weight bold
-    :color = !orange
-  .admin_links
-    :text-align right
-  &.hidden_seminar
-    :display none
-.showing_seminar
-  :margin-top 3em
-.alert_internal
-  :color = !red
-  :text-align center
-  :font-size 145%
-div.auto_complete
-  :width 350px
-  :background #fff
-  ul
-    :border 1px solid #888
-    :width 100%
-    :list-style-type none
-    :margin 0
-    :padding 0
-    li
-      :margin 0
-      :padding 3px
-      &.selected
-        :background-color #ffb
-    strong.highlight
-      :color #800
+    :background-color #FFF
+    :border-color = !green
+    :-moz-border-radius .5em
+    :-webkit-border-radius .5em
+    :-border-radius .5em
+    :position relative
+    legend
+      :font-size 164%
+      :font-weight bold   
+    .group
+      :width 100%
+      :margin-bottom 1em
+      label, .label
+        :display block
+        :width 25%
+        :float left
+      input
+        &[type=text], &[type=password]
+          :display block
+          :width 70%
+          :float right
+        //&[type=checkbox]
+        //  :text-align left
+        //  :display inline
+        //  :width auto
+    p
+      :width 100%
+      :margin-bottom 1em
+    h2
+      :font-size 145%
+      :color = !lightred
+      :padding-bottom 1em
+      :border-bottom 2px solid
+      :border-bottom-color = !background
+    &.login
+      :width 30%
+      h2
+        :margin-bottom 1em
+  a
+    :text-decoration underline
+  .red_asterisk
+    :color = !red
+  .auto_complete
+    :width 350px
+    :background #fff
+    ul
+      :border 1px solid #888
+      :width 100%
+      :list-style-type none
       :margin 0
       :padding 0
-#pictures
-  ul
-    :list-style none
-    :margin 0
-    li
-      :float left
-      :margin-right 1em
-  a img
-    :border .5em solid white
-    :-webkit-box-shadow 5px 5px 12px #999
-    :-moz-box-shadow 5px 5px 12px #999
-    :box-shadow 5px 5px 12px #999
+      li
+        :margin 0
+        :padding 3px
+        &.selected
+          :background-color #ffb
+      strong.highlight
+        :color #800
+        :margin 0
+        :padding 0
+  .fieldWithErrors
+    :display inline
+    label
+      :color = !lightred
+    input[type=text], textarea, input[type=password]
+      :background-color = !veryverylightred
+      :border-color = !lightred
+  .formError
+    :font-weight bold
+    :color = !lightred
+
+
+
+.Growler-notice
+  :position absolute
+  :z-index 2000
+  :margin-top 5em
+  :-moz-border-radius .5em
+  :-webkit-border-radius .5em
+  :-border-radius .5em
+  .Growler-notice-head
+    :display none
+      
 #ZoomImage
   :border 1em solid white
-  :-webkit-box-shadow 10px 10px 25px #999
-  :-moz-box-shadow 10px 10px 25px #999
-  :box-shadow 10px 10px 25px #999
-.seminar_publications
-  dl
-    dd
-      p
-        :margin-bottom 0
-      p:last-child
-        :margin-bottom 1em
-  p#big_ajax_loader
-    :text-align center
-    :font-weight bold
-    img
-      :display block
-      :position relative
-      :margin 1em auto 0 auto
-      :background-color = !green
-      :padding 1em
-      :-moz-border-radius 1em
-      :-webkit-border-radius 1em
-      :-border-radius 1em
-#documents, #pictures, #publications
-  h3
-    :margin 1em 0 .6em 0
-.red_dot
-  :color red
-#seminar_list
-  .seminar
-    :margin-top 1.5em
-    :padding-top 10px
-    :border 2px solid
-    :border-color = !green
-    :-moz-border-radius 1em
-    :-webkit-border-radius 1em
-    :-border-radius 1em
-    .time_and_location
-    .title_and_content
-      :width 440px
-      .alert_internal
-        :margin 0
-    
-    
-      
-  
-  
-      
-.pagination
-  :font-weight bold
+  :-webkit-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+  :-moz-box-shadow 2px 2px 5px rgba(0,0,0,.5)
+  :box-shadow 2px 2px 5px rgba(0,0,0,.5)
+tr
+  img
+    :float right
+#javascript_disabled_notification
   :font-size 118%
-  :padding 0em
-  a, span
-    :margin 0 .2em 0 0
-    :padding .6em 1em
-    :background-color = !green
-    :-moz-border-radius .8em
-    :-webkit-border-radius .8em
-    :-border-radius .8em
-    :-webkit-box-shadow 10px 10px 25px #ccc
-    :-moz-box-shadow 10px 10px 25px #ccc
-    :box-shadow 10px 10px 25px #ccc
-  span.disabled
-    :color = !verylightgreen
-    :background-color = !background
-    :border none
-    :-webkit-box-shadow none
-    :-moz-box-shadow none
-    :box-shadow none
-  span.current
-    :color = !veryverylightgreen
-    :background-color = !verylightred
-  a
-    :-moz-border-radius .8em
-    :-webkit-border-radius .8em
-    :-border-radius .8em
-    :color = !veryverylightgreen
-    :text-decoration none
-    &:hover, &:focus
-      :border-color = !verydarkgreen
-      :background = !darkgreen
-      :color = !veryverylightgreen
-  .page_info
-    :color #aaa
-    :padding-top .8em
-  .prev_page, .next_page
-    :border-width 2px
-  .prev_page
-    :margin-right .5em
-  .next_page
-    :margin-left .5em
+  :padding 1em
+  :border 2px solid
+  :border-color = !red
+  :background-color = !veryverylightred
+  :width 60%
+  :margin 1em auto
+  :-moz-border-radius .5em
+  :-webkit-border-radius .5em
+  :-border-radius .5em
+  h2
+    :line-height 1em
+    :margin-bottom 1em
+  a:hover
+    :color #FFF
+  p
+    :margin-bottom 1em
+#errors  
+  :-moz-border-radius .5em
+  :-webkit-border-radius .5em
+  :-border-radius .5em
+  :padding 1em
+  :margin auto
+  :width 50%
+  :border 2px solid
+  :border-color = !red
+  h2, h3
+    :line-height 1em
+    :margin-bottom 1em
+  p
+    :line-height 1em
+    :margin-bottom 1em
+    :font-size 118%

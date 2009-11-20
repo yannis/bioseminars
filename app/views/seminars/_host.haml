@@ -1,22 +1,26 @@
 - if host.new_record?
-  - fields_for "seminar[hosts_attributes][#{host.object_id}]" do |fs|
-    .inline_in_form{:id => "host_#{host.object_id}"}
-      = fs.label :name
-      = fs.text_field :name, :class => 'host_name'
-      = fs.label :email
-      = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')", :onfocus => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
-      .auto_complete{:id => "seminar_hosts_attributes_#{host.object_id}_email_auto_complete"}
-        = auto_complete_field("seminar_hosts_attributes_#{host.object_id}_email", :url => auto_complete_for_host_email_seminars_path, :skip_style => true, :method => :get, :tokens => ",")
-      = link_to_function 'Remove', "$('host_#{host.object_id}').remove()"
+  - fields_for "seminar[hosts_attributes][index_to_replace_with_js]" do |fs|
+    .inline_in_form.group{:id => "host_index_to_replace_with_js"}
+      .label_and_input
+        .label
+          Chose an existing host
+        = select_tag "seminar[host_ids][]", "<option value=''>-</option>"+options_from_collection_for_select(Host.all, :id, :name)
+        = fs.my_error_message_on :id, :object =>  host
+      .label_and_input.or_create
+        or create one:
+      .label_and_input
+        = fs.label :name, "<span class='red_asterisk'>*</span> Name", :object => host
+        = fs.text_field :name, :class => 'host_name'
+        = fs.my_error_message_on :name, :object =>  host
+      .label_and_input
+        = fs.label :email, "<span class='red_asterisk'>*</span> Email"
+        = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')", :onfocus => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
+        = fs.my_error_message_on :email, :object =>  host
+      .label_and_input.remove_link
+        = link_to_function 'Remove', "$('host_index_to_replace_with_js').remove()"
 - else
   - fields_for "seminar[hosts_attributes][#{host.id}]", host do |fs|
-    .inline_in_form
-      = fs.hidden_field :id
-      = fs.label :name
-      = fs.text_field :name, :class => 'host_name'
-      = fs.label :email
-      = fs.text_field :email, :class => 'host_email', :onchange => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')", :onfocus => "get_name_from_email(this, '#{fs.object_name.gsub('][', '_').gsub('[', '_').gsub(']', '')}_name')"
-      .auto_complete{:id => "seminar_hosts_attributes_#{host.id}_email_auto_complete"}
-        = auto_complete_field("seminar_hosts_attributes_#{host.id}_email", :url => auto_complete_for_host_email_seminars_path, :skip_style => true, :method => :get, :tokens => ",")
-      = fs.check_box '_delete'
-      = fs.label '_delete', 'Remove'
+    .inline_in_form.group
+      .label_and_input
+        = select_tag "seminar[host_ids][]", "<option value=''>- remove -</option>"+options_from_collection_for_select(Host.find(:all), :id, :name, host.id)
+        = fs.my_error_message_on :id, :object =>  host

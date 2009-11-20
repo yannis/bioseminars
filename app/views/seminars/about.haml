@@ -1,0 +1,16 @@
+- @title = 'About bioSeminars'
+#about
+  %h2.title
+    = @title
+  %p
+    bioSeminars has been developed for the sake of centralizing informations regarding all life science seminars given at the
+    = link_to('University of Geneva (Faculty of Sciences)', 'http://www.unige.ch/sciences')+'.'
+  %p
+    If you too, you would like to advertise seminars organized in your unit on bioSeminars, you can
+    = mail_to "yannis.jaquet@unige.ch, gregory.theiler@unige.ch", 'ask the kind webmasters', :encode => :hex
+    to open an account for you.
+  %p
+    You can subscribe to seminars announcements through
+    = link_to('various types of feed', feeds_path)+'.'
+  %p
+    = "To fully enjoy bioSeminars, you need a recent browser (#{link_to 'Firefox 3+', 'http://www.mozilla.com/'} and #{link_to 'Safari 3+', 'http://www.apple.com/safari/'} preferred) with #{link_to 'javascript enabled', 'http://www.google.com/support/bin/answer.py?answer=23852'}."

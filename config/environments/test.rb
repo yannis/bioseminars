@@ -1,6 +1,8 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
 config.gem "mocha", :version => '~> 0.9.5'
+config.gem 'thoughtbot-shoulda', :lib => 'shoulda/rails', :source => "http://gems.github.com"
+config.gem "thoughtbot-factory_girl", :lib  => "factory_girl", :source => "http://gems.github.com"
 
 # The test environment is used exclusively to run your application's
 # test suite.  You never need to work with it otherwise.  Remember that

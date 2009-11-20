@@ -1,0 +1,14 @@
+object = eval("@#{params[:controller].singularize}")
+obj_sym = object.class.to_s.humanize.downcase
+page << flash_in_rjs(flash[:notice], flash[:warning])
+if flash[:warning].blank?
+  page << "var classes = $('#{obj_sym}_#{object.id}').classNames(); "
+  page.replace "#{obj_sym}_#{object.id}", :partial => "#{obj_sym.pluralize}/#{obj_sym}", :object => object
+  page << "$('#{obj_sym}_#{object.id}').className = classes;"
+  page.replace_html "new_or_edit_form", :partial => 'layouts/new_box', :locals => {:object => object.class.new}
+  page.visual_effect (:highlight, "#{obj_sym}_#{object.id}", :duration => 2)
+else
+  page.replace_html "new_or_edit_form", :partial => 'layouts/edit_box', :locals => {:object => object}
+  page.visual_effect (:highlight, "new_or_edit_form", :duration => 1)
+end
+flash.discard

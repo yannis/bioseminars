@@ -3,23 +3,23 @@ class UsersController < ApplicationController
   skip_before_filter :login_required, :only => [:home, :forgot_password, :reset_password]
   before_filter :admin_required, :only => [:index, :new, :create, :destroy]
   before_filter :basic_or_admin_required, :only => [:show, :edit, :update]
-  before_filter :set_variables, :only => [:new, :create, :edit, :update]
+  before_filter :set_variables, :only => [:index, :show, :new, :create, :edit, :update]
 
-  def home
-    if logged_in?
-      @user = current_user
-      respond_to do |format|
-        format.html { redirect_to(user_path(@user)) }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to(login_path) }
-      end
-    end
-  end
+  # def home
+  #   if logged_in?
+  #     @user = current_user
+  #     respond_to do |format|
+  #       format.html { redirect_to(user_path(@user)) }
+  #     end
+  #   else
+  #     respond_to do |format|
+  #       format.html { redirect_to(login_path) }
+  #     end
+  #   end
+  # end
   
   def index
-    @users = User.paginate :all, :page => params[:page]
+    @users = User.all
   end
 
   def show
@@ -32,11 +32,17 @@ class UsersController < ApplicationController
   end
   # render new.rhtml
   def new
-    @user = User.new
+    @user = User.new(:role_id  => Role.find_by_name('basic').id)
   end
   
   def edit
     @user = User.all_for_user(current_user).find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js {
+        render 'layouts/edit.rjs'
+      }
+    end
   rescue
     respond_to do |format|
       flash[:warning] = "User not found."
@@ -54,11 +60,19 @@ class UsersController < ApplicationController
       # button. Uncomment if you understand the tradeoffs.
       # reset session
       # self.current_user = @user # !! now logged in
-      redirect_back_or_default('/')
-      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
-    else
-      flash[:warning]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
-      render :action => 'new'
+      flash[:notice] = "User created. We're sending her an email with her account details."
+      respond_to do |format|
+        format.html { redirect_to(@user) }
+        format.xml  { head :ok }
+        format.js { render 'layouts/insert_in_table' }
+      end
+    else  
+      flash[:warning] = "User not created."
+      respond_to do |format|
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.js { render 'layouts/insert_in_table' }
+      end
     end
   end
   
@@ -71,10 +85,44 @@ class UsersController < ApplicationController
         flash[:notice] = 'User was successfully updated.'
         format.html { redirect_back_or_default(user_path(@user)) }
         format.xml  { head :ok }
+        format.js {
+          render 'layouts/update'
+        }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.js {
+          render 'layouts/update'
+        }
       end
+    end
+  end
+  
+  # DELETE /users/1
+  # DELETE /users/1.xml
+  def destroy
+    @user = User.find(params[:id])
+    if @user.can_be_destroyed? and @user.destroy
+      flash[:notice] = 'User was successfully deleted.'
+      respond_to do |format|
+        format.html { redirect_to(users_url) }
+        format.xml  { head :ok }
+        format.js { render 'layouts/remove_from_table' }
+      end
+    else
+      flash[:warning] = 'User cannot be destroyed.'
+      respond_to do |format|
+        format.html { redirect_to(user_url(@user)) }
+        format.xml  { head :ok }
+        format.js { render 'layouts/remove_from_table' }
+      end
+    end
+  rescue
+    respond_to do |format|
+      flash[:warning] = 'User not deleted.'
+      format.html { redirect_to(users_url) }
+      format.xml  { head :ok }
+      format.js { render 'layouts/remove_from_table' }
     end
   end
   
@@ -113,5 +161,6 @@ class UsersController < ApplicationController
   
   def set_variables
     @roles = Role.find(:all)
+    @new_user = User.new(:role_id  => Role.find_by_name('basic').id)
   end
 end

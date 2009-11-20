@@ -4,19 +4,22 @@
     %title
       = @title || "bioSeminars"
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
-    %meta{:name=>"author", :content=>"Yannis Jaquet"}/
-    %meta{:name => "robots", :content => "noindex,nofollow"}
+    %meta{:name=>"author", :content=>"Yannis Jaquet, Gregory Theiler"}/
+    %meta{:name => "robots", :content => "all"}
+    %link{:rel => "shortcut icon", :href => "http://bioseminars.unige.ch/favicon.ico"}/
+    = javascript_include_tag "http://use.typekit.com/und6gvf.js"
+    = javascript_tag "try{Typekit.load();}catch(e){}"
     = javascript_include_tag  :defaults
     = javascript_include_tag '/growler1.0.0/src/growler.js'
-    = stylesheet_link_tag 'reset.css', :media => "screen, projection"
-    = stylesheet_link_tag 'iframe.css', :media => "screen, projection"
+    = stylesheet_link_tag 'reset.css', 'text.css', 'grid.css', 'nav.css', 'application.css', :cache => 'base', :media => "screen, projection"
     = stylesheet_link_tag '/growler1.0.0/css/examples.css', :media => "screen, projection"
-    /[if IE]
-    /  = stylesheet_link_tag 'emastic/ie-min.css', :media => 'screen, projection'
-    / = stylesheet_link_tag 'screen', :media => "screen, projection"
-    / = stylesheet_link_tag 'print', :media => "print"
-    / = stylesheet_link_tag 'my_styles2', :media => "screen, projection"
-    = stylesheet_link_tag 'application', :media => "screen, projection"
+    /[if IE 6]
+      = stylesheet_link_tag 'ie6.css', :media => "screen, projection"
+    /[if IE 7]
+      = stylesheet_link_tag 'ie.css', :media => "screen, projection"
+    = auto_discovery_link_tag :rss, seminars_path(:format => 'rss'), :title => "RSS feed for all seminars"
+    - for category in Category.find(:all)
+      = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id), :title => "“#{category.name}” seminars"
     = yield :head
   %body{:onload => "#{yield(:onload)}"}
     #iframe

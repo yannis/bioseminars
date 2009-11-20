@@ -1,8 +1,16 @@
 - @title ||= "Showing user “#{@user.name}”"
-%h2
-  = @title
-%table
-  %thead
-    = render 'table_head'
-  %tbody
-    = render @user
+%div{:class => "#{'left_column' if admin?}"}
+  %h2.title
+    = @title
+  %table.list
+    %thead
+      = render 'table_head'
+    %tbody
+      = render @user
+- if admin?
+  .right_column
+    .box#new_or_edit_form
+      - if @new_user.new_record?
+        = render :partial => 'layouts/new_box', :locals => {:object => @new_user}
+      - else
+        = render :partial => 'layouts/edit_box', :locals => {:object => @new_user}

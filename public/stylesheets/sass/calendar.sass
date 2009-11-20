@@ -1,46 +1,110 @@
 @import defines.sass
-
-
 table.calendar
-  :margin 0 auto
-  tr:first-child
-    th
-      :vertical-align middle
-      a
-        :color = !verydarkgreen
+  :width 100%
+  :background-color = !background
+  :margin 0
+  :border-collapse inherit
+  :border .5em solid
+  :border-color = !green
+  :-moz-border-radius .5em
+  :-webkit-border-radius .5em
+  :border-radius .5em
+  tr
+    &:first-child
+      th
+        :padding-top 0
+        :vertical-align top
+        h2
+          :margin 0 0 .25em 0
+          :line-height 1em
+          :color white
+          :text-shadow 0 -1px 0 rgba(0,0,0,.8)
+        a
+          :text-decoration none
+          :color #FFF
+          :text-shadow 0 1px 0 rgba(0,0,0,.8)
+          &:hover
+            :text-shadow 0 0 0 rgba(0,0,0,.8)
+          &:active
+            :text-shadow 0 -1px 0 rgba(0,0,0,.8)
+    th:first-child, th:first-child
+      :-moz-border-radius 0
+      :-webkit-border-radius 0
+      :-webkit-border-top-left-radius 0
+      :-webkit-border-bottom-left-radius 0
+      :border-radius 0
+    th:last-child, th:last-child
+      :-moz-border-radius 0
+      :-webkit-border-radius 0
+      :-webkit-border-top-right-radius 0
+      :-webkit-border-bottom-right-radius 0
+      :border-radius 0
+  tr:last-child td:first-child
+    :-moz-border-radius-bottomleft .6em
+    :-webkit-border-bottom-left-radius .6em
+    :border-bottom-left-radius .6em
+  tr:last-child td:last-child
+    :-moz-border-radius-bottomright .6em
+    :-webkit-border-bottom-right-radius .6em
+    :border-bottom-right-radius .6em
   thead tr th
-    :background-color transparent
-  tr.dayName 
-  tr.dayName th:first-child
-    :-moz-border-radius .5em 0 0 .5em
-    :-webkit-border-radius 0
-    :-webkit-border-top-left-radius .5em
-    :-webkit-border-bottom-left-radius .5em
-    :border-radius .5em 0 0 0
-  tr.dayName th:last-child
-    :-moz-border-radius 0 .5em .5em 0
-    :-webkit-border-radius 0
-    :-webkit-border-top-right-radius .5em
-    :-webkit-border-bottom-right-radius .5em
-    :border-radius 0 .5em .5em 0
+    :background-color = !green  
+    :-moz-border-radius-bottomleft 0
+    :-webkit-border-bottom-left-radius 0
+    :border-bottom-left-radius 0
+    :color = !background
+  th.links_to_today_previous_next
+    :text-align right
+  tr
+    th:first-child, td:first-child
+      :-moz-border-radius 0
+      :-webkit-border-radius 0
+      :-webkit-border-top-left-radius 0
+      :-webkit-border-bottom-left-radius 0
+      :border-radius 0
+    th:last-child, td:last-child
+      :-moz-border-radius 0
+      :-webkit-border-radius 0
+      :-webkit-border-top-right-radius 0
+      :-webkit-border-bottom-right-radius 0
+      :border-radius 0
+
   td, th
     :width 14.25%
-    :height 8em
+    :height 6em
     :text-align center
     a
       :text-decoration none
     a.add_seminar_link
       :color = !verydarkgreen
+    .day_info
+      :display block
+      :text-align right
+      .month_name, .day_number
+        :display inline
+  td
+    :padding .2em
   th.monthName, tr.dayName th, tr:first-child th
     :height 2em
   td.normalDay, td.specialDay
     :vertical-align top
     :border 1px dotted
+    :border-color = !green
     :color = !darkgreen
-    :border-color = !verydarkgreen
-    .day_number
+    .day_info
       :font-weight bold
+      .month_name
+        :display none
+  td.otherMonth
+    .day_info
+      .month_name
+        :display inline
+    .day_info, ul
+      :opacity .5
+      :font-weight normal
+    
   .monthName
+    :text-align left
     :color = !verydarkgreen
     :font-weight bold
     :font-size 145%
@@ -50,50 +114,44 @@ table.calendar
     :padding-bottom 0.3em
     :background-color = !green
     :color white
-  .otherMonth
-    :padding 0.7em 1em
-    :color = !background
-  .otherMonth.weekendDay
-    :color = !veryverylightgreen
+
   .day
-    :padding 0.7em 1em
+    :padding 1em
     :border-right 1px solid white
     :text-align center
     :border-bottom 1px dotted #bbbbbb
-  .specialDay
-    ul
-      :list-style-type none
-      :text-align left
+  ul
+    :list-style-type none
+    :text-align left
+    :padding 0
+    :margin 0
+    li
       :padding 0
       :margin 0
-      li
-        :margin 0 0 0 1em
-        :padding 0
-        :list-style disc outside
-        :text-indent -.3em
-        &.all_day
+      :list-style none outside
+      :display list-item
+      :width auto
+      &.seminar.hidden_seminar
+        :display none
+      &.all_day
+        :margin 0
+        :width 100%
+        :margin 0 10px 0 -6px
+        :padding .1em .5em 0 .5em
+        :text-indent 0
+        a 
+          :color #FFFFFF
+          :font-weight bold
+          :display inline
           :margin 0
-          :list-style none
           :width 100%
-          :margin 0 10px 0 -6px
-          :padding .1em .5em 0 .5em
-          :text-indent 0
-          a 
-            :color #FFFFFF
-            :font-weight bold
-            :display block
-            :margin 0
-            :width 100%
-        a
-          :font-family Helvetica, Arial, Sans-Serif
-          :color inherit
-          :text-decoration none
-          :font-weight normal
-          :font-size .9em
+      a
+        :font-family Helvetica, Arial, Sans-Serif
+        :color inherit
+        :text-decoration none
+        :font-weight normal
+        :font-size .9em
   .weekendDay
     :background-color = !veryverylightgreen
   .today
     :background-color = !veryverylightorange
-  .day_number
-    :display block
-    :text-align right

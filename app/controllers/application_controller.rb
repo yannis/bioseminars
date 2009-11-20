@@ -9,7 +9,19 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   
   before_filter :login_required
-  before_filter :store_location_if_html, :only => ["index", "show", 'edit', 'new']
+  before_filter :store_location_if_html, :only => ["index", "show"]
+
+  #see http://www.perfectline.co.uk/blog/custom-dynamic-error-pages-in-ruby-on-rails
+  unless ActionController::Base.consider_all_requests_local
+    rescue_from Exception,                            :with => :render_error
+    rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
+    rescue_from ActionController::RoutingError,       :with => :render_not_found
+    rescue_from ActionController::UnknownController,  :with => :render_not_found
+    rescue_from ActionController::UnknownAction,      :with => :render_not_found
+  end
+
+  protected
+
 
   
   def back
@@ -41,5 +53,19 @@ class ApplicationController < ActionController::Base
       format.iframe {return false}
       format.ics {return false}
     end
+  end
+  
+  private
+  
+  def render_not_found(exception)
+    log_error(exception)
+    notify_hoptoad(exception)
+    render :template => "/errors/404", :status => 404
+  end
+
+  def render_error(exception)
+    log_error(exception)
+    notify_hoptoad(exception)
+    render :template => "/errors/500", :status => 500
   end
 end

@@ -1,8 +1,21 @@
 - @title ||= "Showing building “#{@building.name}”"
-%h2
-  = @title
-%table
-  %thead
-    = render 'table_head'
-  %tbody
-    = render @building
+%div{:class => "#{'left_column' if admin?}"}
+  %h2.title
+    = @title
+  %table.list
+    %thead
+      = render 'table_head'
+    %tbody
+      = render @building
+  - unless @seminars.blank?
+    %h3 Seminars
+    = will_paginate @seminars, :inner_window => 1, :outer_window => 1
+    #seminars
+      = render @seminars
+- if admin?
+  .right_column
+    .box#new_or_edit_form
+      - if @building.new_record?
+        = render :partial => 'layouts/new_box', :locals => {:object => @new_building}
+      - else
+        = render :partial => 'layouts/edit_box', :locals => {:object => @building}

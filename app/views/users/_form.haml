@@ -1,11 +1,26 @@
-= f.label :name
-= f.text_field :name
-= f.label :email
-= f.text_field :email
-= f.label :password
-= f.password_field :password
-= f.label :password_confirmation, 'Confirm Password'
-= f.password_field :password_confirmation
+.label_and_input
+  = f.label :name
+  = f.text_field :name
+  = f.my_error_message_on :name
+  
+.label_and_input
+  = f.label :email
+  = f.text_field :email
+  = f.my_error_message_on :email
+
+.label_and_input
+  = f.label :password
+  = f.password_field :password
+  = f.my_error_message_on :password
+
+.label_and_input
+  = f.label :password_confirmation, 'Confirm Password'
+  = f.password_field :password_confirmation
+  = f.my_error_message_on :password_confirmation
+
+
 - if admin?
-  = f.label :role_id
-  = f.collection_select :role_id, @roles, :id, :name
+  .label_and_input  
+    = f.label :role_id
+    = f.collection_select :role_id, @roles, :id, :name
+    = f.my_error_message_on :role_id

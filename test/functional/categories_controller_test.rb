@@ -20,18 +20,74 @@ class CategoriesControllerTest < ActionController::TestCase
       @category1 = Category.create(:name => "cat1")
       @category2 = Category.create(:name => "cat2")
     end
-
-    context "when logged_in as basic," do
-      setup do
-        login_as(:basic)
-      end
-
-      context "on :get to :index" do
-        setup do
-          get :index
+    
+    for status in [nil, 'basic'] do
+      context "when logged in as #{status.nil? ? 'nil' : status}," do
+        if status == 'basic'          
+          setup do
+            login_as(status.to_sym)
+          end
         end
-        should_redirect_to("login form") { new_session_url }
-        should_set_the_flash_to "No credentials."
+
+        context "on :get to :index" do
+          setup do
+            get :index
+          end
+
+          should_assign_to :categories
+          should_respond_with :success
+          should_render_template :index
+        end
+        
+        context "on :get to :show with :id  => @category1.id" do
+          setup do
+            get :show, :id => @category1.id
+          end
+
+          should_assign_to :category
+          should_respond_with :success
+          should_render_template :show
+        end
+
+        context "on :get to :new" do
+          setup do
+            get :new
+          end
+
+          should_redirect_to("login form") { login_path }
+        end
+
+        context "on :get to :edit with :id => @category1.id" do
+          setup do
+            get :edit, :id => @category1.id
+          end
+
+          should_redirect_to("login form") { login_path }
+        end
+
+        context "on :post to :create with valid params" do
+          setup do
+            post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+          end
+
+          should_redirect_to("login form") { login_path }
+        end
+
+        context "on :put to :update with valid params for :id => @category1.id" do
+          setup do
+            put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
+          end
+
+          should_redirect_to("login form") { login_path }
+        end
+
+        context "on :delete to :destroy with  :id => @category1.id" do
+          setup do
+            delete :destroy, :id => @category1.id
+          end
+
+          should_redirect_to("login form") { login_path }
+        end
       end
     end
     
@@ -103,7 +159,7 @@ class CategoriesControllerTest < ActionController::TestCase
         should_assign_to :category
         should_redirect_to("category's show view") { category_url(assigns(:category)) }
         should_respond_with 302
-        should_change("the number of categories", :by => 1) { Category.count }
+        should_change "Category.count", :by => 1
         should_set_the_flash_to "Category was successfully created."
       end
 
@@ -115,7 +171,7 @@ class CategoriesControllerTest < ActionController::TestCase
         should_assign_to :category
         should_redirect_to("category's show view") { category_url(assigns(:category)) }
         should_respond_with 302
-        should_change("the number of categories", :by => 0) { Category.count }
+        should_change "Category.count", :by => 0
         should 'shange the name of @category to "CMU new name"' do
           assert_equal @category1.reload.name, "CMU new name"
         end
@@ -127,7 +183,7 @@ class CategoriesControllerTest < ActionController::TestCase
           delete :destroy, :id => @category1.id
         end
         
-        should_change("the number of categories", :by => -1) { Category.count }
+        should_change "Category.count", :by => -1
         should_redirect_to("categories index view") {categories_url}
         should_set_the_flash_to "Category was successfully deleted."
       end

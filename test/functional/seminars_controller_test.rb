@@ -14,14 +14,13 @@ class SeminarsControllerTest < ActionController::TestCase
   should_route :put, '/seminars/1', :action => :update, :id => 1
   should_route :delete, '/seminars/1', :action => :destroy, :id => 1
   should_route :get, '/seminars/new', :action => :new
-  should_route :post, 'seminars/1/insert_person_in_form', :action => :insert_person_in_form, :id => 1
   
   context "2 seminars in the database," do
     setup do
       @building = Building.create(:name => 'ScIII')
       @location = Location.create(:name => '4059', :building => @building)
       @category = Category.create(:name => 'LSS')
-      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'semi title'}}, :hosts_attributes => {0 => {:name => 'host name', :email => 'host email'}}, :user => users(:basic))
+      @seminar1 = Seminar.create(:title => 'a nice seminar title', :start_on => Time.parse("#{2.days.ago} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'semi title'}}, :hosts_attributes => {0 => {:name => 'host name basic', :email => 'host-basic@email.com'}}, :user => users(:basic))
       @seminar2 = Seminar.create(:title => 'another nice seminar title', :start_on => Time.parse("#{2.days.since} 12:00:00"), :location => @location, :category => @category, :speakers_attributes => {0 => {:name => 'speaker name 2', :affiliation => 'speaker affiliation 2', :title => 'semi title 2'}}, :hosts_attributes => {0 => {:name => 'host name 2', :email => 'host email 2'}}, :user => users(:admin))
     end
     
@@ -41,8 +40,8 @@ class SeminarsControllerTest < ActionController::TestCase
         should_respond_with :success
         should_render_template :index
 
-        should "assigns to 2 seminars" do
-          assert_equal assigns(:seminars).size, 2
+        should "assigns to 1 seminar" do
+          assert_equal assigns(:seminars).size, 1
         end
       end
       
@@ -58,6 +57,48 @@ class SeminarsControllerTest < ActionController::TestCase
 
         should "assigns to 1 seminars" do #A future seminar
           assert_equal assigns(:seminars).size, 1
+        end
+      end
+      
+      context "on :get to :index with :scope => 'all'" do
+        setup do
+          get :index, :scope => 'all'
+        end
+
+        should "assigns to 2 seminars" do #A future seminar
+          assert_equal assigns(:seminars).size, 2
+        end
+
+        should "find @seminar1" do
+          assert_equal assigns(:seminars), Seminar.all
+        end
+      end
+
+      context "on :get to :index with :scope => 'future'" do
+        setup do
+          get :index, :scope => 'future'
+        end
+
+        should "assigns to 1 seminars" do #A future seminar
+          assert_equal assigns(:seminars).size, 1
+        end
+        
+        should "find @seminar2" do
+          assert_equal assigns(:seminars), Seminar.now_or_future
+        end
+      end
+
+      context "on :get to :index with :scope => 'past'" do
+        setup do
+          get :index, :scope => 'past'
+        end
+
+        should "assigns to 1 seminars" do #A future seminar
+          assert_equal assigns(:seminars).size, 1
+        end
+
+        should "find @seminar1" do
+          assert_equal assigns(:seminars), Seminar.past
         end
       end
       
@@ -93,7 +134,7 @@ class SeminarsControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-        should_redirect_to("login form") { new_session_url }
+        should_redirect_to("login form") { login_url }
       end
     end
 
@@ -111,8 +152,8 @@ class SeminarsControllerTest < ActionController::TestCase
         should_respond_with :success
         should_render_template :index
 
-        should "assigns to 2 seminars" do
-          assert_equal assigns(:seminars).size, 2
+        should "assigns to 1 seminar" do
+          assert_equal assigns(:seminars).size, 1
         end
       end
       
@@ -121,9 +162,9 @@ class SeminarsControllerTest < ActionController::TestCase
           delete :destroy, :id => @seminar1.id
         end
         
-        should_change("the number of seminars", :by => -1) { Seminar.count }
-        should_change("the number of speakers", :by => -1) { Speaker.count }
-        should_change("the number of hosts", :by => -1) { Host.count }
+        should_change "Seminar.count", :by => -1
+        should_change "Speaker.count", :by => -1
+        should_change "Host.count", :by => -1
         should_redirect_to("seminars index view") {seminars_url}
         should_set_the_flash_to "Seminar was successfully deleted."
       end
@@ -134,9 +175,9 @@ class SeminarsControllerTest < ActionController::TestCase
         end
         
         should_redirect_to("seminar's show view") { seminars_url }
-        should_change("the number of seminars", :by => 0) { Seminar.count }
-        should_change("the number of speakers", :by => 0) { Speaker.count }
-        should_change("the number of hosts", :by => 0) { Host.count }
+        should_change "Seminar.count", :by => 0
+        should_change "Speaker.count", :by => 0
+        should_change "Host.count", :by => 0
         should_set_the_flash_to "Seminar not deleted."
       end
     end
@@ -155,8 +196,8 @@ class SeminarsControllerTest < ActionController::TestCase
         should_respond_with :success
         should_render_template :index
 
-        should "assigns to 2 seminars" do
-          assert_equal assigns(:seminars).size, 2
+        should "assigns to 1 seminars" do
+          assert_equal assigns(:seminars).size, 1
         end
       end
 
@@ -208,9 +249,9 @@ class SeminarsControllerTest < ActionController::TestCase
         should_assign_to :seminar
         should_redirect_to("seminar's show view") { seminar_url(assigns(:seminar)) }
         should_respond_with 302
-        should_change("the number of seminars", :by => 1) { Seminar.count }
-        should_change("the number of speakers", :by => 1) { Speaker.count }
-        should_change("the number of hosts", :by => 1) { Host.count }
+        should_change "Seminar.count", :by => 1
+        should_change "Speaker.count", :by => 1
+        should_change "Host.count", :by => 1
         should_set_the_flash_to "Seminar was successfully created."
         should "have the name of the speaker capitalized" do
           assert_equal assigns(:seminar).speakers.first.name, 'Speaker Name 3'
@@ -228,7 +269,7 @@ class SeminarsControllerTest < ActionController::TestCase
         should_assign_to :seminar
         should_redirect_to("seminar's show view") { seminar_url(assigns(:seminar)) }
         should_respond_with 302
-        should_change("the number of seminars", :by => 0) { Seminar.count }
+        should_change "Seminar.count", :by => 0
         should 'shange the name of @seminar to "modified seminar title"' do
           assert_equal @seminar1.reload.title, "modified seminar title"
         end
@@ -240,43 +281,11 @@ class SeminarsControllerTest < ActionController::TestCase
           delete :destroy, :id => @seminar1.id
         end
         
-        should_change("the number of seminars", :by => -1) { Seminar.count }
-        should_change("the number of speakers", :by => -1) { Speaker.count }
-        should_change("the number of hosts", :by => -1) { Host.count }
+        should_change "Seminar.count", :by => -1
+        should_change "Speaker.count", :by => -1
+        should_change "Host.count", :by => -1
         should_redirect_to("seminars index view") {seminars_url}
         should_set_the_flash_to "Seminar was successfully deleted."
-      end
-      
-      context "on :post to :insert_person_in_form with :id => 'new' and :person => 'speaker'" do
-        setup do
-          post :insert_person_in_form, :id => "new", :person => "speaker"
-        end
-        
-        should_respond_with :success
-        should_assign_to :seminar
-        should_assign_to :person
-        should 'the person be a speaker' do
-          assert_equal assigns(:person).class, Speaker
-        end
-        should 'seminar be a ne record' do
-          assert assigns(:seminar).new_record?
-        end
-      end
-          
-      context "on :post to :insert_person_in_form with :id => @seminar1.id and :person => 'host'" do
-        setup do
-          post :insert_person_in_form, :id => @seminar1.id, :person => "host"
-        end
-        
-        should_respond_with :success
-        should_assign_to :seminar
-        should_assign_to :person
-        should 'the person be a speaker' do
-          assert_equal assigns(:person).class, Host
-        end
-        should 'seminar be @seminar1' do
-          assert_equal assigns(:seminar), @seminar1
-        end
       end
     end
   end

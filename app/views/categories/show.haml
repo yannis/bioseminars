@@ -1,8 +1,22 @@
-- @title ||= "Showing category “#{@category.name}”"
-%h2
-  = @title
-%table
-  %thead
-    = render 'table_head'
-  %tbody
-    = render @category
+- @title ||= "Category “#{@category.name}”"
+%div{:class => "#{'left_column' if logged_in?}"}
+  %h2.title
+    = @title
+  %table.list
+    %thead
+      = render 'table_head'
+    %tbody#categories
+      = render @category
+  - unless @seminars.blank?
+    %h3 Seminars
+    = will_paginate @seminars, :inner_window => 1, :outer_window => 1
+    #seminars
+      = render @seminars
+- if logged_in?
+  .right_column
+    .box#new_or_edit_form
+      - if @category.new_record?
+        = render :partial => 'layouts/new_box', :locals => {:object => @new_category}
+      - else
+        = render :partial => 'layouts/edit_box', :locals => {:object => @category}
+  = javascript_tag "new Control.ColorPicker('category_color');"

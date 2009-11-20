@@ -3,5 +3,10 @@
 - functions_to_load = ["setupZoom()"]
 - functions_to_load << remote_function(:url => load_publications_seminar_path(@seminar)) unless @seminar.pubmed_ids.blank?
 - onload functions_to_load.join(';')
-= render @seminar
-.clear
+.left_column
+  #links_to_next_and_previous
+    = link_to "previous <", seminar_path(@seminar.previous_seminar) unless @seminar.previous_seminar.nil?
+    = link_to "> next", seminar_path(@seminar.next_seminar) unless @seminar.next_seminar.nil?
+  = render @seminar
+.right_column
+  = render 'next_seminar_box'

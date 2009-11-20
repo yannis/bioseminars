@@ -1,7 +1,6 @@
 %h2
   = @title || "New #{params[:controller].singularize.humanize.downcase}"
 #ajax_form
-  = error_messages_for params[:controller].singularize
   /to help with nested routes (especially for alarms)
   - path = @model ? [@model, eval('@'+params[:controller].singularize)] : eval('@'+params[:controller].singularize)
   - remote_form_for(path ? path : @mice[0], :html => {:class => 'with_blocks', :id => "#{params[:controller].singularize}_form", :before => "Element.hide('_submit'); Element.show('loader_create_#{params[:controller].singularize}')"}) do |f|

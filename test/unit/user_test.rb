@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
       assert @user.valid?, @user.errors.full_messages.to_sentence
     end
     
-    should_change("the number of users", :by => 1) { User.count }
+    should_change "User.count", :by => 1
     
     should 'authenticate_user' do
       assert_equal @user, User.authenticate('user@example.com', 'quire69')
@@ -62,7 +62,7 @@ class UserTest < ActiveSupport::TestCase
       assert @user.valid?, @user.errors.full_messages.to_sentence
     end
     
-    should_change("the number of users", :by => 1) { User.count }
+    should_change "User.count", :by => 1
   end
   
   context "A new user with role set to :admin," do
@@ -82,7 +82,7 @@ class UserTest < ActiveSupport::TestCase
       assert @user.valid?, @user.errors.full_messages.to_sentence
     end
     
-    should_change("the number of users", :by => 1) { User.count }
+    should_change "User.count", :by => 1
     
     context 'with a new password' do
       setup do

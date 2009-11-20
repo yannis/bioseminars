@@ -9,12 +9,14 @@ class Seminar < ActiveRecord::Base
   has_and_belongs_to_many :hosts
   
   accepts_nested_attributes_for :speakers, :allow_destroy => true
-  accepts_nested_attributes_for :hosts, :allow_destroy => true
   accepts_nested_attributes_for :documents, :allow_destroy => true
+  # accepts_nested_attributes_for :hosts, :allow_destroy => true
   accepts_nested_attributes_for :pictures, :allow_destroy => true
   
+  attr_accessor :hosts_attributes
+  
   validates_associated :hosts, :speakers, :documents, :pictures
-  validates_presence_of :start_on, :end_on#, :title, :location_id
+  validates_presence_of :start_on, :end_on, :category_id#, :title, :location_id
   validates_each :end_on do |model, attr, value|
     unless model.end_on.blank?
       if model.end_on < model.start_on
@@ -23,15 +25,15 @@ class Seminar < ActiveRecord::Base
     end
   end
     
-  default_scope :order => "seminars.start_on ASC", :include => ['category', 'hosts', 'speakers']
+  default_scope :order => "seminars.start_on DESC", :include => ['category', 'hosts', 'speakers']
   
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc]}}
   
   
-  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc, datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc, datetime.to_time.beginning_of_month.utc, datetime.to_time.end_of_month.utc]}}
+  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days]}}
   
   named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current.utc, Time.current.utc]
-  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc]
+  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc], :order => 'seminars.start_on ASC'
   named_scope :all_for_user, lambda{|user|
     if user.role.name == 'basic'
       {:conditions => ["seminars.user_id = ?", user.id]}
@@ -46,10 +48,10 @@ class Seminar < ActiveRecord::Base
     end
   }
   named_scope :all_day_first, :order => "all_day DESC, seminars.start_on ASC"
+  named_scope :next, :conditions => ["seminars.start_on >= ?", Time.current.utc], :order => "seminars.start_on ASC"
   
-  before_validation :set_end_on
+  before_validation :set_host_through_attributes, :set_end_on
   after_save :check_presence_of_host_and_speaker
-  before_destroy :destroy_speakers_and_hosts
   
   # def start_humanized_date
   #   if start_on
@@ -134,7 +136,7 @@ class Seminar < ActiveRecord::Base
   
   def time_and_category
     time_and_category = []
-    time_and_category << start_time unless start_time.nil?
+    time_and_category << "<strong>"+start_time+"</strong>" unless start_time.nil?
     if category
       time_and_category << (category.acronym_or_name)
     else
@@ -205,6 +207,59 @@ class Seminar < ActiveRecord::Base
     return publications
   end
   
+  def next_seminar
+    Seminar.find(:first, :conditions => ["seminars.start_on > ?", self.start_on], :order => 'seminars.start_on ASC')
+  end
+  
+  def previous_seminar
+    Seminar.find(:first, :conditions => ["seminars.start_on < ?", self.start_on], :order => 'seminars.start_on DESC')
+  end
+  
+  def open_box?
+    if description.blank? and pictures.detect{|p| !p.new_record?}.blank? and documents.detect{|p| !p.new_record?}.blank? and publications.blank? and url.blank?
+      return false
+    else
+      return true
+    end
+  end
+  
+  # def hosts_attributes=(hosts_attributes)
+  #   hosts_attributes.each do |key,value|
+  #     h = (Host.find_by_email(value[:email])
+  #     h = Host.find_by_name(value[:name])) if h.nil?
+  #     h = Host.new(value) if h.nil?
+  #     self.hosts << h
+  #   end
+  # end
+  
+  def set_host_through_attributes
+    unless hosts_attributes.blank?
+      hosts_attributes.each do |key,value|
+        unless value[:email].blank? and value[:name].blank?
+          h = (Host.find_by_email(value[:email])
+          h = Host.find_by_name(value[:name])) if h.nil?
+          h = Host.new(value) if h.nil?
+          self.hosts << h
+        end
+      end
+    end
+  end
+  
+  def doc_attributes=(doc_attributes)
+    documents_content_type = ['application/pdf', 'application/msword', 'text/plain', 'text/rtf']
+    doc_attributes.each do |key,value|
+      if value[:data].content_type.match(/image/)
+        pictures.build(value)
+      elsif documents_content_type.include?(value[:data].content_type)
+        documents.build(value)
+      end
+    end
+  end
+  
+  def parse_start
+    start_on = DateTime.strptime(start_on, '%d.%m.%Y %H:%M').to_time
+  end
+  
   protected
   
   def set_end_on
@@ -220,10 +275,5 @@ class Seminar < ActiveRecord::Base
   def check_presence_of_host_and_speaker
     raise("Seminar should have at least 1 host.") if self.hosts.blank?
     raise("Seminar should have at least 1 speaker.") if self.speakers.blank?
-  end
-  
-  def destroy_speakers_and_hosts
-    Speaker.destroy(speakers)
-    Host.destroy(hosts)
   end
 end

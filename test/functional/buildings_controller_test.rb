@@ -20,6 +20,19 @@ class BuildingsControllerTest < ActionController::TestCase
       @building1 = Building.create(:name => "SCII")
       @building2 = Building.create(:name => "SCIII")
     end
+    
+    context "when not logged_in," do
+
+      context "on :get to :index" do
+        setup do
+          get :index
+        end
+        
+        should_respond_with :success
+        should_assign_to :buildings
+        should_render_template :index
+      end
+    end
 
     context "when logged_in as basic," do
       setup do
@@ -30,8 +43,10 @@ class BuildingsControllerTest < ActionController::TestCase
         setup do
           get :index
         end
-        should_redirect_to("login form") { new_session_url }
-        should_set_the_flash_to "No credentials."
+        
+        should_respond_with :success
+        should_assign_to :buildings
+        should_render_template :index
       end
     end
     
@@ -102,7 +117,7 @@ class BuildingsControllerTest < ActionController::TestCase
         should_assign_to :building
         should_redirect_to("building's show view") { building_url(assigns(:building)) }
         should_respond_with 302
-        should_change("the number of buildings", :by => 1) { Building.count }
+        should_change "Building.count", :by => 1
         should_set_the_flash_to "Building was successfully created."
       end
 
@@ -114,7 +129,7 @@ class BuildingsControllerTest < ActionController::TestCase
         should_assign_to :building
         should_redirect_to("building's show view") { building_url(assigns(:building)) }
         should_respond_with 302
-        should_change("the number of buildings", :by => 0) { Building.count }
+        should_change "Building.count", :by => 0
         should 'shange the name of @building to "CMU new name"' do
           assert_equal @building1.reload.name, "CMU new name"
         end
@@ -126,7 +141,7 @@ class BuildingsControllerTest < ActionController::TestCase
           delete :destroy, :id => @building1.id
         end
         
-        should_change("the number of buildings", :by => -1) { Building.count }
+        should_change "Building.count", :by => -1
         should_redirect_to("buildings index view") {buildings_url}
         should_set_the_flash_to "Building was successfully deleted."
       end

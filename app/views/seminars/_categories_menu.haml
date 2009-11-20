@@ -1,13 +1,42 @@
-- form_tag seminars_path do
-  %ul.categories_to_show
-    %li
-      = check_box_tag :internal, true, show_internal_seminars?
-      = label_tag :internal, "<span class='redstar'>*</span> Internal seminars (not public)"
-      = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
-    - for category in Category.all
-      %li
-        = check_box_tag "categories[]", true, show_category?(category), :id => "categories_#{category.id}", :style => "background-color: red"
-        - unless category.color.blank?
-          %span.color{:style => "background-color: ##{category.color}"}
-        = link_to_unless_current h(category.acronym_or_name), category_path(category), :style => "color: ##{category.color}"
-        = observe_field "categories_#{category.id}", :function => "show_or_hide_seminars_with_class(value, '#{category.id}')"
+#categories.categories_hidden.group
+  = image_tag('closebox.png', :id => 'ZoomClose', :size => '30x30', :onclick => "$('categories').className = 'categories_hidden'")
+  .title
+    = link_to_function( 'Show all', "show_hidden_categories()", :href => categories_path) if @categories.size >= 8
+    %h3 Categories
+  - form_tag seminars_path do
+    #all_categories.group 
+      - if @categories.size >= 8
+        - cat_size = @categories.size
+        - num_cat_per_list = cat_size/4.floor 
+        - ints = [(0..num_cat_per_list-1), (num_cat_per_list..2*num_cat_per_list), (1+2*num_cat_per_list..1+3*num_cat_per_list), (3+3*num_cat_per_list..@categories.size)]
+        - for i in ints
+          %ul{:class => "#{'hidden_categories' unless i == (0..num_cat_per_list-1)}", :id => "#{i == (0..num_cat_per_list-1) ? 'categories_to_show' : 'categories_to_not_show_'+i.first.to_s}"}          
+            - if i == (0..num_cat_per_list-1)
+              %li
+                = label_tag :internal, "<span class='redstar'>*</span>Internal - not public"
+                = check_box_tag :internal, true, show_internal_seminars?
+                = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
+            - for category in @categories[i]
+              %li
+                %span.label
+                  - unless category.color.blank?
+                    %span.color{:style => "background-color: ##{category.color}"}
+                  = link_to_unless_current h(category.acronym_or_name), category_path(category), :style => "color: ##{category.color}"
+                = check_box_tag "categories[]", true, show_category?(category), :id => "categories_#{category.id}"
+                = observe_field "categories_#{category.id}", :function => "show_or_hide_seminars_with_class(value, '#{category.id}')"
+      - else
+        %ul#categories_to_show
+          %li
+            = label_tag :internal, "<span class='redstar'>*</span>Internal - not public"
+            = check_box_tag :internal, true, show_internal_seminars?
+            = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
+          - for category in @categories
+            %li
+              %span.label
+                - unless category.color.blank?
+                  %span.color{:style => "background-color: ##{category.color}"}
+                = link_to_unless_current h(category.acronym_or_name), category_path(category), :style => "color: ##{category.color}"
+              = check_box_tag "categories[]", true, show_category?(category), :id => "categories_#{category.id}"
+              = observe_field "categories_#{category.id}", :function => "show_or_hide_seminars_with_class(value, '#{category.id}')"
+      #create_feeds_link
+        = link_to 'Create feeds', feeds_path, :method => 'post'

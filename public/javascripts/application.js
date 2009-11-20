@@ -197,16 +197,43 @@ function set_time_to_zero(target_id) {
   return false;
 }
 
-function all_day(target_id) {
-  if ($('seminar_all_day').checked==true) {
-    $(target_id).hide();
-    // set_time_to_zero(target_id);
-    // able_or_disable_datetime_select(target_id, '');
-    // set_datetime_blank(target_id);
-  } else {
-    $(target_id).show();
-    // able_or_disable_datetime_select(target_id, 'on');
-  }
+// function all_day(target_id) {
+//   if ($('seminar_all_day').checked==true) {
+//     $(target_id).hide();
+//     // set_time_to_zero(target_id);
+//     // able_or_disable_datetime_select(target_id, '');
+//     // set_datetime_blank(target_id);
+//   } else {
+//     $(target_id).show();
+//     // able_or_disable_datetime_select(target_id, 'on');
+//   }
+// }
+function all_day(target_ids_array) {
+  target_ids_array.each(function(id){
+    var t_field = $(id);
+    var v = t_field.value;
+    if (v != null) {
+      var regexp = /\s\d\d:\d\d/;
+      var cal_links = $$('img.calendar_date_select_popup_icon');
+      if ($('seminar_all_day').checked==true && v.match(regexp)) {
+        t_field.value = v.gsub(regexp,"");
+        cal_links.each(function(i) {
+          var oclick = i.readAttribute('onclick');
+          if (oclick.match(' time:true,')) {
+            i.setAttribute('onclick', oclick.gsub(' time:true,', ' time:false,'));
+          }
+        })
+      } else if ($('seminar_all_day').checked==false && v != '' && v.match(regexp) == null) {
+        t_field.value += ' 00:00';
+        cal_links.each(function(i) {
+          var oclick = i.readAttribute('onclick');
+          if (oclick.match(' time:false,')) {
+            i.setAttribute('onclick', oclick.gsub(' time:false,', ' time:true,'));
+          }
+        })
+      }
+    }
+  })
 }
 
 function able_or_disable_datetime_select(target_id, value) {
@@ -273,7 +300,7 @@ function copy_datetime(target_attribute, source_attribute) {
 }
 
 function copy_text_field(target_element_id, source_element_id) {
-  $(target_element_id).value = $(source_element_id).value
+  $(target_element_id).value = $F(source_element_id);
 }
 
 
@@ -315,9 +342,9 @@ function remote_confirm_destroy(action, auth_token) {
 function remove_div_and_restablish_opacity(target_id) {
   target = $(target_id);
   Effect.Fade(target, { duration: 1.0 });
-  var opacity = $('main').getStyle('opacity');
+  var opacity = $('main_container').getStyle('opacity');
   if (opacity != 1.0 && $$('.ajax_div').length==1) {
-    new Effect.Opacity('main', { from: opacity, to: 1.0, duration: 1.0 });
+    new Effect.Opacity('main_container', { from: opacity, to: 1.0, duration: 1.0 });
   }
   setTimeout("Element.remove(target)", 1000);
 }
@@ -436,4 +463,31 @@ function show_or_hide_seminars_with_class(value, id) {
 
 function remove_field(element) {
   element.up().style.color = '#cc0000';
+}
+
+function show_hidden_categories() {
+  $('categories').className = 'all_categories_shown';
+}
+
+function toggleVisibilityOfFormElement(element, link_element, text) {
+  Effect.toggle(element, 'appear');
+  if ($(link_element).innerHTML == '▼ '+text) { $(link_element).update('► '+text);
+  } else { $(link_element).update('▼ '+text);
+  }
+}
+
+function clearForm(form) {
+  var elements = $A(form.elements);
+  elements.each(function(elm) {
+    if (elm.type == "text" || elm.type == "password" || elm.type == "textarea") {
+      elm.value ='';
+		} else if (elm.type == 'checkbox') {
+		  elm.checked = false;
+		} else if (elm.type == 'select') {
+		  var options = $A(elm.options);
+      options.each(function(option) {
+        option.selected = null;
+      })
+		}
+	})
 }

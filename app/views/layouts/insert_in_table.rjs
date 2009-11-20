@@ -1,0 +1,12 @@
+object = eval("@#{params[:controller].singularize}")
+obj_sym = object.class.to_s.humanize.downcase
+page << flash_in_rjs(flash[:notice], flash[:warning])
+if flash[:warning].blank?
+  page.insert_html :top, "tbody_in_#{obj_sym}_table", :partial => obj_sym, :object => object
+  page << "new Effect.Highlight('#{obj_sym}_#{object.id}', {duration: 5, endcolor: '#f7f2e5'});"
+  page.replace_html "new_or_edit_form", :partial => 'layouts/new_box', :locals => {:object => object.class.new}
+else
+  page.replace_html "new_or_edit_form", :partial => 'layouts/new_box', :locals => {:object => object}
+  page.visual_effect (:highlight, "new_or_edit_form", :duration => 1, :endcolor => '#f7f2e5')
+end
+flash.discard

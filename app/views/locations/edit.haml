@@ -1,9 +1,7 @@
 - @title ||= "Edit location “#{@location.name}”"
-.grid_4.prefix_4.suffix_4
-  = error_messages_for :location
-  - form_for :location, :url => location_path(@location), :html => { :method => :put, :class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = update_button
+.large_form
+  %h2
+    = @title
+  - form_for @location do |f|
+    = render :partial => 'form', :locals => {:f => f}
+    = update_button

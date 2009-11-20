@@ -6,8 +6,8 @@ class LocationTest < ActiveSupport::TestCase
   should_belong_to :building
   should_have_many :seminars, :dependent => :nullify
 
-  should_validate_presence_of :name
-  should_validate_uniqueness_of :name, :scoped_to => :building_id
+  should_validate_presence_of :name, :message => "can't be blank. Please give this location a name."
+  should_validate_uniqueness_of :name, :scoped_to => :building_id, :message => "must be unique and this one has already been taken. Please chose another one."
   
   context 'A location in the database' do
     setup do

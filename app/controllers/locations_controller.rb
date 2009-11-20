@@ -1,13 +1,14 @@
 class LocationsController < ApplicationController
   
-  before_filter :admin_required, :only => [:destroy]
-  before_filter :set_variables, :only => [:new, :create, :edit, :update]
+  skip_before_filter :login_required, :only => ['index', 'show']
+  before_filter :set_variables, :only => [:index, :show, :new, :create, :edit, :update]
   
   # GET /locations
   # GET /locations.xml
   def index
     @locations = Location.find(:all)
-
+    @new_location = Location.new
+    
     respond_to do |format|
       format.html # index.html.haml
       format.xml  { render :xml => @locations }
@@ -18,6 +19,8 @@ class LocationsController < ApplicationController
   # GET /locations/1.xml
   def show
     @location = Location.find(params[:id])
+    @seminars = @location.seminars.paginate(:page => params[:page])
+    @new_location = Location.new
 
     respond_to do |format|
       format.html # show.html.haml
@@ -43,6 +46,13 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
     @location = Location.find(params[:id])
+
+    respond_to do |format|
+      format.html # new.html.haml
+      format.js {
+        render 'layouts/edit'
+      }
+    end
   end
 
   # POST /locations
@@ -57,14 +67,23 @@ class LocationsController < ApplicationController
         format.xml  { render :xml => @location, :status => :created, :location => @location }
         format.js{
           @origin = params[:origin]
+          if @origin.nil?
+            render 'layouts/insert_in_table'
+          else
+            render 'create'
+          end
         }
       else
-        flash.now[:error] = 'Something went wrong.'
+        flash[:warning] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @location.errors, :status => :unprocessable_entity }
         format.js{
           @origin = params[:origin]
-          render :template => 'layouts/new.rjs'
+          if @origin.nil?
+            render 'layouts/insert_in_table'
+          else
+            render :template => 'layouts/new.rjs'
+          end
         }
       end
     end
@@ -80,10 +99,16 @@ class LocationsController < ApplicationController
         flash[:notice] = 'Location was successfully updated.'
         format.html { redirect_to(@location) }
         format.xml  { head :ok }
+        format.js {
+          render 'layouts/update'
+        }
       else
-        flash.now[:error] = 'Something went wrong.'
+        flash[:warning] = 'Something went wrong.'
         format.html { render :action => "edit" }
         format.xml  { render :xml => @location.errors, :status => :unprocessable_entity }
+        format.js {
+          render 'layouts/update'
+        }
       end
     end
   end
@@ -92,12 +117,20 @@ class LocationsController < ApplicationController
   # DELETE /locations/1.xml
   def destroy
     @location = Location.find(params[:id])
-    @location.destroy
-
-    respond_to do |format|
-      flash[:notice] = 'Location was successfully deleted.'
-      format.html { redirect_to(locations_url) }
-      format.xml  { head :ok }
+    if @location.no_more_seminars? and @location.destroy
+      respond_to do |format|
+        flash[:notice] = 'Location was successfully deleted.'
+        format.html { redirect_to(locations_url) }
+        format.xml  { head :ok }
+        format.js { render 'layouts/remove_from_table' }
+      end
+    else
+      respond_to do |format|
+        flash[:notice] = 'Not deleted.'
+        format.html { redirect_to(location_url(@location)) }
+        format.xml  { head :ok }
+        format.js { redirect_to(location_url(@location, :format => 'html')) }
+      end
     end
   end
 

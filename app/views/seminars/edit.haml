@@ -1,9 +1,14 @@
+- stylesheet '/colorpicker/colorPicker.css'
+- javascript '/colorpicker/colorPicker.js'
+- javascript '/colorpicker/scriptaculous/builder.js'
+- javascript '/colorpicker/scriptaculous/slider.js'
+- javascript '/colorpicker/yahoo.color.js'
+- javascript calendar_date_select_javascripts
+- stylesheet_link_tag 'calendar_picker'
 - @title ||= "Edit seminar#{@seminar.mini_seminar_title.blank? ? '' : ' “'+@seminar.mini_seminar_title+'”'}"
-= error_messages_for :seminar
-- form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :multipart => true, :class => 'with_blocks'} do |f|
-  %fieldset
-    %legend
-      = @title
-      (<span class='red_dot'>•</span> mandatory fields)
+.large_form
+  %h2
+    = @title
+  - form_for :seminar, :url => seminar_path(@seminar), :html => { :method => :put, :multipart => true} do |f|
     = render :partial => 'form', :locals => {:f => f}
     = update_button

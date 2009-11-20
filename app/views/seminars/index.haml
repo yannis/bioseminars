@@ -4,16 +4,16 @@
 - for seminar in @seminars.select{|s| !s.pubmed_ids.blank?}
   - functions_to_load << remote_function(:url => load_publications_seminar_path(seminar))
 - onload functions_to_load.join(';')
-- @title ||= "Listing seminars"
-#seminar_list.grid_9.alpha
-  = will_paginate @seminars
+- @title ||= "Seminars"
+.left_column
+  .scope_and_pagination
+    - form_tag(seminars_path, :method => :get, :id => 'scope_selector') do
+      show
+      = select_tag :scope, options_for_select(['future', 'past', 'all'], params[:scope])
+      seminars
+      = observe_form 'scope', :function => "window.location.href='#{seminars_path}?'+value+'#{params.blank? ? '' : ('&'+params.map{|key,value| (key+'='+value) if (key != 'controller' and key != 'action' and key != 'scope')}.compact.join('&'))}'", :method => :get
+    = will_paginate @seminars, :inner_window => 1, :outer_window => 1
   = render @seminars
-  .clear
-.grid_3.omega
-  %p.link_to_calendar
-    = link_to 'Show calendar', calendar_seminars_path
-  %fieldset
-    %legend Categories
-    = render 'categories_menu'
-    = link_to 'Create feeds for this selection', feeds_path, :method => 'post'
-.clear
+.right_column
+  = render 'categories_menu'
+  = render 'next_seminar_box'

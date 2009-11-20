@@ -26,28 +26,37 @@ module ApplicationHelper
   
   def controllers_and_actions
     navigation = {}
-    # navigation[:orders] = {:main_menu => {:text => "orders", :path => orders_path}, :sub_menus => [{:text => "new", :path => new_order_path}], :highlight_in_controller => ["orders"]}
-    # navigation[:orders][:sub_menus] << {:text => "categories", :path => categories_path, :sub_menus => [{:text => "new", :path => new_category_path}]}
-    navigation[:seminars] = {:main_menu => {:text => "seminars", :path => calendar_seminars_path}, :sub_menus => [{:text => "as list", :path => seminars_path}, {:text => "new", :path => new_seminar_path}], :highlight_in_controller => ["seminars"]}
-      navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [{:text => "new", :path => new_location_path}], :highlight_in_controller => ["locations"]}
-    if current_user.role.name == 'admin'
-      navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => [{:text => "new", :path => new_building_path}]}
-      navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [{:text => "new", :path => new_category_path}], :highlight_in_controller => ["categories"]}
-      navigation[:users] = {:main_menu => {:text => "users", :path => users_path}, :sub_menus => [{:text => "new", :path => new_user_path}], :highlight_in_controller => ["users"]}
+    navigation[:seminars] = {:main_menu => {:text => "calendar", :path => calendar_seminars_path}, :sub_menus => [{:text => "as list", :path => seminars_path}], :highlight_in_controller => ["seminars"]}
+    navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [], :highlight_in_controller => ["categories"]}
+    navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [], :highlight_in_controller => ["locations", 'buildings']}
+    navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => []} 
+    if basic_or_admin?
+      navigation[:seminars][:sub_menus] << {:text => "new", :path => new_seminar_path} 
+    end
+    if admin?
+      navigation[:users] = {:main_menu => {:text => "users", :path => users_path}, :sub_menus => [], :highlight_in_controller => ["users"]}
     end
     return navigation
   end
   
   def basic?
-    current_user.role.to_s == 'admin'
+    current_user and current_user.role.to_s == 'basic'
   end
   
   def admin?
-    current_user.role.to_s == 'admin'
+    current_user and current_user.role.to_s == 'admin'
   end
   
   def basic_or_admin?
-    current_user.role.to_s == 'admin' || current_user.role.to_s == 'basic'
+    current_user and (current_user.role.to_s == 'admin' || current_user.role.to_s == 'basic')
+  end
+  
+  def index?
+    params[:action] == 'index'
+  end
+    
+  def show?
+    params[:action] == 'show'
   end
   
   def new_link(object_s, nested_in_object=nil)
@@ -62,14 +71,18 @@ module ApplicationHelper
     link_to 'Destroy', eval("#{object.class.to_s.underscore}_path(object)"), :confirm => "Are you sure?", :method => :delete, :title => "Destroy #{object.class.to_s.underscore} #{'“'+object.name+'”' if object.respond_to?(:name)}"
   end
   
+  def destroy_remote_link(object)
+    link_to_remote 'Destroy', {:url => eval("#{object.class.to_s.underscore}_path(object)"), :confirm => "Are you sure?", :method => :delete}, {:title => "Destroy #{object.class.to_s.underscore} #{'“'+object.name+'”' if object.respond_to?(:name)}"}
+  end
+  
   def flash_in_rjs(notice=nil, warning=nil)
     flash = []
+    flash << "if ($('flash_notice')) {$('flash_notice').remove()}"
+    flash << "if ($('flash_warning')) {$('flash_warning').remove()}"
     unless notice.nil?
-      flash << "if ($('flash_notice')) {$('flash_notice').remove()}"
       flash << "var g = new k.Growler(); g.info('#{notice}', {life: 5});"
     end
     unless warning.nil?
-      flash << "if ($('flash_notice')) {$('flash_warning').remove()}"
       flash << "var g = new k.Growler(); g.error('#{warning}', {life: 5});"
     end
     return flash.join
@@ -88,13 +101,13 @@ module ApplicationHelper
     link = link_to_remote(
       text, 
       options,
-      {:id => "#{link_id}", :href => href, :title => title} 
+      {:id => "#{link_id}", :href => href, :title => title, :class => 'add_abject'} 
       )
     link = link+loader
   end
   
   def show_category?(category)
-    if cookies[:__CJ_seminars_to_show].nil?
+    if cookies[:__CJ_seminars_to_show].blank?
       cookies[:__CJ_seminars_to_show] = Category.all.map{|c| c.id.to_s}.to_json
       return true
     else
@@ -109,5 +122,15 @@ module ApplicationHelper
     else
       return eval(cookies[:__CJ_show_internal_seminars]).include?('true')
     end
+  end
+  
+  def replace_by_new_form(object)
+    update_page do |page|
+      page.replace_html('new_or_edit_form', :partial => 'layouts/new_box', :locals => {:object => object.class.new})
+    end
+  end
+  
+  def test_for(*params)
+    return 'prout'
   end
 end

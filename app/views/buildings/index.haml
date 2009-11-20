@@ -1,8 +1,13 @@
 - @title ||= "Listing buildings"
-%h2
-  = @title
-%table
-  %thead
-    = render 'table_head'
-  %tbody
-    = render @buildings
+#buildings{:class => "#{'left_column' if admin?}"}
+  %h2.title
+    = @title
+  %table.list
+    %thead
+      = render 'table_head'
+    %tbody#tbody_in_building_table
+      = render @buildings
+- if admin?
+  .right_column
+    .box#new_or_edit_form
+      = render :partial => 'layouts/new_box', :locals => {:object => @new_building}
