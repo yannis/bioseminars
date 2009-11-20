@@ -529,10 +529,10 @@ body {
     body #content .scope_and_pagination {
       width: 100%;
       margin-bottom: 1em; }
-      body #content .scope_and_pagination #scope_selector {
+      body #content .scope_and_pagination #scope {
         display: inline-block;
         font-size: 118%; }
-        body #content .scope_and_pagination #scope_selector select {
+        body #content .scope_and_pagination #scope select {
           font-size: 100%; }
       body #content .scope_and_pagination .pagination {
         display: inline-block;

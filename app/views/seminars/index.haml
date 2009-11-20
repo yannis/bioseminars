@@ -7,9 +7,9 @@
 - @title ||= "Seminars"
 .left_column
   .scope_and_pagination
-    - form_tag(seminars_path, :method => :get, :id => 'scope_selector') do
+    - form_tag(seminars_path, :method => :get, :id => 'scope') do
       show
-      = select_tag :scope, options_for_select(['future', 'past', 'all'], params[:scope])
+      = select_tag :scope, options_for_select(['future', 'past', 'all'], params[:scope]), :id => 'scope_selector'
       seminars
       = observe_form 'scope', :function => "window.location.href='#{seminars_path}?'+value+'#{params.blank? ? '' : ('&'+params.map{|key,value| (key+'='+value) if (key != 'controller' and key != 'action' and key != 'scope')}.compact.join('&'))}'", :method => :get
     = will_paginate @seminars, :inner_window => 1, :outer_window => 1
