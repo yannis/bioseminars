@@ -25,7 +25,7 @@ class Seminar < ActiveRecord::Base
     end
   end
     
-  default_scope :order => "seminars.start_on DESC", :include => ['category', 'hosts', 'speakers']
+  default_scope :order => "seminars.start_on DESC", :include => ['category', 'hosts', 'speakers', 'location']
   
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc]}}
   

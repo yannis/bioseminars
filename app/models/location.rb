@@ -5,7 +5,7 @@ class Location < ActiveRecord::Base
   validates_presence_of :name, :message => "can't be blank. Please give this location a name."
   validates_uniqueness_of :name, :scope => :building_id, :message => "must be unique and this one has already been taken. Please chose another one."
   
-  default_scope :order => "locations.name ASC"
+  default_scope :include => 'building', :order => "locations.name ASC"
   named_scope :without_building, :conditions => "locations.building_id IS NULL"
   
   before_destroy :no_more_seminars?

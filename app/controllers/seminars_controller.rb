@@ -50,10 +50,10 @@ class SeminarsController < ApplicationController
           cal_event = Icalendar::Event.new
           cal_event.start = seminar.start_on.to_s(:rfc2445) unless seminar.start_on.blank?
           cal_event.end = seminar.end_on.to_s(:rfc2445) unless seminar.end_on.blank?
-          cal_event.location = seminar.location.building.name + ", " + seminar.location.name unless seminar.location.blank?
+          cal_event.location = seminar.location.name_and_building unless seminar.location.blank?
           summary = []
           summary << seminar.mini_seminar_title
-          summary << seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
+          summary << seminar.speakers.map{|s| s.name_and_affiliation}
           summary << "Hosted by "+seminar.hosts.map(&:name).join(', ')
           cal_event.summary = summary.join(' | ')
           cal_event.url = seminar_url(seminar)
