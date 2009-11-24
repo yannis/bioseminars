@@ -13,7 +13,7 @@
           %ul{:class => "#{'hidden_categories' unless i == (0..num_cat_per_list-1)}", :id => "#{i == (0..num_cat_per_list-1) ? 'categories_to_show' : 'categories_to_not_show_'+i.first.to_s}"}          
             - if i == (0..num_cat_per_list-1)
               %li
-                = label_tag :internal, "<span class='redstar'>*</span>Internal - not public"
+                = label_tag :internal, "<span class='red_asterisk'>*</span>Internal - not public"
                 = check_box_tag :internal, true, show_internal_seminars?
                 = observe_field 'internal', :function => "show_or_hide_seminars_with_class(value, 'internal')"
             - for category in @categories[i]

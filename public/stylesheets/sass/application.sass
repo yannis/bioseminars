@@ -573,6 +573,10 @@ body
         :display inline-block
         :margin 0
     //<- scope_and_pagination
+  .alert_internal
+    :color = !red
+    :text-align center
+    :font-size 145%
   //<- end Content
   //-> Ajax div
   .ajax_div, .large_form
@@ -648,8 +652,6 @@ body
             label, input, .formError, select, .label
               :display block
               :width 100%
-            #seminar_host_ids_
-              :display block
             select
               :position relative
               :top 5px
