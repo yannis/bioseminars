@@ -201,7 +201,7 @@ namespace :archive do
    old_categories = [
    {:name => 'various', :description => ''},
    {:name => 'Internal Department Seminar', :description => 'Séminaire interne du Dpt'},
-   {:name => 'Séminaire de fin de période d''essais', :description => ''},
+   {:name => "Séminaire de fin de période d'essais", :description => ''},
    {:name => 'Life Science Seminars', :description => ''},
    {:name => 'Biochemistry seminar', :description => ''},
    {:name => 'Seminar in Neuroscience', :description => ''},
@@ -246,8 +246,12 @@ namespace :archive do
      seminar.category = Category.find_or_initialize_by_name(s[:category_name])
      seminar.location = Location.find_or_initialize_by_name(s[:room_name])
      seminar.user = User.find_by_email('yannis.jaquet@unige.ch')
-     unless seminar.save
-       puts "seminar #{seminar.speakers.first.title} not saved (#{seminar.errors.full_messages.to_sentence}, #{seminar.speakers.first.errors.full_messages.to_sentence})"
+     if Seminar.all.detect{|t| t.mini_seminar_title == seminar.mini_seminar_title}.blank?
+       unless seminar.save
+         puts "seminar #{seminar.mini_seminar_title} not saved (#{seminar.errors.full_messages.to_sentence}, #{seminar.speakers.first.errors.full_messages.to_sentence})"
+       end
+     else
+        puts "seminar #{seminar.mini_seminar_title} not saved: title already exists"
      end
    end
  end
