@@ -97,7 +97,7 @@ class SeminarsController < ApplicationController
         cal_event.location = @seminar.location.building.name + ", " + @seminar.location.name unless @seminar.location.blank?
         summary = []
         summary << @seminar.title
-        summary << @seminar.speakers.map{|s| s.name+' ('+s.affiliation+')'}
+        summary << @seminar.speakers.map{|s| s.name_and_affiliation}
         cal_event.summary = summary.join(' | ')
         cal_event.url = seminar_url(@seminar)
         description = []

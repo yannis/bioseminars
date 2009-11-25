@@ -1,3 +1,7 @@
+24.11.2009
+Archived seminars loaded.
+Corrected a bugs affecting feeds generation.
+
 21.10.2009
 Added a seminars listing.
 Added a way to show and hide seminars in the calendar and list depending on their category.
