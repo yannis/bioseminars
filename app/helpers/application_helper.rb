@@ -107,7 +107,9 @@ module ApplicationHelper
   end
   
   def show_category?(category)
-    if cookies[:__CJ_seminars_to_show].blank?
+    if params[:format] == 'iframe' and params[:categories].include?(category.id.to_s)
+      return true
+    elsif cookies[:__CJ_seminars_to_show].blank?
       cookies[:__CJ_seminars_to_show] = Category.all.map{|c| c.id.to_s}.to_json
       return true
     else
