@@ -37,7 +37,7 @@ class SeminarsController < ApplicationController
       format.html
       format.xml  {
         @seminars = @seminars_for_feeds
-        render :xml => @seminars
+        render :template => false
       }
       format.rss  {
         @seminars = @seminars_for_feeds.now_or_future
@@ -96,7 +96,7 @@ class SeminarsController < ApplicationController
         cal_event.end = @seminar.end_on.to_s(:rfc2445) unless @seminar.end_on.blank?
         cal_event.location = @seminar.location.building.name + ", " + @seminar.location.name unless @seminar.location.blank?
         summary = []
-        summary << @seminar.title
+        summary << @seminar.mini_seminar_title
         summary << @seminar.speakers.map{|s| s.name_and_affiliation}
         cal_event.summary = summary.join(' | ')
         cal_event.url = seminar_url(@seminar)
