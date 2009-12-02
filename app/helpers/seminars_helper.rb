@@ -1,7 +1,7 @@
 module SeminarsHelper
   def render_calendar_cell(d)
     day_number = "<span class='day_info'>"
-    day_number += "<span class='month_name'>#{Date::MONTHNAMES[d.mon]}</span>" unless d == Date.current or d.month == Date.current.month
+    day_number += "<span class='month_name'>#{Date::ABBR_MONTHNAMES[d.mon]}</span>" unless d == Date.current or d.month == Date.current.month
     day_number += " <span class='day_today'>Today</span>" if d == Date.current
     day_number += " <span class='day_number'>#{d.mday}</span>"
     day_number += "</span>"

@@ -108,7 +108,7 @@ module CalendarHelper
     today_previous_next_links = []
     today_previous_next_links << options[:previous_month_text] if options[:previous_month_text]
     today_previous_next_links << options[:next_month_text] if options[:next_month_text]
-    today_previous_next_links << link_to('<br/>Today', calendar_seminars_path(:date => Date.current), :class => 'link_to_today') unless first.to_s == Date.current.beginning_of_month.to_s
+    today_previous_next_links << link_to('<br/>Today', calendar_seminars_path(:date => Date.current, :format => params[:format], :categories => params[:categories]), :class => 'link_to_today') unless first.to_s == Date.current.beginning_of_month.to_s
     cal << %(<th class='links_to_today_previous_next' colspan="3">#{today_previous_next_links.join(' ')}</th>)
     cal << %(</tr><tr class="#{options[:day_name_class]}">)
     day_names.each do |d|

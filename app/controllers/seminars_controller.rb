@@ -70,13 +70,12 @@ class SeminarsController < ApplicationController
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.all
-    @categories_to_show = Category.find(params[:categories].split(' ')) if params[:categories]
+    @categories_to_show = Category.find(params[:categories].split(' ')) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false
-    # @seminars_to_paginate = @categories.nil? ? Seminar.all : Seminar.of_categories(@categories)
     @seminars = @categories_to_show.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories_to_show).all_day_first
     @seminars_for_feeds = @categories_to_show.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories_to_show)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
-
+    
     respond_to do |format|
       format.html
       format.iframe  { render 'iframe', :layout => 'layouts/iframe' }
