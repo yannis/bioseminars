@@ -23,11 +23,11 @@ class SeminarsController < ApplicationController
     else
       if params[:scope].blank? or params[:scope] == 'future'
         params[:scope] = 'future'
-        @seminars_to_paginate = Seminar.now_or_future.of_categories(@categories_to_show)
+        @seminars_to_paginate = Seminar.of_categories(@categories_to_show).now_or_future
       elsif params[:scope] == 'all'
-        @seminars_to_paginate = Seminar.all.of_categories(@categories_to_show)
+        @seminars_to_paginate = Seminar.of_categories(@categories_to_show)
       elsif params[:scope] == 'past'
-        @seminars_to_paginate = Seminar.past.of_categories(@categories_to_show)
+        @seminars_to_paginate = Seminar.of_categories(@categories_to_show).past
       end
     end
     @seminars = @seminars_to_paginate.paginate(:page => params[:page])
