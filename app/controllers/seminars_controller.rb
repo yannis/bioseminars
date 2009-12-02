@@ -8,9 +8,10 @@ class SeminarsController < ApplicationController
   # GET /seminars
   # GET /seminars.xml
   def index
-    @categories = Category.find(params[:categories].split(' ')) if params[:categories]
+    @categories = Category.all
+    @categories_to_show = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
-    if @categories.nil?
+    if @categories_to_show.nil?
       if params[:scope].blank? or params[:scope] == 'future'
         params[:scope] = 'future'
         @seminars_to_paginate = Seminar.now_or_future
@@ -22,16 +23,16 @@ class SeminarsController < ApplicationController
     else
       if params[:scope].blank? or params[:scope] == 'future'
         params[:scope] = 'future'
-        @seminars_to_paginate = Seminar.now_or_future
+        @seminars_to_paginate = Seminar.now_or_future.of_categories(@categories_to_show)
       elsif params[:scope] == 'all'
-        @seminars_to_paginate = Seminar.all
+        @seminars_to_paginate = Seminar.all.of_categories(@categories_to_show)
       elsif params[:scope] == 'past'
-        @seminars_to_paginate = Seminar.past
+        @seminars_to_paginate = Seminar.past.of_categories(@categories_to_show)
       end
     end
     @seminars = @seminars_to_paginate.paginate(:page => params[:page])
     @seminars = @seminars_to_paginate.paginate(:page => '1') and params[:page] = '1' if @seminars.size == 0
-    @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
+    @seminars_for_feeds = @categories_to_show.nil? ? Seminar.all : Seminar.of_categories(@categories_to_show)
 
     respond_to do |format|
       format.html
@@ -40,7 +41,7 @@ class SeminarsController < ApplicationController
         render :template => false
       }
       format.rss  {
-        @seminars = @seminars_for_feeds.now_or_future
+        @seminars = @categories_to_show.nil? ? Seminar.now_or_future : Seminar.now_or_future.of_categories(@categories_to_show)
         render :layout => false
       }
       format.ics do
@@ -68,11 +69,12 @@ class SeminarsController < ApplicationController
   
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
-    @categories = Category.find(params[:categories].split(' ')) if params[:categories]
+    @categories = Category.all
+    @categories_to_show = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
     # @seminars_to_paginate = @categories.nil? ? Seminar.all : Seminar.of_categories(@categories)
-    @seminars = @categories.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories).all_day_first
-    @seminars_for_feeds = @categories.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories)
+    @seminars = @categories_to_show.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories_to_show).all_day_first
+    @seminars_for_feeds = @categories_to_show.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories_to_show)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|
