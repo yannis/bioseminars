@@ -8,7 +8,7 @@ class SeminarTest < ActiveSupport::TestCase
   should_belong_to :location
   should_have_many :pictures
   should_have_many :documents
-  should_have_and_belong_to_many :speakers
+  should_have_many :speakers
   should_have_and_belong_to_many :hosts
 
   should_validate_presence_of :start_on, :end_on
@@ -28,6 +28,10 @@ class SeminarTest < ActiveSupport::TestCase
       @category = Category.create(:name => 'Life Science Seminar Series', :acronym => 'LSSS', :color => 'F0A9BB' )
       @seminar = users(:basic).seminars.new(:title => 'a nice seminar title', :start_on => Time.parse("#{Date.current} 12:00:00"), :location => @location, :category => @category)
     end
+    
+    should "have no speaker" do
+      assert @seminar.speakers.blank?
+    end
 
     should "not be valid" do
       assert_raise RuntimeError, LoadError do 
@@ -37,8 +41,11 @@ class SeminarTest < ActiveSupport::TestCase
         
     context "when hosts and speakers are added," do
       setup do
-        @seminar.update_attributes(:speakers_attributes => {0 => {:name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title'}}, :hosts_attributes => {'index_to_replace_with_js' => {:name => 'host name prout', :email => 'host@email.com'}}, :host_ids => ['1', '2'])
-        @seminar.reload
+        @seminar.speakers << Factory(:speaker, :name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title')
+        @seminar.hosts << Factory(:host, :name => 'host name prout', :email => 'host@email.com')
+        @seminar.hosts << Host.find('1')
+        @seminar.hosts << Host.find('2')
+        @seminar.save
       end
       
       should "be valid" do
@@ -62,6 +69,10 @@ class SeminarTest < ActiveSupport::TestCase
       
       should "have 3 hosts" do
         assert_equal @seminar.hosts.size, 3
+      end
+      
+      should "have 1 speaker" do
+        assert_equal @seminar.speakers.size, 1
       end
       
       should 'have a end_on == Time.parse("#{Date.current} 13:00:00")' do
@@ -196,13 +207,26 @@ class SeminarTest < ActiveSupport::TestCase
         end
       end
       
+      should 'Speaker.all.size == 1' do
+        assert_equal Speaker.all.size, 1
+      end
+      
+      should 'Host.all.size == 3' do
+        assert_equal Host.all.size, 3
+      end
+      
       context 'when @seminar is destroyed' do
         setup do
           @seminar.destroy
         end
-        
-        should_change "Speaker.count", :by => -1
-        should_change "Host.count", :by => -3
+      
+        should 'Speaker.all.size == 0' do
+          assert_equal Speaker.all.size, 0
+        end
+      
+        should 'Host.all.size == 0' do
+          assert_equal Host.all.size, 0
+        end
       end
       
       context 'when @seminar is internal' do

@@ -4,7 +4,7 @@
       .label_and_input
         .label
           Chose an existing host
-        = select_tag "seminar[host_ids][]", "<option value=''>-</option>"+options_from_collection_for_select(Host.all, :id, :name)
+        = select_tag "seminar[host_ids][]", "<option value=''>-</option>"+options_from_collection_for_select(Host.all, :id, :name), :style => 'clear: left'
         = fs.my_error_message_on :id, :object =>  host
       .label_and_input.or_create
         or create one:

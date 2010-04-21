@@ -6,7 +6,7 @@ require 'test_help'
 
 require 'mocha'
 require 'authenticated_test_helper'
-require 'test/rails'
+
 require 'factory_girl'
 
 # require File.dirname(__FILE__) + '/../vendor/plugins/acts_as_taggable_redux/lib/acts_as_taggable'

@@ -15,6 +15,31 @@ Factory.define :category do |i|
 end
 
 Factory.define :host do |i|
-  i.name { 'host_4_'+Factory.next(:name) }
+  i.name { 'host_'+Factory.next(:name) }
   i.email { |h| h.name+'@email.com' }
+end
+
+Factory.define :speaker do |i|
+  i.name { 'speaker_'+Factory.next(:name) }
+  i.affiliation { 'affiliation_'+Factory.next(:name) }
+  i.title { 'title_'+Factory.next(:name) }
+end
+
+Factory.define :building do |i|
+  i.name { 'building_'+Factory.next(:name) }
+end
+
+Factory.define :location do |i|
+  i.name {'location_'+Factory.next(:name)}
+  i.building {|a| a.association(:building) }
+end
+
+
+Factory.define :seminar do |s|
+  s.title { 'seminar_'+Factory.next(:name) }
+  s.category {|a| a.association(:category) }
+  s.location {|a| a.association(:location) }
+  s.speakers{ |a| [a.association :speaker]}
+  s.hosts{ |a| [a.association :host]}
+  s.start_on{ 2.weeks.since}
 end

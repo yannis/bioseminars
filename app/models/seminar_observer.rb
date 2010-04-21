@@ -4,7 +4,6 @@ class SeminarObserver < ActiveRecord::Observer
   # end
 
   def before_destroy(seminar)
-    Speaker.destroy(seminar.speakers)
     for host in seminar.hosts
       Host.destroy(host) if host.seminars == [seminar]
     end

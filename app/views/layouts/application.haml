@@ -15,9 +15,9 @@
     = stylesheet_link_tag 'reset.css', 'application.css', '/growler1.0.0/css/examples.css', :cache => 'base', :media => "screen, projection"
     /[if IE 7]
       = stylesheet_link_tag 'ie.css', :media => "screen, projection"
-    = auto_discovery_link_tag :rss, seminars_path(:format => 'rss'), :title => "RSS feed for all seminars"
+    = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :scope => 'future'), :title => "RSS feed for all seminars"
     - for category in Category.find(:all)
-      = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id), :title => "“#{category.name}” seminars"
+      = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id, :scope => 'future'), :title => "“#{category.name}” seminars"
     = yield :head
   %body{:onload => "#{yield(:onload)}"}
     #main_container
@@ -46,9 +46,9 @@
             %li
               = link_to 'About bioSeminars', about_path
             %li
-              = link_to 'RSS', seminars_path(:format => 'rss'), :id => 'rss_feed_link'
+              = link_to 'RSS', seminars_path(:format => 'rss', :scope => 'future'), :id => 'rss_feed_link'
             %li
-              = link_to 'iCal/ICS', "webcal://#{HOST}#{seminars_path(:format => 'ics')}", :id => 'ical_feed_link'
+              = link_to 'iCal/ICS', "webcal://#{HOST}#{seminars_path(:format => 'ics', :scope => 'future')}", :id => 'ical_feed_link'
             %li
               Create
               = link_to 'custom feeds', feeds_path

@@ -11,43 +11,52 @@ class SeminarsController < ApplicationController
     @categories = Category.all
     @categories_to_show = Category.find(params[:categories].split(' ')) if params[:categories]
     @internal = params[:internal] == 'true' ? true : false
-    if @categories_to_show.nil?
-      if params[:scope].blank? or params[:scope] == 'future'
-        params[:scope] = 'future'
-        @seminars_to_paginate = Seminar.now_or_future
-      elsif params[:scope] == 'all'
-        @seminars_to_paginate = Seminar.all
-      elsif params[:scope] == 'past'
-        @seminars_to_paginate = Seminar.past
-      end
-    else
-      if params[:scope].blank? or params[:scope] == 'future'
-        params[:scope] = 'future'
-        @seminars_to_paginate = Seminar.of_categories(@categories_to_show).now_or_future
-      elsif params[:scope] == 'all'
-        @seminars_to_paginate = Seminar.of_categories(@categories_to_show)
-      elsif params[:scope] == 'past'
-        @seminars_to_paginate = Seminar.of_categories(@categories_to_show).past
-      end
+    
+    query = ['Seminar']
+    if params[:order].blank?
+      query << "sort_by_order('asc')"
+    else 
+      query << "sort_by_order(params['order'])"
     end
-    @seminars = @seminars_to_paginate.paginate(:page => params[:page])
-    @seminars = @seminars_to_paginate.paginate(:page => '1') and params[:page] = '1' if @seminars.size == 0
-    @seminars_for_feeds = @categories_to_show.nil? ? Seminar.all : Seminar.of_categories(@categories_to_show)
-
+    if params[:user_id]
+      query << 'all_for_user(current_user)'
+      @title = "Seminars recorded by #{current_user.name}"
+    end
+    query << "of_categories(@categories_to_show)" if !@categories_to_show.blank?
+    if params[:scope] == 'future'
+      params[:scope] = 'future'
+      query << "now_or_future"
+    elsif params[:scope] == 'all'
+      query << "all"
+    elsif params[:scope] == 'past'
+      query << "past"
+    end
+    query <<  "before_date(Date.parse(params['before']))" if params[:before] and Date.parse(params[:before])
+    query << "after_date(Date.parse(params['after']))" if params[:after] and Date.parse(params[:after])
+    query << 'all' if query.size == 1
+    @query = query.join('.')
+    
     respond_to do |format|
-      format.html
+      format.html {
+        @seminars = eval(@query).paginate(:page => params[:page])
+        @seminars = @seminars.paginate(:page => '1') and params[:page] = '1' if @seminars.size == 0
+      }
       format.xml  {
-        @seminars = @seminars_for_feeds
+        @seminars = eval(@query)
         render :template => false
       }
+      format.json  {
+        @seminars = eval(@query)
+        render :json => {:name => "David"}.to_json
+      }
       format.rss  {
-        @seminars = @categories_to_show.nil? ? Seminar.now_or_future : Seminar.now_or_future.of_categories(@categories_to_show)
+        @seminars = eval(@query)
         render :layout => false
       }
-      format.ics do
-        @seminars = @seminars_for_feeds
+      format.ics {
+        @seminars = eval(@query)
         cal = Icalendar::Calendar.new
-        @seminars.each do |seminar|
+        for seminar in @seminars
           cal_event = Icalendar::Event.new
           cal_event.start = seminar.start_on.to_s(:rfc2445) unless seminar.start_on.blank?
           cal_event.end = seminar.end_on.to_s(:rfc2445) unless seminar.end_on.blank?
@@ -62,13 +71,12 @@ class SeminarsController < ApplicationController
           cal.add_event(cal_event.to_ical)
         end
         render :text => cal.to_ical
-      end
+      }
     end
   end
   
-  
   def calendar
-    @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    @date = Date.current
     @categories = Category.all
     @categories_to_show = Category.find(params[:categories].split(' ')) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false
@@ -89,8 +97,13 @@ class SeminarsController < ApplicationController
 
     respond_to do |format|
       format.html {render 'show'}
-      format.xml  { render :xml => @seminar }
+      format.xml  {
+        render :template => false
+      }
       format.js {render 'mini_seminar', :layout => false}
+      format.json  {
+        render :json => @seminar.to_json
+      }
       format.ics do
         cal_event = Icalendar::Event.new
         cal_event.start = @seminar.start_on.to_s(:rfc2445) unless @seminar.start_on.blank?
@@ -149,7 +162,7 @@ class SeminarsController < ApplicationController
           @origin = params[:origin]
         }
       else
-        flash[:warning] = 'Seminar not saved.'
+        flash[:warning] = @seminar.errors.full_messages.to_sentence
         format.html { render :action => "new" }
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
         format.js{
@@ -159,13 +172,14 @@ class SeminarsController < ApplicationController
       end
     end
     rescue Exception => e
+      flash[:warning] = e ? e : (@seminar.errors.blank? ? 'Seminar not saved.' :  @seminar.errors.full_messages.to_sentence)
       unless @seminar.nil?
         @seminar.errors.add_to_base(e)
         respond_to do |format|
           format.html { render 'new' }
         end
       else
-        flash[:warning] = e || 'Unable to create seminar'
+        
         respond_to do |format|
           format.html { redirect_back_or_default(seminars_path) }
         end       
@@ -202,10 +216,10 @@ class SeminarsController < ApplicationController
       format.xml  { head :ok }
       format.js { render 'layouts/remove_from_table' }
     end
-  rescue
+  rescue Exception => e
+    flash[:warning] = (e ? e.message : 'Seminar not deleted.')
     respond_to do |format|
-      flash[:warning] = 'Seminar not deleted.'
-      format.html { redirect_to(seminars_url) }
+      format.html { redirect_to((@seminar.nil? ? seminars_url : seminar_url(@seminar))) }
       format.xml  { head :ok }
       format.js { render 'layouts/remove_from_table' }
     end

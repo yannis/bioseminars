@@ -3,5 +3,7 @@
     Logged in as
     = "#{link_to_current_user :content_method => :nickname}"
     = " (#{link_to "Sign out", logout_path, { :title => "Sign out" }})"
+    –
+    = link_to 'my seminars', user_seminars_path(current_user)
   - else
     = "#{link_to "Sign in",  login_path,  {:title => "Sign in" }}"

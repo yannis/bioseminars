@@ -92,6 +92,7 @@ class UsersController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         format.js {
+          flash[:warning] = @user.errors.full_messages.to_sentence
           render 'layouts/update'
         }
       end

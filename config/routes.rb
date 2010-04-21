@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.resources :roles
   map.resources :seminars, :member => {:load_publications => :post}, :collection => {:validate_pubmed_ids => :post, :calendar => :get}
   map.resource :session
-  map.resources :users, :has_many => :orders
+  map.resources :users, :has_many => :seminars
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'

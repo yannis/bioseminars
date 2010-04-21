@@ -26,7 +26,7 @@ module ApplicationHelper
   
   def controllers_and_actions
     navigation = {}
-    navigation[:seminars] = {:main_menu => {:text => "calendar", :path => calendar_seminars_path}, :sub_menus => [{:text => "as list", :path => seminars_path}], :highlight_in_controller => ["seminars"]}
+    navigation[:seminars] = {:main_menu => {:text => "calendar", :path => calendar_seminars_path}, :sub_menus => [{:text => "as list", :path => seminars_path(:scope => 'future')}], :highlight_in_controller => ["seminars"]}
     navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [], :highlight_in_controller => ["categories"]}
     navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [], :highlight_in_controller => ["locations", 'buildings']}
     navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => []} 

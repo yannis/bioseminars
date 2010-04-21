@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
   
-  before_filter :login_required
+  before_filter :login_required, :except => [:back]
   before_filter :store_location_if_html, :only => ["index", "show"]
 
   #see http://www.perfectline.co.uk/blog/custom-dynamic-error-pages-in-ruby-on-rails
@@ -19,10 +19,6 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::UnknownController,  :with => :render_not_found
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
   end
-
-  protected
-
-
   
   def back
     redirect_back_or_default('/')

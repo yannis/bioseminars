@@ -5,18 +5,16 @@ class Seminar < ActiveRecord::Base
   belongs_to :location
   has_many :documents, :as => :model, :dependent  => :destroy
   has_many :pictures, :as => :model, :dependent  => :destroy
-  has_and_belongs_to_many :speakers
+  has_many :speakers, :dependent  => :destroy
   has_and_belongs_to_many :hosts
-  
-  accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :documents, :allow_destroy => true
-  # accepts_nested_attributes_for :hosts, :allow_destroy => true
+  accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :pictures, :allow_destroy => true
   
   attr_accessor :hosts_attributes
   
   validates_associated :hosts, :speakers, :documents, :pictures
-  validates_presence_of :start_on, :end_on, :category_id#, :title, :location_id
+  validates_presence_of :start_on, :end_on, :category_id, :user_id#, :title, :location_id
   validates_each :end_on do |model, attr, value|
     unless model.end_on.blank?
       if model.end_on < model.start_on
@@ -25,15 +23,12 @@ class Seminar < ActiveRecord::Base
     end
   end
     
-  default_scope :order => "seminars.start_on DESC", :include => ['category', 'hosts', 'speakers', 'location']
+  default_scope :include => ['category', 'hosts', 'speakers', 'location']
   
   named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc]}}
-  
-  
-  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days]}}
-  
+  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days]}}  
   named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current.utc, Time.current.utc]
-  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc], :order => 'seminars.start_on ASC'
+  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc]
   named_scope :all_for_user, lambda{|user|
     if user.role.name == 'basic'
       {:conditions => ["seminars.user_id = ?", user.id]}
@@ -49,6 +44,16 @@ class Seminar < ActiveRecord::Base
   }
   named_scope :all_day_first, :order => "all_day DESC, seminars.start_on ASC"
   named_scope :next, :conditions => ["seminars.start_on >= ?", Time.current.utc], :order => "seminars.start_on ASC"
+  named_scope :after_date, lambda{|date| {:conditions => ["seminars.start_on >= ?", date]}}
+  named_scope :before_date, lambda{|date| {:conditions => ["seminars.start_on <= ?", date]}}
+  named_scope :sort_by_order, lambda{|order| 
+    if order == 'asc'
+      {:order => "seminars.start_on ASC"}
+    elsif order == 'desc'
+      {:order => "seminars.start_on DESC"}
+    end
+  }
+  
   
   before_validation :set_host_through_attributes, :set_end_on
   after_save :check_presence_of_host_and_speaker
@@ -222,15 +227,6 @@ class Seminar < ActiveRecord::Base
       return true
     end
   end
-  
-  # def hosts_attributes=(hosts_attributes)
-  #   hosts_attributes.each do |key,value|
-  #     h = (Host.find_by_email(value[:email])
-  #     h = Host.find_by_name(value[:name])) if h.nil?
-  #     h = Host.new(value) if h.nil?
-  #     self.hosts << h
-  #   end
-  # end
   
   def set_host_through_attributes
     unless hosts_attributes.blank?

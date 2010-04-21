@@ -1,3 +1,7 @@
+21.4.2009
+Corrected a few bugs.
+Added a small API to retrieve seminars (see http://bioseminars.unige.ch/doc).
+
 24.11.2009
 Archived seminars loaded.
 Corrected a bugs affecting feeds generation.

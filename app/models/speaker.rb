@@ -1,5 +1,5 @@
 class Speaker < ActiveRecord::Base
-  has_and_belongs_to_many :seminars
+  belongs_to :seminar
   
   validates_presence_of :name
   validates_presence_of :title

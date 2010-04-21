@@ -91,8 +91,6 @@ body {
         body #main_container #banner_and_navigation #banner h1 {
           font-size: 436%;
           margin: .1em 0 .2em 0; }
-          body #main_container #banner_and_navigation #banner h1 .banner_font {
-            font-size: 80%; }
           body #main_container #banner_and_navigation #banner h1 a {
             z-index: 500;
             text-decoration: none;
@@ -301,6 +299,8 @@ body {
     body #content .left_column {
       float: left;
       width: 73%; }
+      body #content .left_column h2.title {
+        margin-bottom: 1em; }
       body #content .left_column h3, body #content .left_column h4 {
         line-height: 1.5em;
         margin: 1em 0 .5em 0; }
