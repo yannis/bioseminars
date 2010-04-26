@@ -1,10 +1,9 @@
-if ENV['DEPLOY'] == 'PRODUCTION'
-   puts "*** Deploying to the PRODUCTION servers!"
-   set :domain, "129.194.57.17"
-elsif ENV['DEPLOY'] == 'STAGING'
-   puts "*** Deploying to the STAGING server!"
-   set :domain, "129.194.56.197"
-end
+# if ENV['DEPLOY'] == 'PRODUCTION'
+set :domain, "129.194.57.17"
+# elsif ENV['DEPLOY'] == 'STAGING'
+#    puts "*** Deploying to the STAGING server!"
+#    set :domain, "129.194.56.197"
+# end
 set :application, "bioSeminars"
 set :user, 'yannis'
 set :scm, :git
@@ -33,4 +32,26 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
   end
+  
+  desc <<-DESC
+    Starts the application servers. \
+    Please note that this task is not supported by Passenger server.
+  DESC
+  task :start, :roles => :app do
+    logger.info ":start task not supported by Passenger server"
+  end
+
+  desc <<-DESC
+    Stops the application servers. \
+    Please note that this task is not supported by Passenger server.
+  DESC
+  task :stop, :roles => :app do
+    logger.info ":stop task not supported by Passenger server"
+  end
 end
+
+Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
+  $: << File.join(vendored_notifier, 'lib')
+end
+
+require 'hoptoad_notifier/capistrano'

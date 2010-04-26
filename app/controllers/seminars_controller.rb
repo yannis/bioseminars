@@ -9,7 +9,11 @@ class SeminarsController < ApplicationController
   # GET /seminars.xml
   def index
     @categories = Category.all
-    @categories_to_show = Category.find(params[:categories].split(' ')) if params[:categories]
+    begin
+      @categories_to_show = Category.find(params[:categories].split(' ').map{|i| i if i.match(/\d+/)}.compact) if params[:categories]
+    rescue
+      @categories_to_show = Category.all
+    end
     @internal = params[:internal] == 'true' ? true : false
     
     query = ['Seminar']
@@ -76,7 +80,7 @@ class SeminarsController < ApplicationController
   end
   
   def calendar
-    @date = Date.current
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.all
     @categories_to_show = Category.find(params[:categories].split(' ')) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false
