@@ -2,6 +2,7 @@ xml.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
 xml.Seminars :type => 'Array' do
   for seminar in @seminars
     xml.Seminar do
+      xml.Id seminar.id, :type => 'Integer'
       xml.Title seminar.mini_seminar_title, :type => 'String' unless seminar.mini_seminar_title.blank?
       xml.Speakers :type => 'Array' do
         for speaker in seminar.speakers
@@ -29,6 +30,7 @@ xml.Seminars :type => 'Array' do
       xml.Url seminar.url, :type => 'String'
       xml.Pubmed_ids seminar.pubmed_ids, :type => 'String'
       xml.Description seminar.description, :type => 'String'
+      xml.Schedule seminar.schedule, :type => 'String'
     end
   end
 end
