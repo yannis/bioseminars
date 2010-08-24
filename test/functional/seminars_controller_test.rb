@@ -318,6 +318,19 @@ class SeminarsControllerTest < ActionController::TestCase
           should_set_the_flash_to "Seminar was successfully updated."
       end
       
+    
+      context "on :put to :update with :id => @seminar1.id trying to remove hosts" do
+        setup do
+          put :update, :id => @seminar1.id, :seminar => {:host_ids => [""]}
+        end
+    
+        should_assign_to :seminar
+        should_render_template :edit
+        should 'have 0 host' do
+          assert_equal assigns(:seminar).hosts, []
+        end
+      end
+      
       context "on :delete to :destroy with :id => @seminar1.id" do
         setup do
           delete :destroy, :id => @seminar1.id

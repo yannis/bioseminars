@@ -193,7 +193,8 @@ class SeminarsController < ApplicationController
   # PUT /seminars/1
   # PUT /seminars/1.xml
   def update
-    params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
+    # params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
+    params[:seminar][:host_ids].delete_if{|i| i == ""} if params[:seminar] and params[:seminar][:host_ids]
     @seminar = Seminar.all_for_user(current_user).find(params[:id])
     respond_to do |format|
       if @seminar.update_attributes(params[:seminar])

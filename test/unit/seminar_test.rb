@@ -34,11 +34,23 @@ class SeminarTest < ActiveSupport::TestCase
     end
 
     should "not be valid" do
-      assert_raise RuntimeError, LoadError do 
-        @seminar.save
+      assert !@seminar.valid?, @seminar.errors.full_messages.to_sentence
+      assert_equal @seminar.errors.full_messages.to_sentence, "Hosts : Seminar should have at least 1 host and Speakers : Seminar should have at least 1 speaker"
+    end
+    
+    context "with twice the same host" do
+      setup do
+        @host = Factory :host
+        @seminar.hosts = [@host, @host]
+        @seminar.speakers = [Factory(:speaker)]
+      end
+
+      should "not be valid" do
+        assert !@seminar.valid?
+        assert_equal @seminar.errors.full_messages.to_sentence, "Hosts : A host is only allowed once"
       end
     end
-        
+          
     context "when hosts and speakers are added," do
       setup do
         @seminar.speakers << Factory(:speaker, :name => 'speaker name', :affiliation => 'speaker affiliation', :title => 'first speaker title')

@@ -22,6 +22,15 @@ class Seminar < ActiveRecord::Base
       end
     end
   end
+  validates_each :host_ids do |model, attr, value|
+    model.errors.add("Hosts",": Seminar should have at least 1 host") if model.hosts.blank?
+  end
+  validates_each :host_ids do |model, attr, value|
+    model.errors.add("Hosts",": A host is only allowed once") if model.hosts.uniq != model.hosts
+  end
+  validates_each :speaker_ids do |model, attr, value|
+    model.errors.add('Speakers', ": Seminar should have at least 1 speaker") if model.speakers.blank?
+  end
     
   default_scope :include => ['category', 'hosts', 'speakers', 'location']
   
@@ -44,8 +53,8 @@ class Seminar < ActiveRecord::Base
   }
   named_scope :all_day_first, :order => "all_day DESC, seminars.start_on ASC"
   named_scope :next, :conditions => ["seminars.start_on >= ?", Time.current.utc], :order => "seminars.start_on ASC"
-  named_scope :after_date, lambda{|date| {:conditions => ["seminars.start_on >= ?", date]}}
-  named_scope :before_date, lambda{|date| {:conditions => ["seminars.start_on <= ?", date]}}
+  named_scope :after_date, lambda{|date| {:conditions => ["DATE(seminars.start_on) >= DATE(?)", date]}}
+  named_scope :before_date, lambda{|date| {:conditions => ["DATE(seminars.start_on) <= DATE(?)", date]}}
   named_scope :sort_by_order, lambda{|order| 
     if order == 'asc'
       {:order => "seminars.start_on ASC"}
@@ -55,8 +64,8 @@ class Seminar < ActiveRecord::Base
   }
   
   
-  before_validation :set_host_through_attributes, :set_end_on
-  after_save :check_presence_of_host_and_speaker
+  before_validation :set_host_through_attributes, :set_end_on, :remove_host_duplicates
+  # after_save :check_presence_of_host_and_speaker
   
   # def start_humanized_date
   #   if start_on
@@ -268,8 +277,7 @@ class Seminar < ActiveRecord::Base
     end
   end
   
-  def check_presence_of_host_and_speaker
-    raise("Seminar should have at least 1 host.") if self.hosts.blank?
-    raise("Seminar should have at least 1 speaker.") if self.speakers.blank?
+  def remove_host_duplicates
+    self.hosts = self.hosts.uniq
   end
 end
