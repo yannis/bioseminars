@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
   config.gem 'bio', :version => '>=1.3.1'
   config.gem "calendar_date_select"
   config.gem 'htmlentities'
+  config.gem 'hoptoad_notifier'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -58,17 +59,7 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
   
-  
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :smtp # or  or test  :sendmail :smtp 
-  config.action_mailer.smtp_settings = {
-    :address => "mail.zoo.unige.ch",
-    :port => 25,
-    :domain => "mail.zoo.unige.ch"
-  }
-  
-  
-  
+
   config.action_view.field_error_proc = Proc.new{ |html_tag, instance| "<span class='fieldWithErrors'>#{html_tag}</span>" }
 
 

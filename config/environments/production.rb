@@ -29,3 +29,10 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+
+config.action_mailer.delivery_method = :smtp # or  or test  :sendmail :smtp 
+config.action_mailer.smtp_settings = {
+  :address => "mail.unige.ch",
+  :port => 25,
+  :domain => "bioseminars.unige.ch"
+}

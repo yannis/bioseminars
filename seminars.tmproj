@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>public/stylesheets/sass/_defines.sass</string>
+	<string>test/functional/seminars_controller_test.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,6 +21,20 @@
 	<integer>310</integer>
 	<key>metaData</key>
 	<dict>
+		<key>app/controllers/seminars_controller.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>101</integer>
+				<key>line</key>
+				<integer>196</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>173</integer>
+		</dict>
 		<key>app/helpers/application_helper.rb</key>
 		<dict>
 			<key>caret</key>
@@ -93,6 +107,50 @@
 				<integer>26</integer>
 				<key>line</key>
 				<integer>55</integer>
+			</dict>
+		</dict>
+		<key>app/models/host.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/models/seminar.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>29</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>27</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>29</integer>
 			</dict>
 		</dict>
 		<key>app/views/seminars/_form.haml</key>
@@ -301,6 +359,48 @@
 				<integer>458</integer>
 			</dict>
 		</dict>
+		<key>test/factories.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>52</integer>
+				<key>line</key>
+				<integer>23</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>test/functional/seminars_controller_test.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>327</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>293</integer>
+		</dict>
+		<key>test/unit/seminar_test.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>100</integer>
+				<key>line</key>
+				<integer>49</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>160</integer>
+		</dict>
 		<key>vendor/gems/thoughtbot-shoulda-2.10.1/test/rails_root/app/views/users/index.rhtml</key>
 		<dict>
 			<key>caret</key>
@@ -325,6 +425,12 @@
 		<string>vendor/gems/thoughtbot-shoulda-2.10.1/test/rails_root/app/views/users/index.rhtml</string>
 		<string>public/stylesheets/sass/application.sass</string>
 		<string>public/stylesheets/sass/_defines.sass</string>
+		<string>test/unit/seminar_test.rb</string>
+		<string>test/functional/seminars_controller_test.rb</string>
+		<string>test/factories.rb</string>
+		<string>app/controllers/seminars_controller.rb</string>
+		<string>app/models/seminar.rb</string>
+		<string>app/models/host.rb</string>
 		<string>app/views/seminars/_speaker.haml</string>
 		<string>app/helpers/form_helper.rb</string>
 		<string>app/helpers/seminars_helper.rb</string>
@@ -335,6 +441,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{401, 108}, {1360, 1050}}</string>
+	<string>{{320, 4}, {1600, 1174}}</string>
 </dict>
 </plist>
