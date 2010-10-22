@@ -1,11 +1,10 @@
 class CategoriesController < ApplicationController
   
-  skip_before_filter :login_required, :only => ['index', 'show']
-  before_filter :admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy', 'sort']
-  # GET /categories
-  # GET /categories.xml
+  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
+  load_and_authorize_resource
+  respond_to :html, :js, :xml
+  
   def index
-    @categories = Category.find(:all)
     @category = Category.new
 
     respond_to do |format|
@@ -17,7 +16,6 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.xml
   def show
-    @category = Category.find(params[:id])
     @seminars = @category.seminars.paginate(:page => params[:page])
     @new_category = Category.new
 
@@ -30,29 +28,18 @@ class CategoriesController < ApplicationController
   # GET /categories/new
   # GET /categories/new.xml
   def new
-    @category = Category.new
+    @origin = params[:origin]
 
-    respond_to do |format|
-      format.html # new.html.haml
-      format.xml  { render :xml => @category }
-      format.js{
-        @origin = params[:origin]
-        render :template => 'layouts/new.rjs'
-      }
+    respond_with @category do |format|
+      format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
     end
   end
 
-  # GET /categories/1/edit
   def edit
-    @categories = Category.find(:all)
-    @category = Category.find(params[:id])
+    # @categories = Category.find(:all)
 
-    respond_to do |format|
-      format.html 
-      format.xml  { render :xml => @categories }
-      format.js {
-        render 'layouts/edit'
-      }
+    respond_with @category do |format|
+      format.js { render 'layouts/edit', :content_type => 'text/javascript', :layout => false }
     end
   end
 
@@ -60,33 +47,21 @@ class CategoriesController < ApplicationController
   # POST /categories.xml
   def create
     @category = Category.new(params[:category])
-
+    if @category.save
+      flash[:notice] = 'Category was successfully created'
+    else
+      flash[:alert] = 'Category not created'
+    end
     respond_to do |format|
-      if @category.save
-        flash[:notice] = 'Category was successfully created.'
-        format.html { redirect_to(@category) }
-        format.xml  { render :xml => @category, :status => :created, :location => @category }
-        format.js{
-          @origin = params[:origin]
-          if @origin.nil?
-            render 'layouts/insert_in_table'
-          else
-            render 'create'
-          end
-        }
-      else
-        flash[:warning] = 'Category not created.'
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @category.errors, :status => :unprocessable_entity }
-        format.js{
-          @origin = params[:origin]
-          if @origin.nil?
-            render 'layouts/insert_in_table'
-          else
-            render :template => 'layouts/new.rjs'
-          end
-        }
-      end
+      format.html { redirect_to categories_path }
+      format.js{
+        @origin = params[:origin]
+        if @origin.nil?
+          render 'layouts/insert_in_table', :content_type => 'text/javascript', :layout => false
+        else
+          render 'create', :content_type => 'text/javascript', :layout => false
+        end
+      }
     end
   end
 
@@ -94,23 +69,13 @@ class CategoriesController < ApplicationController
   # PUT /categories/1.xml
   def update
     @category = Category.find(params[:id])
-
-    respond_to do |format|
-      if @category.update_attributes(params[:category])
-        flash[:notice] = 'Category was successfully updated.'
-        format.html { redirect_to(@category) }
-        format.xml  { head :ok }
-        format.js {
-          render 'layouts/update'
-        }
-      else
-        flash[:warning] = 'Something went wrong.'
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @category.errors, :status => :unprocessable_entity }
-        format.js{
-          render 'layouts/update'
-        }
-      end
+    if @category.update_attributes(params[:category])
+      flash[:notice] = 'Category was successfully updated'
+    else
+      flash[:alert] = 'Category not updated'
+    end
+    respond_with @category do |format|
+      format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
     end
   end
 
@@ -118,30 +83,49 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1.xml
   def destroy
     @category = Category.find(params[:id])
-    @category.destroy
-
-    respond_to do |format|
-      flash[:notice] = 'Category was successfully deleted.'
-      format.html { redirect_to(categories_url) }
-      format.xml  { head :ok }
-      format.js { render 'layouts/remove_from_table' }
+    if @category.destroy
+      flash[:notice] = 'Category was successfully deleted'
+    else
+      flash[:alert] = 'Unable to destroy category'
+    end
+    respond_with @category do |format|
+      format.js { render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false }
     end
   end
   
-  def sort
-    i = 1
-    if params[:tbody_in_category_table].each{|id|
-      document = Category.find(id)
-      document.update_attributes(:position => (i))
-      i += 1
-    }
-      flash[:notice] = "Reordering successful"
-    else
-      flash[:notice] = "Reordering failed"
+  def reorder
+    ids = eval(params[:ids_in_order]).map{|p| p.delete('category_')}
+    flash[:notice] = ids.inspect
+    Category.transaction do
+      begin
+        @categories = Category.all
+        @categories.each do |category|
+          category.update_attribute(:position, ids.index(category.id.to_s) + 1)
+        end
+        flash[:notice] = "Categories reordered."
+      rescue
+        flash[:alert] = "Categories not reordered."
+      end
     end
     respond_to do |format|
-      format.js
-      format.html { redirect_to :nothing => true }
+      format.js {render 'layouts/reorder', :content_type => 'text/javascript', :layout => false }
     end
   end
+  
+  # def sort
+  #   i = 1
+  #   if params[:tbody_in_category_table].each{|id|
+  #     document = Category.find(id)
+  #     document.update_attributes(:position => (i))
+  #     i += 1
+  #   }
+  #     flash[:notice] = "Reordering successful"
+  #   else
+  #     flash[:notice] = "Reordering failed"
+  #   end
+  #   respond_to do |format|
+  #     format.js
+  #     format.html { redirect_to :nothing => true }
+  #   end
+  # end
 end

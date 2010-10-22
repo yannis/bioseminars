@@ -1,0 +1,27 @@
+<%= flash_in_js %>
+<%- object = eval("@"+params[:controller].singularize) -%>
+<%- if @origin.blank? -%>
+  $('#new_or_edit_form').html("<%= escape_javascript(render('layouts/edit_box', :object => object)) %>");
+  $('#new_or_edit_form').effect("highlight", {}, 3000);
+  hide_ajax_loader();
+<%- else -%>
+  if ($('#<%= params[:controller] %>_div').length != 0) {
+    <%- html =  "#{render 'layouts/new'}<img class='zoom_close' width='30' height='30' border='0' src='/images/closebox.png' />"  -%>
+    $('#<%= params[:controller] %>_div').html('<%= escape_javascript(html).html_safe %>');
+  } else {
+    <%- html =  "<div id='#{params[:controller]}_div' class='ajax_div' style='display:none'>#{render 'layouts/new'}</div>"  -%>
+    var modal_box = $('<%= escape_javascript(html).html_safe %>');
+    var zoom_close = $("<img class='zoom_close' width='30' height='30' border='0' src='/images/closebox.png' />");
+    zoom_close.click(function() {remove_div_and_overlay('<%= params[:controller] %>_div')});
+    modal_box.append(zoom_close);
+    modal_box.insertBefore('#main_container');
+    add_overlay('<%= params[:controller] %>_div');
+  }
+<%- end -%>
+<%- if object.class == Category -%>
+  set_colorpicker('#<%= object.color %>');
+<%- elsif object.class == Seminar -%>
+  check_pubmed_ids();
+<%- end -%>
+hide_ajax_loader();
+insert_loaders();

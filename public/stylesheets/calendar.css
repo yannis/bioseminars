@@ -1,33 +1,32 @@
-/* !darkgreen = #007E64 */
-/* !verydarkgreen = !darkgreen - #222222 */
-/* !lightgreen = #E5F3E5 */
-
+/*!darkgreen = #007E64 */
+/*!verydarkgreen = !darkgreen - #222222 */
+/*!lightgreen = #E5F3E5 */
 table.calendar {
   width: 100%;
   background-color: #f7f2e5;
   margin: 0;
   border-collapse: inherit;
-  border: .5em solid;
+  border: 0.5em solid;
   border-color: #007e64;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  border-radius: .5em; }
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  border-radius: 0.5em; }
   table.calendar tr:first-child th {
     padding-top: 0;
     vertical-align: top; }
     table.calendar tr:first-child th h2 {
-      margin: 0 0 .25em 0;
+      margin: 0 0 0.25em 0.25em;
       line-height: 1em;
       color: white;
-      text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8); }
     table.calendar tr:first-child th a {
       text-decoration: none;
-      color: #FFF;
-      text-shadow: 0 1px 0 rgba(0,0,0,.8); }
+      color: white;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8); }
       table.calendar tr:first-child th a:hover {
-        text-shadow: 0 0 0 rgba(0,0,0,.8); }
+        text-shadow: 0 0 0 rgba(0, 0, 0, 0.8); }
       table.calendar tr:first-child th a:active {
-        text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8); }
   table.calendar tr th:first-child, table.calendar tr th:first-child {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -56,6 +55,8 @@ table.calendar {
     color: #f7f2e5; }
   table.calendar th.links_to_today_previous_next {
     text-align: right; }
+    table.calendar th.links_to_today_previous_next img {
+      float: none; }
   table.calendar tr th:first-child, table.calendar tr td:first-child {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -74,15 +75,18 @@ table.calendar {
     text-align: center; }
     table.calendar td a, table.calendar th a {
       text-decoration: none; }
-    table.calendar td a.add_seminar_link, table.calendar th a.add_seminar_link {
-      color: #003a20; }
+    table.calendar td .add_seminar_link, table.calendar td .ajax_loader, table.calendar th .add_seminar_link, table.calendar th .ajax_loader {
+      float: left;
+      font-size: smaller;
+      vertical-align: top;
+      z-index: 200; }
     table.calendar td .day_info, table.calendar th .day_info {
       display: block;
       text-align: right; }
       table.calendar td .day_info .month_name, table.calendar td .day_info .day_number, table.calendar th .day_info .month_name, table.calendar th .day_info .day_number {
         display: inline; }
   table.calendar td {
-    padding: .2em; }
+    padding: 0.2em; }
   table.calendar th.monthName, table.calendar tr.dayName th, table.calendar tr:first-child th {
     height: 2em; }
   table.calendar td.normalDay, table.calendar td.specialDay {
@@ -94,10 +98,11 @@ table.calendar {
       font-weight: bold; }
       table.calendar td.normalDay .day_info .month_name, table.calendar td.specialDay .day_info .month_name {
         display: none; }
-  table.calendar td.otherMonth .day_info .month_name {
-    display: inline; }
-  table.calendar td.otherMonth .day_info, table.calendar td.otherMonth ul {
-    opacity: .5;
+  table.calendar td.otherMonth .day_info .month_name, table.calendar td.otherMonth .day_info .day_number {
+    display: inline;
+    opacity: 0.5; }
+  table.calendar td.otherMonth ul {
+    opacity: 0.5;
     font-weight: normal; }
   table.calendar .monthName {
     text-align: left;
@@ -132,10 +137,10 @@ table.calendar {
         margin: 0;
         width: 100%;
         margin: 0 10px 0 -6px;
-        padding: .1em .5em 0 .5em;
+        padding: 0.1em 0.5em 0 0.5em;
         text-indent: 0; }
         table.calendar ul li.all_day a {
-          color: #FFFFFF;
+          color: white;
           font-weight: bold;
           display: inline;
           margin: 0;
@@ -145,7 +150,7 @@ table.calendar {
         color: inherit;
         text-decoration: none;
         font-weight: normal;
-        font-size: .9em; }
+        font-size: 0.9em; }
   table.calendar .weekendDay {
     background-color: #ccffcc; }
   table.calendar .today {

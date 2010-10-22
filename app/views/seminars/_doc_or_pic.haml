@@ -1,4 +1,4 @@
 .document_or_picture
-  - fields_for "seminar[doc_attributes]['index_to_replace_with_js']" do |doc_form|
+  = fields_for "seminar[doc_attributes]['index_to_replace_with_js']" do |doc_form|
     = doc_form.file_field :data
-    = link_to_function "Remove", "$(this).up('div.document_or_picture').remove()"
+    = link_to_function "Remove", "$(this).parent('div.document_or_picture').remove()"

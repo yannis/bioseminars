@@ -1,97 +1,90 @@
-= error_messages_for :seminar, :header_tag => 'h3', :message => nil
+- if f.object.errors.any?
+  #errorExplanation
+    %h2
+      = pluralize(@seminar.errors.count, "error")
+      prohibited this seminar from being saved:
+    %ul
+      -  @seminar.errors.full_messages.each do |msg|
+        %li
+          = msg
 
 %p#mandatory_fields
   %span.red_asterisk *
   shows mandatory fields
 
 .label_and_input
-  = f.label_with_errors :category_id, "<span class='red_asterisk'>*</span> Category "+(admin? ? my_link_to_remote(:category, :seminar) : '')
+  = f.label_with_errors :category_id, "<span class='red_asterisk'>*</span> Category ".html_safe+(admin? ? my_link_to_remote(:category, :seminar) : '')
   = f.collection_select :category_id, @categories, :id, :name# , :include_blank => true
 
 %fieldset#speakers
   %legend
     %span.red_asterisk *
     Speakers
-  = render :partial => 'speaker', :locals => {:f => f}, :collection => @seminar.speakers
+  = render @seminar.speakers, :f => f
   .new_speaker_link
     = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_speaker_in_form")
-    = link_to_insert_person('speaker')
+    = link_to_insert(Speaker.new)
   
 %fieldset#hosts
   %legend
     %span.red_asterisk *
     Hosts
-  = render :partial => 'host', :locals => {:f => f}, :collection => @seminar.hosts
+  - @f = f
+  = render @seminar.hostings
   = image_tag('ajax-loader.gif', :style => 'display: none', :id => "seminar_loader_new_host_in_form")
-  = link_to_insert_person('host')
+  = link_to_insert(Hosting.new)
 
 .label_and_input  
   = f.label :title, "Title (if multi-speakers event, e.g. conference)"
-  = error_message_on "seminar", "title", :prepend_text => "Title ", :append_text => "!", :css_class => "input_error"
   = f.text_field :title
 
 .label_and_input.date_time  
-  = f.label :start_on, "<span class='red_asterisk'>*</span> Start on"
-  = error_message_on "seminar", "start_on", :prepend_text => "Start ", :append_text => "!", :css_class => "input_error"
-  = f.calendar_date_select :start_on, :time => !@seminar.all_day?, :minute_interval => 15
-  /= f.date_select(:start_on, {}, {:class => 'date_time'})
-  / %span#start_on_time{:style => @seminar.all_day? ? 'display: none' : ''}
-  /   = '—'+f.time_select(:start_on, {:ignore_date => true, :minute_step => 5}, {:class => 'date_time'})
-  / = link_to_function("Now", "set_now('seminar_start_on')")
-  = f.label :all_day, "All day?"
+  = f.label :start_on, "<span class='red_asterisk'>*</span> Start on".html_safe
+  = f.text_field :start_on, :class => 'date_selector_field', :value => @seminar.start_on.to_s(:db_zoned)
+  = link_to_function("Now", "set_now('#seminar_start_on')")
   = f.check_box :all_day
-  / = observe_field :seminar_all_day, :function => "all_day('start_on_time'); all_day('end_on_time');"
-  = observe_field :seminar_all_day, :function => "all_day(['seminar_start_on','seminar_end_on'])"
+  = f.label :all_day, "All day?", :class => 'for_check_box'
 
 .label_and_input.date_time
   = f.label :end_on, "End on (if blank, duration will default to 1 hour)"
-  = error_message_on "seminar", "end_on", :prepend_text => "End ", :append_text => "!", :css_class => "input_error"
-  = f.calendar_date_select :end_on, :time => !@seminar.all_day?, :minute_interval => 15
-  / = f.date_select :end_on, {:include_blank => true}, {:class => 'date_time'}
-  / %span#end_on_time{:style => @seminar.all_day? ? 'display: none' : ''}
-  /   = '—'+f.time_select(:end_on, {:include_blank => true, :ignore_date => true, :minute_step => 5}, {:class => 'date_time'})
-  = link_to_function("Copy start time", "copy_text_field('seminar_end_on', 'seminar_start_on')")
-  / # = link_to_function("Discard", "set_datetime_blank('seminar_end_on')")
+  = f.text_field :end_on, :class => 'date_selector_field', :value => (@seminar.end_on.nil? ? nil : @seminar.end_on.to_s(:db_zoned))
+  = link_to_function("Copy start time", "copy_text_field('#seminar_end_on', '#seminar_start_on')")
 
 .label_and_input
-  = f.label_with_errors :location_id, "<span class='red_asterisk'>*</span> Location "+my_link_to_remote(:location, :seminar)
+  = f.label_with_errors :location_id, "<span class='red_asterisk'>*</span> Location ".html_safe+my_link_to_remote(:location, :seminar)
   %select{:name => 'seminar[location_id]', :id => 'seminar_location_id'}
     <option></option>
     = option_groups_from_collection_for_select(@buildings, :locations, :name, :id, :name, @seminar.location ? @seminar.location.id : nil)
     %optgroup{:label => 'undetermined'}
       = options_from_collection_for_select(Location.without_building, :id, :name, @seminar.location ? @seminar.location.id : nil)
-      
-.group#seminar_internal
-  = f.label :internal, 'Internal (an internal seminar will not be shown on calendar)'
-  = f.check_box :internal
-  = error_message_on "seminar", "internal", :prepend_text => "Internal ", :append_text => "!", :css_class => "input_error"
+
+.label_and_input
+  = f.check_box :internal      
+  = f.label :internal, 'Internal (an internal seminar will not be shown on calendar)', :class => 'for_check_box'
 
 %fieldset
   %legend
     - legend = 'Add a description, document, picture, publication and url'
-    = link_to_function("#{@seminar.open_box? ? '▼ '+legend : '► '+legend}", "toggleVisibilityOfFormElement('additional_box', 'additional_box_link', '#{legend}')", {:id => "additional_box_link", :class => 'toggle_arrow'})
+    = link_to_function("#{@seminar.open_box? ? '▼ '+legend : '► '+legend}", "toggleVisibilityOfFormElement('#additional_box', '#additional_box_link', '#{legend}')", {:id => "additional_box_link", :class => 'toggle_arrow'})
   #additional_box{:style => "#{'display: none' unless @seminar.open_box?}"}
     .label_and_input
       = f.label :description
-      = error_message_on "seminar", "description", :prepend_text => "Description ", :append_text => "!", :css_class => "input_error"
       = f.text_area :description
 
     #document_or_picture
-      = label_tag "seminar[doc_attributes]['index_to_replace_with_js'][data]", "Documents and pictures "+add_doc_or_pic_link
+      = label_tag "seminar[doc_attributes]['index_to_replace_with_js'][data]", ("Documents and pictures "+add_doc_or_pic_link).html_safe
       = render :partial => 'doc_or_pic'
-      = render :partial => 'document', :locals => { :form => f}, :collection => @seminar.documents
+      = render :partial => 'document', :form => f, :collection => @seminar.documents
       = render :partial => 'picture', :locals => { :form => f}, :collection => @seminar.pictures
 
     .label_and_input
       = f.label :pubmed_ids
-      = error_message_on "seminar", "pubmed_ids", :prepend_text => "Pubmed ids ", :append_text => "!", :css_class => "input_error"
       = f.text_field :pubmed_ids
-      = observe_field 'seminar_pubmed_ids', :url => validate_pubmed_ids_seminars_path, :before => "Element.show('publications_validation')", :frequency => 0.25, :with => "'pubmed_ids='+value"
-      #publications_validation{:style => 'display: none'}
-        %p#big_ajax_loader
-          = image_tag 'ajax-loader.gif'
+      = image_tag 'ajax-loader.gif', :id => "publications_validation_ajax_loader", :style => 'display: none'
 
     .label_and_input
       = f.label :url
-      = error_message_on "seminar", "url", :prepend_text => "URL ", :append_text => "!", :css_class => "input_error"
       = f.text_field :url
+%p
+  %span.button.inline_in_form
+    = submit_or_cancel_form(f)

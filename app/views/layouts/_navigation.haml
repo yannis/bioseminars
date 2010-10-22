@@ -1,5 +1,5 @@
 %ul#navigation
-  - for nav in ["calendar", "seminars", "categories", "locations", "users"] 
+  - for nav in ["calendar", "seminar list", "categories", "locations", "users"] 
     - controllers_and_actions.each do |key,value|
       - if nav == value[:main_menu][:text]
         %li.dir{:class => "#{value[:highlight_in_controller] and (value[:highlight_in_controller].include?(params[:controller])) ? 'selected' : ''}"}

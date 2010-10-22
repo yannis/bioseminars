@@ -1,4 +1,4 @@
-%tr[building]{:class => cycle('', 'odd')}
+%tr[building]
   %td
     = link_to_unless_current h(building.name), building_path(building.id)
   %td
@@ -7,6 +7,6 @@
     = building.seminars.size
   - if admin?
     %td
-      - links = [link_to_remote('Edit', :url => edit_building_path(building), :method => :get, :html => {:href => edit_building_path(building)})]
-      - links << (index? ? destroy_remote_link(building) : destroy_link(building))
-      = links.join(' · ')
+      - links = [link_to('Edit', [:edit, building], :remote => true)] if can?(:update, building)
+      - links << destroy_link(building) if can?(:destroy, building)
+      =raw links.join(' · ')

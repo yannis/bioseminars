@@ -1,0 +1,17 @@
+%p#mandatory_fields
+  %span.red_asterisk *
+  mandatory
+
+.label_and_input
+  = f.label :name, "<span class='red_asterisk'>*</span> Name".html_safe
+  = f.text_field :name
+  = f.my_error_message_on :name
+  
+.label_and_input
+  = f.label :email, "<span class='red_asterisk'>*</span> Email".html_safe
+  = f.text_field :email
+  = f.my_error_message_on :email
+
+%p
+  %span.button.inline_in_form
+    = submit_or_cancel_form(f)

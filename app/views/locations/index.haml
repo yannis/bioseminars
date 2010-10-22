@@ -1,5 +1,5 @@
 - @title ||= "Listing locations"
-#locations{:class => "#{'left_column' if logged_in?}"}
+#locations{:class => "#{'left_column' if user_signed_in?}"}
   %h2.title
     = @title
   %table.list
@@ -7,7 +7,6 @@
       = render 'table_head'
     %tbody#tbody_in_location_table
       = render @locations
-- if logged_in?
-  .right_column
-    .box#new_or_edit_form
-      = render :partial => 'layouts/new_box', :locals => {:object => @new_location}
+- if user_signed_in?
+  %aside
+    = render 'layouts/new_box', :object => @new_location

@@ -1,0 +1,23 @@
+<%- object = eval("@"+params[:controller].singularize) -%>
+$('#new_or_edit_form').html("<%= escape_javascript(render('layouts/edit_box', :object => object)) %>");
+$('#new_or_edit_form').effect("highlight", {}, 3000);
+<%- if object.class == Category -%>
+$('#category_color').css('background-color', '#<%= object.color %>');
+$('#category_color').ColorPicker({
+	color: '<%= object.color %>', 
+	onShow: function (colpkr) {
+		$(colpkr).fadeIn(500);
+		return false;                                                          
+	},                                                                       
+	onHide: function (colpkr) {                                              
+		$(colpkr).fadeOut(500);                                                
+		return false;                                                          
+	},                                                                       
+	onChange: function (hsb, hex, rgb) {                                     
+		$('#category_color').css('background-color', '#' + hex);               
+		$('#category_color').val(hex);                                         
+	}                                                                        
+})                                                                         
+<%- end -%>
+hide_ajax_loader();
+insert_loaders();

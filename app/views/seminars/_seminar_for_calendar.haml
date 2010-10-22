@@ -1,5 +1,4 @@
 %li[seminar]{:class => "seminar_#{seminar.id} #{seminar.internal? ? 'internal' : 'public'} category_#{seminar.category.id} #{seminar.all_day? ? 'all_day' : ''} #{((seminar.internal? and show_internal_seminars? and (show_category?(seminar.category))) or (!seminar.internal? and show_category?(seminar.category))) ? '' : 'hidden_seminar'} ", :style => "#{seminar.all_day? ? 'color: white; background-color: #'+seminar.color : 'color: #'+seminar.color}"}
-  = link_to(seminar.time_and_category, seminar_path(seminar), {:class => "seminar_#{seminar.id}_link", :onclick => 'return false'})
-  %div{:id => "mini_seminar_#{seminar.id}", :style => 'display: none'}
-    = render :partial => 'mini_seminar', :locals => {:seminar => seminar}
-  = javascript_tag "new Tip('seminar_#{seminar.id}', $('mini_seminar_#{seminar.id}').cloneNode(true), { style: 'bioseminars', title: '#{seminar.mini_seminar_title}', showOn: 'click', hideOn: { element: '.close', event: 'click'}, closeButton: true, hook: { tip: 'leftMiddle', target: 'rightMiddle'}, stem: 'leftMiddle', hideOthers: true});"
+  = link_to(seminar.time_and_category, seminar_path(seminar), {:class => "seminar_#{seminar.id}_link seminar_link", :onclick => 'return false', :title => seminar.mini_seminar_title})
+  %div.mini_seminar{:id => "mini_seminar_#{seminar.id}", :style => 'display: none'}
+    = render 'mini_seminar', :seminar => seminar

@@ -1,16 +1,15 @@
 class SeminarsController < ApplicationController
   
-  skip_before_filter :login_required, :only => ['index', 'calendar', 'show', 'load_publications']
-  before_filter :basic_or_admin_required, :only => ['new', 'edit', 'create', 'update', 'destroy']
+  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
+  load_and_authorize_resource :except => ['calendar', 'validate_pubmed_ids', 'load_publications', 'about']
   before_filter :set_variables
   before_filter :set_next_seminar, :only => ['index', 'show', 'calendar']
+  respond_to :html, :xml, :js, :atom, :ics, :iframe
   
-  # GET /seminars
-  # GET /seminars.xml
   def index
     @categories = Category.all
     begin
-      @categories_to_show = Category.find(params[:categories].split(' ').map{|i| i if i.match(/\d+/)}.compact) if params[:categories]
+      @categories_to_show = Category.where(params[:categories].split(' ').map{|i| i if i.match(/\d+/)}.compact) if params[:categories]
     rescue
       @categories_to_show = Category.all
     end
@@ -40,25 +39,25 @@ class SeminarsController < ApplicationController
     query << 'all' if query.size == 1
     @query = query.join('.')
     
-    respond_to do |format|
+    @seminars = eval(@query)
+    respond_with @seminars do |format|
       format.html {
-        @seminars = eval(@query).paginate(:page => params[:page])
-        @seminars = @seminars.paginate(:page => '1') and params[:page] = '1' if @seminars.size == 0
+        @seminars = @seminars.paginate(:page => params[:page])
+        (@seminars = @seminars.paginate(:page => '1') and params[:page] = '1') if @seminars.size == 0
+        @seminars_with_publication = @seminars.select{|s| !s.pubmed_ids.blank? }
       }
-      format.xml  {
-        @seminars = eval(@query)
-        render :template => false
+      # format.json  {
+      #   @seminars = eval(@query)
+      #   render :json => {:name => "David"}.to_json
+      # }
+      
+      format.xml {
+        render 'index', :layout => false
       }
-      format.json  {
-        @seminars = eval(@query)
-        render :json => {:name => "David"}.to_json
-      }
-      format.rss  {
-        @seminars = eval(@query)
+      format.rss {
         render :layout => false
       }
       format.ics {
-        @seminars = eval(@query)
         cal = Icalendar::Calendar.new
         for seminar in @seminars
           cal_event = Icalendar::Event.new
@@ -82,7 +81,7 @@ class SeminarsController < ApplicationController
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @categories = Category.all
-    @categories_to_show = Category.find(params[:categories].split(' ')) unless params[:categories].blank?
+    @categories_to_show = Category.find(params[:categories].split(' ')-['internal']) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false
     @seminars = @categories_to_show.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories_to_show).all_day_first
     @seminars_for_feeds = @categories_to_show.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories_to_show)
@@ -91,14 +90,11 @@ class SeminarsController < ApplicationController
     respond_to do |format|
       format.html
       format.iframe  { render 'iframe', :layout => 'layouts/iframe' }
+      format.js { render :layout => false}
     end
   end
-
-  # GET /seminars/1
-  # GET /seminars/1.xml
+  
   def show
-    @seminar = Seminar.find(params[:id])
-
     respond_to do |format|
       format.html {render 'show'}
       format.xml  {
@@ -129,33 +125,23 @@ class SeminarsController < ApplicationController
     end
   end
 
-  # GET /seminars/new
-  # GET /seminars/new.xml
   def new
-    @seminar = Seminar.new
-    @seminar.start_on = params[:origin] ? params[:origin].to_time(:local) : Time.current
-    @seminar.hosts.build
+    @seminar.start_on = params[:origin] ? params[:origin].to_time(:local) : Time.current.to_s(:day_month_year_hour_minute)
+    @seminar.hostings.build
     @seminar.speakers.build
 
-    respond_to do |format|
-      format.html # new.html.haml
-      format.xml  { render :xml => @seminar }
+    respond_with @seminar do |format|
       format.js{
         @origin = params[:origin]
-        render :template => 'layouts/new.rjs'
+        render 'layouts/new.js.erb', :content_type => 'text/javascript', :layout => false
       }
     end
   end
 
-  # GET /seminars/1/edit
   def edit
-    @seminar = Seminar.all_for_user(current_user).find(params[:id])
   end
-
-  # POST /seminars
-  # POST /seminars.xml
+  
   def create
-    params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
     @seminar = current_user.seminars.new(params[:seminar])
     respond_to do |format|
       if @seminar.save
@@ -164,19 +150,20 @@ class SeminarsController < ApplicationController
         format.xml  { render :xml => @seminar, :status => :created, :location => @seminar }
         format.js{
           @origin = params[:origin]
+          render :layout => false, :content_type => 'text/javascript', :layout => false
         }
       else
-        flash[:warning] = @seminar.errors.full_messages.to_sentence
+        flash[:alert] = @seminar.errors.full_messages.to_sentence
         format.html { render :action => "new" }
         format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
         format.js{
           @origin = params[:origin]
-          render :template => 'layouts/new.rjs'
+          render :template => 'layouts/new.rjs', :content_type => 'text/javascript', :layout => false
         }
       end
     end
     rescue Exception => e
-      flash[:warning] = e ? e : (@seminar.errors.blank? ? 'Seminar not saved.' :  @seminar.errors.full_messages.to_sentence)
+      flash[:alert] = e ? e : (@seminar.errors.blank? ? 'Seminar not saved.' :  @seminar.errors.full_messages.to_sentence)
       unless @seminar.nil?
         @seminar.errors.add_to_base(e)
         respond_to do |format|
@@ -190,43 +177,27 @@ class SeminarsController < ApplicationController
       end
   end
 
-  # PUT /seminars/1
-  # PUT /seminars/1.xml
   def update
-    # params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
-    params[:seminar][:host_ids].delete_if{|i| i == ""} if params[:seminar] and params[:seminar][:host_ids]
-    @seminar = Seminar.all_for_user(current_user).find(params[:id])
-    respond_to do |format|
-      if @seminar.update_attributes(params[:seminar])
-        flash[:notice] = 'Seminar was successfully updated.'
-        format.html { redirect_to(@seminar) }
-        format.xml  { head :ok }
-      else
-        # flash[:warning] = 'Seminar not updated.'
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @seminar.errors, :status => :unprocessable_entity }
-      end
+    params[:seminar] = params[:seminar].delete_if{|key, value| key == 'host_ids' and value == [""]  }
+    # params[:seminar][:host_ids].delete_if{|i| i == ""} if params[:seminar] and params[:seminar][:host_ids]
+    # @seminar = Seminar.all_for_user(current_user).find(params[:id])
+    if @seminar.update_attributes(params[:seminar])
+      flash[:notice] = 'Seminar was successfully updated.' if @seminar.valid?
     end
-
+    respond_with @seminar
   end
-
-  # DELETE /seminars/1
-  # DELETE /seminars/1.xml
+  
   def destroy
-    @seminar = Seminar.all_for_user(current_user).find(params[:id])
     @seminar.destroy
     flash[:notice] = 'Seminar was successfully deleted.'
-    respond_to do |format|
-      format.html { redirect_to(seminars_url) }
-      format.xml  { head :ok }
-      format.js { render 'layouts/remove_from_table' }
+    respond_with @seminar do |format|
+      format.js {render 'destroy', :content_type => 'text/javascript', :layout => false}
     end
   rescue Exception => e
-    flash[:warning] = (e ? e.message : 'Seminar not deleted.')
+    flash[:alert] = (e ? e.message : 'Seminar not deleted.')
     respond_to do |format|
       format.html { redirect_to((@seminar.nil? ? seminars_url : seminar_url(@seminar))) }
-      format.xml  { head :ok }
-      format.js { render 'layouts/remove_from_table' }
+      format.js {render :content_type => 'text/javascript', :layout => false}
     end
   end
   
@@ -234,36 +205,25 @@ class SeminarsController < ApplicationController
     @seminar = Seminar.find(params[:id])
     @publications = @seminar.publications
     respond_to do |format|
-      format.js
+      format.js {render :content_type => 'text/javascript', :layout => false}
     end
   end
   
   def validate_pubmed_ids
-    pubmed_ids = params[:pubmed_ids]
-    @messages = []
-    entries = Bio::PubMed.efetch(pubmed_ids.scan(/\d+/).map{|e| e.to_i})# searches PubMed and get entry
-    for entry in entries
-      publication = Bio::MEDLINE.new(entry)
-      unless publication.title.blank? and publication.authors.blank? and publication.journal.blank?
-        @messages << publication
-      else
-        @messages << 'invalid'
-      end
-    end
+    @messages = Seminar.validate_pubmed_ids(params[:pubmed_ids])
     respond_to do |format|
-      format.js
+      format.js {render :content_type => 'text/javascript', :layout => false}
     end
   end
   
   def about
-    
   end
   
   protected
   
   def set_variables
-    @buildings = Building.find :all
-    @categories = Category.find(:all)
+    @buildings = Building.all
+    @categories = Category.all
     @next_seminar = Seminar.next.first
   end
   

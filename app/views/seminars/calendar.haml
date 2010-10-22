@@ -1,14 +1,10 @@
-- stylesheet 'prototip.css'
 - stylesheet 'calendar.css'
-- javascript '/javascripts/prototip2-2.1.0.1/js/prototip.js'
-- javascript calendar_date_select_javascripts
 - stylesheet 'calendar_picker'
-- if logged_in? and basic_or_admin?
-  - onload "set_new_seminar_function('#{form_authenticity_token}')"
+- if user_signed_in?
+  - document_ready "set_new_seminar_function('#{new_seminar_path()}')"
 - @title ||= "Calendar"
 .left_column
-  = calendar(:accessible => true, :year => @date.year, :month => @date.month, :first_day_of_week => 1, :abbrev => (0..10), :previous_month_text => link_to(@date.last_month.to_s(:month)+' &lt;', calendar_seminars_path(:date => @date.last_month.to_s(:db), :categories => params[:categories])), :next_month_text => link_to('&gt; '+@date.next_month.to_s(:month), calendar_seminars_path(:date => @date.next_month.to_s(:db), :categories => params[:categories]))) do |d|
-    - render_calendar_cell(d)
-.right_column
+  = render 'calendar', :date => @date
+%aside
   = render 'categories_menu'
   = render 'next_seminar_box'

@@ -1,0 +1,306 @@
+@import defines.sass
+
+form
+  background-color: white
+  border-radius: .5em
+  -moz-border-radius: .5em
+  -webkit-border-radius: .5em
+  margin-bottom: 1em
+  padding: 1em
+  h1, h2, h3, h4
+    color: $lightred
+  h1         
+    padding-bottom: .6em
+    margin-bottom: .6em
+    border-bottom: 2px solid $lightred
+    font:
+      size: 2em // 24/30=0.8
+  h4, p
+    margin: 0 0 .6em 0
+    padding: 0
+  p
+    margin-bottom: 1em
+    &:last-child
+      margin-bottom: 0
+  label, .label
+    display: block
+    font-weight: bold
+    &.for_check_box
+      display: inline
+  input
+    display: inline
+    &[type=checkbox], &[type=hidden]
+      background-color: red
+      display: inline
+      width: auto
+  textarea
+    width: 100%
+    height: 3em
+  #mandatory_fields
+    float: right
+    margin: 0
+  .label_and_input
+    margin-bottom: 1em
+    //label, input[type=text], input[type=password], textarea
+    //  display: block
+    //  width: 99%
+  &#new_or_edit_form
+    position: fixed
+    width: 20%
+      
+  .group
+    padding: 0
+    margin-bottom: 1em
+    label
+      text-align: left
+      float: left
+      width: 30%
+    input, textarea, select
+      float: left
+      width: 65%
+  .field_with_errors
+    display: inline
+    input[type=text], textarea, input[type=password]
+      background-color: $veryverylightred
+      border-color: $lightred
+  .error_message
+    color: $lightred
+    
+  fieldset
+    margin: 0 0 1em 0
+    padding: 1em
+    border: 2px solid $background
+    legend
+      -moz-border-radius: .5em
+      -webkit-border-radius: .5em
+      -border-radius: .5em
+      padding: .5em
+      font:
+        size: 1em
+        weight: bold
+      border: 2px solid $background
+    textarea
+      height: 6em
+      width: 50%
+    &#speakers, &#hosts
+      .inline_in_form
+        display: block
+        width: 100%
+        margin-bottom: 0
+        .label_and_input
+          display: block
+          float: left
+          width: 20%
+          margin-right: 2em
+          label, input, .formError, select, .label
+            display: block
+            width: 100%
+          select
+            position: relative
+            top: 5px
+          &.seminar_title
+            width: 40%
+            max-width: 40%
+          &.remove_link
+            width: 5%
+            a
+              -moz-background-clip: border
+              -moz-background-inline-policy: continuous
+              -moz-background-origin: padding
+              padding: 1px 0 5px 19px
+              background: transparent url('/images/delete.png') no-repeat scroll left top
+              display: block
+              margin-top: 2em
+          &.or_create
+            display: block
+            margin-top: 2em
+            width: 8em
+            font-weight: bold
+      .add_link
+        -moz-background-clip: border
+        -moz-background-inline-policy: continuous
+        -moz-background-origin: padding
+        padding: 1px 0 5px 19px
+        background: transparent url('/images/add.png') no-repeat scroll left top
+    #documents, #pictures, .document_or_picture
+      margin-bottom: 1em
+    #pictures
+      a img
+        +image_thumbnail
+.red_asterisk
+  color: $red
+  
+// specific case
+input#seminar_all_day
+  margin-left: 1em
+      
+////-> Ajax div
+//.large_form
+//  a
+//    text-decoration: underline
+//  form
+//    margin-top: 1em
+//  .label_and_input
+//    label
+//      margin-bottom: .2em
+//      &[for=seminar_all_day]
+//        display: inline
+//    #seminar_all_day
+//      display: inline
+//    input[type=text]
+//      width: 50%   
+//  input[type=checkbox]
+//    display: inline
+//    width: auto
+//  h2, h3
+//    line-height: 1.5em
+//    margin: 0
+//    border-bottom: 2px solid
+//    border-bottom-color: $background
+//  h2
+//    color: $verylightred
+//    padding-bottom: 0
+//  h3, h4
+//    color: $lightred
+//  h3
+//    padding-bottom: 1em
+//  h4, p
+//    margin: 0 0 .6em 0
+//    padding: 0
+//  
+//  select
+//    width: 20%
+//    &.date_time
+//      width: auto
+//  textarea
+//    height: 6em
+//    width: 50%
+
+//  .label_and_input
+//    margin-bottom: 1em
+//    label, input[type=text], textarea, select
+//      display: block
+//    &.date_time
+//      input[type=text], img.calendar_date_select_popup_icon
+//        display: inline
+//      input[type=text]
+//        width: 15em
+//  .group
+//    margin-bottom: 1em
+//  background-color: white
+//  padding: 1em
+//  margin-bottom: 1em
+//  -moz-border-radius: .5em
+//  -webkit-border-radius: .5em
+//  -border-radius: .5em
+//  fieldset
+//    position: inherit
+////-> large_form
+//.large_form
+//  h2
+//    margin-bottom: 0
+#errorExplanation
+  width: 98%
+  margin: auto
+  border: 2px solid
+  border-color: $darkred
+  color: $darkred
+  padding: 1em
+  margin-bottom: 1em
+  background-color: $veryverylightred
+  -moz-border-radius: .5em
+  -webkit-border-radius: .5em
+  -border-radius: .5em
+  h2
+    color: white
+    border-bottom: 0
+    padding-bottom: .6em
+  p
+    font-weight: bold
+  li
+    list-style: disc inside
+    color: white
+    font-size: 118%
+    font-weight: bold
+//// <- large form
+
+
+
+//form
+//  label, .label
+//    font-weight: bold
+//  input[type=text], input[type=password], textarea
+//    border: none
+//    background-color: $background
+//    border: 1px solid
+//    border-color: $darkbackground
+//    padding: 3px
+//    -moz-border-radius: 3px
+//    -webkit-border-radius: 3px
+//    -border-radius: 3px
+//  fieldset
+//    padding: 1em
+//    margin: 0 auto
+//    background-color: #FFF
+//    border-color: $green
+//    -moz-border-radius: .5em
+//    -webkit-border-radius: .5em
+//    -border-radius: .5em
+//    position: relative
+//    legend
+//      font-size: 164%
+//      font-weight: bold   
+//    .group
+//      width: 100%
+//      margin-bottom: 1em
+//      label, .label
+//        display: block
+//        width: 25%
+//        float: left
+//      input
+//        &[type=text], &[type=password]
+//          display: block
+//          width: 70%
+//          float: right
+//        //&[type=checkbox]
+//        //  text-align: left
+//        //  display: inline
+//        //  width: auto
+//    p
+//      width: 100%
+//      margin-bottom: 1em
+//    h2
+//      font-size: 145%
+//      color: $lightred
+//      padding-bottom: 1em
+//      border-bottom: 2px solid
+//      border-bottom-color: $background
+//    &.login
+//      width: 30%
+//      h2
+//        margin-bottom: 1em
+//  a
+//    text-decoration: underline
+
+//  .auto_complete
+//    width: 350px
+//    background: #fff
+//    ul
+//      border: 1px solid #888
+//      width: 100%
+//      list-style-type: none
+//      margin: 0
+//      padding: 0
+//      li
+//        margin: 0
+//        padding: 3px
+//        &.selected
+//          background-color: #ffb
+//      strong.highlight
+//        color: #800
+//        margin: 0
+//        padding: 0
+
+//  .formError
+//    font-weight: bold
+//    color: $lightred

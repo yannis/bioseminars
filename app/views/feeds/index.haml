@@ -20,10 +20,12 @@
   %h3 Integrate the calendar in your website
   %object{:type => "text/html", :data => @iframe, :style => "width: 100%; height: 500px;"}
     %p 
-      = "Your calendar cannot be loaded. See all the different seminars #{link_to('here', 'http://bioseminars.unige.ch')}."
+      Your calendar cannot be loaded. See all the different seminars
+      = link_to('here', root_url)+'.'
+      
   %h4
     Embed code
   %textarea{:style => 'height: 6em; width: 100%', :rows => '4', :cols => '50'}
-    = HTMLEntities.new.encode("<object type='text/html' style='width: 500px; height: 600px;' data='#{@iframe}'><p>Your calendar cannot be loaded. See all the different seminars <a href='http://bioseminars.unige.ch/seminars/calendar.iframe'>here</a></p></object>")
-.right_column
+    =raw HTMLEntities.new.encode("<object type='text/html' style='width: 500px; height: 600px;' data='#{@iframe}'><p>Your calendar cannot be loaded. See all the different seminars <a href='http://bioseminars.unige.ch/seminars/calendar.iframe'>here</a></p></object>")
+%aside
   = render '/seminars/categories_menu'

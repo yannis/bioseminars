@@ -1,24 +1,17 @@
 class BuildingsController < ApplicationController
   
-  skip_before_filter :login_required, :only => ['index', 'show']
-  before_filter :admin_required, :only => ['new', 'create', 'edit', 'update', 'destroy']
-    
-  # GET /buildings
-  # GET /buildings.xml
+  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
+  # skip_before_filter :login_required, :only => ['index', 'show']
+  # before_filter :admin_required, :only => ['new', 'create', 'edit', 'update', 'destroy']
+  load_and_authorize_resource
+  respond_to :html, :js, :xml
+  
   def index
-    @buildings = Building.find(:all)
+    # @buildings = Building.all
     @new_building = Building.new
-
-    respond_to do |format|
-      format.html # index.html.haml
-      format.xml  { render :xml => @buildings }
-    end
   end
-
-  # GET /buildings/1
-  # GET /buildings/1.xml
+  
   def show
-    @building = Building.find(params[:id])
     @seminars = @building.seminars.paginate(:page => params[:page])
     @new_building = Building.new
 
@@ -27,104 +20,74 @@ class BuildingsController < ApplicationController
       format.xml  { render :xml => @building }
     end
   end
-
-  # GET /buildings/new
-  # GET /buildings/new.xml
+  
   def new
-    @building = Building.new
+    @origin = params[:origin]
 
-    respond_to do |format|
-      format.html # new.html.haml
-      format.xml  { render :xml => @building }
-      format.js{
-        @origin = params[:origin]
-        render :template => 'layouts/new.rjs'
-      }
+    respond_with @building do |format|
+      format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
     end
   end
-
-  # GET /buildings/1/edit
+  
   def edit
-    @building = Building.find(params[:id])
-
-    respond_to do |format|
-      format.html # new.html.haml
-      format.js {
-        render 'layouts/edit'
-      }
+    respond_with @building do |format|
+      format.js {  render 'layouts/edit', :content_type => 'text/javascript', :layout => false  }
     end
   end
-
-  # POST /buildings
-  # POST /buildings.xml
+  
   def create
-    @building = Building.new(params[:building])
-
-    respond_to do |format|
-      if @building.save
-        flash[:notice] = 'Building was successfully created.'
-        format.html { redirect_to @building }
-        format.xml  { render :xml => @building, :status => :created, :location => @building }
+    if @building.save
+      flash[:notice] = 'Building was successfully created'      
+      respond_with @building do |format|
         format.js{
           @origin = params[:origin]
-          if @origin.nil?
-            render 'layouts/insert_in_table'
-          else
-            render 'create'
-          end
+          render (@origin.nil? ? 'layouts/insert_in_table' : 'create'), :content_type => 'text/javascript', :layout => false
         }
-      else
-        # flash[:warning] = 'Something went wrong.'
-        flash[:warning] = 'Building not created.'
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @building.errors, :status => :unprocessable_entity }
+      end
+    else
+      flash[:alert] = 'Building not created'      
+      respond_with @building do |format|
         format.js{
           @origin = params[:origin]
-          if @origin.nil?
-            render 'layouts/insert_in_table'
-          else
-            render :template => 'layouts/new.rjs'
-          end
+          render (@origin.nil? ? 'layouts/insert_in_table' : 'layouts/new'), :content_type => 'text/javascript', :layout => false
         }
       end
     end
   end
-
-  # PUT /buildings/1
-  # PUT /buildings/1.xml
+  
+  #   def create
+  #   if @building.save
+  #     flash[:notice] = 'Building was successfully created.'
+  #   else
+  #     flash[:alert] = 'Building not created'
+  #   end
+  #   respond_with @building do |format|
+  #     format.js{
+  #       @origin = params[:origin]
+  #       render (@origin.nil? ? 'layouts/insert_in_table' : 'create'), :content_type => 'text/javascript', :template => false
+  #     }
+  #   end
+  # end
+  
   def update
-    @building = Building.find(params[:id])
-
-    respond_to do |format|
-      if @building.update_attributes(params[:building])
-        flash[:notice] = 'Building was successfully updated.'
-        format.html { redirect_to(@building) }
-        format.xml  { head :ok }
-        format.js {
-          render 'layouts/update'
-        }
-      else
-        flash[:warning] = 'Something went wrong.'
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @building.errors, :status => :unprocessable_entity }
-        format.js {
-          render 'layouts/update'
-        }
-      end
+    if @building.update_attributes(params[:building])
+      flash[:notice] = 'Building was successfully updated'
+    else
+      flash[:alert] = 'Building not updated'
+    end
+    respond_with @building do |format|
+      format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
     end
   end
-
-  # DELETE /buildings/1
-  # DELETE /buildings/1.xml
+  
   def destroy
-    @building = Building.find(params[:id])
-    @building.destroy
-
-    respond_to do |format|
-      flash[:notice] = 'Building was successfully deleted.'
-      format.html { redirect_to(buildings_url) }
-      format.xml  { head :ok }
-      format.js { render 'layouts/remove_from_table' }
+    if @building.destroy
+      flash[:notice] = 'Building was successfully deleted'
+    else
+      flash[:alert] = 'Unable to destroy building'
+    end
+    respond_with @building do |format|
+      format.js { render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false }
     end
   end
 end

@@ -8,12 +8,12 @@ class CategoriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = users(user).id
   end
   
-  should_route :get, '/categories', :action => :index
-  should_route :post, '/categories', :action => :create
-  should_route :get, '/categories/1', :action => :show, :id => 1
-  should_route :put, '/categories/1', :action => :update, :id => "1"
-  should_route :delete, '/categories/1', :action => :destroy, :id => 1
-  should_route :get, '/categories/new', :action => :new
+  should route(:get, '/categories').to(:action => :index)
+  should route(:post, '/categories').to(:action => :create)
+  should route(:get, '/categories/1').to(:action => :show, :id => 1)
+  should route(:put, '/categories/1').to(:action => :update, :id => "1")
+  should route(:delete, '/categories/1').to(:action => :destroy, :id => 1)
+  should route(:get, '/categories/new').to(:action => :new)
   
   context "2 categories in the database," do
     setup do
@@ -25,7 +25,7 @@ class CategoriesControllerTest < ActionController::TestCase
       context "when logged in as #{status.nil? ? 'nil' : status}," do
         if status == 'basic'          
           setup do
-            login_as(status.to_sym)
+            sign_in users(status.to_sym)
           end
         end
 
@@ -34,9 +34,9 @@ class CategoriesControllerTest < ActionController::TestCase
             get :index
           end
 
-          should_assign_to :categories
-          should_respond_with :success
-          should_render_template :index
+          should assign_to :categories
+          should respond_with :success
+          should render_template :index
         end
         
         context "on :get to :show with :id  => @category1.id" do
@@ -44,9 +44,9 @@ class CategoriesControllerTest < ActionController::TestCase
             get :show, :id => @category1.id
           end
 
-          should_assign_to :category
-          should_respond_with :success
-          should_render_template :show
+          should assign_to :category
+          should respond_with :success
+          should render_template :show
         end
 
         context "on :get to :new" do
@@ -54,7 +54,7 @@ class CategoriesControllerTest < ActionController::TestCase
             get :new
           end
 
-          should_redirect_to("login form") { login_path }
+          should redirect_to("login form") { '/users/sign_in' }
         end
 
         context "on :get to :edit with :id => @category1.id" do
@@ -62,7 +62,7 @@ class CategoriesControllerTest < ActionController::TestCase
             get :edit, :id => @category1.id
           end
 
-          should_redirect_to("login form") { login_path }
+          should redirect_to("login form") { '/users/sign_in' }
         end
 
         context "on :post to :create with valid params" do
@@ -70,7 +70,7 @@ class CategoriesControllerTest < ActionController::TestCase
             post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
           end
 
-          should_redirect_to("login form") { login_path }
+          should redirect_to("login form") { '/users/sign_in' }
         end
 
         context "on :put to :update with valid params for :id => @category1.id" do
@@ -78,7 +78,7 @@ class CategoriesControllerTest < ActionController::TestCase
             put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
           end
 
-          should_redirect_to("login form") { login_path }
+          should redirect_to("login form") { '/users/sign_in' }
         end
 
         context "on :delete to :destroy with  :id => @category1.id" do
@@ -86,14 +86,14 @@ class CategoriesControllerTest < ActionController::TestCase
             delete :destroy, :id => @category1.id
           end
 
-          should_redirect_to("login form") { login_path }
+          should redirect_to("login form") { '/users/sign_in' }
         end
       end
     end
     
     context "when logged_in as admin," do
       setup do
-        login_as(:admin)
+        sign_in users(:admin)
       end
       
       context "on :get to :index" do
@@ -101,9 +101,9 @@ class CategoriesControllerTest < ActionController::TestCase
           get :index
         end
 
-        should_assign_to :categories
-        should_respond_with :success
-        should_render_template :index
+        should assign_to :categories
+        should respond_with :success
+        should render_template :index
 
         should "assigns to 2 categories" do
           assert_equal assigns(:categories).size, 3
@@ -116,9 +116,9 @@ class CategoriesControllerTest < ActionController::TestCase
           get :show, :id => @category1.id
         end
 
-        should_assign_to :category
-        should_respond_with :success
-        should_render_template :show
+        should assign_to :category
+        should respond_with :success
+        should render_template :show
 
         should "assign to @category" do
           assert_equal assigns(:category), @category1
@@ -130,9 +130,9 @@ class CategoriesControllerTest < ActionController::TestCase
           get :new
         end
 
-        should_assign_to :category
-        should_respond_with :success
-        should_render_template :new
+        should assign_to :category
+        should respond_with :success
+        should render_template :new
         should "display a form" do
           assert_select "form", true, "The template doesn't contain a <form> element"
         end
@@ -143,9 +143,9 @@ class CategoriesControllerTest < ActionController::TestCase
           get :edit, :id => @category1.id
         end
 
-        should_assign_to :category
-        should_respond_with :success
-        should_render_template :edit
+        should assign_to :category
+        should respond_with :success
+        should render_template :edit
         should "display a form" do
           assert_select "form", true, "The template doesn't contain a <form> element"
         end
@@ -153,39 +153,48 @@ class CategoriesControllerTest < ActionController::TestCase
 
       context "on :post to :create with valid params" do
         setup do
+          @categories_count = Category.count
           post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
 
-        should_assign_to :category
-        should_redirect_to("category's show view") { category_url(assigns(:category)) }
-        should_respond_with 302
-        should_change "Category.count", :by => 1
-        should_set_the_flash_to "Category was successfully created."
+        should assign_to :category
+        should redirect_to("category's show view") { category_url(assigns(:category)) }
+        should respond_with 302
+        should "change Category.count by 1" do
+          assert_equal Category.count-@categories_count, 1
+        end
+        should set_the_flash.to("Category was successfully created.")
       end
 
       context "on :put to :update with valid params for :id => @category1.id" do
         setup do
+          @categories_count = Category.count
           put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
         end
 
-        should_assign_to :category
-        should_redirect_to("category's show view") { category_url(assigns(:category)) }
-        should_respond_with 302
-        should_change "Category.count", :by => 0
+        should assign_to :category
+        should redirect_to("category's show view") { category_url(assigns(:category)) }
+        should respond_with 302
+        should "change Category.count by 0" do
+          assert_equal Category.count-@categories_count, 0
+        end
         should 'shange the name of @category to "CMU new name"' do
           assert_equal @category1.reload.name, "CMU new name"
         end
-          should_set_the_flash_to "Category was successfully updated."
+          should set_the_flash.to("Category was successfully updated.")
       end
       
       context "on :delete to :destroy with  :id => @category1.id" do
         setup do
+          @categories_count = Category.count
           delete :destroy, :id => @category1.id
         end
         
-        should_change "Category.count", :by => -1
-        should_redirect_to("categories index view") {categories_url}
-        should_set_the_flash_to "Category was successfully deleted."
+        should "change Category.count by -1" do
+          assert_equal Category.count-@categories_count, -1
+        end
+        should redirect_to("categories index view") {categories_url}
+        should set_the_flash.to("Category was successfully deleted.")
       end
     end
   end

@@ -1,8 +1,5 @@
 - @title ||= "Edit user “#{@user.name}”"
 - @user.password = @user.password_confirmation = nil
-.large_form
-  - form_for @user do |f|
-    %h2
-      = @title
-    = render :partial => 'form', :locals => {:f => f}
-    = update_button
+= form_for @user do |f|
+  %h1= @title
+  = render 'form', :f => f

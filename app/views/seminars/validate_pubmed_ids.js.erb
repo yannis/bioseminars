@@ -1,0 +1,9 @@
+var publications_validation = $("<ul id='publications_validation'><%= @messages.map{|m| m == 'invalid' ? "<li style='color:red'>invalid</li>" : "<li style='color:green'>#{m.title}</li>" }.join().html_safe %></ul>").hide();
+if ($('#publications_validation').length == 0) {
+  $('#publications_validation_ajax_loader').after(publications_validation);
+} else {
+  $('#publications_validation').replaceWith(publications_validation);
+}
+$('#publications_validation_ajax_loader:visible').hide();
+$('#publications_validation').show();
+$('#publications_validation').effect("highlight", {}, 3000);

@@ -12,7 +12,7 @@ module FormHelper
     
     def label_with_errors(method, text = nil, options = {})
       @object = options[:object].nil? ? @object : options[:object]
-      error_message = @object.errors.on(method.to_s) if @object
+      error_message = @object.errors[method] if @object
       new_class = options[:class] ? options[:class] : ''
       text2 = text.nil? ? method.to_s.humanize.capitalize : text
       text3 = error_message.blank? ? text2 : (text2+': '+error_message+'!')
@@ -21,10 +21,14 @@ module FormHelper
     
     def my_error_message_on(method, options = {})
       @object = options[:object].nil? ? @object : options[:object]
-      if @object.errors.blank?
+      if @object.errors[method.to_sym].blank?
         return nil
       else
-        return error_message_on(method, :prepend_text => @object.class.to_s+' '+method.to_s+' ')
+        message = "<span class='error_message'>"
+        message << method.to_s.capitalize
+        message << ' '+@object.errors[method].first
+        message << "</span>"
+        return message.html_safe
       end
       # @object = options[:object].nil? ? @object : options[:object]
       # error_message =  if @object

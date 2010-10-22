@@ -1,9 +1,8 @@
 class Category < ActiveRecord::Base
   has_many :seminars, :dependent => :nullify
   
-  validates_presence_of :name, :message => "can't be blank. Please give this category a name."
-  validates_uniqueness_of :name, :message => "must be unique and this one has already been taken. Please chose another one."
-  validates_uniqueness_of :acronym, :message => "must be unique and this one has already been taken. Please chose another one.", :allow_nil => true
+  validates :name, :presence => {:message => "can't be blank. Please give this category a name."}, :uniqueness => {:message => "must be unique and this one has already been taken. Please chose another one."}
+  validates :acronym, :uniqueness => {:message => "must be unique and this one has already been taken. Please chose another one.", :allow_nil => true}
   
   default_scope :order => 'categories.position ASC, categories.name ASC'
   

@@ -1,4 +1,5 @@
 require 'bio'
+require File.dirname(__FILE__)+'/host.rb' 
 class Seminar < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
@@ -6,14 +7,17 @@ class Seminar < ActiveRecord::Base
   has_many :documents, :as => :model, :dependent  => :destroy
   has_many :pictures, :as => :model, :dependent  => :destroy
   has_many :speakers, :dependent  => :destroy
-  has_and_belongs_to_many :hosts
+  has_many :hostings, :dependent  => :destroy
+  has_many :hosts, :through => :hostings
   accepts_nested_attributes_for :documents, :allow_destroy => true
   accepts_nested_attributes_for :speakers, :allow_destroy => true
   accepts_nested_attributes_for :pictures, :allow_destroy => true
+  accepts_nested_attributes_for :hostings, :allow_destroy => true
   
-  attr_accessor :hosts_attributes
+  cattr_reader :per_page
+  @@per_page = 20
   
-  validates_associated :hosts, :speakers, :documents, :pictures
+  validates_associated :speakers, :documents, :pictures
   validates_presence_of :start_on, :end_on, :category_id, :user_id#, :title, :location_id
   validates_each :end_on do |model, attr, value|
     unless model.end_on.blank?
@@ -22,49 +26,42 @@ class Seminar < ActiveRecord::Base
       end
     end
   end
-  validates_each :host_ids do |model, attr, value|
-    model.errors.add("Hosts",": Seminar should have at least 1 host") if model.hosts.blank?
-  end
-  validates_each :host_ids do |model, attr, value|
-    model.errors.add("Hosts",": A host is only allowed once") if model.hosts.uniq != model.hosts
-  end
-  validates_each :speaker_ids do |model, attr, value|
-    model.errors.add('Speakers', ": Seminar should have at least 1 speaker") if model.speakers.blank?
-  end
+  
+  validate :presence_of_speakers, :presence_of_hostings
     
-  default_scope :include => ['category', 'hosts', 'speakers', 'location']
+  scope :all_included, :include => ['category', 'hosts', 'speakers', 'location']
   
-  named_scope :of_day, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc]}}
-  named_scope :of_month, lambda{|datetime| {:conditions => ["(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days]}}  
-  named_scope :past, :conditions => ["(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current.utc, Time.current.utc]
-  named_scope :now_or_future, :conditions => ["(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc]
-  named_scope :all_for_user, lambda{|user|
-    if user.role.name == 'basic'
-      {:conditions => ["seminars.user_id = ?", user.id]}
-    else
-      {}
+  scope :of_day, lambda{|datetime| where("(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc, datetime.to_time.beginning_of_day.utc, datetime.to_time.end_of_day.utc)}
+  
+  scope :of_month, lambda{|datetime| where("(seminars.start_on >= ? AND seminars.start_on <= ?) OR (seminars.end_on >= ? AND seminars.end_on <= ?) OR (seminars.start_on < ? AND seminars.end_on > ?)", datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days, datetime.to_time.beginning_of_month.utc-7.days, datetime.to_time.end_of_month.utc+7.days)}
+  
+  scope :past, where("(seminars.end_on IS NULL AND seminars.start_on < ?) OR (seminars.end_on < ?)", Time.current.utc, Time.current.utc)
+  
+  scope :now_or_future, where("(seminars.end_on IS NOT NULL AND seminars.end_on > ?) OR (seminars.start_on >= ?)", Time.current.utc, Time.current.utc)
+  
+  scope :all_for_user, lambda{|user|
+    if user.basic?
+      where("seminars.user_id = ?", user.id)
     end
   }
-  named_scope :of_categories, lambda{|categories| {:conditions => ["seminars.category_id IN (?)", categories.map{|c| c.id}]}}
-  named_scope :internal, lambda{|internal|
-    if internal == false
-      {:conditions => ["seminars.internal = ?", internal]}
-    end
-  }
-  named_scope :all_day_first, :order => "all_day DESC, seminars.start_on ASC"
-  named_scope :next, :conditions => ["seminars.start_on >= ?", Time.current.utc], :order => "seminars.start_on ASC"
-  named_scope :after_date, lambda{|date| {:conditions => ["DATE(seminars.start_on) >= DATE(?)", date]}}
-  named_scope :before_date, lambda{|date| {:conditions => ["DATE(seminars.start_on) <= DATE(?)", date]}}
-  named_scope :sort_by_order, lambda{|order| 
+  
+  scope :of_categories, lambda{|categories| where("seminars.category_id IN (?)", categories.map{|c| c.id})}
+  scope :internal, lambda{|internal|  where("seminars.internal = ?", internal) if internal == false }
+  scope :all_day_first, order("all_day DESC, seminars.start_on ASC")
+  scope :next, where("seminars.start_on >= ?", Time.current.utc).order("seminars.start_on ASC")
+  scope :after_date, lambda{|date| where("DATE(seminars.start_on) >= DATE(?)", date)}
+  scope :before_date, lambda{|date| where("DATE(seminars.start_on) <= DATE(?)", date)}
+  scope :with_publication, where(:pubmed_ids => !nil)
+  scope :sort_by_order, lambda{|order| 
     if order == 'asc'
-      {:order => "seminars.start_on ASC"}
+      order("seminars.start_on ASC")
     elsif order == 'desc'
-      {:order => "seminars.start_on DESC"}
+      order("seminars.start_on DESC")
     end
   }
   
+  before_validation :set_end_on, :validate_host_uniqueness
   
-  before_validation :set_host_through_attributes, :set_end_on, :remove_host_duplicates
   # after_save :check_presence_of_host_and_speaker
   
   # def start_humanized_date
@@ -84,6 +81,23 @@ class Seminar < ActiveRecord::Base
   #     return nil
   #   end
   # end
+  
+  def self.validate_pubmed_ids(pubmed_ids)
+    messages = []
+    unless pubmed_ids.nil?
+      Bio::NCBI.default_email = "your.email@address.ch"
+      entries = Bio::PubMed.efetch(pubmed_ids.scan(/\d+/).map{|e| e.to_i})# searches PubMed and get entry
+      for entry in entries
+        begin
+          publication = Bio::MEDLINE.new(entry)
+          messages << publication
+        rescue
+          messages << 'invalid'
+        end
+      end
+    end
+    return messages
+  end
   
   def human_date(datetime)
     if datetime.to_date == Date.today - 1
@@ -138,14 +152,14 @@ class Seminar < ActiveRecord::Base
     when_and_where = []
     when_and_where << schedule unless schedule.blank?
     when_and_where << location.name_and_building unless location.blank?
-    return when_and_where.join(" - ")
+    return when_and_where.join(" - ").html_safe
   end
   
   def start_time_and_title
     time_and_title = []
     time_and_title << start_time unless start_time.nil?
     time_and_title << title
-    return time_and_title.join(" - ")
+    return time_and_title.join(" - ").html_safe
   end
   
   def time_and_category
@@ -157,7 +171,7 @@ class Seminar < ActiveRecord::Base
       time_and_category << title[0..15]
     end
     time_and_category << "<span class='redstar'>*</span>" if internal?
-    return time_and_category.join(" ")
+    return time_and_category.join(" ").html_safe
   end
   
   def time_location_and_category
@@ -169,7 +183,7 @@ class Seminar < ActiveRecord::Base
     else
       time_and_category << title[0..15]
     end
-    return time_and_category.join(" - ")
+    return time_and_category.join(" - ").html_safe
   end
 
   def date_time_location_and_category
@@ -181,11 +195,11 @@ class Seminar < ActiveRecord::Base
     else
       time_and_category << title[0..15]
     end
-    return time_and_category.join(" - ")
+    return time_and_category.join(" - ").html_safe
   end
 
   def editable_or_destroyable_by_user?(auser)
-    user == auser || auser.role.name == 'admin'
+    user == auser || auser.admin?
   end
   
   def color
@@ -212,6 +226,7 @@ class Seminar < ActiveRecord::Base
   def publications
     publications = []
     unless pubmed_ids.nil?
+      Bio::NCBI.default_email = "your.email@address.ch"
       entries = Bio::PubMed.efetch(pubmed_ids.scan(/\d+/).map{|e| e.to_i})# searches PubMed and get entry
       for entry in entries
         publication = Bio::MEDLINE.new(entry)
@@ -277,7 +292,20 @@ class Seminar < ActiveRecord::Base
     end
   end
   
-  def remove_host_duplicates
-    self.hosts = self.hosts.uniq
+  private
+  
+  def presence_of_hostings
+    self.errors.add("Hosts",": Seminar should have at least 1 host") if self.hostings.blank? or self.hostings.all?{|hosting| hosting.marked_for_destruction? }
+  end
+  
+  def validate_host_uniqueness
+    for hosting in self.hostings
+      hosting.errors.add(:host_id, "Host already selected.") if !hosting.marked_for_destruction? && self.hostings.select{|h| h.host_id == hosting.host_id}.size > 1
+    end
+    self.errors.add("Hosts",": A host is only allowed once") if self.hostings.map(&:host_id).uniq != self.hostings.select{|h| !h.marked_for_destruction? }.map(&:host_id)
+  end
+  
+  def presence_of_speakers
+    self.errors.add("Speakers",": Seminar should have at least 1 speaker") if self.speakers.blank?
   end
 end

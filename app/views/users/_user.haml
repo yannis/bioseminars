@@ -1,14 +1,12 @@
-%tr[user]{:class => cycle('', 'odd')}
+%tr[user]
   %td
     = link_to_unless show?, h(user.name), user_path(user)
   %td=h user.email
   %td
-    = user.role.name if user.role
+    = 'Admin' if user.admin
   %td
     - links = []
-    - links << link_to_remote('Edit', :url => edit_user_path(user), :method => :get, :html => {:href => edit_user_path(user)}) if admin?
+    - links << link_to('Edit', [:edit, user], :remote => true) if admin?
     - links << edit_link(user) if basic?
-    - if user.can_be_destroyed? and user != current_user
-      - links << destroy_remote_link(user) if index?
-      - links << destroy_link(user) if !index?
-    = links.join(' · ')
+    - links << destroy_link(user) if user.can_be_destroyed? and user != current_user
+    =raw links.join(' · ')

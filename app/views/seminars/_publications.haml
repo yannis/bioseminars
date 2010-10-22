@@ -17,8 +17,5 @@
         - in_journal << publication.pages unless publication.pages.blank?
         = in_journal.compact.join(", ")
       - unless publication.abstract.blank?
-        %p
-          = link_to_function('Show abstract', nil, :id => "show_abstract_#{publication.object_id}"){|page| page.toggle("abstract_#{publication.object_id}"); page << "$('show_abstract_#{publication.object_id}').innerHTML = $('abstract_#{publication.object_id}').getStyle('display') == 'none' ? 'show abstract' : 'hide abstract'"}
-          %br/
-          %span{:style => "display: none", :id => "abstract_#{publication.object_id}"}
-            = publication.abstract
+        %p.abstract
+          = publication.abstract

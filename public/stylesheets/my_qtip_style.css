@@ -1,0 +1,66 @@
+/*!darkgreen = #007E64 */
+/*!verydarkgreen = !darkgreen - #222222 */
+/*!lightgreen = #E5F3E5 */
+.ui-tooltip-accessible {
+  left: -10000em !important;
+  top: -10000em !important;
+  display: block !important;
+  visibility: hidden !important; }
+
+* html .ui-tooltip-accessible {
+  position: static !important;
+  float: left !important; }
+
+.ui-tooltip, .qtip {
+  position: absolute;
+  left: -10000em;
+  top: -10000em; }
+  .ui-tooltip .ui-tooltip .ui-tooltip-wrapper, .qtip .ui-tooltip .ui-tooltip-wrapper {
+    overflow: auto; }
+  .ui-tooltip .ui-tooltip .ui-tooltip-content, .qtip .ui-tooltip .ui-tooltip-content {
+    position: relative;
+    padding: 5px 9px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow: hidden; }
+
+div.my_qtip_style {
+  background: transparent url("/images/leftmiddle.png") no-repeat center left; }
+  div.my_qtip_style .ui-tooltip-wrapper {
+    background-color: white;
+    border: 3px solid #007e64;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    border-radius: 1em;
+    margin-left: 11px;
+    position: relative;
+    width: 300px;
+    z-index: 15050; }
+    div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-titlebar {
+      background-color: #007e64;
+      color: white;
+      padding: 0.5em;
+      overflow: show;
+      font-size: 1.167em; }
+      div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-titlebar .ui-tooltip-title {
+        font-weight: bold; }
+      div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-titlebar a.ui-tooltip-button {
+        background: transparent url("/images/closebox.png") no-repeat center center;
+        display: block;
+        font-size: 1px;
+        height: 40px;
+        position: absolute;
+        top: -17px;
+        left: 280px;
+        width: 30px; }
+        div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-titlebar a.ui-tooltip-button:hover {
+          border: 0;
+          text-decoration: none; }
+    div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-content {
+      overflow: hidden;
+      padding: 5px 9px;
+      position: relative;
+      text-align: left;
+      word-wrap: break-word; }
+      div.my_qtip_style .ui-tooltip-wrapper .ui-tooltip-content p {
+        margin: 1em 0; }

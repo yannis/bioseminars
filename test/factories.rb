@@ -16,7 +16,12 @@ end
 
 Factory.define :host do |i|
   i.name { 'host_'+Factory.next(:name) }
-  i.email { |h| h.name+'@email.com' }
+  i.email { |h| 'host_'+Factory.next(:name)+'@email.com' }
+end
+
+Factory.define :hosting do |i|
+  i.association :host
+  i.association :seminar
 end
 
 Factory.define :speaker do |i|
@@ -31,15 +36,26 @@ end
 
 Factory.define :location do |i|
   i.name {'location_'+Factory.next(:name)}
-  i.building {|a| a.association(:building) }
+  i.association :building
 end
-
 
 Factory.define :seminar do |s|
   s.title { 'seminar_'+Factory.next(:name) }
-  s.category {|a| a.association(:category) }
-  s.location {|a| a.association(:location) }
+  s.association :category
+  s.association :location
+  s.association :user
   s.speakers{ |a| [a.association :speaker]}
-  s.hosts{ |a| [a.association :host]}
+  s.hostings_attributes {{:one => {:host_id => Factory(:host).id}}}
   s.start_on{ 2.weeks.since}
+end
+
+# Factory.define :seminar_with_hostings, :parent => :seminar do |i|
+#   i.after_build { |a| Factory(:hosting, :seminar => a)}
+# end
+
+Factory.define :user do |u|
+  u.name {'Name_'+Factory.next(:name)}
+  u.email {'email_'+Factory.next(:name)+'@unige1.ch'}
+  u.password {'password_'+Factory.next(:name)}
+  u.password_confirmation {|a| a.password}
 end

@@ -15,7 +15,7 @@ table.calendar
         :padding-top 0
         :vertical-align top
         h2
-          :margin 0 0 .25em 0
+          :margin 0 0 .25em .25em
           :line-height 1em
           :color white
           :text-shadow 0 -1px 0 rgba(0,0,0,.8)
@@ -55,6 +55,8 @@ table.calendar
     :color = !background
   th.links_to_today_previous_next
     :text-align right
+    img
+      float: none
   tr
     th:first-child, td:first-child
       :-moz-border-radius 0
@@ -75,8 +77,11 @@ table.calendar
     :text-align center
     a
       :text-decoration none
-    a.add_seminar_link
-      :color = !verydarkgreen
+    .add_seminar_link, .ajax_loader
+      float: left
+      font-size: smaller
+      vertical-align: top
+      z-index: 200
     .day_info
       :display block
       :text-align right
@@ -97,9 +102,10 @@ table.calendar
         :display none
   td.otherMonth
     .day_info
-      .month_name
-        :display inline
-    .day_info, ul
+      .month_name, .day_number
+        display: inline
+        opacity: .5
+    ul
       :opacity .5
       :font-weight normal
     

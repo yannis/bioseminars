@@ -3,13 +3,13 @@ require 'test_helper'
 class SpeakerTest < ActiveSupport::TestCase
   fixtures :all
 
-  should_belong_to :seminar
-  should_validate_presence_of :name
-  should_validate_presence_of :title
+  should belong_to :seminar
+  should validate_presence_of :name
+  should validate_presence_of :title
   
   context "A speaker" do
     setup do
-      @speaker = Speaker.create(:name => 'speaker1 NAME', :email => 'speaker1@emil.com', :affiliation => 'IFOM-FIRC, University of Milan, Italy', :title => 'Alternative activation of SREBP in Drosophila')
+      @speaker = Factory(:speaker, :name => 'speaker1 NAME', :email => 'speaker1@emil.com', :affiliation => 'IFOM-FIRC, University of Milan, Italy', :title => 'Alternative activation of SREBP in Drosophila')
     end
 
     should "be valid" do

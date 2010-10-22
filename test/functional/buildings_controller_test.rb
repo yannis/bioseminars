@@ -2,23 +2,17 @@ require 'test_helper'
 
 class BuildingsControllerTest < ActionController::TestCase
   fixtures :all
-  
-  def login_as(user)
-    @current_user = current_user = users(user)
-    @request.session[:user_id] = users(user).id
-  end
-  
-  should_route :get, '/buildings', :action => :index
-  should_route :post, '/buildings', :action => :create
-  should_route :get, '/buildings/1', :action => :show, :id => 1
-  should_route :put, '/buildings/1', :action => :update, :id => "1"
-  should_route :delete, '/buildings/1', :action => :destroy, :id => 1
-  should_route :get, '/buildings/new', :action => :new
+  should route(:get, '/buildings').to(:action => :index)
+  should route(:post, '/buildings').to(:action => :create)
+  should route(:get, '/buildings/1').to(:action => :show, :id => 1)
+  should route(:put, '/buildings/1').to(:action => :update, :id => "1")
+  should route(:delete, '/buildings/1').to(:action => :destroy, :id => 1)
+  should route(:get, '/buildings/new').to(:action => :new)
   
   context "2 buildings in the database," do
     setup do
-      @building1 = Building.create(:name => "SCII")
-      @building2 = Building.create(:name => "SCIII")
+      @building1 = Factory :building
+      @building2 = Factory :building
     end
     
     context "when not logged_in," do
@@ -28,15 +22,15 @@ class BuildingsControllerTest < ActionController::TestCase
           get :index
         end
         
-        should_respond_with :success
-        should_assign_to :buildings
-        should_render_template :index
+        should respond_with :success
+        should assign_to :buildings
+        should render_template :index
       end
     end
 
     context "when logged_in as basic," do
       setup do
-        login_as(:basic)
+         sign_in users(:basic)
       end
 
       context "on :get to :index" do
@@ -44,15 +38,15 @@ class BuildingsControllerTest < ActionController::TestCase
           get :index
         end
         
-        should_respond_with :success
-        should_assign_to :buildings
-        should_render_template :index
+        should respond_with :success
+        should assign_to :buildings
+        should render_template :index
       end
     end
     
     context "when logged_in as admin," do
       setup do
-        login_as(:admin)
+         sign_in users(:admin)
       end
       
       context "on :get to :index" do
@@ -60,9 +54,9 @@ class BuildingsControllerTest < ActionController::TestCase
           get :index
         end
 
-        should_assign_to :buildings
-        should_respond_with :success
-        should_render_template :index
+        should assign_to :buildings
+        should respond_with :success
+        should render_template :index
 
         should "assigns to 2 buildings" do
           assert_equal assigns(:buildings).size, 3
@@ -74,9 +68,9 @@ class BuildingsControllerTest < ActionController::TestCase
           get :show, :id => @building1.id
         end
 
-        should_assign_to :building
-        should_respond_with :success
-        should_render_template :show
+        should assign_to :building
+        should respond_with :success
+        should render_template :show
 
         should "assign to @building" do
           assert_equal assigns(:building), @building1
@@ -88,9 +82,9 @@ class BuildingsControllerTest < ActionController::TestCase
           get :new
         end
 
-        should_assign_to :building
-        should_respond_with :success
-        should_render_template :new
+        should assign_to :building
+        should respond_with :success
+        should render_template :new
         should "display a form" do
           assert_select "form", true, "The template doesn't contain a <form> element"
         end
@@ -101,9 +95,9 @@ class BuildingsControllerTest < ActionController::TestCase
           get :edit, :id => @building1.id
         end
 
-        should_assign_to :building
-        should_respond_with :success
-        should_render_template :edit
+        should assign_to :building
+        should respond_with :success
+        should render_template :edit
         should "display a form" do
           assert_select "form", true, "The template doesn't contain a <form> element"
         end
@@ -111,39 +105,65 @@ class BuildingsControllerTest < ActionController::TestCase
 
       context "on :post to :create with valid params" do
         setup do
+          @buildings_count = Building.count
           post :create, :building => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
 
-        should_assign_to :building
-        should_redirect_to("building's show view") { building_url(assigns(:building)) }
-        should_respond_with 302
-        should_change "Building.count", :by => 1
-        should_set_the_flash_to "Building was successfully created."
+        should assign_to :building
+        should redirect_to("buildings index view") { buildings_url }
+        should respond_with 302
+        
+        should "change Building.count :by => 1" do
+          assert_equal Building.count-@buildings_count, 1
+        end
+        should set_the_flash.to(/Building was successfully created/)
+      end
+
+      context "on :xhr to :create with valid params" do
+        setup do
+          @buildings_count = Building.count
+          xhr :post, :create, :building => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+        end
+
+        should assign_to :building
+        should respond_with 200
+        should render_template 'layouts/insert_in_table'
+        
+        should "change Building.count :by => 1" do
+          assert_equal Building.count-@buildings_count, 1
+        end
+        should set_the_flash.to(/Building was successfully created/)
       end
 
       context "on :put to :update with valid params for :id => @building1.id" do
         setup do
+          @buildings_count = Building.count
           put :update, :id => @building1.id, :building => {:name => 'CMU new name'}
         end
 
-        should_assign_to :building
-        should_redirect_to("building's show view") { building_url(assigns(:building)) }
-        should_respond_with 302
-        should_change "Building.count", :by => 0
+        should assign_to :building
+        should redirect_to("building's show view") { building_url(assigns(:building)) }
+        should respond_with 302
+        should "change Building.count :by => 0" do
+          assert_equal Building.count-@buildings_count, 0
+        end
         should 'shange the name of @building to "CMU new name"' do
           assert_equal @building1.reload.name, "CMU new name"
         end
-          should_set_the_flash_to "Building was successfully updated."
+          should set_the_flash.to(/Building was successfully updated/)
       end
       
       context "on :delete to :destroy with  :id => @building1.id" do
         setup do
+          @buildings_count = Building.count
           delete :destroy, :id => @building1.id
         end
         
-        should_change "Building.count", :by => -1
-        should_redirect_to("buildings index view") {buildings_url}
-        should_set_the_flash_to "Building was successfully deleted."
+        should "change Building.count :by => -1" do
+          assert_equal Building.count-@buildings_count, -1
+        end
+        should redirect_to("buildings index view") {buildings_url}
+        should set_the_flash.to(/Building was successfully deleted/)
       end
     end
   end

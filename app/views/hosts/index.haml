@@ -1,0 +1,15 @@
+- @title ||= "Hosts"
+%div{:class => "#{'left_column' if user_signed_in?}"}
+  %h2.title
+    = @title
+  %table.list
+    %thead
+      = render 'table_head'
+    %tbody#tbody_in_host_table
+      = render @hosts
+- if user_signed_in?
+  %aside
+    - if @host.new_record?
+      = render 'layouts/new_box', :object => @host
+    - else
+      = render 'layouts/edit_box', :object => @host

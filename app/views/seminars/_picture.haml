@@ -1,5 +1,5 @@
 .picture
-  - fields_for "seminar[pictures_attributes][#{picture.id}]", picture do |picture_form|
+  = fields_for "seminar[pictures_attributes][#{picture.id}]", picture do |picture_form|
     = picture_form.hidden_field :id
     = link_to(image_tag(picture.data.url(:thumb)), picture.data.url, :id => "link_to_picture_#{picture.id}", :rel => 'lightbox')
     = picture_form.check_box '_destroy'

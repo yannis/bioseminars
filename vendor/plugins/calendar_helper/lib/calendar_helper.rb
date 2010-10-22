@@ -3,7 +3,7 @@ require 'date'
 # CalendarHelper allows you to draw a databound calendar with fine-grained CSS formatting
 module CalendarHelper
 
-  VERSION = '0.2.2'
+  VERSION = '0.2.3'
 
   # Returns an HTML calendar. In its simplest form, this method generates a plain
   # calendar (which can then be customized using CSS) for a given month and year.
@@ -36,6 +36,7 @@ module CalendarHelper
   #                                           # Defaults to true.
   #   :previous_month_text   => nil           # Displayed left of the month name if set
   #   :next_month_text   => nil               # Displayed right of the month name if set
+  #   :month_header      => false             # If you use false, the current month header will disappear.
   #
   # For more customization, you can pass a code block to this method, that will get one argument, a Date object,
   # and return a values for the individual table cells. The block can return an array, [cell_text, cell_attrs],
@@ -108,7 +109,7 @@ module CalendarHelper
     today_previous_next_links = []
     today_previous_next_links << options[:previous_month_text] if options[:previous_month_text]
     today_previous_next_links << options[:next_month_text] if options[:next_month_text]
-    today_previous_next_links << link_to('<br/>Today', calendar_seminars_path(:date => Date.current, :format => params[:format], :categories => params[:categories]), :class => 'link_to_today') unless first.to_s == Date.current.beginning_of_month.to_s
+    today_previous_next_links << link_to('<br/>Today'.html_safe, calendar_seminars_path(:date => Date.current, :format => params[:format], :categories => params[:categories]), :class => 'link_to_today', :remote => true) unless first.to_s == Date.current.beginning_of_month.to_s
     cal << %(<th class='links_to_today_previous_next' colspan="3">#{today_previous_next_links.join(' ')}</th>)
     cal << %(</tr><tr class="#{options[:day_name_class]}">)
     day_names.each do |d|

@@ -1,30 +1,30 @@
 !!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+%html
   %head
-    %title
-      = @title || "bioSeminars"
+    %meta{:charset => "UTF-8"}
+    %title= @title || "bioSeminars - Life Sciences seminars at the University of Geneva"
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
     %meta{:name=>"author", :content=>"Yannis Jaquet, Gregory Theiler"}/
     %meta{:name => "robots", :content => "all"}
     %meta{:name => 'description', :content => "Calendar of all Life Sciences seminars organized at the University of Geneva (Switzerland), Faculty of Sciences"}
-    %link{:rel => "shortcut icon", :href => "http://bioseminars.unige.ch/favicon.ico"}/
-    = javascript_include_tag "http://use.typekit.com/und6gvf.js"
-    = javascript_tag "try{Typekit.load();}catch(e){}"
-    = javascript_include_tag  :defaults
-    = javascript_include_tag '/growler1.0.0/src/growler.js'
-    = stylesheet_link_tag 'reset.css', 'application.css', '/growler1.0.0/css/examples.css', :cache => 'base', :media => "screen, projection"
+    -# %link{:rel => "shortcut icon", :href => "http://bioseminars.unige.ch/favicon.ico"}/
+    = favicon_link_tag
+    = csrf_meta_tag
+    = stylesheet_link_tag 'reset', 'jquery-ui-1.8.5.custom.css', '/gritter/css/jquery.gritter.css', '/qtip/jquery.qtip.css', 'my_qtip_style', 'ajax_div', 'form', 'application', :media => "screen, projection", :cache => 'base'
     /[if IE 7]
-      = stylesheet_link_tag 'ie.css', :media => "screen, projection"
+      = stylesheet_link_tag 'ie', :media => "screen, projection"
+      = javascript_include_tag "http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"
     = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :scope => 'future'), :title => "RSS feed for all seminars"
     - for category in Category.find(:all)
       = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id, :scope => 'future'), :title => "“#{category.name}” seminars"
     = yield :head
-  %body{:onload => "#{yield(:onload)}"}
+  %body
     #main_container
       #banner_and_navigation.group
         #banner
           %h1
-            = link_to "<span class='banner_font'>bio</span><span class='tk_swingdancer'>Seminars</span>", root_path
+            = link_to root_path do
+              <span class='banner_font'>bio</span><span class='tk_swingdancer'>Seminars</span>
         = render 'layouts/navigation'
       #flash_and_co.group
         = render 'layouts/javascript_disabled_notification'
@@ -32,10 +32,10 @@
           #flash_notice
             .flash.notice
               = " "+flash[:notice]
-        - unless flash[:warning].blank?
-          #flash_warning
-            .flash.warning
-              = " "+flash[:warning]
+        - unless flash[:alert].blank?
+          #flash_alert
+            .flash.alert
+              = " "+flash[:alert]
       #content.group
         = yield :layout
       #footer.group
@@ -48,16 +48,16 @@
             %li
               = link_to 'RSS', seminars_path(:format => 'rss', :scope => 'future'), :id => 'rss_feed_link'
             %li
-              = link_to 'iCal/ICS', "webcal://#{HOST}#{seminars_path(:format => 'ics', :scope => 'future')}", :id => 'ical_feed_link'
+              = link_to 'iCal/ICS', seminars_path(:format => 'ics', :scope => 'future', :protocol => 'webcal', :only_path => false), :id => 'ical_feed_link'
             %li
               Create
               = link_to 'custom feeds', feeds_path
           %ul
             %li
-              = render 'users/user_bar'
+              = render 'devise/menu/login_items'
             %li
               = link_to 'log', '/log.txt'
-              = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+              = '('+File.mtime(File.join(Rails.root,"public/log.txt")).to_s(:short)+')'
             %li
               contact the
               = mail_to "yannis.jaquet@unige.ch, gregory.theiler@unige.ch", 'webmasters', :encode => :hex
@@ -65,3 +65,8 @@
               &copy;
               = link_to 'University of Geneva', 'http://www.unige.ch'
               2009
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
+    = javascript_include_tag "http://use.typekit.com/und6gvf.js"
+    = javascript_include_tag 'jq/jquery-ui-1.8.5.custom.min.js', 'jq/jquery-ui-timepicker-addon.min.js', 'jq/jquery.observe_field', 'jq/jquery.form', '/gritter/js/jquery.gritter.min.js', '/qtip/jquery.qtip.min.js', 'jq/jquery.json-2.2.min.js', 'jq/jquery.cookie.js', 'jq/rails', 'application', :cache => 'all'
+    = yield :javascript
+    = yield :document_ready

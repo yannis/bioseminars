@@ -1,5 +1,5 @@
 .label_and_input
-  = f.label :name, "<span class='red_asterisk'>*</span> Name"
+  = f.label :name, "<span class='red_asterisk'>*</span> Name".html_safe
   = f.text_field :name
   = f.my_error_message_on :name
   
@@ -7,3 +7,6 @@
   = f.label :description
   = f.text_area :description
   = f.my_error_message_on :description
+%p
+  %span.button.inline_in_form
+    = submit_or_cancel_form(f)

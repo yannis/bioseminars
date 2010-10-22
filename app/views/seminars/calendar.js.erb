@@ -1,0 +1,31 @@
+<%= flash_in_js %>
+<%- html = render('calendar', :date => @date) -%>
+$('table.calendar').replaceWith("<%= escape_javascript(html) %>");
+$('.seminar_link').each( function() {
+  $(this).qtip({
+    content: { 
+      text: $(this).next('.mini_seminar'),
+      title: { 
+        text: $(this).attr('title'),
+        button: 'x'
+      }
+    },
+    style: {
+      classes: 'my_qtip_style'
+    },
+    position: {
+      my: 'left center', 
+      at: 'right center'
+    },
+    show: {
+      event: 'click',
+      solo: true
+    },
+    hide: {
+      fixed: true,
+      event: false
+    }
+  })
+})
+insert_loaders();
+<% flash.discard %>

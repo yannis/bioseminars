@@ -1,5 +1,5 @@
 .label_and_input
-  = f.label :name, "<span class='red_asterisk'>*</span> Name"
+  = f.label :name, "<span class='red_asterisk'>*</span> Name".html_safe
   = f.text_field :name
   = f.my_error_message_on :name
   
@@ -9,6 +9,9 @@
   = f.my_error_message_on :description
   
 .label_and_input
-  = f.label :building_id, "Building "+(admin? ? my_link_to_remote(:building, :location) : '')
+  = f.label :building_id, "Building #{admin? ? my_link_to_remote(:building, :location) : ''}".html_safe
   = f.collection_select :building_id, @buildings, :id, :name, :include_blank => true
   = f.my_error_message_on :building_id
+%p
+  %span.button.inline_in_form
+    = submit_or_cancel_form(f)

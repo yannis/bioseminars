@@ -1,9 +1,12 @@
+- stylesheet '/colorpicker/css/colorpicker.css'
+- javascript '/colorpicker/js/colorpicker.js'
+- document_ready "set_colorpicker('##{f.object.color}');"
 %p#mandatory_fields
   %span.red_asterisk *
   mandatory
 
 .label_and_input
-  = f.label :name, "<span class='red_asterisk'>*</span> Name"
+  = f.label :name, "<span class='red_asterisk'>*</span> Name".html_safe
   = f.text_field :name
   = f.my_error_message_on :name
   
@@ -16,9 +19,11 @@
   = f.label :color
   = f.text_field :color
   = f.my_error_message_on :color
-  = javascript_tag "new Control.ColorPicker('category_color')"
   
 .label_and_input
   = f.label :description
   = f.text_area :description
   = f.my_error_message_on :description
+%p
+  %span.button.inline_in_form
+    = submit_or_cancel_form(f)

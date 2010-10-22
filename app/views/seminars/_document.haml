@@ -1,5 +1,5 @@
 .document
-  - fields_for "seminar[documents_attributes][#{document.id}]", document do |document_form|
+  = fields_for "seminar[documents_attributes][#{document.id}]", document do |document_form|
     = document_form.hidden_field :id
     = "#{document.data_file_name} (#{link_to(number_to_human_size(document.data_file_size), document.data.url)})"
     = document_form.check_box '_destroy'

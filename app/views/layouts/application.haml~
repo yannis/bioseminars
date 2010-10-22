@@ -36,10 +36,10 @@
           #flash_notice
             .flash.success
               = " "+flash[:notice]
-        - unless flash[:warning].blank?
-          #flash_warning
+        - unless flash[:alert].blank?
+          #flash_alert
             .flash.error
-              = " "+flash[:warning]
+              = " "+flash[:alert]
         = yield :layout
       - unless params[:controller] == 'sessions'
         #footer.grid_12
@@ -48,4 +48,4 @@
               © University of Geneva 2009
               –
               = link_to 'log', '/log.txt'
-              = '('+File.mtime(RAILS_ROOT+'/public/log.txt').to_s(:short)+')'
+              = '('+File.mtime(Rails.root+'/public/log.txt').to_s(:short)+')'

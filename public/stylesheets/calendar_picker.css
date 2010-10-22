@@ -1,12 +1,11 @@
-/* !darkgreen = #007E64 */
-/* !verydarkgreen = !darkgreen - #222222 */
-/* !lightgreen = #E5F3E5 */
-
+/*!darkgreen = #007E64 */
+/*!verydarkgreen = !darkgreen - #222222 */
+/*!lightgreen = #E5F3E5 */
 .calendar_date_select {
-  color: #333;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  -border-radius: .5em;
+  color: #333333;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -border-radius: 0.5em;
   border: 2px solid;
   border-color: #007e64;
   display: block;
@@ -24,18 +23,18 @@ iframe.ie6_blocker {
     background-color: #007e64; }
     .calendar_date_select thead th {
       font-weight: bold;
-      color: #FFF;
+      color: white;
       padding: 0; }
   .calendar_date_select .cds_buttons {
     text-align: center;
-    padding: .1em 0 0 0; }
+    padding: 0.1em 0 0 0; }
     .calendar_date_select .cds_buttons span.at_sign {
       display: none; }
     .calendar_date_select .cds_buttons a {
       color: #df223c;
       font-size: 9px; }
   .calendar_date_select .cds_footer {
-    padding: .1em;
+    padding: 0.1em;
     text-align: center;
     font-weight: bold; }
   .calendar_date_select table {
@@ -77,14 +76,14 @@ iframe.ie6_blocker {
     .calendar_date_select td.weekend {
       background-color: #ccffcc; }
     .calendar_date_select td .other {
-      opacity: .5; }
+      opacity: 0.5; }
   .calendar_date_select tbody td {
     border: 1px dotted;
     border-color: #007e64; }
   .calendar_date_select td.selected {
-    background-color: #FFFF88; }
+    background-color: #ffff88; }
   .calendar_date_select td:hover {
-    background-color: #ccc; }
+    background-color: #cccccc; }
   .calendar_date_select td.disabled div {
     color: #454545; }
 

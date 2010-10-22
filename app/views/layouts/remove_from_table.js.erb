@@ -1,0 +1,12 @@
+<%= flash_in_js %>
+<%- object = eval("@"+params[:controller].singularize) -%>
+<%- obj_sym = object.class.to_s.humanize.downcase -%>
+<% unless flash[:alert].blank? %>
+$('#new_or_edit_form').html("<%= escape_javascript(render('layouts/new_box', :object => object)) %>")
+<% end %>
+<% unless flash[:notice].blank? %>
+$('#<%= obj_sym %>_<%= object.id %>').slideUp('slow', function() {
+  $('#<%= obj_sym %>_<%= object.id %>').remove()
+});
+<% end %>
+<% flash.discard %>

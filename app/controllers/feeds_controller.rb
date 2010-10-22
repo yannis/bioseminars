@@ -1,58 +1,59 @@
-class FeedsController < ApplicationController
-  
-  skip_before_filter :login_required
+class FeedsController < ApplicationController  
   
   def index
     @categories = Category.all
-    if params[:category_ids].blank?
-      if cookies[:__CJ_seminars_to_show].nil? or eval(cookies[:__CJ_seminars_to_show]).blank?
-        cat_to_find = :all
+    cat = []
+    if params[:categories].blank?
+      if cookies[:seminars_to_show].nil? or eval(cookies[:seminars_to_show]).blank?
+        cat += @categories.map{|i| i.id.to_s}
       else
-        cat_to_find = @categories.map{|i| i.id.to_s} & eval(cookies[:__CJ_seminars_to_show])
-        cookies[:__CJ_seminars_to_show] = cat_to_find.to_json
+        cat += @categories.map{|i| i.id.to_s} & eval(cookies[:seminars_to_show])
       end
     else
-      cat_to_find = params[:category_ids].reject{|c| c == 'internal'}
+      cat += @categories.map{|i| i.id.to_s} & params[:categories]
     end
+    selected_cat = cat
     if params[:internal].blank?
-      if cookies[:__CJ_show_internal_seminars].nil? or eval(cookies[:__CJ_show_internal_seminars]).blank?
-        @internal = false
-      else
-        @internal = eval(cookies[:__CJ_show_internal_seminars]) == 'true'
-      end
+      cat << 'internal' unless cookies[:seminars_to_show].nil? or eval(cookies[:seminars_to_show]).blank? or !eval(cookies[:seminars_to_show]).include?('internal')
     else
-      @internal = params[:internal] == 'true'
+      cat << 'internal' if params[:internal] == 'internal'
     end
-    @selected_categories = []
-    
-    @rss_feed = seminars_url(:format => 'rss', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @ics_feed = seminars_url(:format => 'ics', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @xml_feed = seminars_url(:format => 'xml', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @iframe = calendar_seminars_url(:format => 'iframe', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
+    cookies[:seminars_to_show] = cat.to_json
+    @internal = cat.include?('internal')
+    @rss_feed = seminars_url(:format => 'rss', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @ics_feed = seminars_url(:format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @xml_feed = seminars_url(:format => 'xml', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @iframe = calendar_seminars_url(:format => 'iframe', :categories => selected_cat.join(' '), :internal => @internal.to_s)
   end
   
-  def create
-    @categories = Category.all
-    if params[:category_ids].blank?
-      if cookies[:__CJ_seminars_to_show].nil? or eval(cookies[:__CJ_seminars_to_show]).blank?
-        cat_to_find = :all
-      else
-        cat_to_find = @categories.map{|i| i.id.to_s} & eval(cookies[:__CJ_seminars_to_show])
-        cookies[:__CJ_seminars_to_show] = cat_to_find.to_json
-      end
-    else
-      cat_to_find = params[:category_ids].reject{|c| c == 'internal'}
-    end
-    @internal = cookies[:__CJ_show_internal_seminars].blank? ? false : (eval(cookies[:__CJ_show_internal_seminars]) == 'true')
-    @selected_categories = Category.find(cat_to_find)
-    @rss_feed = seminars_url(:format => 'rss', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @ics_feed = seminars_url(:format => 'ics', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @xml_feed = seminars_url(:format => 'xml', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    @iframe = calendar_seminars_url(:format => 'iframe', :categories => @selected_categories.map{|c| c.id}.join(' '), :internal => @internal.to_s)
-    respond_to do |format|
-      format.html{ render :index}
-    end        
-  end
+  # def create
+  #   @categories = Category.all
+  #   cat = []
+  #   if params[:categories].blank?
+  #     if cookies[:seminars_to_show].nil? or eval(cookies[:seminars_to_show]).blank?
+  #       cat += @categories.map{|i| i.id.to_s}
+  #     else
+  #       cat += @categories.map{|i| i.id.to_s} & eval(cookies[:seminars_to_show])
+  #     end
+  #   else
+  #     cat += @categories.map{|i| i.id.to_s} & params[:categories].match(/\d+/).to_a
+  #   end
+  #   selected_cat = cat
+  #   if params[:internal].blank?
+  #     cat << 'internal' unless cookies[:seminars_to_show].nil? or eval(cookies[:seminars_to_show]).blank? or !eval(cookies[:seminars_to_show]).include?('internal')
+  #   else
+  #     cat << 'internal' if params[:internal] == 'true'
+  #   end
+  #   cookies[:seminars_to_show] = cat.to_json
+  #   @internal = cat.include?('internal')
+  #   @rss_feed = seminars_url(:format => 'rss', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+  #   @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+  #   @ics_feed = seminars_url(:format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+  #   @xml_feed = seminars_url(:format => 'xml', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+  #   @iframe = calendar_seminars_url(:format => 'iframe', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+  #   respond_to do |format|
+  #     format.html{ render :index}
+  #   end        
+  # end
 end

@@ -1,0 +1,5 @@
+<%= flash_in_js %>
+<%- if flash[:alert].blank? -%>
+$('#seminar_<%= @seminar.id %>').remove();
+<%- end -%>
+<%- flash.discard -%>

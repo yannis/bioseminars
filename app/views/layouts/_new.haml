@@ -1,27 +1,9 @@
 %h2
   = @title || "New #{params[:controller].singularize.humanize.downcase}"
 #ajax_form
-  /to help with nested routes (especially for alarms)
   - path = @model ? [@model, eval('@'+params[:controller].singularize)] : eval('@'+params[:controller].singularize)
-  - remote_form_for(path ? path : @mice[0], :html => {:class => 'with_blocks', :id => "#{params[:controller].singularize}_form", :before => "Element.hide('_submit'); Element.show('loader_create_#{params[:controller].singularize}')"}) do |f|
-    - if params[:controller] == 'mice'
-      - @mice.each_with_index do |m, index|
-        .mouse_form{:id => "mouse_#{index}_form"}
-          = error_messages_for :transfer, :object => (m.current_transfer ? m.current_transfer : m.transfers[0])
-          - fields_for "mouse[#{index}]", m do |f|
-            = render :partial  => 'form', :locals => {:m => m, :f => f, :index => index}
-            = label_tag "mouse[#{index}][]", 'Genotype '+my_link_to_remote(:chromosome, :mouse, index)
-            %div{:id => "mouse_#{index}_genotype"}
-              = render :partial => "genotype", :locals => {:m => m, :f => f, :index => index}
-            %div
-              = image_tag('ajax-loader.gif', :style => 'display: none', :id => "loader_mouse_#{index}_genotype")
-          = "<hr />" unless m == @mice[-1]
-    - else
-      = render :partial => params[:controller]+'/form', :locals => {:f => f}
+  = form_for path, :remote => true, :class => 'with_blocks', :id => "#{params[:controller].singularize}_form" do |f|
+    = render params[:controller]+'/form', :f => f
     = hidden_field_tag 'index', @index if @index
     = hidden_field_tag 'origin', @origin if @origin
     = hidden_field_tag 'origin_index', @origin_index if @origin_index
-    .button
-      %span.inline_in_form
-        = submit_tag("Create", :disable_with => "Creating&hellip;")+" or "+link_to_function('cancel', "remove_div_and_restablish_opacity('#{params[:controller]}_div')")
-    = image_tag('ajax-loader.gif', :style => 'display: none', :id => "loader_create_#{params[:controller].singularize}")

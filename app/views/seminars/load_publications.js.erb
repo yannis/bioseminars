@@ -1,0 +1,3 @@
+<%- html = render('publications', :publications => @publications) -%>
+$('#publications_for_seminar_<%= @seminar.id %>').html("<%= escape_javascript(html).html_safe %>");
+hide_abstracts('#publications_for_seminar_<%= @seminar.id %>');

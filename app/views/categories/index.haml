@@ -1,10 +1,9 @@
-- stylesheet '/colorpicker/colorPicker.css'
-- javascript '/colorpicker/colorPicker.js'
-- javascript '/colorpicker/scriptaculous/builder.js'
-- javascript '/colorpicker/scriptaculous/slider.js'
-- javascript '/colorpicker/yahoo.color.js'
+- if admin?
+  - stylesheet '/colorpicker/css/colorpicker.css'
+  - javascript '/colorpicker/js/colorpicker.js', '/javascripts/jq/jquery.tablednd_0_5.js'
+  - document_ready "$('table.list').tableDnD({ onDragClass: 'dragged', onDrop: function(table, row) { reorder('table.list', '#{reorder_categories_path}'); }});"
 - @title ||= "Categories"
-%div{:class => "#{'left_column' if logged_in?}"}
+%div{:class => "#{'left_column' if user_signed_in?}"}
   %h2.title
     = @title
   %table.list
@@ -12,12 +11,9 @@
       = render 'table_head'
     %tbody#tbody_in_category_table
       = render @categories
-  - if admin?
-    = sortable_element("tbody_in_category_table", :url => sort_categories_path, :handles => '$$("#categories .handle")', :tag => 'tr', :constraint => 'vertical', :ghosting => 'true', :scroll => 'window', :scrollSensitivity => 30)
-- if logged_in?
-  .right_column
-    .box#new_or_edit_form
-      - if @category.new_record?
-        = render :partial => 'layouts/new_box', :locals => {:object => @category}
-      - else
-        = render :partial => 'layouts/edit_box', :locals => {:object => @category}
+- if user_signed_in?
+  %aside
+    - if @category.new_record?
+      = render 'layouts/new_box', :object => @category
+    - else
+      = render 'layouts/edit_box', :object => @category

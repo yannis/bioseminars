@@ -1,4 +1,4 @@
-%tr[location]{:class => cycle('', 'odd')}
+%tr[location]
   %td
     = link_to_unless_current h(location.name), location_path(location)
   %td
@@ -6,10 +6,9 @@
   %td
     = link_to(h(location.building.name), building_path(location.building)) unless location.building.blank?
   %td
-    = location.seminars.size
-  - if logged_in?
+    = location.seminars.count
+  - if user_signed_in?
     %td
-      - links = [link_to_remote('Edit', :url => edit_location_path(location), :method => :get, :html => {:href => edit_location_path(location)})]
-      - links << destroy_remote_link(location) if location.no_more_seminars? and index?
-      - links << destroy_link(location) if location.no_more_seminars? and !index?
-      = links.join(' · ')
+      - links = [link_to('Edit', [:edit, location], :remote => true)] if can?(:update, location)
+      - links << destroy_link(location) if location.no_more_seminars? && can?(:destroy, location)
+      =raw links.join(' · ')

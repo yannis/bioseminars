@@ -1,9 +1,9 @@
 class Host < ActiveRecord::Base
-  has_and_belongs_to_many :seminars
+  has_many :hostings
+  has_many :seminars, :through => :hostings
   
-  validates_presence_of :name, :email
-  validates_uniqueness_of :name, :allow_nil => true
-  validates_uniqueness_of :email, :allow_nil => true
+  validates :name, :presence => true, :uniqueness => true
+  validates :email, :presence => true, :uniqueness => {:allow_nil => true}, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   
   before_validation :capitalize_name
   

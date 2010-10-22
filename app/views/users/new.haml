@@ -1,8 +1,5 @@
 - @title ||= 'Sign up a new user'
 - @user.password = @user.password_confirmation = nil
-.large_form
-  - form_for @user do |f|
-    %h2
-      = @title
-    = render :partial => 'form', :locals => {:f => f}
-    = create_button 'Sign up'
+= form_for @user do |f|
+  %h1= @title
+  = render 'form', :f => f
