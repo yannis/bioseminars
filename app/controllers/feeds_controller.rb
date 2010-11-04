@@ -18,7 +18,7 @@ class FeedsController < ApplicationController
     else
       cat << 'internal' if params[:internal] == 'internal'
     end
-    cookies[:seminars_to_show] = cat.to_json
+    cookies[:seminars_to_show] = {:value => cat.to_json, :expires => 2.years.from_now }
     @internal = cat.include?('internal')
     @rss_feed = seminars_url(:format => 'rss', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)

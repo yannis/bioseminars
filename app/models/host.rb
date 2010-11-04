@@ -8,14 +8,10 @@ class Host < ActiveRecord::Base
   before_validation :capitalize_name
   
   default_scope :order => 'hosts.name ASC'
-    
-  def no_more_seminars?
-    seminars.blank?    
-  end
   
   private
   
   def capitalize_name
-    self.name = self.name.titleize unless self.name.blank?
+    self.name = self.name.mb_chars.titleize unless self.name.blank?
   end
 end

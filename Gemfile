@@ -18,12 +18,12 @@ gem "calendar_date_select"
 gem 'htmlentities'
 gem 'will_paginate', '3.0.pre2'
 gem 'rails3-generators'
-gem 'hoptoad_notifier', ">=2.3.5"
-
+gem 'hoptoad_notifier', ">=2.3.11"
 
 group :test do  
   gem "shoulda", ">=2.11.2"
   gem "mocha"
   gem "factory_girl", ">=1.3.2"
   gem "factory_girl_rails"
+  gem 'webrat', '>=0.7.2.pre', :git => 'http://github.com/kalv/webrat.git' 
 end 

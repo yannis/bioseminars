@@ -12,5 +12,5 @@
   - if admin?
     %td
       - links = [link_to('Edit', [:edit, category], :method => :get, :remote => true)] if can?(:update, category)
-      - links << destroy_link(category) if category.no_more_seminars? && can?(:destroy, category)
+      - links << destroy_link(category) if can?(:destroy, category)
       =raw links.join(' · ')

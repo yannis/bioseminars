@@ -72,7 +72,7 @@ class LocationsController < ApplicationController
   end
   
   def destroy
-    if @location.no_more_seminars? and @location.destroy
+    if @location.destroy
       respond_to do |format|
         flash[:notice] = 'Location was successfully deleted.'
         format.html { redirect_to(locations_url) }

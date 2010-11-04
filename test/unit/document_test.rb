@@ -5,9 +5,6 @@ class DocumentTest < ActiveSupport::TestCase
   fixtures :all
   
   should belong_to :model
-  # should "have_attached_file :data" do
-  #   assert_equal Document.first.model_type, DocumentTest.methods.inspect
-  # end
   should have_attached_file :data
   should validate_attachment_presence :data
   should validate_attachment_content_type(:data).

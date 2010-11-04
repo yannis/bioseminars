@@ -9,7 +9,7 @@
   = f.my_error_message_on :description
   
 .label_and_input
-  = f.label :building_id, "Building #{admin? ? my_link_to_remote(:building, :location) : ''}".html_safe
+  = f.label :building_id, "Building #{can?(:create, Building) ? my_link_to_remote(:building, :location) : ''}".html_safe
   = f.collection_select :building_id, @buildings, :id, :name, :include_blank => true
   = f.my_error_message_on :building_id
 %p

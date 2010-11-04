@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LocationsControllerTest < ActionController::TestCase
-  fixtures :all
   
   should route(:get, '/locations').to( :action => :index)
   should route(:post, '/locations').to( :action => :create)
@@ -151,7 +150,7 @@ class LocationsControllerTest < ActionController::TestCase
           should "change Location.count by 1" do
             assert_equal Location.count-@location_count, 1
           end
-          should set_the_flash.to("Location was successfully created.")
+          should set_the_flash.to("Location was successfully created")
         end
     
         context "on :put to :update with valid params for :id => @location1.id" do
@@ -169,17 +168,13 @@ class LocationsControllerTest < ActionController::TestCase
           should 'shange the name of @location to "CMU new name"' do
             assert_equal @location1.reload.name, "CMU new name"
           end
-            should set_the_flash.to("Location was successfully updated.")
+            should set_the_flash.to(/Location was successfully updated/)
         end
       
         context "on :delete to :destroy with  :id => @location1.id" do
           setup do
             @location_count = Location.count
             delete :destroy, :id => @location1.id
-          end
-          
-          should 'have no seminars' do
-            assert @location1.no_more_seminars?
           end
         
           should "change Location.count by -1" do

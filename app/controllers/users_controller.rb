@@ -6,16 +6,14 @@ class UsersController < ApplicationController
   respond_to :html
   
   def index
-    @users = User.all
   end
 
   def show
-    @user = User.all_for_user(current_user).find(params[:id])
-  rescue
-    respond_to do |format|
-      flash[:alert] = "User not found."
-      format.html { redirect_to(root_path) }
-    end
+  # rescue
+  #   respond_to do |format|
+  #     flash[:alert] = "User not found."
+  #     format.html { redirect_to(root_path) }
+  #   end
   end
   # render new.rhtml
   def new
@@ -23,7 +21,6 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = User.all_for_user(current_user).find(params[:id])
     respond_to do |format|
       format.html
       format.js {
@@ -58,8 +55,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.all_for_user(current_user).find(params[:id])
-    params[:user].delete(:role_id) if current_user.basic?
+    params[:user].delete(:admin) if current_user.basic?
 
     respond_to do |format|
       if @user.update_attributes(params[:user])

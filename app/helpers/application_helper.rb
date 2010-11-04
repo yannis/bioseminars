@@ -50,10 +50,10 @@ module ApplicationHelper
     navigation[:categories] = {:main_menu => {:text => "categories", :path => categories_path}, :sub_menus => [], :highlight_in_controller => ["categories"]}
     navigation[:locations] = {:main_menu => {:text => "locations", :path => locations_path}, :sub_menus => [], :highlight_in_controller => ["locations", 'buildings']}
     navigation[:locations][:sub_menus] << {:text => "buildings", :path => buildings_path, :sub_menus => []} 
-    if user_signed_in?
+    if can?(:create, Seminar)
       navigation[:seminars][:sub_menus] << {:text => "new", :path => new_seminar_path} 
     end
-    if admin?
+    if can?(:read, User)
       navigation[:users] = {:main_menu => {:text => "users", :path => users_path}, :sub_menus => [], :highlight_in_controller => ["users"]}
     end
     return navigation

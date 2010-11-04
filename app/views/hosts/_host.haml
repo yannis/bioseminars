@@ -5,5 +5,5 @@
   %td
     - links = []
     - links << link_to('Edit', [:edit, host], :method => :get, :remote => true) if can? :update, host
-    - links << destroy_link(host) if host.no_more_seminars? and can?(:destroy, host)
+    - links << destroy_link(host) if can?(:destroy, host)
     =raw links.join(' · ')

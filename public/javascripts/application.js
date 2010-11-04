@@ -121,7 +121,7 @@ function show_or_hide_seminars_with_class(id, checked) {
       }
     )
   }
-  $.cookie('seminars_to_show', jQuery.toJSON(seminars_to_show), { expires: 365 });
+  $.cookie('seminars_to_show', jQuery.toJSON(seminars_to_show), { expires: 365, path: '/' });
   var semi_lis = $('.seminar');
   semi_lis.each( 
     function(i) {

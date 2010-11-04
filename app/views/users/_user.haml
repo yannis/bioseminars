@@ -8,5 +8,5 @@
     - links = []
     - links << link_to('Edit', [:edit, user], :remote => true) if admin?
     - links << edit_link(user) if basic?
-    - links << destroy_link(user) if user.can_be_destroyed? and user != current_user
+    - links << destroy_link(user) if can?(:destroy, user) and user != current_user
     =raw links.join(' · ')

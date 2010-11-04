@@ -11,10 +11,6 @@ class Category < ActiveRecord::Base
   def acronym_or_name
     acronym.blank? ? name : acronym
   end
-
-  def no_more_seminars?
-    self.seminars.blank?    
-  end
   
   private
   

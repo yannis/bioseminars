@@ -7,15 +7,9 @@ class Location < ActiveRecord::Base
   default_scope includes('building').order("locations.name ASC")
   scope :without_building, where("locations.building_id IS NULL")
   
-  before_destroy :no_more_seminars?
-  
   def name_and_building
     name_and_building = [name]
     name_and_building << "(#{building.name})" unless building.blank?
     return name_and_building.join(" ")
-  end
-  
-  def no_more_seminars?
-    self.seminars.blank?    
   end
 end

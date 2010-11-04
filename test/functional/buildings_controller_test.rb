@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class BuildingsControllerTest < ActionController::TestCase
-  fixtures :all
   should route(:get, '/buildings').to(:action => :index)
   should route(:post, '/buildings').to(:action => :create)
   should route(:get, '/buildings/1').to(:action => :show, :id => 1)
@@ -26,6 +25,16 @@ class BuildingsControllerTest < ActionController::TestCase
         should assign_to :buildings
         should render_template :index
       end
+
+      context "on :get to :new" do
+        setup do
+          get :new
+        end
+        
+        should redirect_to("buildings view") { new_user_session_path }
+        should respond_with 302
+        should set_the_flash.to('You need to sign in or sign up before continuing.')
+      end
     end
 
     context "when logged_in as basic," do
@@ -41,6 +50,19 @@ class BuildingsControllerTest < ActionController::TestCase
         should respond_with :success
         should assign_to :buildings
         should render_template :index
+      end
+
+      context "on :get to :new" do
+        setup do
+          get :new
+        end
+
+        should assign_to :building
+        should respond_with :success
+        should render_template :new
+        should "display a form" do
+          assert_select "form", true, "The template doesn't contain a <form> element"
+        end
       end
     end
     
@@ -90,6 +112,18 @@ class BuildingsControllerTest < ActionController::TestCase
         end
       end
 
+      context "on :xhr to :new with origin param" do
+        setup do
+          xhr :get, :new, :origin => 'location'
+        end
+
+        should assign_to :building
+        should respond_with :success
+        should render_template :new
+        should_not render_with_layout
+        should respond_with_content_type('text/javascript')
+      end
+
       context "on :get to :edit with :id => @building1.id" do
         setup do
           get :edit, :id => @building1.id
@@ -103,6 +137,16 @@ class BuildingsControllerTest < ActionController::TestCase
         end
       end
 
+      context "on :xhr to :edit with :id => @building1.id" do
+        setup do
+          xhr :get, :edit, :id => @building1.id
+        end
+
+        should assign_to :building
+        should render_template :edit
+        should_not render_with_layout
+      end
+
       context "on :post to :create with valid params" do
         setup do
           @buildings_count = Building.count
@@ -110,7 +154,7 @@ class BuildingsControllerTest < ActionController::TestCase
         end
 
         should assign_to :building
-        should redirect_to("buildings index view") { buildings_url }
+        should redirect_to("building view") { building_url(assigns(:building)) }
         should respond_with 302
         
         should "change Building.count :by => 1" do

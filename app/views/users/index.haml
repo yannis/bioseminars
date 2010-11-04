@@ -1,5 +1,5 @@
 - @title ||= "Users"
-.left_column
+%div{:class => "#{'left_column' if can?(:create, User)}"}
   %h2.title
     = @title
   %table.list
@@ -7,8 +7,9 @@
       = render 'table_head'
     %tbody#tbody_in_user_table
       = render @users
-%aside
-  - if @new_user.new_record?
-    = render 'layouts/new_box', :object => @new_user
-  - else
-    = render 'layouts/edit_box', :object => @new_user
+- if can?(:create, User)
+  %aside
+    - if @new_user.new_record?
+      = render 'layouts/new_box', :object => @new_user
+    - else
+      = render 'layouts/edit_box', :object => @new_user

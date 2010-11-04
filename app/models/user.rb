@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   
   # before_validation :set_role_id
   
-  # validates_presence_of     :name
+  validates :name, :presence => true, :format => {:with => /\A[^[:cntrl:]\\<>\/&]*\z/}, :length => {:minimum => 5, :maximum => 100}
   # # validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message
   # validates_length_of       :name,     :within => 3..100
   # 
@@ -27,12 +27,6 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation, :admin# , :role_id
   
   default_scope :order => "users.name ASC"
-  scope :all_for_user, lambda{ |a_user| 
-    if a_user.basic?
-      where(:id => a_user.id)
-      # {:conditions => ["users.id = ?", a_user.id]}
-    end
-  }
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -61,12 +55,12 @@ class User < ActiveRecord::Base
   end
   
   def basic?
-    admin == false
+    !admin?
   end
   
-  def admin?
-    admin == true
-  end
+  # def admin?
+  #   admin?
+  # end
   
   # def forgot_password
   #   @forgotten_password = true
@@ -101,13 +95,13 @@ class User < ActiveRecord::Base
 
   protected
   
-  def make_reset_code
-    self.reset_code = self.class.make_token
-  end
-  
-  def notify_user
-    UserMailer.deliver_signup_notification(self)
-  end
+  # def make_reset_code
+  #   self.reset_code = self.class.make_token
+  # end
+  # 
+  # def notify_user
+  #   UserMailer.deliver_signup_notification(self)
+  # end
   # 
   # def set_role_id
   #   self.role_id = Role.find_by_name('basic').id if (self.role_id.nil? or ![Role.find_by_name('basic').id, Role.find_by_name('admin').id].include?(self.role_id))  

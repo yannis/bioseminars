@@ -9,6 +9,7 @@
     = location.seminars.count
   - if user_signed_in?
     %td
-      - links = [link_to('Edit', [:edit, location], :remote => true)] if can?(:update, location)
-      - links << destroy_link(location) if location.no_more_seminars? && can?(:destroy, location)
+      - links = []
+      - links << link_to('Edit', [:edit, location], :remote => true) if can?(:update, location)
+      - links << destroy_link(location) if can?(:destroy, location)
       =raw links.join(' · ')

@@ -5,8 +5,8 @@
     = h(building.description)
   %td
     = building.seminars.size
-  - if admin?
-    %td
-      - links = [link_to('Edit', [:edit, building], :remote => true)] if can?(:update, building)
-      - links << destroy_link(building) if can?(:destroy, building)
-      =raw links.join(' · ')
+  %td
+    - links = []
+    - links << link_to('Edit', [:edit, building], :remote => true) if can?(:update, building)
+    - links << destroy_link(building) if can?(:destroy, building)
+    =raw links.join(' · ')

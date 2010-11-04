@@ -13,21 +13,26 @@ body {
   line-height: 1.5em; }
 
 h1 {
-  font-size: 250%; }
+  font-size: 250%;
+  line-height: 1em; }
 
 h2 {
-  font-size: 218%; }
+  font-size: 218%;
+  line-height: 1em; }
   h2.title {
     margin-bottom: 1em; }
 
 h3 {
-  font-size: 164%; }
+  font-size: 164%;
+  line-height: 1em; }
 
 h4 {
-  font-size: 145%; }
+  font-size: 145%;
+  line-height: 1em; }
 
 h5 {
-  font-size: 118%; }
+  font-size: 118%;
+  line-height: 1em; }
 
 a, a:visited {
   text-decoration: none;
@@ -101,7 +106,6 @@ a, a:visited {
     #main_container #banner_and_navigation #banner {
       float: left;
       width: 25%;
-      margin-top: 1.4em;
       overflow: visible; }
       #main_container #banner_and_navigation #banner h1 {
         font-size: 436%;

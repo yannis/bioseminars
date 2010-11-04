@@ -65,7 +65,7 @@
     %p.admin_links
       - links = [link_to('Save in iCal', seminar_path(seminar, :format => 'ics'))]
       - links << link_to('Website', seminar.url) unless seminar.url.blank?
-      - links << link_to('Details', seminar_path(seminar)) unless params[:action] == 'show' and params[:controller] == 'seminars'
-      - links << edit_link(seminar) if can? :update, @seminar
-      - links << destroy_link(seminar) if can? :destroy, @seminar
+      - links << link_to('Details', seminar_path(seminar)) unless action?('show') && controller?('seminars')
+      - links << edit_link(seminar) if can? :update, seminar
+      - links << destroy_link(seminar) if can? :destroy, seminar
       =raw links.join(' · ')

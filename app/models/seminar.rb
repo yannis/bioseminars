@@ -27,7 +27,14 @@ class Seminar < ActiveRecord::Base
     end
   end
   
-  validate :presence_of_speakers, :presence_of_hostings
+  validate :presence_of_speakers, :presence_of_hostings, :validate_host_uniqueness
+  
+  # validate do |seminar|
+  #   for hosting in seminar.hostings
+  #     hosting.errors.add(:host_id, "Host already selected.") if !hosting.marked_for_destruction? && seminar.hostings.select{|h| h.host_id == hosting.host_id}.size > 1
+  #   end
+  #   seminar.errors.add("Hosts",": A host is only allowed once") if seminar.hostings.map(&:host_id).uniq != seminar.hostings.select{|h| !h.marked_for_destruction? }.map(&:host_id)
+  # end
     
   scope :all_included, :include => ['category', 'hosts', 'speakers', 'location']
   
@@ -45,8 +52,8 @@ class Seminar < ActiveRecord::Base
     end
   }
   
-  scope :of_categories, lambda{|categories| where("seminars.category_id IN (?)", categories.map{|c| c.id})}
-  scope :internal, lambda{|internal|  where("seminars.internal = ?", internal) if internal == false }
+  scope :of_categories, lambda{|*categories| where("seminars.category_id IN (?)", categories.map{|c| c.id})}
+  scope :internal, lambda{|internal|  where("seminars.internal = ?", internal) }
   scope :all_day_first, order("all_day DESC, seminars.start_on ASC")
   scope :next, where("seminars.start_on >= ?", Time.current.utc).order("seminars.start_on ASC")
   scope :after_date, lambda{|date| where("DATE(seminars.start_on) >= DATE(?)", date)}
@@ -60,7 +67,8 @@ class Seminar < ActiveRecord::Base
     end
   }
   
-  before_validation :set_end_on, :validate_host_uniqueness
+  before_validation :set_end_on# , :validate_host_uniqueness
+  after_destroy :destroy_unused_hosts
   
   # after_save :check_presence_of_host_and_speaker
   
@@ -90,7 +98,7 @@ class Seminar < ActiveRecord::Base
       for entry in entries
         begin
           publication = Bio::MEDLINE.new(entry)
-          messages << publication
+          messages << publication.title
         rescue
           messages << 'invalid'
         end
@@ -198,9 +206,9 @@ class Seminar < ActiveRecord::Base
     return time_and_category.join(" - ").html_safe
   end
 
-  def editable_or_destroyable_by_user?(auser)
-    user == auser || auser.admin?
-  end
+  # def editable_or_destroyable_by_user?(auser)
+  #   user == auser || auser.admin?
+  # end
   
   def color
     category.color || '007E64'
@@ -252,18 +260,18 @@ class Seminar < ActiveRecord::Base
     end
   end
   
-  def set_host_through_attributes
-    unless hosts_attributes.blank?
-      hosts_attributes.each do |key,value|
-        unless value[:email].blank? and value[:name].blank?
-          h = (Host.find_by_email(value[:email])
-          h = Host.find_by_name(value[:name])) if h.nil?
-          h = Host.new(value) if h.nil?
-          self.hosts << h
-        end
-      end
-    end
-  end
+  # def set_host_through_attributes
+  #   unless hosts_attributes.blank?
+  #     hosts_attributes.each do |key,value|
+  #       unless value[:email].blank? and value[:name].blank?
+  #         h = (Host.find_by_email(value[:email])
+  #         h = Host.find_by_name(value[:name])) if h.nil?
+  #         h = Host.new(value) if h.nil?
+  #         self.hosts << h
+  #       end
+  #     end
+  #   end
+  # end
   
   def doc_attributes=(doc_attributes)
     documents_content_type = ['application/pdf', 'application/msword', 'text/plain', 'text/rtf']
@@ -300,12 +308,22 @@ class Seminar < ActiveRecord::Base
   
   def validate_host_uniqueness
     for hosting in self.hostings
-      hosting.errors.add(:host_id, "Host already selected.") if !hosting.marked_for_destruction? && self.hostings.select{|h| h.host_id == hosting.host_id}.size > 1
+      if !hosting.marked_for_destruction? && self.hostings.select{|h| !h.marked_for_destruction? && h.host_id == hosting.host_id}.size > 1
+        self.errors.add(:hosts,": A host is only allowed once") if self.errors[:hosts].blank?
+        hosting.errors.add(:host_id, "Host already selected.")
+      end
     end
-    self.errors.add("Hosts",": A host is only allowed once") if self.hostings.map(&:host_id).uniq != self.hostings.select{|h| !h.marked_for_destruction? }.map(&:host_id)
   end
   
   def presence_of_speakers
     self.errors.add("Speakers",": Seminar should have at least 1 speaker") if self.speakers.blank?
+  end
+  
+  def destroy_unused_hosts
+    # for host in Host.all.select{|h| h.hostings.empty? }
+    #   Host.destroy(host.id)
+    # end
+    # 
+    Host.destroy(Host.select(:id).select{|h| h.hostings.empty? })
   end
 end

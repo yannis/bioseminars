@@ -1,13 +1,6 @@
 require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
-  fixtures :all
-  
-  def login_as(user)
-    @current_user = current_user = users(user)
-    @request.session[:user_id] = users(user).id
-  end
-  
   should route(:get, '/categories').to(:action => :index)
   should route(:post, '/categories').to(:action => :create)
   should route(:get, '/categories/1').to(:action => :show, :id => 1)
@@ -21,73 +14,132 @@ class CategoriesControllerTest < ActionController::TestCase
       @category2 = Category.create(:name => "cat2")
     end
     
-    for status in [nil, 'basic'] do
-      context "when logged in as #{status.nil? ? 'nil' : status}," do
-        if status == 'basic'          
-          setup do
-            sign_in users(status.to_sym)
-          end
+    context "when not logged in," do
+
+      context "on :get to :index" do
+        setup do
+          get :index
         end
 
-        context "on :get to :index" do
-          setup do
-            get :index
-          end
-
-          should assign_to :categories
-          should respond_with :success
-          should render_template :index
-        end
-        
-        context "on :get to :show with :id  => @category1.id" do
-          setup do
-            get :show, :id => @category1.id
-          end
-
-          should assign_to :category
-          should respond_with :success
-          should render_template :show
+        should assign_to :categories
+        should respond_with :success
+        should render_template :index
+      end
+      
+      context "on :get to :show with :id  => @category1.id" do
+        setup do
+          get :show, :id => @category1.id
         end
 
-        context "on :get to :new" do
-          setup do
-            get :new
-          end
+        should assign_to :category
+        should respond_with :success
+        should render_template :show
+      end
 
-          should redirect_to("login form") { '/users/sign_in' }
+      context "on :get to :new" do
+        setup do
+          get :new
         end
 
-        context "on :get to :edit with :id => @category1.id" do
-          setup do
-            get :edit, :id => @category1.id
-          end
+        should redirect_to("login form") { '/users/sign_in' }
+      end
 
-          should redirect_to("login form") { '/users/sign_in' }
+      context "on :get to :edit with :id => @category1.id" do
+        setup do
+          get :edit, :id => @category1.id
         end
 
-        context "on :post to :create with valid params" do
-          setup do
-            post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
-          end
+        should redirect_to("login form") { '/users/sign_in' }
+      end
 
-          should redirect_to("login form") { '/users/sign_in' }
+      context "on :post to :create with valid params" do
+        setup do
+          post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
 
-        context "on :put to :update with valid params for :id => @category1.id" do
-          setup do
-            put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
-          end
+        should redirect_to("login form") { '/users/sign_in' }
+      end
 
-          should redirect_to("login form") { '/users/sign_in' }
+      context "on :put to :update with valid params for :id => @category1.id" do
+        setup do
+          put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
         end
 
-        context "on :delete to :destroy with  :id => @category1.id" do
-          setup do
-            delete :destroy, :id => @category1.id
-          end
+        should redirect_to("login form") { '/users/sign_in' }
+      end
 
-          should redirect_to("login form") { '/users/sign_in' }
+      context "on :delete to :destroy with  :id => @category1.id" do
+        setup do
+          delete :destroy, :id => @category1.id
         end
+
+        should redirect_to("login form") { '/users/sign_in' }
+      end
+    end
+    
+    context "when logged in as :basic," do
+      setup do
+        sign_in users(:basic)
+      end
+
+      context "on :get to :index" do
+        setup do
+          get :index
+        end
+
+        should assign_to :categories
+        should respond_with :success
+        should render_template :index
+      end
+      
+      context "on :get to :show with :id  => @category1.id" do
+        setup do
+          get :show, :id => @category1.id
+        end
+
+        should assign_to :category
+        should respond_with :success
+        should render_template :show
+      end
+
+      context "on :get to :new" do
+        setup do
+          get :new
+        end
+
+        should redirect_to("root path") { root_path }
+      end
+
+      context "on :get to :edit with :id => @category1.id" do
+        setup do
+          get :edit, :id => @category1.id
+        end
+
+        should redirect_to("root path") { root_path }
+      end
+
+      context "on :post to :create with valid params" do
+        setup do
+          post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+        end
+
+        should redirect_to("root path") { root_path }
+      end
+
+      context "on :put to :update with valid params for :id => @category1.id" do
+        setup do
+          put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
+        end
+
+        should redirect_to("root path") { root_path }
+      end
+
+      context "on :delete to :destroy with  :id => @category1.id" do
+        setup do
+          delete :destroy, :id => @category1.id
+        end
+
+        should redirect_to("root path") { root_path }
       end
     end
     
@@ -158,12 +210,12 @@ class CategoriesControllerTest < ActionController::TestCase
         end
 
         should assign_to :category
-        should redirect_to("category's show view") { category_url(assigns(:category)) }
+        should redirect_to("categories page") { categories_url }
         should respond_with 302
         should "change Category.count by 1" do
           assert_equal Category.count-@categories_count, 1
         end
-        should set_the_flash.to("Category was successfully created.")
+        should set_the_flash.to("Category was successfully created")
       end
 
       context "on :put to :update with valid params for :id => @category1.id" do
@@ -181,7 +233,7 @@ class CategoriesControllerTest < ActionController::TestCase
         should 'shange the name of @category to "CMU new name"' do
           assert_equal @category1.reload.name, "CMU new name"
         end
-          should set_the_flash.to("Category was successfully updated.")
+          should set_the_flash.to("Category was successfully updated")
       end
       
       context "on :delete to :destroy with  :id => @category1.id" do
@@ -194,7 +246,7 @@ class CategoriesControllerTest < ActionController::TestCase
           assert_equal Category.count-@categories_count, -1
         end
         should redirect_to("categories index view") {categories_url}
-        should set_the_flash.to("Category was successfully deleted.")
+        should set_the_flash.to("Category was successfully deleted")
       end
     end
   end

@@ -1,71 +1,37 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :roles
-  
-  should belong_to :role
+    
   should have_many(:seminars).dependent(:destroy)
   
   should validate_presence_of(:name)
   should validate_presence_of(:email)
   should validate_presence_of(:password)
-  should validate_presence_of(:password_confirmation)
-  should ensure_length_of(:name).is_at_least(3).is_at_most(100)
+  should validate_format_of(:name).with('Yannis Jaquet')
+  should ensure_length_of(:name).is_at_least(5).is_at_most(100)
   should validate_uniqueness_of :email
-  should ensure_length_of(:email).is_at_least(6).is_at_most(100)
   should allow_mass_assignment_of :email
   should allow_mass_assignment_of :name
   should allow_mass_assignment_of :password
   should allow_mass_assignment_of :password_confirmation
-  should allow_mass_assignment_of :role_id
   
-  # should_have_named_scope("all_for_user(User.find_by_name('basic'))", {:conditions => ["users.id = ?", 1]})
-  # should_have_named_scope("all_for_user(User.find_by_name('admin'))")
-
+  # should "have scope all_for_user" do
+  #   assert_equal User.all_for_user(User.find_by_name('basic')), User.where(:id => 1)
+  #   assert_equal User.all_for_user(User.find_by_name('admin')), User.all
+  # end
 
   context "A new user with no role," do
     setup do
       @user_count = User.count
-      @user = User.create(:email => 'user@example.com', :name => 'user name', :password => 'quire69', :password_confirmation => 'quire69')
+      @user = Factory :user, :name => "Yannis Jaquet"
     end
     
-    should 'have his role set to :basic' do
-      assert_equal @user.role.name, 'basic'
-    end
-    
-    should 'have his role_id set to 1' do
-      assert_equal @user.role_id, 1
+    should 'not be an admin' do
+      assert !@user.admin?
     end
     
     should 'have his nickname == user' do
-      assert_equal @user.nickname, 'u.name'
-    end
-    
-    should 'be valid' do
-      assert @user.valid?, @user.errors.full_messages.to_sentence
-    end
-    
-    should "change User.count by 1" do
-      assert_equal User.count-@user_count, 1
-    end
-    
-    should 'authenticate_user' do
-      assert_equal @user, User.authenticate('user@example.com', 'quire69')
-    end
-  end
-  
-  context "A new user with extravagant role_id," do
-    setup do
-      @user_count = User.count
-      @user = User.create(:email => 'user@example.com', :name => 'user name', :password => 'quire69', :password_confirmation => 'quire69', :role_id => -554546564)
-    end
-    
-    should 'have his role set to :basic' do
-      assert_equal @user.role.name, 'basic'
-    end
-    
-    should 'have his role_id set to 1' do
-      assert_equal @user.role_id, 1
+      assert_equal @user.nickname, 'Y.Jaquet'
     end
     
     should 'be valid' do
@@ -80,15 +46,11 @@ class UserTest < ActiveSupport::TestCase
   context "A new user with role set to :admin," do
     setup do
       @user_count = User.count
-      @user = User.create(:email => 'user@example.com', :name => 'user name', :password => 'quire69', :password_confirmation => 'quire69', :role_id => Role.find_by_name('admin').id)
+      @user = User.create(:email => 'user@example.com', :name => 'user name', :password => 'quire69', :password_confirmation => 'quire69', :admin => true)
     end
     
     should 'have his role set to :admin' do
-      assert_equal @user.role.name, 'admin'
-    end
-    
-    should 'have his role_id set to 2' do
-      assert_equal @user.role_id, 2
+      assert @user.admin?
     end
     
     should 'be valid' do
@@ -111,10 +73,6 @@ class UserTest < ActiveSupport::TestCase
       should 'have password == "new password"' do
         assert_equal @user.password, "new password"
       end
-      
-      should 'allows authentication of @user' do
-        assert_equal @user, User.authenticate('user@example.com', 'new password')
-      end
     end
     
     context 'with a new email' do
@@ -125,132 +83,6 @@ class UserTest < ActiveSupport::TestCase
       should 'be valid' do
         assert @user.valid?, @user.errors.full_messages.to_sentence
       end
-      
-      should 'not change password' do
-        assert_equal @user, User.authenticate('email2@example.com', 'quire69')
-      end
-    end
-    
-    context 'if remember_me is set,' do
-      setup do
-        @user.remember_me
-      end
-      
-      should 'set the remember_me token' do
-        assert_not_nil @user.remember_token
-      end
-      
-      should 'set the remember_token_expires_at datetime' do
-        assert_not_nil @user.remember_token_expires_at
-        assert_equal @user.remember_token_expires_at.beginning_of_day, 2.weeks.from_now.beginning_of_day
-      end
-      
-      context 'if forget_me is set,' do
-        setup do
-          @user.forget_me
-        end
-        
-        should 'remove the remember_me token' do
-          assert_nil @user.remember_token
-          assert_nil @user.remember_token_expires_at
-        end
-      end
     end
   end
-
-
-  # def test_should_create_user
-  #   assert_difference 'User.count' do
-  #     user = create_user
-  #     assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
-  #   end
-  # end
-  # 
-  # def test_should_require_login
-  #   assert_no_difference 'User.count' do
-  #     u = create_user(:login => nil)
-  #     assert u.errors.on(:login)
-  #   end
-  # end
-  # 
-  # def test_should_require_password
-  #   assert_no_difference 'User.count' do
-  #     u = create_user(:password => nil)
-  #     assert u.errors.on(:password)
-  #   end
-  # end
-  # 
-  # def test_should_require_password_confirmation
-  #   assert_no_difference 'User.count' do
-  #     u = create_user(:password_confirmation => nil)
-  #     assert u.errors.on(:password_confirmation)
-  #   end
-  # end
-  # 
-  # def test_should_require_email
-  #   assert_no_difference 'User.count' do
-  #     u = create_user(:email => nil)
-  #     assert u.errors.on(:email)
-  #   end
-  # end
-  # 
-  # def test_should_reset_password
-  #   users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-  #   assert_equal users(:quentin), User.authenticate('quentin', 'new password')
-  # end
-  # 
-  # def test_should_not_rehash_password
-  #   users(:quentin).update_attributes(:login => 'quentin2')
-  #   assert_equal users(:quentin), User.authenticate('quentin2', 'monkey')
-  # end
-  # 
-  # def test_should_authenticate_user
-  #   assert_equal users(:quentin), User.authenticate('quentin', 'monkey')
-  # end
-  # 
-  # def test_should_set_remember_token
-  #   users(:quentin).remember_me
-  #   assert_not_nil users(:quentin).remember_token
-  #   assert_not_nil users(:quentin).remember_token_expires_at
-  # end
-  # 
-  # def test_should_unset_remember_token
-  #   users(:quentin).remember_me
-  #   assert_not_nil users(:quentin).remember_token
-  #   users(:quentin).forget_me
-  #   assert_nil users(:quentin).remember_token
-  # end
-  # 
-  # def test_should_remember_me_for_one_week
-  #   before = 1.week.from_now.utc
-  #   users(:quentin).remember_me_for 1.week
-  #   after = 1.week.from_now.utc
-  #   assert_not_nil users(:quentin).remember_token
-  #   assert_not_nil users(:quentin).remember_token_expires_at
-  #   assert users(:quentin).remember_token_expires_at.between?(before, after)
-  # end
-  # 
-  # def test_should_remember_me_until_one_week
-  #   time = 1.week.from_now.utc
-  #   users(:quentin).remember_me_until time
-  #   assert_not_nil users(:quentin).remember_token
-  #   assert_not_nil users(:quentin).remember_token_expires_at
-  #   assert_equal users(:quentin).remember_token_expires_at, time
-  # end
-  # 
-  # def test_should_remember_me_default_two_weeks
-  #   before = 2.weeks.from_now.utc
-  #   users(:quentin).remember_me
-  #   after = 2.weeks.from_now.utc
-  #   assert_not_nil users(:quentin).remember_token
-  #   assert_not_nil users(:quentin).remember_token_expires_at
-  #   assert users(:quentin).remember_token_expires_at.between?(before, after)
-  # end
-
-# protected
-#   def create_user(options = {})
-#     record = User.new({:email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69' }.merge(options))
-#     record.save
-#     record
-#   end
 end
