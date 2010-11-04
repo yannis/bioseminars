@@ -1,9 +1,0 @@
-- @title ||= 'New role'
-.grid_4.prefix_4.suffix_4
-  = error_messages_for :user
-  - form_for @role, :url => categories_path, :html => {:class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = create_button

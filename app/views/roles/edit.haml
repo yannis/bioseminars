@@ -1,9 +1,0 @@
-- @title ||= "Edit role “#{@role.name}”"
-.grid_4.prefix_4.suffix_4
-  = error_messages_for :role
-  - form_for :role, :url => role_path(@role), :html => { :method => :put, :class => 'with_blocks'} do |f|
-    %fieldset
-      %legend
-        = @title
-      = render :partial => 'form', :locals => {:f => f}
-      = update_button

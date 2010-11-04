@@ -1,7 +1,0 @@
-page << flash_in_rjs(flash[:notice], flash[:warning])
-page << "if ($('#{params[:controller]}_div')) {remove_div_and_restablish_opacity('#{params[:controller]}_div')}"
-if flash[:warning].blank?
-  page.replace_html "#{@origin}_location_id", "<option></option>"+option_groups_from_collection_for_select(Building.find(:all), :locations, :name, :id, :name, @location.id)
-  page << "new Effect.Highlight('#{@origin}_location_id', {duration: 5});"
-end
-flash.discard

@@ -10,6 +10,7 @@ set :scm, :git
 # set :run_method, :run
 set :ssh_options, { :forward_agent => true }
 set :repository,  "ssh://code@129.194.56.197/Users/code/git_repository/seminars/.git"
+set :use_sudo, false
 
 
 
@@ -26,6 +27,9 @@ set :branch, "master"
 role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
+
+# runtime dependencies
+depend :remote, :gem, "bundler", ">=1.0.0.rc.2"
 
 namespace :deploy do
   desc "Restart Application"
@@ -49,12 +53,6 @@ namespace :deploy do
     logger.info ":stop task not supported by Passenger server"
   end
 end
-
-Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
-  $: << File.join(vendored_notifier, 'lib')
-end
-
-require 'hoptoad_notifier/capistrano'
 
 Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
   $: << File.join(vendored_notifier, 'lib')

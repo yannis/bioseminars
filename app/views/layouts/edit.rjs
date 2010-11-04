@@ -1,3 +1,0 @@
-object = eval("@#{params[:controller].singularize}")
-page.replace_html "new_or_edit_form", :partial => 'layouts/edit_box', :locals => {:object => object }
-page.visual_effect (:highlight, "new_or_edit_form", :duration => 1)
