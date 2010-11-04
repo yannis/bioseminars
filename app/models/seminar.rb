@@ -52,7 +52,7 @@ class Seminar < ActiveRecord::Base
     end
   }
   
-  scope :of_categories, lambda{|*categories| where("seminars.category_id IN (?)", categories.map{|c| c.id})}
+  scope :of_categories, lambda{|categories| where("seminars.category_id IN (?)", categories.map{|c| c.id})}
   scope :internal, lambda{|internal|  where("seminars.internal = ?", internal) }
   scope :all_day_first, order("all_day DESC, seminars.start_on ASC")
   scope :next, where("seminars.start_on >= ?", Time.current.utc).order("seminars.start_on ASC")

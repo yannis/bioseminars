@@ -9,9 +9,9 @@ class SeminarsController < ApplicationController
   def index
     @categories = Category.all
     begin
-      @categories_to_show = Category.where(params[:categories].split(' ').map{|i| i if i.match(/\d+/)}.compact) if params[:categories]
+      @categories_to_show = @categories.select{|c| params[:categories].split(' ').include?(c.id.to_s) } if params[:categories]
     rescue
-      @categories_to_show = Category.all
+      @categories_to_show = @categories
     end
     @internal = params[:internal] == 'true' ? true : false
     
@@ -25,7 +25,7 @@ class SeminarsController < ApplicationController
       query << 'all_for_user(current_user)'
       @title = "Seminars recorded by #{current_user.name}"
     end
-    query << "of_categories(@categories_to_show)" if !@categories_to_show.blank?
+    query << "of_categories(@categories_to_show)" unless @categories_to_show.blank?
     if params[:scope] == 'future'
       params[:scope] = 'future'
       query << "now_or_future"
