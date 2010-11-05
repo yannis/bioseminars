@@ -157,7 +157,7 @@ module ApplicationHelper
     js << "insert_loaders();"
   end
   
-  def load_publications_for(seminars)
+  def load_publications_for(*seminars)
     js = ""
     for seminar in seminars
       js += "$.ajax({url: '#{load_publications_seminar_path(seminar)}'});"

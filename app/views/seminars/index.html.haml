@@ -2,7 +2,7 @@
 - javascript '/javascripts/FancyZoom_1.1/js-global/FancyZoomHTML.js'
 - functions_to_load = ["setupZoom();"]
 - functions_to_load << " $('#scope_selector').change(function() { var scope = $('#scope_selector').val(); window.location.href='#{seminars_path}?scope='+scope });"
-- functions_to_load << load_publications_for(@seminars_with_publication) unless @seminars_with_publication.blank?
+- functions_to_load << load_publications_for(*@seminars_with_publication) unless @seminars_with_publication.blank?
 - document_ready functions_to_load.join()
 - @title ||= "Seminars"
 .left_column
