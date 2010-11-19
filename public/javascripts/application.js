@@ -154,26 +154,26 @@ function show_or_hide_seminars_with_class(id, checked) {
 
 function watch_all_day() {
   var date_text_fields = $('input.date_selector_field');
-  date_text_fields.datetimepicker({dateFormat: 'dd/mm/yy'});
+  date_text_fields.datetimepicker({dateFormat: 'mm/dd/yy'});
   var check_box = $('#seminar_all_day');
   if (check_box.length == 0) {
-    date_text_fields.datetimepicker({dateFormat: 'dd/mm/yy'});
+    date_text_fields.datetimepicker({dateFormat: 'mm/dd/yy'});
   } else {
     if (check_box.is(':checked')) {
-      date_text_fields.datepicker({dateFormat: 'dd/mm/yy'});
+      date_text_fields.datepicker({dateFormat: 'mm/dd/yy'});
     } else {
-      date_text_fields.datetimepicker({dateFormat: 'dd/mm/yy'});
+      date_text_fields.datetimepicker({dateFormat: 'mm/dd/yy'});
     };
     check_box.change(function() {
       if ($(this).is(':checked')) {
         date_text_fields.datepicker('destroy');
-        date_text_fields.datepicker({dateFormat: 'dd/mm/yy'});
+        date_text_fields.datepicker({dateFormat: 'mm/dd/yy'});
         date_text_fields.each(function() {
           $(this).val($(this).val().split(' ')[0]);
         })
       } else {
         date_text_fields.datepicker('destroy');
-        date_text_fields.datetimepicker({dateFormat: 'dd/mm/yy'});
+        date_text_fields.datetimepicker({dateFormat: 'mm/dd/yy'});
         date_text_fields.each(function() {
           $(this).val($(this).val()+' 12:00');
         })

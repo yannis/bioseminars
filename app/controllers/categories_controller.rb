@@ -24,9 +24,7 @@ class CategoriesController < ApplicationController
       format.xml  { render :xml => @category }
     end
   end
-
-  # GET /categories/new
-  # GET /categories/new.xml
+  
   def new
     @origin = params[:origin]
 
