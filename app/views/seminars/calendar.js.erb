@@ -1,6 +1,7 @@
 <%= flash_in_js %>
 <%- html = render('calendar', :date => @date) -%>
 $('table.calendar').replaceWith("<%= escape_javascript(html) %>");
+set_new_seminar_function('<%= new_seminar_path %>');
 $('.seminar_link').each( function() {
   $(this).qtip({
     content: { 
