@@ -1,3 +1,6 @@
+29.11.2010
+Added new seminar links on ajax loaded calendar.
+
 4.11.2010
 Upgraded to Rails3 and jQuery
 

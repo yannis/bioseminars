@@ -8,6 +8,7 @@ class Ability
       if user.admin?
         can :read, :all
         can :manage, Seminar
+        can :reorder, Category
         can [:create_or_update], [Building, Category, Host, Location, Speaker]
         can :destroy, Building do |building|
           building.locations.blank?

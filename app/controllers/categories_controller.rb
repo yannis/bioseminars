@@ -92,6 +92,7 @@ class CategoriesController < ApplicationController
   end
   
   def reorder
+    authorize! :reorder, Category
     ids = eval(params[:ids_in_order]).map{|p| p.delete('category_')}
     flash[:notice] = ids.inspect
     Category.transaction do
