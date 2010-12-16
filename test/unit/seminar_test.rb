@@ -35,7 +35,7 @@ class SeminarTest < ActiveSupport::TestCase
     assert_equal Seminar.now_or_future, [@today, @in_two_days, @in_one_month, @in_two_months]
     assert_equal Seminar.before_date(40.days.ago), [@two_month_ago]
     assert_equal Seminar.after_date(40.days.since), [@in_two_months]
-    assert_equal Seminar.of_categories(@category), [@today, @two_days_ago]
+    assert_equal Seminar.of_categories([@category]), [@today, @two_days_ago]
     assert_equal Seminar.next, [@today, @in_two_days, @in_one_month, @in_two_months]
     assert_equal Seminar.internal(true), [@in_two_days]
     assert_equal Seminar.all_for_user(users(:basic)), [@in_one_month]

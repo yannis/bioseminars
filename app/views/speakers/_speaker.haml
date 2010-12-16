@@ -1,6 +1,6 @@
 - if speaker.new_record?
-  = fields_for "seminar[speakers_attributes][#{speaker.object_id}]" do |fs|
-    .inline_in_form.group{:id => "speaker_#{speaker.object_id}"}
+  = fields_for "seminar[speakers_attributes][index_to_replace_with_js]" do |fs|
+    .inline_in_form.group{:id => "speaker_index_to_replace_with_js"}
       .label_and_input
         %div{:style => 'display: none'}
           = fs.my_error_message_on :name, :object => speaker
@@ -16,7 +16,7 @@
         = fs.text_field :title, :class => 'speaker_title'
         = fs.my_error_message_on :title, :object => speaker
       .label_and_input.remove_link
-        = link_to_function 'Remove', "$('#speaker_#{speaker.object_id}').remove()"
+        = link_to_function 'Remove', "$('#speaker_index_to_replace_with_js').remove()"
 - else
   = fields_for "seminar[speakers_attributes][#{speaker.id}]", speaker do |fs|
     .inline_in_form.group{:id => "speaker_#{speaker.id}"}
