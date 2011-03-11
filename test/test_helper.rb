@@ -2,8 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require "paperclip/matchers"
-require 'webrat'
-require 'webrat/core/matchers' 
+require 'capybara'
+require 'capybara/dsl'
 
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess # to allow file upload
@@ -11,10 +11,6 @@ class ActiveSupport::TestCase
   fixtures :all 
 end
 
-
-Webrat.configure do |config|
-  config.mode = :rails
-end
 
 class Test::Unit::TestCase
  extend  Paperclip::Shoulda::Matchers
@@ -28,5 +24,11 @@ end
 class Picture
   before_post_process do |image|
     false # halts processing
+  end
+end
+
+module ActionDispatch
+  class IntegrationTest
+    include Capybara
   end
 end

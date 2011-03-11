@@ -1,6 +1,3 @@
-
-
-
 function createSourceLinks() {
     $('.method_details_list .source_code').
         before("<span class='showSource'>[<a href='#' class='toggleSource'>View source</a>]</span>");
@@ -155,7 +152,7 @@ function generateTOC() {
     show = true;
     var thisTag = parseInt(this.tagName[1]);
     if (this.id.length == 0) {
-      var proposedId = $(this).text().replace(/[^a-z0-9:'"\.()=-]/ig, '_');
+      var proposedId = $(this).text().replace(/[^a-z0-9:\.()=-]/ig, '_');
       if ($('#' + proposedId).length > 0) proposedId += counter++;
       this.id = proposedId;
     }

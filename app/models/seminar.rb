@@ -276,10 +276,12 @@ class Seminar < ActiveRecord::Base
   def doc_attributes=(doc_attributes)
     documents_content_type = ['application/pdf', 'application/msword', 'text/plain', 'text/rtf']
     doc_attributes.each do |key,value|
-      if value[:data].content_type.match(/image/)
-        pictures.build(value)
-      elsif documents_content_type.include?(value[:data].content_type)
-        documents.build(value)
+      unless value[:data].blank?
+        if value[:data].content_type.match(/image/)
+          pictures.build(value)
+        elsif documents_content_type.include?(value[:data].content_type)
+          documents.build(value)
+        end
       end
     end
   end

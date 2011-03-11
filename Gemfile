@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.1'
+gem 'rails', '3.0.4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -25,5 +25,7 @@ group :test do
   gem "mocha"
   gem "factory_girl", ">=1.3.2"
   gem "factory_girl_rails"
-  gem 'webrat', '>=0.7.2.pre', :git => 'http://github.com/kalv/webrat.git' 
+  gem 'capybara'
+  gem "capybara-envjs"
+  gem 'database_cleaner'
 end 
