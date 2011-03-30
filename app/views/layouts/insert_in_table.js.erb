@@ -2,11 +2,11 @@
 <%- object = eval("@"+params[:controller].singularize) -%>
 <%- obj_sym = object.class.to_s.humanize.downcase -%>
 <% unless flash[:alert].blank? %>
-$('#new_or_edit_form').html("<%= escape_javascript(render('layouts/new_box', :object => object)) %>")
+$('#content aside form').html("<%= escape_javascript(render('layouts/new_box', :object => object)) %>")
 <% end %>
 <% unless flash[:notice].blank? %>
 $("#tbody_in_<%= obj_sym %>_table").prepend("<%= escape_javascript(render(obj_sym, obj_sym.to_sym => object)) %>");
-$('#new_or_edit_form').html("<%= escape_javascript(render('layouts/new_box', :object => object.class.new)) %>")
+$('#content aside form').html("<%= escape_javascript(render('layouts/new_box', :object => object.class.new)) %>")
 $('#<%= obj_sym %>_<%= object.id %>').effect("highlight", {}, 3000);
 <% end %>
 insert_loaders();

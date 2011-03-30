@@ -9,23 +9,18 @@ class UsersController < ApplicationController
   end
 
   def show
-  # rescue
-  #   respond_to do |format|
-  #     flash[:alert] = "User not found."
-  #     format.html { redirect_to(root_path) }
-  #   end
   end
   # render new.rhtml
   def new
-    @user = User.new(:admin  => false)
+    @user.admin = false
+    respond_with @user do |format|
+      format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
+    end
   end
   
   def edit
-    respond_to do |format|
-      format.html
-      format.js {
-        render 'layouts/edit.rjs'
-      }
+    respond_with @user do |format|
+      format.js { render 'layouts/edit', :content_type => 'text/javascript', :layout => false }
     end
   rescue
     respond_to do |format|
@@ -56,6 +51,7 @@ class UsersController < ApplicationController
   
   def update
     params[:user].delete(:admin) if current_user.basic?
+    params[:user][:password] = params[:user][:password_confirmation] = nil if params[:user][:password].blank?
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -63,14 +59,14 @@ class UsersController < ApplicationController
         format.html { redirect_back_or_default(user_path(@user)) }
         format.xml  { head :ok }
         format.js {
-          render 'layouts/update'
+          render 'layouts/update', :content_type => 'text/javascript', :layout => false
         }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         format.js {
           flash[:alert] = @user.errors.full_messages.to_sentence
-          render 'layouts/update'
+          render 'layouts/update', :content_type => 'text/javascript', :layout => false
         }
       end
     end

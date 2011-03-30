@@ -1,6 +1,6 @@
 <%- object = eval("@"+params[:controller].singularize) -%>
-$('#new_or_edit_form').html("<%= escape_javascript(render('layouts/edit_box', :object => object)) %>");
-$('#new_or_edit_form').effect("highlight", {}, 3000);
+$('#content aside form').replaceWith("<%= escape_javascript(render('layouts/edit_box', :object => object)) %>");
+$('#content aside form').effect("highlight", {}, 3000);
 <%- if object.class == Category -%>
 $('#category_color').css('background-color', '#<%= object.color %>');
 $('#category_color').ColorPicker({

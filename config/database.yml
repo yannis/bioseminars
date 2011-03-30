@@ -1,27 +1,21 @@
 development:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
-  reconnect: false
   database: seminars_development
-  pool: 5
   username: yannis
-  password: 2375
-  socket: /tmp/mysql.sock
+  password: '2375'
   
 test:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
-  reconnect: false
   database: seminars_test
-  pool: 5
   username: yannis
-  password: 2375
-  socket: /tmp/mysql.sock
+  password: '2375'
   
 production:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   database: seminars_production
   username: seminarsmaster
   password: sdb@stag$
-  host: 127.0.0.1
+  host: localhost

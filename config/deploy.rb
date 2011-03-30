@@ -29,7 +29,7 @@ role :web, domain
 role :db,  domain, :primary => true
 
 # runtime dependencies
-depend :remote, :gem, "bundler", ">=1.0.0.rc.2"
+depend :remote, :gem, "bundler", ">=1.0.10"
 
 namespace :deploy do
   desc "Restart Application"
@@ -54,8 +54,21 @@ namespace :deploy do
   end
 end
 
-Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
-  $: << File.join(vendored_notifier, 'lib')
+namespace :bundler do
+  desc "Symlink bundled gems on each release"
+  task :symlink_bundled_gems, :roles => :app do
+    run "mkdir -p #{shared_path}/bundled_gems"
+    run "ln -nfs #{shared_path}/bundled_gems #{release_path}/vendor/bundle"
+  end
+
+  desc "Install for production"
+  task :install, :roles => :app do
+    run "cd #{release_path} && bundle install --deployment"
+  end
+
 end
 
+after 'deploy:update_code', 'bundler:symlink_bundled_gems'
+after 'deploy:update_code', 'bundler:install'
+# require 'config/boot'
 require 'hoptoad_notifier/capistrano'

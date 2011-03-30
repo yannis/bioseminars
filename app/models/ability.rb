@@ -4,12 +4,11 @@ class Ability
   def initialize(user)
     user ||= User.new
     alias_action :create, :update, :to => :create_or_update
+    
     if user.persisted?
       if user.admin?
-        can :read, :all
-        can :manage, Seminar
-        can :manage, User
-        can :reorder, Category
+        can :manage, [Seminar, User]
+        can :read, [Building, Category, Host, Location, Speaker]
         can [:create_or_update], [Building, Category, Host, Location, Speaker]
         can :destroy, Building do |building|
           building.locations.blank?
@@ -23,6 +22,7 @@ class Ability
         can :destroy, Location do |location|
           location.seminars.blank?
         end
+        can :reorder, Category
       elsif user.basic?
         can :read, [Building, Category, Host, Location, Seminar, Speaker]
         can [:create_or_update], [Building, Speaker, Host, Location]

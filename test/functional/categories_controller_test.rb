@@ -233,7 +233,7 @@ class CategoriesControllerTest < ActionController::TestCase
         should 'shange the name of @category to "CMU new name"' do
           assert_equal @category1.reload.name, "CMU new name"
         end
-          should set_the_flash.to("Category was successfully updated")
+          should set_the_flash.to("Category successfully updated")
       end
       
       context "on :delete to :destroy with  :id => @category1.id" do

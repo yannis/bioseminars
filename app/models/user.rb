@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable, :encryptor => :restful_authentication_sha1
   
   # belongs_to :role
   has_many :seminars, :dependent => :destroy

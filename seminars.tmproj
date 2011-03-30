@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>test/unit/user_test.rb</string>
+	<string>Gemfile</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,30 +26,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>23</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>34</integer>
-				<key>line</key>
-				<integer>20</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>23</integer>
-				<key>line</key>
-				<integer>19</integer>
-			</dict>
 		</dict>
 		<key>Rakefile</key>
 		<dict>
@@ -216,30 +200,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>54</integer>
+				<integer>7</integer>
 				<key>line</key>
-				<integer>64</integer>
+				<integer>58</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>38</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>47</integer>
-				<key>line</key>
-				<integer>64</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>54</integer>
-				<key>line</key>
-				<integer>64</integer>
-			</dict>
+			<integer>20</integer>
 		</dict>
 		<key>app/controllers/users_controller.rb</key>
 		<dict>
@@ -380,7 +348,7 @@
 				<key>column</key>
 				<integer>30</integer>
 				<key>line</key>
-				<integer>10</integer>
+				<integer>11</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -490,14 +458,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>302</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>274</integer>
+			<integer>0</integer>
 		</dict>
 		<key>app/models/seminar_observer.rb</key>
 		<dict>
@@ -1377,6 +1345,20 @@
 				<integer>3</integer>
 			</dict>
 		</dict>
+		<key>app/views/layouts/iframe.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>app/views/layouts/insert_in_table.js.erb</key>
 		<dict>
 			<key>caret</key>
@@ -1823,6 +1805,62 @@
 				<integer>2</integer>
 			</dict>
 		</dict>
+		<key>app/views/seminars/iframe.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>55</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.html.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>46</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.rss.builder</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>24</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.rxml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>app/views/seminars/insert_person_in_form.rjs</key>
 		<dict>
 			<key>caret</key>
@@ -2090,14 +2128,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
+				<integer>6</integer>
 				<key>line</key>
-				<integer>35</integer>
+				<integer>42</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>10</integer>
+			<integer>0</integer>
 		</dict>
 		<key>config/environment.rb</key>
 		<dict>
@@ -2148,30 +2186,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>69</integer>
 				<key>line</key>
-				<integer>48</integer>
+				<integer>34</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>80</integer>
-				<key>line</key>
-				<integer>49</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>48</integer>
-			</dict>
 		</dict>
 		<key>config/initializers/devise.rb</key>
 		<dict>
@@ -2202,6 +2224,20 @@
 				<key>line</key>
 				<integer>46</integer>
 			</dict>
+		</dict>
+		<key>config/initializers/mime_types.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>config/locales/devise.en.yml</key>
 		<dict>
@@ -3107,49 +3143,19 @@
 			<key>firstVisibleLine</key>
 			<integer>116</integer>
 		</dict>
-		<key>test/integration/open_seminar_form_from_calendar_test.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>6</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>test/test_helper.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>26</integer>
+				<integer>33</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>3</integer>
-				<key>line</key>
-				<integer>31</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>26</integer>
-			</dict>
 		</dict>
 		<key>test/test_helper.rb.rails2</key>
 		<dict>
@@ -3517,12 +3523,17 @@
 		<string>test/test_helper.rb.rails2</string>
 		<string>test/test_helper.rb</string>
 		<string>test/factories.rb</string>
-		<string>test/integration/open_seminar_form_from_calendar_test.rb</string>
 		<string>config/environments/production.rb</string>
 		<string>test/unit/hosting_test.rb</string>
 		<string>test/unit/location_test.rb</string>
 		<string>test/unit/picture_test.rb</string>
 		<string>app/controllers/seminars_controller.rb</string>
+		<string>config/initializers/mime_types.rb</string>
+		<string>app/views/seminars/index.html.haml</string>
+		<string>app/views/seminars/index.rxml</string>
+		<string>app/views/seminars/index.rss.builder</string>
+		<string>app/views/layouts/iframe.haml</string>
+		<string>app/views/seminars/iframe.haml</string>
 		<string>test/unit/building_test.rb</string>
 		<string>test/unit/category_test.rb</string>
 		<string>app/helpers/feeds_helper.rb</string>
@@ -3595,6 +3606,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{2233, 150}, {1357, 1050}}</string>
+	<string>{{375, 113}, {1357, 1050}}</string>
 </dict>
 </plist>

@@ -57,9 +57,9 @@ class ApplicationController < ActionController::Base
     session[:return_to] = request.fullpath
   end
   
-  def after_sign_in_path_for(resource)
-    session[:return_to] || root_path
-  end
+  # def after_sign_in_path_for(resource)
+  #   session[:return_to] || root_path
+  # end
   
   private
   
