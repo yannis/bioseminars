@@ -40,40 +40,45 @@ class HostsControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :get to :edit with :id => @host1.id" do
         setup do
           get :edit, :id => @host1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :post to :create with valid params" do
         setup do
-          post :create, :host => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+          post :create, :host => {:name => 'Host'}
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :put to :update with valid params for :id => @host1.id" do
         setup do
           put :update, :id => @host1.id, :host => {:name => 'CMU new name'}
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :delete to :destroy with  :id => @host1.id" do
         setup do
           delete :destroy, :id => @host1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
     

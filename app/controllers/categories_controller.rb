@@ -1,8 +1,7 @@
 class CategoriesController < ApplicationController
   
-  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
-  load_and_authorize_resource  :except => ['reorder']
-  respond_to :html, :js, :xml
+  load_and_authorize_resource
+  respond_to :html
   
   def index
     @category = Category.new
@@ -58,7 +57,6 @@ class CategoriesController < ApplicationController
   end
   
   def update
-    @category = Category.find(params[:id])
     if @category.update_attributes(params[:category])
       flash[:notice] = 'Category successfully updated'
     else
@@ -70,7 +68,6 @@ class CategoriesController < ApplicationController
   end
   
   def destroy
-    @category = Category.find(params[:id])
     if @category.destroy
       flash[:notice] = 'Category was successfully deleted'
     else
@@ -82,7 +79,7 @@ class CategoriesController < ApplicationController
   end
   
   def reorder    
-    @categories = Category.accessible_by(current_ability)
+    # @categories = Category.accessible_by(current_ability)
     # authorize! :reorder, @categories
     ids = eval(params[:ids_in_order]).map{|p| p.delete('category_')}
     Category.transaction do
@@ -98,5 +95,7 @@ class CategoriesController < ApplicationController
     respond_with @categories do |format|
       format.js {render 'layouts/reorder', :content_type => 'text/javascript', :layout => false }
     end
+    rescue Exception => e
+      flash[:alert] = e.message
   end
 end

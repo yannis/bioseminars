@@ -31,9 +31,9 @@ class BuildingsControllerTest < ActionController::TestCase
           get :new
         end
         
-        should redirect_to("buildings view") { new_user_session_path }
+        should redirect_to("/") { root_path }
         should respond_with 302
-        should set_the_flash.to('You need to sign in or sign up before continuing.')
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
 

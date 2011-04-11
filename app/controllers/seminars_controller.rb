@@ -1,10 +1,9 @@
 class SeminarsController < ApplicationController
   
-  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
-  load_and_authorize_resource :except => ['calendar', 'validate_pubmed_ids', 'load_publications', 'about']
+  load_and_authorize_resource
   before_filter :set_variables
   before_filter :set_next_seminar, :only => ['index', 'show', 'calendar']
-  respond_to :html, :xml, :js, :atom, :ics, :iframe
+  respond_to :html
   
   def index
     @categories = Category.all
@@ -53,6 +52,9 @@ class SeminarsController < ApplicationController
       
       format.xml {
         render 'index', :layout => false
+      }
+      format.atom {
+        render :layout => false
       }
       format.rss {
         render :layout => false
@@ -188,16 +190,23 @@ class SeminarsController < ApplicationController
   end
   
   def destroy
-    @seminar.destroy
-    flash[:notice] = 'Seminar was successfully deleted.'
+    if @seminar.destroy
+      flash.now[:notice] = 'Seminar was successfully deleted.'
+    else
+      flash.now[:alert] = 'Seminar not deleted.'
+    end
     respond_with @seminar do |format|
-      format.js {render 'destroy', :content_type => 'text/javascript', :layout => false}
+      format.js {
+        render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false
+      }
     end
   rescue Exception => e
     flash[:alert] = (e ? e.message : 'Seminar not deleted.')
     respond_to do |format|
       format.html { redirect_to((@seminar.nil? ? seminars_url : seminar_url(@seminar))) }
-      format.js {render :content_type => 'text/javascript', :layout => false}
+      format.js {
+        render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false
+      }
     end
   end
   

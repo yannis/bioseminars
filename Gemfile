@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,6 +12,7 @@ gem "cancan", '~>1.6'
 gem "haml"
 gem "hpricot"
 gem "ruby_parser"
+gem "jquery-rails"
 gem 'icalendar'
 gem 'paperclip', '>=2.3.8'
 gem "bio", '1.4.0'

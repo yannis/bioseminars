@@ -1,14 +1,11 @@
 class BuildingsController < ApplicationController
   
-  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
-  # skip_before_filter :login_required, :only => ['index', 'show']
-  # before_filter :admin_required, :only => ['new', 'create', 'edit', 'update', 'destroy']
   load_and_authorize_resource
   respond_to :html, :js, :xml
   
   def index
-    # @buildings = Building.all
     @new_building = Building.new
+    respond_with @buildings
   end
   
   def show

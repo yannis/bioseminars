@@ -40,40 +40,54 @@ class CategoriesControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :get to :edit with :id => @category1.id" do
         setup do
           get :edit, :id => @category1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :post to :create with valid params" do
         setup do
           post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :put to :update with valid params for :id => @category1.id" do
         setup do
           put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
         end
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
+      end
 
-        should redirect_to("login form") { '/users/sign_in' }
+      context "on xhr :put to :reorder with valid params" do
+        setup do
+          xhr :put, :reorder, :ids_in_order => "['category_#{@category1.to_param}', 'category_#{@category2.to_param}']"
+        end
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :delete to :destroy with  :id => @category1.id" do
         setup do
           delete :destroy, :id => @category1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
     
@@ -106,40 +120,55 @@ class CategoriesControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-
-        should redirect_to("root path") { root_path }
+        
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :get to :edit with :id => @category1.id" do
         setup do
           get :edit, :id => @category1.id
         end
-
-        should redirect_to("root path") { root_path }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :post to :create with valid params" do
         setup do
           post :create, :category => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
-
-        should redirect_to("root path") { root_path }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :put to :update with valid params for :id => @category1.id" do
         setup do
           put :update, :id => @category1.id, :category => {:name => 'CMU new name'}
         end
-
-        should redirect_to("root path") { root_path }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
+      end
+      
+      context "on xhr :put to :reorder with valid params" do
+        setup do
+          xhr :put, :reorder, :ids_in_order => "['category_#{@category1.to_param}', 'category_#{@category2.to_param}']"
+        end
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :delete to :destroy with  :id => @category1.id" do
         setup do
           delete :destroy, :id => @category1.id
         end
-
-        should redirect_to("root path") { root_path }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
     
@@ -234,6 +263,14 @@ class CategoriesControllerTest < ActionController::TestCase
           assert_equal @category1.reload.name, "CMU new name"
         end
           should set_the_flash.to("Category successfully updated")
+      end
+      
+      context "on xhr :put to :reorder with valid params" do
+        setup do
+          xhr :put, :reorder, :ids_in_order => "['category_#{@category1.to_param}', 'category_#{@category2.to_param}']"
+        end
+        should respond_with :success
+        should render_template :reorder
       end
       
       context "on :delete to :destroy with  :id => @category1.id" do

@@ -161,7 +161,9 @@ class SeminarsControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-        should redirect_to("login form") { new_user_session_path }
+        
+        should redirect_to("/") { root_path }
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
     

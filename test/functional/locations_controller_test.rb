@@ -41,40 +41,45 @@ class LocationsControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :get to :edit with :id => @location1.id" do
         setup do
           get :edit, :id => @location1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :post to :create with valid params" do
         setup do
           post :create, :location => {:name => 'CMU', :description => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :put to :update with valid params for :id => @location1.id" do
         setup do
           put :update, :id => @location1.id, :location => {:name => 'CMU new name'}
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
 
       context "on :delete to :destroy with  :id => @location1.id" do
         setup do
           delete :destroy, :id => @location1.id
         end
-
-        should redirect_to("login form") { '/users/sign_in' }
+        should redirect_to("/") { root_path }
+        should respond_with 302
+        should set_the_flash.to(/You are not authorized to access this page/)
       end
     end
     

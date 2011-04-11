@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  # include AuthenticatedSystem
+  protect_from_forgery
+  # check_authorization :unless => :devise_controller?
   
   # before_filter :login_required, :except => [:back]
   before_filter :store_location_if_html, :only => ["index", "show"]
@@ -42,6 +42,8 @@ class ApplicationController < ActionController::Base
   #   end
   # end
   
+  protected
+  
   def store_location_if_html
     respond_to do |format|
       format.html {store_location}
@@ -53,8 +55,13 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def store_location
-    session[:return_to] = request.fullpath
+  def back
+    redirect_back_or_default('/')
+  end
+  
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
   end
   
   # def after_sign_in_path_for(resource)
@@ -62,6 +69,10 @@ class ApplicationController < ActionController::Base
   # end
   
   private
+  
+  def store_location
+    session[:return_to] = request.fullpath
+  end
   
   def render_not_found(exception)
     logger.error(exception)

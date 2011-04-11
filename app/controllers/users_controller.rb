@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :authenticate_user!
+
   load_and_authorize_resource
   before_filter :set_variables, :only => [:index, :show, :new, :create, :edit, :update]
   respond_to :html
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def show
   end
-  # render new.rhtml
+  
   def new
     @user.admin = false
     respond_with @user do |format|

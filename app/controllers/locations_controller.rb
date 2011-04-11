@@ -1,6 +1,5 @@
 class LocationsController < ApplicationController
   
-  before_filter :authenticate_user!, :only => ['new', 'create', 'edit', 'update', 'destroy']
   before_filter :set_variables, :only => [:index, :show, :new, :create, :edit, :update]
   load_and_authorize_resource
   respond_to :html, :js, :xml
