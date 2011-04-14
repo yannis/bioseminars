@@ -168,25 +168,36 @@ class SeminarsControllerTest < ActionController::TestCase
     end
     
     context "when logged_in as basic," do
-       setup do
-         sign_in users(:basic)
-         @ability = Ability.new(users(:basic))
-       end
-       
-       context "on :get to :index" do
-         setup do
-           get :index
-         end
-            
-         should assign_to :seminars
-         should respond_with :success
-         should render_template :index
-            
-         should "assigns to 2 seminar" do
-           assert_equal assigns(:seminars).size, 2
-         end
-       end
-       
+      setup do
+        sign_in users(:basic)
+        @ability = Ability.new(users(:basic))
+      end
+      
+      context "on :get to :index" do
+        setup do
+          get :index
+        end
+           
+        should assign_to :seminars
+        should respond_with :success
+        should render_template :index
+           
+        should "assigns to 2 seminar" do
+          assert_equal assigns(:seminars).size, 2
+        end
+      end
+      
+      context "on :get to :calendar" do
+        setup do
+          get :calendar
+        end
+      
+        should assign_to :date
+        should assign_to :seminars
+        should respond_with :success
+        should render_template :calendar
+      end
+      
        context "on :delete to :destroy with  :id => @seminar1.id" do #@seminar1 belongs to basic
          setup do
            @seminar_count = Seminar.count

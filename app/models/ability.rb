@@ -55,7 +55,7 @@ class Ability
           location.seminars.blank?
         end
         
-        can [:read, :create, :load_publications, :about], Seminar
+        can [:read, :calendar, :create, :load_publications, :about], Seminar
         can [:update, :destroy], Seminar, :user_id => user.id
         
         can :read, Speaker
