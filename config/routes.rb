@@ -32,6 +32,7 @@ Seminars::Application.routes.draw do
   # match '/signup' => 'users#new'
   # match '/forgot_password' => 'users#forgot_password'
   # match '/reset_password/:reset_code' => 'users#reset_password', :reset_code => nil
+  match "/iframe" => "seminars#calendar", :as => :iframe, :format => :iframe
   match '/feeds' => 'feeds#index'
   match '/back' => 'seminars#back'
   match '/about' => 'seminars#about'

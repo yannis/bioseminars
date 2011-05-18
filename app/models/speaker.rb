@@ -21,8 +21,6 @@ class Speaker < ActiveRecord::Base
   private
   
   def capitalize_name
-    self.name = self.name.titleize unless self.name.blank?
+    self.name = self.name.titleize if self.name.present?
   end
-  
-  
 end

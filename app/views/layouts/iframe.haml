@@ -7,21 +7,16 @@
     %meta{:name=>"author", :content=>"Yannis Jaquet, Gregory Theiler"}/
     %meta{:name => "robots", :content => "all"}
     %meta{:name => 'description', :content => "Calendar of all Life Sciences seminars organized at the University of Geneva (Switzerland), Faculty of Sciences"}
-    %link{:rel => "shortcut icon", :href => "http://bioseminars.unige.ch/favicon.ico"}/
     = csrf_meta_tag
-    = stylesheet_link_tag 'reset', 'jquery-ui-1.8.5.custom.css', '/gritter/css/jquery.gritter.css', '/qtip/jquery.qtip.css', 'my_qtip_style', 'ajax_div', 'form', 'application', :media => "screen, projection", :cache => 'base'
+    = stylesheet_link_tag 'reset', 'jquery-ui-1.8.5.custom.css', '/gritter/css/jquery.gritter.css', '/qtip/jquery.qtip.css', 'my_qtip_style', 'ajax_div', 'form', 'application', :media => "screen, projection", :cache => 'base_iframe'
     /[if IE 7]
       = stylesheet_link_tag 'ie', :media => "screen, projection"
       = javascript_include_tag "http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"
-    = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :scope => 'future'), :title => "RSS feed for all seminars"
-    - for category in Category.find(:all)
-      = auto_discovery_link_tag :rss, seminars_path(:format => 'rss', :categories => category.id, :scope => 'future'), :title => "“#{category.name}” seminars"
     = yield :head
   %body
     #iframe
       = yield :layout
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
-    = javascript_include_tag "http://use.typekit.com/und6gvf.js"
-    = javascript_include_tag 'jq/jquery-ui-1.8.5.custom.min.js', 'jq/jquery-ui-timepicker-addon.min.js', 'jq/jquery.observe_field', 'jq/jquery.form', '/gritter/js/jquery.gritter.min.js', '/qtip/jquery.qtip.min.js', 'jq/jquery.json-2.2.min.js', 'jq/jquery.cookie.js', 'jq/rails', 'application', :cache => 'all'
+    = javascript_include_tag 'jq/jquery-ui-1.8.5.custom.min.js', '/gritter/js/jquery.gritter.min.js', '/qtip/jquery.qtip.min.js', 'jq/jquery.json-2.2.min.js', 'jq/jquery.cookie.js', 'jq/rails', 'application', :cache => 'all_iframe'
     = yield :javascript
     = yield :document_ready

@@ -1,3 +1,6 @@
+18.05.2011
+Corrected previous and next links in iframe. Removed useless javascript from iframe layout.
+
 29.11.2010
 Added new seminar links on ajax loaded calendar.
 
