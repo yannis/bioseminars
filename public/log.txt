@@ -1,3 +1,6 @@
+4.10.2011
+Upgraded to rails 3.0.10. Added new_relic agent.
+
 18.05.2011
 Corrected previous and next links in iframe. Removed useless javascript from iframe layout.
 

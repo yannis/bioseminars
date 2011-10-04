@@ -87,27 +87,14 @@ Backtrace:
 /usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:168:in `call'
 /usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:77:in `send'
 /usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:77:in `method_missing'
-/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/rack/log_tailer.rb:14:in `call'
-/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/content_length.rb:13:in `call'
-/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/handler/webrick.rb:52:in `service'
-/usr/local/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
-/usr/local/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
-/usr/local/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
-/usr/local/lib/ruby/1.8/webrick/server.rb:162:in `start'
-/usr/local/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
-/usr/local/lib/ruby/1.8/webrick/server.rb:95:in `start'
-/usr/local/lib/ruby/1.8/webrick/server.rb:92:in `each'
-/usr/local/lib/ruby/1.8/webrick/server.rb:92:in `start'
-/usr/local/lib/ruby/1.8/webrick/server.rb:23:in `start'
-/usr/local/lib/ruby/1.8/webrick/server.rb:82:in `start'
-/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/handler/webrick.rb:13:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/server.rb:217:in `start'
-/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands/server.rb:65:in `start'
-/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:30
-/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:27:in `tap'
-/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:27
-script/rails:6:in `require'
-script/rails:6
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:146:in `handle'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:99:in `start'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:86:in `each'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:86:in `start'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:66:in `loop'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:66:in `start'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/lib/nack/server.rb:13:in `run'
+/Users/yannis/Library/Application Support/Pow/Versions/0.3.1/node_modules/nack/bin/nack_worker:4
 */
 body:before {
   white-space: pre;
