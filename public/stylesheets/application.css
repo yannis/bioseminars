@@ -1,6 +1,6 @@
-/*!darkgreen = #007E64 */
-/*!verydarkgreen = !darkgreen - #222222 */
-/*!lightgreen = #E5F3E5 */
+/*$darkgreen: #007E64 */
+/*$verydarkgreen: $darkgreen - #222222 */
+/*$lightgreen: #E5F3E5 */
 /* HTML5 tags */
 header, section, footer, aside, nav, article, figure {
   display: block; }

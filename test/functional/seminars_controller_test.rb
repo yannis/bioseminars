@@ -69,7 +69,7 @@ class SeminarsControllerTest < ActionController::TestCase
         end
     
         should "find all seminars" do
-          assert_equal assigns(:seminars), Seminar.sort_by_order('asc')
+          assert_equal assigns(:seminars), Seminar.sort_by_order('asc').all
         end
       end
     
@@ -83,7 +83,7 @@ class SeminarsControllerTest < ActionController::TestCase
         end
         
         should "find @seminar2" do
-          assert_equal assigns(:seminars), Seminar.now_or_future
+          assert_equal assigns(:seminars), Seminar.now_or_future.all
         end
       end
     
@@ -97,7 +97,7 @@ class SeminarsControllerTest < ActionController::TestCase
         end
     
         should "find @seminar1" do
-          assert_equal assigns(:seminars), Seminar.past
+          assert_equal assigns(:seminars), Seminar.past.all
         end
       end
       

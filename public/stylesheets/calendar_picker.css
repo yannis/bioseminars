@@ -1,6 +1,6 @@
-/*!darkgreen = #007E64 */
-/*!verydarkgreen = !darkgreen - #222222 */
-/*!lightgreen = #E5F3E5 */
+/*$darkgreen: #007E64 */
+/*$verydarkgreen: $darkgreen - #222222 */
+/*$lightgreen: #E5F3E5 */
 .calendar_date_select {
   color: #333333;
   -moz-border-radius: 0.5em;

@@ -1,602 +1,109 @@
-/* !darkgreen = #007E64 */
-/* !verydarkgreen = !darkgreen - #222222 */
-/* !lightgreen = #E5F3E5 */
+/*
+Syntax error: Invalid CSS after "": expected expression (e.g. 1px, bold), was "= !background"
+        on line 7 of /Users/yannis/Dropbox/railsapp/bioseminars/public/stylesheets/sass/old_sass/application.sass
 
-@font-face {
-  font-family: TheSans;
-  src: url('/fonts/TheSansPlain.ttf'); }
+2: @font-face
+3:   :font-family TheSans
+4:   :src url('/fonts/TheSansPlain.ttf')
+5:   
+6: body
+7:   :background-color = !background
+8:   :color #333
+9:   :font-family "Lucida Grande", helvetica, arial, sans-serif
+10:   :font-size   62.5%
+11:   :line-height 1.5em
+12:   h2, h3, h4, h5
 
-body {
-  background-color: #f7f2e5;
-  color: #333;
-  font-family: "Lucida Grande", helvetica, arial, sans-serif;
-  font-size: 62.5%;
-  line-height: 1.5em; }
-  body h2, body h3, body h4, body h5 {
-    line-height: 1em; }
-  body h2 {
-    font-size: 218%; }
-  body h3 {
-    font-size: 164%; }
-  body h4 {
-    font-size: 145%; }
-  body h5 {
-    font-size: 118%; }
-  body a, body a:visited {
-    text-decoration: underline;
-    color: #9b0000; }
-    body a:hover, body a:visited:hover {
-      color: #ff88a2; }
-    body a img, body a:visited img {
-      text-decoration: none; }
-  body .small {
-    font-size: x-small; }
-  body #banner_and_nav {
-    margin-top: 2em;
-    margin-bottom: 1em; }
-    body #banner_and_nav #banner h1 {
-      font-size: 436%;
-      margin: .1em 0 .2em 0; }
-      body #banner_and_nav #banner h1 .banner_font {
-        font-size: 80%; }
-      body #banner_and_nav #banner h1 a {
-        text-decoration: none;
-        color: #007e64; }
-        body #banner_and_nav #banner h1 a:hover {
-          color: #df223c; }
-    body #banner_and_nav #navigation {
-      font-weight: bold;
-      font-size: 118%; }
-      body #banner_and_nav #navigation ul {
-        background-color: #007e64;
-        -moz-border-radius: .5em;
-        -webkit-border-radius: .5em;
-        -border-radius: .5em; }
-        body #banner_and_nav #navigation ul li {
-          width: 8em;
-          margin: 0 .5em 0 0; }
-          body #banner_and_nav #navigation ul li a {
-            text-shadow: 0 1px 0 rgba(0,0,0,.8);
-            -webkit-transition-property: background-color;
-            -webkit-transition-duration: .4s;
-            -webkit-transition-timing-function: linear; }
-            body #banner_and_nav #navigation ul li a:hover {
-              text-shadow: 0 0 0 rgba(0,0,0,.8); }
-            body #banner_and_nav #navigation ul li a:active {
-              text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
-          body #banner_and_nav #navigation ul li.selected a {
-            text-shadow: 0 -1px 0 rgba(0,0,0,.8);
-            background-color: #22a086; }
-          body #banner_and_nav #navigation ul li:hover a {
-            background-color: #df223c;
-            -webkit-box-shadow: 1px 1px 10px rgba(0,0,0,.8);
-            -moz-box-shadow: 1px 1px 10px rgba(0,0,0,.8);
-            box-shadow: 1px 1px 10px rgba(0,0,0,.8);
-            z-index: 10; }
-          body #banner_and_nav #navigation ul li:hover ul li a {
-            text-shadow: 0 1px 0 rgba(0,0,0,.8);
-            background-color: #007e64; }
-            body #banner_and_nav #navigation ul li:hover ul li a:hover {
-              background-color: #df223c;
-              text-shadow: 0 0 0 rgba(0,0,0,.8); }
-            body #banner_and_nav #navigation ul li:hover ul li a:active {
-              text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
-          body #banner_and_nav #navigation ul li a {
-            display: block;
-            vertical-align: middle;
-            width: 6em;
-            background-color: #007e64;
-            -moz-border-radius: .5em;
-            -webkit-border-radius: .5em;
-            -border-radius: .5em;
-            font-weight: bold;
-            color: white; }
-            body #banner_and_nav #navigation ul li a span {
-              text-transform: capitalize; }
-          body #banner_and_nav #navigation ul li ul {
-            background-color: transparent;
-            a-top: .2em;
-            -moz-border-radius: .5em;
-            -webkit-border-radius: .5em;
-            -border-radius: .5em; }
-            body #banner_and_nav #navigation ul li ul li ul {
-              top: 100%;
-              left: -25px;
-              list-style: none;
-              display: none;
-              z-index: 597; }
-            body #banner_and_nav #navigation ul li ul li a {
-              margin: .1em 0; }
-            body #banner_and_nav #navigation ul li ul li:hover ul {
-              display: block;
-              margin-top: -2.4em;
-              margin-left: 10em; }
-  body #content {
-    margin-top: 1em;
-    margin-bottom: 0;
-    padding-bottom: 0; }
-    body #content .seminar {
-      line-height: 1.5em; }
-      body #content .seminar .time_and_location {
-        position: relative;
-        border-top: 2px solid;
-        border-bottom: 1px dotted;
-        border-color: #44c2a8;
-        padding: .5em 0;
-        color: #333;
-        font-weight: bold; }
-      body #content .seminar .title_and_content h2, body #content .seminar .title_and_content p {
-        line-height: 1.5em;
-        margin: .6em 0; }
-      body #content .seminar .title_and_content ul li {
-        margin: .6em 0; }
-      body #content .seminar .title_and_content p.creator {
-        text-align: right; }
-    body #content #categories {
-      -moz-border-radius: .5em;
-      -webkit-border-radius: .5em;
-      -border-radius: .5em;
-      padding: 1em; }
-      body #content #categories h3 {
-        color: #df223c;
-        margin: 0;
-        padding-bottom: 1em; }
-      body #content #categories ul {
-        list-style: none;
-        padding: 0;
-        margin: 0 -1em;
-        border-top: 2px solid;
-        border-top-color: #f7f2e5; }
-        body #content #categories ul li {
-          display: block;
-          padding: .3em 0;
-          margin: 0;
-          overflow: hidden;
-          border-bottom: 1px solid;
-          border-bottom-color: #f7f2e5;
-          overflow: hidden; }
-          body #content #categories ul li label, body #content #categories ul li span.label {
-            float: left;
-            width: 80%; }
-          body #content #categories ul li input {
-            float: right; }
-          body #content #categories ul li:last-child {
-            border: none; }
-      body #content #categories.all_categories_shown {
-        position: absolute;
-        left: 8%;
-        width: 80%;
-        background-color: #FFF;
-        padding: 1em 1em 1em 1em;
-        -moz-border-radius: 1em;
-        -webkit-border-radius: 1em;
-        -border-radius: 1em;
-        -webkit-box-shadow: 10px 10px 25px rgba(0,0,0,.6);
-        -moz-box-shadow: 10px 10px 25px rgba(0,0,0,.6);
-        box-shadow: 10px 10px 25px rgba(0,0,0,.6);
-        border: 2px solid;
-        border-color: #007e64; }
-        body #content #categories.all_categories_shown img#ZoomClose {
-          display: block;
-          position: absolute;
-          left: -15px;
-          top: -15px;
-          cursor: pointer; }
-        body #content #categories.all_categories_shown .categories_to_show {
-          -moz-column-count: 4;
-          -moz-column-gap: 1em;
-          -moz-column-rule: 1px solid;
-          -moz-column-rule-color: #f7f2e5;
-          -webkit-column-count: 4;
-          -webkit-column-gap: 1em;
-          -webkit-column-rule: 1px solid black;
-          column-count: 4;
-          column-gap: 1em;
-          column-rule: 1px solid black; }
-        body #content #categories.all_categories_shown .title a {
-          display: none; }
-        body #content #categories.all_categories_shown p {
-          text-align: right; }
-      body #content #categories.categories_hidden {
-        background: white;
-        margin-bottom: 1em; }
-        body #content #categories.categories_hidden .title a {
-          float: right; }
-        body #content #categories.categories_hidden #ZoomClose {
-          display: none; }
-        body #content #categories.categories_hidden #hidden_categories {
-          display: none; }
-        body #content #categories.categories_hidden .categories_to_show {
-          -moz-column-count: 1;
-          -webkit-column-count: 1;
-          column-count: 1; }
-    body #content #show_more_categories_link {
-      display: block;
-      text-align: right;
-      margin-top: 1em; }
-      body #content #show_more_categories_link a {
-        -moz-background-clip: border;
-        -moz-background-inline-policy: continuous;
-        -moz-background-origin: padding;
-        padding: 1px 0 5px 19px;
-        background: transparent url('/images/rssIconS.png') no-repeat scroll left top; }
-    body #content .admin_links {
-      text-align: right; }
-    body #content .4_columns {
-      -moz-column-count: 4;
-      -webkit-column-count: 4;
-      column-count: 4; }
-    body #content br {
-      background-color: #22a086; }
-    body #content .pagination {
-      font-weight: bold;
-      font-size: 118%;
-      margin-bottom: 2em; }
-      body #content .pagination a, body #content .pagination span {
-        margin: 0 .2em 0 0;
-        padding: .6em 1em;
-        background-color: #007e64;
-        -moz-border-radius: .5em;
-        -webkit-border-radius: .5em;
-        -border-radius: .5em; }
-      body #content .pagination span.disabled {
-        color: #44c2a8;
-        background-color: #f7f2e5;
-        border: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none; }
-      body #content .pagination span.current {
-        color: #ccffcc;
-        background-color: #ff445e; }
-      body #content .pagination a {
-        -moz-border-radius: .5em;
-        -webkit-border-radius: .5em;
-        -border-radius: .5em;
-        color: #ccffcc;
-        text-decoration: none; }
-        body #content .pagination a:hover, body #content .pagination a:focus {
-          border-color: #003a20;
-          background: #005c42;
-          color: #ccffcc; }
-      body #content .pagination .page_info {
-        color: #aaa;
-        padding-top: .8em; }
-      body #content .pagination .prev_page, body #content .pagination .next_page {
-        border-width: 2px; }
-      body #content .pagination .prev_page {
-        margin-right: .5em; }
-      body #content .pagination .next_page {
-        margin-left: .5em; }
-    body #content .box {
-      background-color: white;
-      padding: 1em;
-      margin-bottom: 1em;
-      -moz-border-radius: .5em;
-      -webkit-border-radius: .5em;
-      -border-radius: .5em; }
-      body #content .box h3, body #content .box h4 {
-        color: #df223c; }
-      body #content .box h3 {
-        margin: 0;
-        padding-bottom: 1em;
-        border-bottom: 2px solid;
-        border-bottom-color: #f7f2e5; }
-      body #content .box h4, body #content .box p {
-        margin: 0 0 .6em 0;
-        padding: 0; }
-    body #content .category_list .seminar {
-      border: none;
-      margin-bottom: 0; }
-      body #content .category_list .seminar.hidden_seminar {
-        display: none; }
-  body #footer {
-    margin-top: 0;
-    padding-top: 0; }
-    body #footer #logo_fac {
-      width: 100%; }
-    body #footer #footer_box {
-      position: relative;
-      margin-top: 3%;
-      display: block;
-      text-align: center;
-      min-height: 100%;
-      overflow: hidden;
-      color: #FFF;
-      background-color: #007e64;
-      -moz-border-radius: 1em;
-      -webkit-border-radius: 1em;
-      -border-radius: 1em; }
-      body #footer #footer_box #rss_feed_link, body #footer #footer_box #ical_feed_link {
-        -moz-background-clip: border;
-        -moz-background-inline-policy: continuous;
-        -moz-background-origin: padding;
-        padding: 1px 0 5px 19px; }
-      body #footer #footer_box #rss_feed_link {
-        background: transparent url('/images/rssIconS.png') no-repeat scroll left top; }
-      body #footer #footer_box #ical_feed_link {
-        background: transparent url('/images/ical_iconS.png') no-repeat scroll left top; }
-      body #footer #footer_box a {
-        color: #FFF;
-        font-weight: bold;
-        text-decoration: none; }
-      body #footer #footer_box ul {
-        position: relative;
-        list-style: none;
-        text-align: left;
-        width: 40%;
-        margin: 1em 5%;
-        float: left; }
-        body #footer #footer_box ul li {
-          width: 100%;
-          font-size: 118%;
-          padding: .5em 0;
-          border-bottom: 1px solid;
-          border-bottom-color: #22a086;
-          margin: 0; }
-          body #footer #footer_box ul li:last-child {
-            border: none; }
-
-fieldset {
-  padding: 1em;
-  margin-top: -2em;
-  background-color: #FFF;
-  border-color: #007e64;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  -border-radius: .5em; }
-  fieldset legend {
-    margin: 2em 0 0 0;
-    color: #007e64;
-    font-size: 164%; }
-
-form {
-  margin: 0 1em; }
-  form label, form .label {
-    font-weight: bold;
-    margin: .5em 0 .3em 0; }
-  form.with_blocks label, form.with_blocks input {
-    display: block; }
-  form.with_blocks input, form.with_blocks select, form.with_blocks textarea {
-    margin: 0 0 1em 0; }
-  form.with_blocks textarea {
-    height: 6em;
-    width: 300px; }
-  form.with_blocks .inline_in_form {
-    display: block; }
-    form.with_blocks .inline_in_form label, form.with_blocks .inline_in_form input, form.with_blocks .inline_in_form .label {
-      display: inline; }
-    form.with_blocks .inline_in_form input[type='text'] {
-      width: 10em; }
-  form .button {
-    margin: 1em 0 0 0; }
-  form #speakers input[type=text], form #hosts input[type=text] {
-    width: 15em; }
-  form #speakers label, form #hosts label {
-    font-weight: normal; }
-  form label[for='seminar_all_day'] {
-    font-weight: normal; }
-  form #seminar_all_day {
-    top: 0; }
-  form ul {
-    margin: 0; }
-    form ul li {
-      margin: 1em 0 0 0;
-      list-style: none;
-      list-style-position: outside; }
-
-form#show_internal_seminars {
-  margin: 1em 0 0 0; }
-
-input[type=checkbox] {
-  top: 0; }
-
-.flash {
-  margin-bottom: 1em; }
-
-.notice, .alert {
-  width: 100%;
-  margin: 0 auto 1em auto;
-  padding: 1em 0;
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: 1.5em;
-  -moz-border-radius: 1em;
-  -webkit-border-radius: 1em;
-  -border-radius: 1em; }
-
-.notice {
-  background-color: #ccffcc;
-  border: 2px solid;
-  border-color: #007e64;
-  color: #003a20; }
-
-.alert {
-  background-color: #ff88a2;
-  border: 2px solid;
-  border-color: #bd001a;
-  color: #790000; }
-
-.fieldWithErrors {
-  display: table;
-  padding: 2px;
-  background-color: #731b10;
-  color: #fff;
-  font-weight: bold; }
-
-.fieldWithErrors label {
-  padding: 2px 8px; }
-
-#errorExplanation {
-  width: 400px;
-  border: 2px solid #731b10;
-  padding: 7px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0; }
-
-#errorExplanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  background-color: #731b10;
-  color: #fff; }
-
-#errorExplanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 5px; }
-
-#errorExplanation ul li {
-  font-size: 12px;
-  list-style: square; }
-
-#javascript_disabled_notification {
-  font-size: 1.2em;
-  padding: 1em;
-  border: 2px solid #F6402D;
-  background: #FF7D58;
-  width: 60%;
-  margin: auto;
-  padding: 1em;
-  border: 2px solid #F6402D;
-  background-color: #FF7D58; }
-
-th {
-  text-align: left; }
-
-table {
-  width: 100%;
-  font-size: 12px;
-  text-align: left;
-  border-collapse: collapse; }
-  table tr th:first-child, table tr td:first-child {
-    -moz-border-radius: .5em 0 0 .5em;
-    -webkit-border-radius: .5em 0 0 .5em;
-    border-radius: .5em 0 0 .5em; }
-  table tr th:last-child, table tr td:last-child {
-    -moz-border-radius: 0 .5em .5em 0;
-    -webkit-border-radius: 0 .5em .5em 0;
-    border-radius: 0 .5em .5em 0; }
-  table thead th {
-    color: #ccffcc;
-    background-color: #007e64;
-    vertical-align: middle; }
-  table tbody {
-    color: #003a20; }
-    table tbody .odd {
-      background-color: #ccffcc; }
-
-.ajax_div {
-  z-index: 10000;
-  width: 480px;
-  margin: 20px auto auto -240px;
-  padding: 10px;
-  -moz-border-radius: 1em;
-  -webkit-border-radius: 1em;
-  -border-radius: 1em;
-  -webkit-box-shadow: 10px 10px 25px rgba(0,0,0,.8);
-  -moz-box-shadow: 10px 10px 25px rgba(0,0,0,.8);
-  box-shadow: 10px 10px 25px rgba(0,0,0,.8);
-  border: 2px solid;
-  border-color: #007e64;
-  position: fixed;
-  left: 50%;
-  background-color: #f7f2e5; }
-  .ajax_div h2 {
-    margin: 0 auto; }
-  .ajax_div #ajax_form {
-    max-height: 550px;
-    overflow: auto; }
-  .ajax_div #ZoomClose {
-    position: absolute;
-    left: -15px;
-    top: -15px;
-    cursor: pointer; }
-
-#seminars_div.ajax_div {
-  width: 880px;
-  margin: 20px auto auto -450px; }
-
-.color {
-  display: inline-block;
-  margin: 0;
-  vertical-align: middle;
-  width: 1em;
-  height: 1em; }
-
-.redstar {
-  font-family: "Lucida Grande", arial, helvetica ,sans-serif;
-  color: #bd001a;
-  font-size: 218%;
-  vertical-align: bottom; }
-
-.showing_seminar {
-  margin-top: 3em; }
-
-.alert_internal {
-  color: #bd001a;
-  text-align: center;
-  font-size: 145%; }
-
-div.auto_complete {
-  width: 350px;
-  background: #fff; }
-  div.auto_complete ul {
-    border: 1px solid #888;
-    width: 100%;
-    list-style-type: none;
-    margin: 0;
-    padding: 0; }
-    div.auto_complete ul li {
-      margin: 0;
-      padding: 3px; }
-      div.auto_complete ul li.selected {
-        background-color: #ffb; }
-    div.auto_complete ul strong.highlight {
-      color: #800;
-      margin: 0;
-      padding: 0; }
-
-#pictures ul {
-  list-style: none;
-  margin: 0; }
-  #pictures ul li {
-    float: left;
-    margin-right: 1em; }
-#pictures a img {
-  border: .5em solid white;
-  -webkit-box-shadow: 5px 5px 12px #999;
-  -moz-box-shadow: 5px 5px 12px #999;
-  box-shadow: 5px 5px 12px #999; }
-
-#ZoomImage {
-  border: 1em solid white;
-  -webkit-box-shadow: 10px 10px 25px #999;
-  -moz-box-shadow: 10px 10px 25px #999;
-  box-shadow: 10px 10px 25px #999; }
-
-.seminar_publications dl dd p {
-  margin-bottom: 0; }
-.seminar_publications dl dd p:last-child {
-  margin-bottom: 1em; }
-.seminar_publications p#big_ajax_loader {
-  text-align: center;
-  font-weight: bold; }
-  .seminar_publications p#big_ajax_loader img {
-    display: block;
-    position: relative;
-    margin: 1em auto 0 auto;
-    background-color: #007e64;
-    padding: 1em;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -border-radius: 1em; }
-
-#documents h3, #pictures h3, #publications h3 {
-  margin: 1em 0 .6em 0; }
-
-.red_dot {
-  color: red; }
+Backtrace:
+/Users/yannis/Dropbox/railsapp/bioseminars/public/stylesheets/sass/old_sass/application.sass:7
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/scss/parser.rb:899:in `expected'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/script/lexer.rb:193:in `expected!'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/script/parser.rb:443:in `assert_expr'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/script/parser.rb:49:in `parse'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/script/parser.rb:140:in `parse'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/script.rb:32:in `parse'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:814:in `parse_script'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:585:in `parse_property'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:536:in `parse_line'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:448:in `build_tree'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:467:in `append_children'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:466:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:466:in `append_children'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:457:in `build_tree'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:450:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:450:in `build_tree'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:467:in `append_children'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:466:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:466:in `append_children'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:323:in `_to_tree'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:293:in `_render'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:241:in `render'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/util.rb:297:in `silence_sass_warnings'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/engine.rb:241:in `render'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:319:in `update_stylesheet'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:181:in `update_stylesheets'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:175:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:175:in `update_stylesheets'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:173:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/compiler.rb:173:in `update_stylesheets'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin.rb:81:in `update_stylesheets'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin.rb:54:in `check_for_updates'
+/usr/local/lib/ruby/gems/1.8/gems/sass-3.1.8/lib/sass/../sass/plugin/rack.rb:51:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/warden-1.0.5/lib/warden/manager.rb:35:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/warden-1.0.5/lib/warden/manager.rb:34:in `catch'
+/usr/local/lib/ruby/gems/1.8/gems/warden-1.0.5/lib/warden/manager.rb:34:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/methodoverride.rb:24:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/cookies.rb:302:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-3.0.10/lib/active_record/query_cache.rb:32:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-3.0.10/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-3.0.10/lib/active_record/query_cache.rb:12:in `cache'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-3.0.10/lib/active_record/query_cache.rb:31:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-3.0.10/lib/active_record/connection_adapters/abstract/connection_pool.rb:354:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-3.0.10/lib/active_support/callbacks.rb:416:in `_run_call_callbacks'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/sendfile.rb:106:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/show_exceptions.rb:47:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/rack/logger.rb:13:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/runtime.rb:17:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-3.0.10/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/lock.rb:11:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/lock.rb:11:in `synchronize'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/lock.rb:11:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/actionpack-3.0.10/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/airbrake-3.0.4/lib/airbrake/user_informer.rb:12:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:168:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:77:in `send'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/application.rb:77:in `method_missing'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/content_length.rb:13:in `call'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/handler/webrick.rb:52:in `service'
+/usr/local/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/local/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/local/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/local/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/local/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/local/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/local/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/local/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/local/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/local/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/handler/webrick.rb:13:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rack-1.2.4/lib/rack/server.rb:217:in `start'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands/server.rb:65:in `start'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:30
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:27:in `tap'
+/usr/local/lib/ruby/gems/1.8/gems/railties-3.0.10/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Invalid CSS after \"\": expected expression (e.g. 1px, bold), was \"= !background\"\A         on line 7 of /Users/yannis/Dropbox/railsapp/bioseminars/public/stylesheets/sass/old_sass/application.sass\A \A 2: @font-face\A 3:   :font-family TheSans\A 4:   :src url('/fonts/TheSansPlain.ttf')\A 5:   \A 6: body\A 7:   :background-color = !background\A 8:   :color #333\A 9:   :font-family \"Lucida Grande\", helvetica, arial, sans-serif\A 10:   :font-size   62.5%\A 11:   :line-height 1.5em\A 12:   h2, h3, h4, h5"; }

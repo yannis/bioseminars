@@ -28,17 +28,17 @@ class SeminarsController < ApplicationController
     if params[:scope] == 'future'
       params[:scope] = 'future'
       query << "now_or_future"
-    elsif params[:scope] == 'all'
-      query << "all"
+    # elsif params[:scope] == 'all'
+    #   query << "all"
     elsif params[:scope] == 'past'
       query << "past"
     end
     query <<  "before_date(Date.parse(params['before']))" if params[:before] and Date.parse(params[:before])
     query << "after_date(Date.parse(params['after']))" if params[:after] and Date.parse(params[:after])
-    query << 'all' if query.size == 1
+
     @query = query.join('.')
     
-    @seminars = eval(@query)
+    @seminars = @query.blank? ? Seminar : eval(@query)
     respond_with @seminars do |format|
       format.html {
         @seminars = @seminars.paginate(:page => params[:page])

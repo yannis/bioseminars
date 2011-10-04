@@ -1,11 +1,11 @@
 @import defines.sass
 table.calendar
   :width 100%
-  :background-color = !background
+  :background-color $background
   :margin 0
   :border-collapse inherit
   :border .5em solid
-  :border-color = !green
+  :border-color $green
   :-moz-border-radius .5em
   :-webkit-border-radius .5em
   :border-radius .5em
@@ -48,11 +48,11 @@ table.calendar
     :-webkit-border-bottom-right-radius 0
     :border-bottom-right-radius 0
   thead tr th
-    :background-color = !green  
+    :background-color $green  
     :-moz-border-radius-bottomleft 0
     :-webkit-border-bottom-left-radius 0
     :border-bottom-left-radius 0
-    :color = !background
+    :color $background
   th.links_to_today_previous_next
     :text-align right
     img
@@ -94,8 +94,8 @@ table.calendar
   td.normalDay, td.specialDay
     :vertical-align top
     :border 1px dotted
-    :border-color = !green
-    :color = !darkgreen
+    :border-color $green
+    :color $darkgreen
     .day_info
       :font-weight bold
       .month_name
@@ -111,14 +111,14 @@ table.calendar
     
   .monthName
     :text-align left
-    :color = !verydarkgreen
+    :color $verydarkgreen
     :font-weight bold
     :font-size 145%
   .dayName th
     :font-size 1em
     :padding-top 0.6em
     :padding-bottom 0.3em
-    :background-color = !green
+    :background-color $green
     :color white
 
   .day
@@ -158,6 +158,6 @@ table.calendar
         :font-weight normal
         :font-size .9em
   .weekendDay
-    :background-color = !veryverylightgreen
+    :background-color $veryverylightgreen
   .today
-    :background-color = !veryverylightorange
+    :background-color $veryverylightorange

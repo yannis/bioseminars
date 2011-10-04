@@ -1,6 +1,6 @@
-/*!darkgreen = #007E64 */
-/*!verydarkgreen = !darkgreen - #222222 */
-/*!lightgreen = #E5F3E5 */
+/*$darkgreen: #007E64 */
+/*$verydarkgreen: $darkgreen - #222222 */
+/*$lightgreen: #E5F3E5 */
 .ui-tooltip-accessible {
   left: -10000em !important;
   top: -10000em !important;

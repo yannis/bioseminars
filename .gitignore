@@ -1,4 +1,14 @@
-.bundle
+.DS_Store
+log/*
+tmp/*
+db/schema.rb
+db/schema.sql
+public/system
+index/*
 db/*.sqlite3
 log/*.log
 tmp/**/*
+genev.tmproj
+public/cache/*
+public/javascripts/all.js
+public/stylesheets/base.css

@@ -1,9 +1,8 @@
-# if ENV['DEPLOY'] == 'PRODUCTION'
+require 'airbrake/capistrano'
+require 'bundler/capistrano'
+require 'new_relic/recipes'
+
 set :domain, "129.194.57.17"
-# elsif ENV['DEPLOY'] == 'STAGING'
-#    puts "*** Deploying to the STAGING server!"
-#    set :domain, "129.194.56.197"
-# end
 set :application, "bioSeminars"
 set :user, 'yannis'
 set :scm, :git
@@ -12,17 +11,9 @@ set :ssh_options, { :forward_agent => true }
 set :repository,  "ssh://code@129.194.56.197/Users/code/git_repository/seminars/.git"
 set :use_sudo, false
 
-
-
-# If you aren't deploying to /u/apps/#{application} on the target
-# servers (which is the default), you can specify the actual location
-# via the :deploy_to variable:
 set :deploy_to, "/Users/yannis/capistrano/bioseminars"
 set :branch, "master"
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
 
 role :app, domain
 role :web, domain
@@ -70,5 +61,3 @@ end
 
 after 'deploy:update_code', 'bundler:symlink_bundled_gems'
 after 'deploy:update_code', 'bundler:install'
-# require 'config/boot'
-require 'hoptoad_notifier/capistrano'

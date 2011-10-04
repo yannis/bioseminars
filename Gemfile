@@ -1,33 +1,32 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.6'
+gem 'rails', '3.0.10'
+gem 'rake', '0.8.7'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-# gem "ruby-mysql"
-gem 'mysql2', '~>0.2'
-gem "devise", '~>1.2'
-gem "cancan", '~>1.6'
-gem "haml"
+gem 'mysql2', '0.2.13'
+gem "haml-rails"
+gem 'sass'
+gem "devise"
+gem "cancan"
 gem "hpricot"
 gem "ruby_parser"
 gem "jquery-rails"
 gem 'icalendar'
-gem 'paperclip', '>=2.3.8'
+gem 'paperclip'
 gem "bio", '1.4.0'
 gem "calendar_date_select"
 gem 'htmlentities'
-gem 'will_paginate', '3.0.pre2'
+gem 'will_paginate', '~>3.0.2'
 gem 'rails3-generators'
-gem 'hoptoad_notifier', ">=2.3.11"
+gem 'airbrake'
+gem "newrelic_rpm"
 
-group :test do  
+group :test, :development do  
   gem "shoulda", ">=2.11.2"
-  gem "mocha"
   gem "factory_girl", ">=1.3.2"
   gem "factory_girl_rails"
   gem 'capybara'
   gem "capybara-envjs"
   gem 'database_cleaner'
+  # gem 'timecop'
 end 

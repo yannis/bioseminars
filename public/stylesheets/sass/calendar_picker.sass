@@ -6,11 +6,11 @@
   :-webkit-border-radius .5em
   :-border-radius .5em
   :border 2px solid
-  :border-color = !green
+  :border-color $green
   :display block
   :width 190px
   :z-index 1000
-  :background-color = !background
+  :background-color $background
 
 
 iframe.ie6_blocker
@@ -21,7 +21,7 @@ iframe.ie6_blocker
 .calendar_date_select
   :margin 0
   thead
-    :background-color = !green
+    :background-color $green
     th
       :font-weight bold
       :color #FFF
@@ -33,7 +33,7 @@ iframe.ie6_blocker
     span.at_sign
       :display none
     a
-      :color = !lightred
+      :color $lightred
       :font-size 9px
 
   .cds_footer
@@ -55,13 +55,13 @@ iframe.ie6_blocker
   .cds_header
     :padding 2px 0 0 0
     :margin 0 auto
-    :background-color = !green
+    :background-color $green
     :text-align center
     a
       :font-size 145%
       :line-height 1em
       :font-weight bold
-      :color = !verylightred !important
+      :color $verylightred !important
 
       &:hover
         :color white
@@ -90,13 +90,13 @@ iframe.ie6_blocker
     :vertical-align middle
 
     &.weekend
-      :background-color = !veryverylightgreen
+      :background-color $veryverylightgreen
     .other
       :opacity .5
 
   tbody td
     :border 1px dotted
-    :border-color = !green
+    :border-color $green
 
   td
     &.selected
