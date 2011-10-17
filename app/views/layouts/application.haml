@@ -1,13 +1,13 @@
 !!!
 %html
   %head
+    = airbrake_javascript_notifier
     %meta{:charset => "UTF-8"}
     %title= @title || "bioSeminars - Life Sciences seminars at the University of Geneva"
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
     %meta{:name=>"author", :content=>"Yannis Jaquet, Gregory Theiler"}/
     %meta{:name => "robots", :content => "all"}
     %meta{:name => 'description', :content => "Calendar of all Life Sciences seminars organized at the University of Geneva (Switzerland), Faculty of Sciences"}
-    -# %link{:rel => "shortcut icon", :href => "http://bioseminars.unige.ch/favicon.ico"}/
     = favicon_link_tag
     = csrf_meta_tag
     = stylesheet_link_tag 'reset', 'jquery-ui-1.8.5.custom.css', '/gritter/css/jquery.gritter.css', '/qtip/jquery.qtip.css', 'my_qtip_style', 'ajax_div', 'form', 'application', :media => "screen, projection", :cache => 'base'

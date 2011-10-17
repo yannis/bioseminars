@@ -76,13 +76,13 @@ class ApplicationController < ActionController::Base
   
   def render_not_found(exception)
     logger.error(exception)
-    notify_hoptoad(exception)
+    notify_airbrake(exception)
     render :template => "/errors/404", :status => 404
   end
   
   def render_error(exception)
     logger.error(exception)
-    notify_hoptoad(exception)
+    notify_airbrake(exception)
     render :template => "/errors/500", :status => 500
   end
 end
