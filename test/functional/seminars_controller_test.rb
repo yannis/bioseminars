@@ -411,4 +411,33 @@ class SeminarsControllerTest < ActionController::TestCase
       end
     end
   end
-end
+  
+  context "With 10 seminars in the database" do
+    setup do
+      10.times do
+        Factory :seminar
+      end
+    end
+    
+    context "on get to index" do
+      should "assigns to 10 seminar" do
+        get :index
+        assert_equal assigns(:seminars).size, 10
+      end
+      context "with a limit param of 3 and the xml format" do
+        should "assigns to 10 seminar" do
+          get :index, :limit => '3', :format => :xml
+          assert_equal assigns(:seminars).size, 3
+        end
+      end
+      context "with an invalid limit param and the xml format" do
+        should "assigns to 10 seminar" do
+          get :index, :limit => 'hdfgfjhgjh', :format => :xml
+          assert_equal assigns(:seminars).size, 10
+        end
+      end
+    end  
+  end    
+end      
+         
+         

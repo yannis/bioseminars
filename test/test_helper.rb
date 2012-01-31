@@ -29,6 +29,6 @@ end
 
 module ActionDispatch
   class IntegrationTest
-    include Capybara
+    include Capybara::DSL
   end
 end

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.0.11'
 gem 'rake', '0.8.7'
 
 gem 'mysql2', '0.2.13'
@@ -21,12 +21,19 @@ gem 'rails3-generators'
 gem 'airbrake'
 gem "newrelic_rpm"
 
-group :test, :development do  
-  gem "shoulda", ">=2.11.2"
-  gem "factory_girl", ">=1.3.2"
+
+group :test, :development do
+  gem "shoulda"
   gem "factory_girl_rails"
-  gem 'capybara'
-  gem "capybara-envjs"
-  gem 'database_cleaner'
-  # gem 'timecop'
-end 
+  gem "capybara"
+  gem 'rb-fsevent'
+  gem "database_cleaner"
+  gem "livereload"
+  gem "spork", "~>0.9.0rc9"
+  gem "spork-testunit"
+  gem "guard"
+  gem "guard-sass"
+  gem "guard-test"
+  gem "guard-spork"
+  gem "guard-livereload"
+end

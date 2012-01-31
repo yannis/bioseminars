@@ -24,6 +24,9 @@ class SeminarsController < ApplicationController
       query << 'all_for_user(current_user)'
       @title = "Seminars recorded by #{current_user.name}"
     end
+    if params[:limit] && params[:limit].to_i > 0
+      query << "limit(#{params[:limit].to_i})"
+    end
     query << "of_categories(@categories_to_show)" unless @categories_to_show.blank?
     if params[:scope] == 'future'
       params[:scope] = 'future'
@@ -82,6 +85,7 @@ class SeminarsController < ApplicationController
   
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    @title = "Calendar: #{@date.strftime('%B %Y')}"
     @categories = Category.all
     @categories_to_show = Category.find(params[:categories].split(' ')-['internal']) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false

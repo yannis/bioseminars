@@ -333,7 +333,7 @@ class SeminarTest < ActiveSupport::TestCase
       end
       
       should "have 3 publications" do
-        assert @seminar.publications.size, 3
+        assert_equal @seminar.publications.size, 3
       end
       
       should "have the title of one of the publications == 'Epigenetic temporal control of mouse Hox genes in vivo.'" do

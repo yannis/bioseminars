@@ -16,7 +16,7 @@ class LocationTest < ActiveSupport::TestCase
     end
     
     should 'be valid' do
-      assert @location.valid?, @location.errors.full_messages
+      assert @location.valid?, @location.errors.full_messages.to_sentence
     end
     
     should "have name_and_building == 'room 4059 (SCIII)'" do
