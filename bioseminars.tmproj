@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>app/helpers/form_helper.rb</string>
+	<string>config/deploy.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -13,16 +13,44 @@
 			<string>wallet</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|rails|log|tmp|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>selected</key>
-			<true/>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>310</integer>
+	<integer>305</integer>
 	<key>metaData</key>
 	<dict>
+		<key>Gemfile</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>11</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>14</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+		</dict>
 		<key>Gemfile.lock</key>
 		<dict>
 			<key>caret</key>
@@ -137,6 +165,36 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>app/views/layouts/application.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>63</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>36</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>103</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>63</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+		</dict>
 		<key>app/views/layouts/application.haml~</key>
 		<dict>
 			<key>caret</key>
@@ -145,6 +203,20 @@
 				<integer>25</integer>
 				<key>line</key>
 				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/layouts/iframe.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>21</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -164,6 +236,36 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/_calendar.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>75</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>35</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>75</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
 		</dict>
 		<key>app/views/seminars/_picture.haml</key>
 		<dict>
@@ -209,6 +311,20 @@
 				<integer>3</integer>
 			</dict>
 		</dict>
+		<key>app/views/seminars/calendar.js.erb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>app/views/seminars/create.js.erb</key>
 		<dict>
 			<key>caret</key>
@@ -239,6 +355,48 @@
 				<integer>40</integer>
 			</dict>
 		</dict>
+		<key>app/views/seminars/iframe.haml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.rss.builder</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>23</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>app/views/seminars/index.rxml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>app/views/seminars/insert_person_in_form.rjs</key>
 		<dict>
 			<key>caret</key>
@@ -268,6 +426,20 @@
 				<key>line</key>
 				<integer>0</integer>
 			</dict>
+		</dict>
+		<key>app/views/seminars/show.xml.builder</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>app/views/seminars/validate_pubmed_ids.js.erb</key>
 		<dict>
@@ -341,6 +513,50 @@
 				<integer>0</integer>
 				<key>line</key>
 				<integer>2</integer>
+			</dict>
+		</dict>
+		<key>config/deploy.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>63</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>11</integer>
+		</dict>
+		<key>config/environments/production.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>42</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>7</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>42</integer>
+				<key>line</key>
+				<integer>12</integer>
 			</dict>
 		</dict>
 		<key>doc/js/app.js</key>
@@ -464,29 +680,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>156</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>129</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>19</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>156</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>156</integer>
 			</dict>
 		</dict>
 		<key>public/javascripts/jq/jquery-ui-1.8.5.custom.min.js</key>
@@ -524,29 +740,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>730</integer>
+				<integer>497</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>687</integer>
+			<integer>368</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>11</integer>
 				<key>line</key>
-				<integer>730</integer>
+				<integer>497</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>730</integer>
+				<integer>497</integer>
 			</dict>
 		</dict>
 		<key>public/javascripts/jq/jquery-ui-timepicker-addon.min.js</key>
@@ -561,9 +777,9 @@
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
-			<integer>0</integer>
+			<integer>9955</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>21</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
@@ -757,6 +973,7 @@
 	<key>openDocuments</key>
 	<array>
 		<string>app/helpers/form_helper.rb</string>
+		<string>Gemfile</string>
 		<string>app/helpers/seminars_helper.rb</string>
 		<string>app/helpers/application_helper.rb</string>
 		<string>doc/js/app.js</string>
@@ -768,12 +985,22 @@
 		<string>vendor/plugins/calendar_helper/lib/calendar_helper.rb</string>
 		<string>app/views/seminars/_seminar_for_calendar.haml</string>
 		<string>public/javascripts/application.js</string>
+		<string>config/deploy.rb</string>
+		<string>config/environments/production.rb</string>
+		<string>app/views/seminars/iframe.haml</string>
+		<string>app/views/layouts/iframe.haml</string>
+		<string>app/views/seminars/_calendar.haml</string>
+		<string>app/views/seminars/calendar.js.erb</string>
 		<string>public/stylesheets/sass/my_qtip_style.sass</string>
 		<string>public/javascripts/jq/jquery.cookie.js</string>
 		<string>app/views/seminars/validate_pubmed_ids.js.erb</string>
 		<string>public/javascripts/jq/jquery-ui-1.8.5.custom.min.js</string>
 		<string>public/javascripts/jq/jquery-ui-timepicker-addon.min.js</string>
 		<string>public/javascripts/jq/jquery-ui-timepicker-addon.js</string>
+		<string>app/views/layouts/application.haml</string>
+		<string>app/views/seminars/index.rss.builder</string>
+		<string>app/views/seminars/show.xml.builder</string>
+		<string>app/views/seminars/index.rxml</string>
 		<string>public/stylesheets/fluid/js/jquery-ui.js</string>
 		<string>app/views/seminars/create.js.erb</string>
 		<string>app/views/seminars/insert_person_in_form.rjs</string>
@@ -792,8 +1019,44 @@
 		<string>lib/tasks/deadweight.rake</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
+	<false/>
+	<key>showFileHierarchyPanel</key>
 	<true/>
+	<key>treeState</key>
+	<dict>
+		<key>wallet</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict>
+				<key>public</key>
+				<dict>
+					<key>isExpanded</key>
+					<true/>
+					<key>subItems</key>
+					<dict>
+						<key>javascripts</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict>
+								<key>jq</key>
+								<dict>
+									<key>isExpanded</key>
+									<true/>
+									<key>subItems</key>
+									<dict/>
+								</dict>
+							</dict>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
 	<key>windowFrame</key>
-	<string>{{320, 4}, {1600, 1174}}</string>
+	<string>{{0, 4}, {1440, 874}}</string>
 </dict>
 </plist>

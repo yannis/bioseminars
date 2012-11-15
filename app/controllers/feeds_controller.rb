@@ -1,5 +1,5 @@
-class FeedsController < ApplicationController  
-  
+class FeedsController < ApplicationController
+
   def index
     @categories = Category.all
     cat = []
@@ -23,10 +23,11 @@ class FeedsController < ApplicationController
     @rss_feed = seminars_url(:format => 'rss', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @ical_feed = seminars_url(:protocol => 'webcal://', :format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @ics_feed = seminars_url(:format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @json_feed = seminars_url(:format => 'json', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @xml_feed = seminars_url(:format => 'xml', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @iframe = calendar_seminars_url(:format => 'iframe', :categories => selected_cat.join(' '), :internal => @internal.to_s)
   end
-  
+
   # def create
   #   @categories = Category.all
   #   cat = []
@@ -54,6 +55,6 @@ class FeedsController < ApplicationController
   #   @iframe = calendar_seminars_url(:format => 'iframe', :categories => selected_cat.join(' '), :internal => @internal.to_s)
   #   respond_to do |format|
   #     format.html{ render :index}
-  #   end        
+  #   end
   # end
 end

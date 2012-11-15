@@ -23,6 +23,7 @@ gem "newrelic_rpm"
 
 
 group :test, :development do
+  gem 'capistrano'
   gem "shoulda"
   gem "factory_girl_rails"
   gem "capybara"

@@ -17,6 +17,6 @@
     #iframe
       = yield :layout
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
-    = javascript_include_tag 'jq/jquery-ui-1.8.5.custom.min.js', '/gritter/js/jquery.gritter.min.js', '/qtip/jquery.qtip.min.js', 'jq/jquery.json-2.2.min.js', 'jq/jquery.cookie.js', 'jq/rails', 'application', :cache => 'all_iframe'
+    = javascript_include_tag 'jq/jquery-ui-1.8.5.custom.min.js', 'jq/jquery-ui-timepicker-addon.min.js', '/gritter/js/jquery.gritter.min.js', '/qtip/jquery.qtip.min.js', 'jq/jquery.json-2.2.min.js', 'jq/jquery.cookie.js', 'jq/rails', 'application', :cache => 'all_iframe'
     = yield :javascript
     = yield :document_ready

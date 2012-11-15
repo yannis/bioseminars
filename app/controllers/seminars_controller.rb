@@ -1,10 +1,10 @@
 class SeminarsController < ApplicationController
-  
+
   load_and_authorize_resource
   before_filter :set_variables
   before_filter :set_next_seminar, :only => ['index', 'show', 'calendar']
-  respond_to :html
-  
+  respond_to :html, :json
+
   def index
     @categories = Category.all
     begin
@@ -13,11 +13,11 @@ class SeminarsController < ApplicationController
       @categories_to_show = @categories
     end
     @internal = params[:internal] == 'true' ? true : false
-    
+
     query = ['Seminar']
     if params[:order].blank?
       query << "sort_by_order('asc')"
-    else 
+    else
       query << "sort_by_order(params['order'])"
     end
     if params[:user_id]
@@ -40,7 +40,7 @@ class SeminarsController < ApplicationController
     query << "after_date(Date.parse(params['after']))" if params[:after] and Date.parse(params[:after])
 
     @query = query.join('.')
-    
+
     @seminars = @query.blank? ? Seminar : eval(@query)
     respond_with @seminars do |format|
       format.html {
@@ -52,7 +52,9 @@ class SeminarsController < ApplicationController
       #   @seminars = eval(@query)
       #   render :json => {:name => "David"}.to_json
       # }
-      
+      format.json {
+        render :json => @seminars
+      }
       format.xml {
         render 'index', :layout => false
       }
@@ -82,7 +84,7 @@ class SeminarsController < ApplicationController
       }
     end
   end
-  
+
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @title = "Calendar: #{@date.strftime('%B %Y')}"
@@ -92,24 +94,26 @@ class SeminarsController < ApplicationController
     @seminars = @categories_to_show.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories_to_show).all_day_first
     @seminars_for_feeds = @categories_to_show.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories_to_show)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
-    
+
     respond_to do |format|
       format.html
-      format.iframe  { render 'iframe', :layout => 'layouts/iframe' }
+      format.iframe  {
+        response.headers['X-Frame-Options'] = 'Allow-From http://unige.ch'
+        render 'iframe', :layout => 'layouts/iframe'
+      }
       format.js { render :layout => false}
     end
   end
-  
+
   def show
-    respond_to do |format|
-      format.html {render 'show'}
+    Rails.logger.info "params: #{params}"
+    respond_with @seminar do |format|
+      # format.html {render 'show'}
       format.xml  {
         render :template => false
       }
       format.js {render 'mini_seminar', :layout => false}
-      format.json  {
-        render :json => @seminar.to_json
-      }
+      format.json {render :json => @seminar}
       format.ics do
         cal_event = Icalendar::Event.new
         cal_event.start = @seminar.start_on.to_s(:rfc2445) unless @seminar.start_on.blank?
@@ -146,7 +150,7 @@ class SeminarsController < ApplicationController
 
   def edit
   end
-  
+
   def create
     @seminar = current_user.seminars.new(params[:seminar])
     respond_to do |format|
@@ -176,10 +180,10 @@ class SeminarsController < ApplicationController
           format.html { render 'new' }
         end
       else
-        
+
         respond_to do |format|
           format.html { redirect_back_or_default(seminars_path) }
-        end       
+        end
       end
   end
 
@@ -192,7 +196,7 @@ class SeminarsController < ApplicationController
     end
     respond_with @seminar
   end
-  
+
   def destroy
     if @seminar.destroy
       flash.now[:notice] = 'Seminar was successfully deleted.'
@@ -213,7 +217,7 @@ class SeminarsController < ApplicationController
       }
     end
   end
-  
+
   def load_publications
     @seminar = Seminar.find(params[:id])
     @publications = @seminar.publications
@@ -221,25 +225,25 @@ class SeminarsController < ApplicationController
       format.js {render :content_type => 'text/javascript', :layout => false}
     end
   end
-  
+
   def validate_pubmed_ids
     @messages = Seminar.validate_pubmed_ids(params[:pubmed_ids])
     respond_to do |format|
       format.js {render :content_type => 'text/javascript', :layout => false}
     end
   end
-  
+
   def about
   end
-  
+
   protected
-  
+
   def set_variables
     @buildings = Building.all
     @categories = Category.all
     @next_seminar = Seminar.next.first
   end
-  
+
   def set_next_seminar
     @next_seminar = Seminar.next.first
   end

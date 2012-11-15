@@ -1,13 +1,13 @@
 class BuildingsController < ApplicationController
-  
+
   load_and_authorize_resource
   respond_to :html, :js, :xml
-  
+
   def index
     @new_building = Building.new
     respond_with @buildings
   end
-  
+
   def show
     @seminars = @building.seminars.paginate(:page => params[:page])
     @new_building = Building.new
@@ -17,7 +17,7 @@ class BuildingsController < ApplicationController
       format.xml  { render :xml => @building }
     end
   end
-  
+
   def new
     @origin = params[:origin]
 
@@ -25,16 +25,16 @@ class BuildingsController < ApplicationController
       format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
     end
   end
-  
+
   def edit
     respond_with @building do |format|
       format.js {  render 'layouts/edit', :content_type => 'text/javascript', :layout => false  }
     end
   end
-  
+
   def create
     if @building.save
-      flash[:notice] = 'Building was successfully created'      
+      flash[:notice] = 'Building was successfully created'
       respond_with @building do |format|
         format.js{
           @origin = params[:origin]
@@ -42,7 +42,7 @@ class BuildingsController < ApplicationController
         }
       end
     else
-      flash[:alert] = 'Building not created'      
+      flash[:alert] = 'Building not created'
       respond_with @building do |format|
         format.js{
           @origin = params[:origin]
@@ -51,7 +51,7 @@ class BuildingsController < ApplicationController
       end
     end
   end
-  
+
   #   def create
   #   if @building.save
   #     flash[:notice] = 'Building was successfully created.'
@@ -65,7 +65,7 @@ class BuildingsController < ApplicationController
   #     }
   #   end
   # end
-  
+
   def update
     if @building.update_attributes(params[:building])
       flash[:notice] = 'Building was successfully updated'
@@ -76,7 +76,7 @@ class BuildingsController < ApplicationController
       format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
     end
   end
-  
+
   def destroy
     if @building.destroy
       flash[:notice] = 'Building was successfully deleted'

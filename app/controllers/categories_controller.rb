@@ -1,17 +1,15 @@
 class CategoriesController < ApplicationController
-  
+
   load_and_authorize_resource
   respond_to :html
-  
+
   def index
     @category = Category.new
-
-    respond_to do |format|
-      format.html
+    respond_with @categories do |format|
       format.xml  { render :xml => @categories }
     end
   end
-  
+
   def show
     @seminars = @category.seminars.paginate(:page => params[:page])
     @new_category = Category.new
@@ -21,7 +19,7 @@ class CategoriesController < ApplicationController
       format.xml  { render :xml => @category }
     end
   end
-  
+
   def new
     @origin = params[:origin]
 
@@ -35,7 +33,7 @@ class CategoriesController < ApplicationController
       format.js { render 'layouts/edit', :content_type => 'text/javascript', :layout => false }
     end
   end
-  
+
   def create
     @category = Category.new(params[:category])
     if @category.save
@@ -55,7 +53,7 @@ class CategoriesController < ApplicationController
       }
     end
   end
-  
+
   def update
     if @category.update_attributes(params[:category])
       flash[:notice] = 'Category successfully updated'
@@ -66,7 +64,7 @@ class CategoriesController < ApplicationController
       format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
     end
   end
-  
+
   def destroy
     if @category.destroy
       flash[:notice] = 'Category was successfully deleted'
@@ -77,8 +75,8 @@ class CategoriesController < ApplicationController
       format.js { render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false }
     end
   end
-  
-  def reorder    
+
+  def reorder
     # @categories = Category.accessible_by(current_ability)
     # authorize! :reorder, @categories
     ids = eval(params[:ids_in_order]).map{|p| p.delete('category_')}

@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class DocumentTest < ActiveSupport::TestCase
-  
+
   fixtures :all
-  
+
   should belong_to :model
   should have_attached_file :data
   should validate_attachment_presence :data
