@@ -1,6 +1,7 @@
 - stylesheet '/colorpicker/css/colorpicker.css'
 - javascript '/colorpicker/js/colorpicker.js'
-- document_ready "set_colorpicker('##{f.object.color}');"
+- document_ready "set_colorpicker('##{f.object.color}');".html_safe
+
 %p#mandatory_fields
   %span.red_asterisk *
   mandatory

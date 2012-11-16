@@ -109,7 +109,7 @@ class Seminar < ActiveRecord::Base
         end
       end
     end
-    return messages
+    return messages.compact
   end
 
   def human_date(datetime)

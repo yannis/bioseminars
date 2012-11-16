@@ -25,6 +25,7 @@ class FeedsController < ApplicationController
     @ics_feed = seminars_url(:format => 'ics', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @json_feed = seminars_url(:format => 'json', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @xml_feed = seminars_url(:format => 'xml', :categories => selected_cat.join(' '), :internal => @internal.to_s)
+    @json_feed = seminars_url(:format => 'json', :categories => selected_cat.join(' '), :internal => @internal.to_s)
     @iframe = calendar_seminars_url(:format => 'iframe', :categories => selected_cat.join(' '), :internal => @internal.to_s)
   end
 

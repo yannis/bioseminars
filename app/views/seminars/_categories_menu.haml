@@ -1,15 +1,15 @@
-- document_ready %{show_hide_categories()}
+- document_ready %{show_hide_categories()}.html_safe
 %section#categories.categories_hidden.group.box
   = image_tag('closebox.png', :id => 'ZoomClose', :size => '30x30')
   %h1 Categories
   = form_tag feeds_path do
-    #all_categories.group 
+    #all_categories.group
       - if @categories.size >= 8
         - cat_size = @categories.size
-        - num_cat_per_list = cat_size/4.floor 
+        - num_cat_per_list = cat_size/4.floor
         - ints = [(0..num_cat_per_list-1), (num_cat_per_list..2*num_cat_per_list), (1+2*num_cat_per_list..1+3*num_cat_per_list), (2+3*num_cat_per_list..@categories.size)]
         - for i in ints
-          %ul{:class => "#{'hidden_categories' unless i == (0..num_cat_per_list-1)}", :id => "#{i == (0..num_cat_per_list-1) ? 'categories_to_show' : 'categories_to_not_show_'+i.first.to_s}"}          
+          %ul{:class => "#{'hidden_categories' unless i == (0..num_cat_per_list-1)}", :id => "#{i == (0..num_cat_per_list-1) ? 'categories_to_show' : 'categories_to_not_show_'+i.first.to_s}"}
             - if i == (0..num_cat_per_list-1)
               %li
                 = label_tag :internal do

@@ -16,7 +16,7 @@ class SeminarTest < ActiveSupport::TestCase
   should validate_presence_of :end_on
 
   should "validate_pubmed_ids" do
-    assert_equal Seminar.validate_pubmed_ids('19557678 19498168, 19266017 554666666666666666666666'), ["The Hox complex - an interview with Denis Duboule. Interviewed by Richardson, Michael K.", "Epigenetic temporal control of mouse Hox genes in vivo.", "Uncoupling time and space in the collinear regulation of Hox genes."]
+    assert_equal ["The Hox complex - an interview with Denis Duboule. Interviewed by Richardson, Michael K.", "Epigenetic temporal control of mouse Hox genes in vivo.", "Uncoupling time and space in the collinear regulation of Hox genes."], Seminar.validate_pubmed_ids('19557678 19498168, 19266017 554666666666666666666666').compact
   end
 
   should "have various named_scope" do

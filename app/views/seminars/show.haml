@@ -1,8 +1,9 @@
 - javascript '/javascripts/FancyZoom_1.1/js-global/FancyZoom.js'
 - javascript '/javascripts/FancyZoom_1.1/js-global/FancyZoomHTML.js'
 - functions_to_load = ["setupZoom()"]
+
 - functions_to_load << load_publications_for(@seminar) unless @seminar.pubmed_ids.blank?
-- document_ready functions_to_load.join(';')
+- document_ready functions_to_load.join(';').html_safe
 .left_column
   #links_to_next_and_previous
     = link_to "previous <", seminar_path(@seminar.previous_seminar) unless @seminar.previous_seminar.nil?

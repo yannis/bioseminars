@@ -14,15 +14,18 @@
     %dt XML feed
     %dd{:style => 'overflow: auto'}
       = link_to @xml_feed, @xml_feed
+    %dt JSON feed
+    %dd{:style => 'overflow: auto'}
+      = link_to @json_feed, @json_feed
     %dt iFrame link
     %dd
       = link_to(@iframe, @iframe)
   %h3 Integrate the calendar in your website
   %object{:type => "text/html", :data => @iframe, :style => "width: 100%; height: 500px;"}
-    %p 
+    %p
       Your calendar cannot be loaded. See all the different seminars
       = link_to('here', root_url)+'.'
-      
+
   %h4
     Embed code
   %textarea{:style => 'height: 6em; width: 100%', :rows => '4', :cols => '50'}
