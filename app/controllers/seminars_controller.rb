@@ -19,7 +19,7 @@ class SeminarsController < ApplicationController
     @seminars = Seminar.includes(:location, :hosts, :speakers, :category, :documents, :pictures)
     @seminars = @seminars.internal(params[:internal] == 'true') if params[:internal]
     if params[:order]
-      @seminars = @seminars.order("seminars.start_on ?", params[:order])
+      @seminars = @seminars.order("seminars.start_on #{params[:order] == 'asc' ? 'ASC' : 'DESC'}")
     else
       @seminars = @seminars.order("seminars.start_on ASC")
     end
