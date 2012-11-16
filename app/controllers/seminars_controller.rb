@@ -7,54 +7,85 @@ class SeminarsController < ApplicationController
 
   def index
     @categories = Category.all
-    begin
-      @categories_to_show = @categories.select{|c| params[:categories].split(' ').include?(c.id.to_s) } if params[:categories]
-    rescue
-      @categories_to_show = @categories
-    end
-    @internal = params[:internal] == 'true' ? true : false
+    # category_ids = params[:categories].split(' ')
+    # categories_to_show = Category.where :id => params[:categories].split(' ')
+    # begin
+    #   @categories_to_show = @categories.select{|c| params[:categories].split(' ').include?(c.id.to_s) } if params[:categories]
+    # rescue
+    #   @categories_to_show = @categories
+    # end
+    # @internal = params[:internal] == 'true' ? true : false
 
-    query = ['Seminar']
-    if params[:order].blank?
-      query << "sort_by_order('asc')"
+    @seminars = Seminar.includes(:location, :hosts, :speakers, :category, :documents, :pictures)
+    @seminars = @seminars.internal(params[:internal] == 'true') if params[:internal]
+    if params[:order]
+      @seminars = @seminars.order("seminars.start_on ?", params[:order])
     else
-      query << "sort_by_order(params['order'])"
+      @seminars = @seminars.order("seminars.start_on ASC")
     end
     if params[:user_id]
-      query << 'all_for_user(current_user)'
-      @title = "Seminars recorded by #{current_user.name}"
+      @user = User.find params[:user_id]
+      @seminars = @seminars.where(:user_id => @user.id)
+      @title = "Seminars recorded by #{@user.name}"
     end
     if params[:limit] && params[:limit].to_i > 0
-      query << "limit(#{params[:limit].to_i})"
+      @seminars = @seminars.limit(params[:limit])
     end
-    query << "of_categories(@categories_to_show)" unless @categories_to_show.blank?
+    @seminars = @seminars.where(:category_id => params[:categories].split(' ')) if params[:categories]
     if params[:scope] == 'future'
-      params[:scope] = 'future'
-      query << "now_or_future"
-    # elsif params[:scope] == 'all'
-    #   query << "all"
+      @seminars = @seminars.now_or_future
     elsif params[:scope] == 'past'
-      query << "past"
+      @seminars = @seminars.past
     end
-    query <<  "before_date(Date.parse(params['before']))" if params[:before] and Date.parse(params[:before])
-    query << "after_date(Date.parse(params['after']))" if params[:after] and Date.parse(params[:after])
 
-    @query = query.join('.')
+    if params[:before] && Date.parse(params[:before])
+      @seminars = @seminars.before_date(Date.parse(params['before']))
+    end
+    if params[:after] && Date.parse(params[:after])
+      @seminars = @seminars.after_date(Date.parse(params['after']))
+    end
 
-    @seminars = @query.blank? ? Seminar : eval(@query)
+    @seminars = @seminars.limit(200) if @seminars.count > 200
+
+    # query = ['Seminar']
+    # if params[:order].blank?
+    #   query << "sort_by_order('asc')"
+    # else
+    #   query << "sort_by_order(params['order'])"
+    # end
+    # if params[:user_id]
+    #   query << 'all_for_user(current_user)'
+    #   @title = "Seminars recorded by #{current_user.name}"
+    # end
+    # if params[:limit] && params[:limit].to_i > 0
+    #   query << "limit(#{params[:limit].to_i})"
+    # end
+    # query << "of_categories(@categories_to_show)" unless @categories_to_show.blank?
+    # if params[:scope] == 'future'
+    #   params[:scope] = 'future'
+    #   query << "now_or_future"
+    # # elsif params[:scope] == 'all'
+    # #   query << "all"
+    # elsif params[:scope] == 'past'
+    #   query << "past"
+    # end
+    # query <<  "before_date(Date.parse(params['before']))" if params[:before] and Date.parse(params[:before])
+    # query << "after_date(Date.parse(params['after']))" if params[:after] and Date.parse(params[:after])
+
+    # @query = query.join('.')
+    #
+    # @seminars = @query.blank? ? Seminar : eval(@query)
+    # @seminars.includes(:location, :hosts, :speakers, :categories)
     respond_with @seminars do |format|
       format.html {
         @seminars = @seminars.paginate(:page => params[:page])
-        (@seminars = @seminars.paginate(:page => '1') and params[:page] = '1') if @seminars.size == 0
+        (@seminars = @seminars.paginate(:page => '1') and params[:page] = '1') if @seminars.count == 0
         @seminars_with_publication = @seminars.select{|s| !s.pubmed_ids.blank? }
       }
-      # format.json  {
-      #   @seminars = eval(@query)
-      #   render :json => {:name => "David"}.to_json
-      # }
       format.json {
         render :json => @seminars
       }
+
       format.xml {
         render 'index', :layout => false
       }
@@ -86,13 +117,14 @@ class SeminarsController < ApplicationController
   end
 
   def calendar
+    @seminars = Seminar.includes(:location, :hosts, :speakers, :category, :documents, :pictures)
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @title = "Calendar: #{@date.strftime('%B %Y')}"
     @categories = Category.all
-    @categories_to_show = Category.find(params[:categories].split(' ')-['internal']) unless params[:categories].blank?
+    # categories_to_show = Category.where(params[:categories].split(' ')) unless params[:categories].blank?
     @internal = params[:internal] == 'true' ? true : false
-    @seminars = @categories_to_show.nil? ? Seminar.of_month(@date).all_day_first : Seminar.of_month(@date).of_categories(@categories_to_show).all_day_first
-    @seminars_for_feeds = @categories_to_show.nil? ? Seminar.find(:all) : Seminar.of_categories(@categories_to_show)
+    @seminars = params[:categories] ? @seminars.of_month(@date).where(:category_id => params[:categories].split(' ')).all_day_first : @seminars.of_month(@date)
+    @seminars_for_feeds = params[:categories] ? @seminars.where(:category_id => params[:categories].split(' ')) : @seminars.find(:all)
     @days_with_seminars = @seminars.map{|s| s.days}.flatten.compact.uniq
 
     respond_to do |format|

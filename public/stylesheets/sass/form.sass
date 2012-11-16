@@ -9,7 +9,7 @@ form
   padding: 1em
   h1, h2, h3, h4
     color: $lightred
-  h1         
+  h1
     padding-bottom: .6em
     margin-bottom: .6em
     border-bottom: 2px solid $lightred
@@ -47,7 +47,9 @@ form
   &#new_or_edit_form
     position: fixed
     width: 20%
-      
+  &#user_new
+    width: 20em
+
   .group
     padding: 0
     margin-bottom: 1em
@@ -65,7 +67,7 @@ form
       border-color: $lightred
   .error_message
     color: $lightred
-    
+
   fieldset
     margin: 0 0 1em 0
     padding: 1em
@@ -129,11 +131,11 @@ form
         +image_thumbnail
 .red_asterisk
   color: $red
-  
+
 // specific case
 input#seminar_all_day
   margin-left: 1em
-      
+
 ////-> Ajax div
 //.large_form
 //  a
@@ -148,7 +150,7 @@ input#seminar_all_day
 //    #seminar_all_day
 //      display: inline
 //    input[type=text]
-//      width: 50%   
+//      width: 50%
 //  input[type=checkbox]
 //    display: inline
 //    width: auto
@@ -167,7 +169,7 @@ input#seminar_all_day
 //  h4, p
 //    margin: 0 0 .6em 0
 //    padding: 0
-//  
+//
 //  select
 //    width: 20%
 //    &.date_time
@@ -249,7 +251,7 @@ input#seminar_all_day
 //    position: relative
 //    legend
 //      font-size: 164%
-//      font-weight: bold   
+//      font-weight: bold
 //    .group
 //      width: 100%
 //      margin-bottom: 1em

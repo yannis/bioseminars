@@ -605,6 +605,9 @@ span.by {
     font-size: 118%; }
 
 /* css for timepicker */
+.ui-datepicker {
+  display: none; }
+
 .ui-timepicker-div {
   font-size: 0.9em;
   font-weight: bold; }

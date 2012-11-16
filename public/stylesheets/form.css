@@ -44,6 +44,8 @@ form {
   form#new_or_edit_form {
     position: fixed;
     width: 20%; }
+  form#user_new {
+    width: 20em; }
   form .group {
     padding: 0;
     margin-bottom: 1em; }

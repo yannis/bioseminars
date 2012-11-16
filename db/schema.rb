@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101015084711) do
+ActiveRecord::Schema.define(:version => 20121116082512) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name",        :null => false
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20101015084711) do
     t.datetime "data_updated_at"
   end
 
+  add_index "documents", ["model_type", "model_id"], :name => "index_documents_on_model_type_and_model_id"
+
   create_table "hostings", :force => true do |t|
     t.integer "host_id",    :null => false
     t.integer "seminar_id", :null => false
@@ -64,6 +66,8 @@ ActiveRecord::Schema.define(:version => 20101015084711) do
     t.datetime "updated_at"
   end
 
+  add_index "locations", ["building_id"], :name => "index_locations_on_building_id"
+
   create_table "pictures", :force => true do |t|
     t.integer  "model_id",          :null => false
     t.string   "model_type",        :null => false
@@ -74,6 +78,8 @@ ActiveRecord::Schema.define(:version => 20101015084711) do
     t.integer  "data_file_size"
     t.datetime "data_updated_at"
   end
+
+  add_index "pictures", ["model_type", "model_id"], :name => "index_pictures_on_model_type_and_model_id"
 
   create_table "seminars", :force => true do |t|
     t.string   "title"
@@ -104,6 +110,8 @@ ActiveRecord::Schema.define(:version => 20101015084711) do
     t.string   "title"
     t.integer  "seminar_id"
   end
+
+  add_index "speakers", ["seminar_id"], :name => "index_speakers_on_seminar_id"
 
   create_table "users", :force => true do |t|
     t.string   "name",                      :limit => 100, :null => false

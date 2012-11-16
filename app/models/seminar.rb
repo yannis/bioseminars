@@ -32,6 +32,8 @@ class Seminar < ActiveRecord::Base
 
   validate :presence_of_speakers, :presence_of_hostings, :validate_host_uniqueness
 
+  delegate :name, :to => :category, :prefix => true
+
   # validate do |seminar|
   #   for hosting in seminar.hostings
   #     hosting.errors.add(:host_id, "Host already selected.") if !hosting.marked_for_destruction? && seminar.hostings.select{|h| h.host_id == hosting.host_id}.size > 1
@@ -301,7 +303,7 @@ class Seminar < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:only => [:id], :include => {:hosts => {:only => [:name, :email]}, :speakers => {:only => [:name]}}, :methods => [:next_seminar_id, :previous_seminar_id, :date_time_location_and_category, :mini_seminar_title])
+    super(:except => [:user_id] ,:include => {:hosts => {:only => [:name, :email]}, :category => {:only => [:name]}, :speakers => {:only => [:name, :affiliation, :title]}}, :methods => [:next_seminar_id, :previous_seminar_id, :date_time_location_and_category, :mini_seminar_title])
   end
 
 
