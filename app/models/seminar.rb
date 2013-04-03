@@ -303,7 +303,7 @@ class Seminar < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:except => [:user_id] ,:include => {:hosts => {:only => [:name, :email]}, :category => {:only => [:name]}, :speakers => {:only => [:name, :affiliation, :title]}}, :methods => [:next_seminar_id, :previous_seminar_id, :date_time_location_and_category, :mini_seminar_title])
+    super(:except => [:user_id] ,:include => {:hosts => {:only => [:name, :email]}, :category => {:only => [:id,:name]}, :speakers => {:only => [:name, :affiliation, :title]}}, :methods => [:next_seminar_id, :previous_seminar_id, :date_time_location_and_category, :mini_seminar_title])
   end
 
 
