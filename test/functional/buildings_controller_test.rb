@@ -7,20 +7,20 @@ class BuildingsControllerTest < ActionController::TestCase
   should route(:put, '/buildings/1').to(:action => :update, :id => "1")
   should route(:delete, '/buildings/1').to(:action => :destroy, :id => 1)
   should route(:get, '/buildings/new').to(:action => :new)
-  
+
   context "2 buildings in the database," do
     setup do
       @building1 = Factory :building
       @building2 = Factory :building
     end
-    
+
     context "when not logged_in," do
 
       context "on :get to :index" do
         setup do
           get :index
         end
-        
+
         should respond_with :success
         should assign_to :buildings
         should render_template :index
@@ -30,7 +30,7 @@ class BuildingsControllerTest < ActionController::TestCase
         setup do
           get :new
         end
-        
+
         should redirect_to("/") { root_path }
         should respond_with 302
         should set_the_flash.to(/You are not authorized to access this page/)
@@ -46,7 +46,7 @@ class BuildingsControllerTest < ActionController::TestCase
         setup do
           get :index
         end
-        
+
         should respond_with :success
         should assign_to :buildings
         should render_template :index
@@ -65,12 +65,12 @@ class BuildingsControllerTest < ActionController::TestCase
         end
       end
     end
-    
+
     context "when logged_in as admin," do
       setup do
          sign_in users(:admin)
       end
-      
+
       context "on :get to :index" do
         setup do
           get :index
@@ -156,7 +156,7 @@ class BuildingsControllerTest < ActionController::TestCase
         should assign_to :building
         should redirect_to("building view") { building_url(assigns(:building)) }
         should respond_with 302
-        
+
         should "change Building.count :by => 1" do
           assert_equal Building.count-@buildings_count, 1
         end
@@ -172,7 +172,7 @@ class BuildingsControllerTest < ActionController::TestCase
         should assign_to :building
         should respond_with 200
         should render_template 'layouts/insert_in_table'
-        
+
         should "change Building.count :by => 1" do
           assert_equal Building.count-@buildings_count, 1
         end
@@ -196,13 +196,13 @@ class BuildingsControllerTest < ActionController::TestCase
         end
           should set_the_flash.to(/Building was successfully updated/)
       end
-      
+
       context "on :delete to :destroy with  :id => @building1.id" do
         setup do
           @buildings_count = Building.count
           delete :destroy, :id => @building1.id
         end
-        
+
         should "change Building.count :by => -1" do
           assert_equal Building.count-@buildings_count, -1
         end

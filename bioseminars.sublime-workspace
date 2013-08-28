@@ -519,6 +519,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "app/models/seminar.rb",
+			"settings":
+			{
+				"buffer_size": 12058,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/unit/seminar_test.rb",
+			"settings":
+			{
+				"buffer_size": 13614,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -656,6 +672,8 @@
 	},
 	"file_history":
 	[
+		"/Users/Yannis/Dropbox/railsapp/bioseminars/lib/tasks/.gitkeep",
+		"/Users/Yannis/Dropbox/railsapp/bioseminars/bioseminars.sublime-project",
 		"/Users/Yannis/Dropbox/railsapp/genev2/app/views/admin/publications/index.haml",
 		"/Users/Yannis/Dropbox/railsapp/genev2/config/locales/calendar.en.yml",
 		"/Users/Yannis/Dropbox/railsapp/genev2/config/locales/calendar.fr.yml",
@@ -781,9 +799,7 @@
 		"/Users/Yannis/Dropbox/railsapp/myanimals/config/environments/production.rb",
 		"/Users/Yannis/Dropbox/railsapp/myanimals/config/unicorn.rb",
 		"/Users/Yannis/Dropbox/railsapp/myanimals/config/unicorn.god",
-		"/Users/Yannis/Dropbox/railsapp/myanimals/config/database.yml",
-		"/Users/Yannis/Dropbox/railsapp/myanimals/config/deploy.rb",
-		"/Users/Yannis/Dropbox/railsapp/myanimals/app/models/animal.rb"
+		"/Users/Yannis/Dropbox/railsapp/myanimals/config/database.yml"
 	],
 	"find":
 	{
@@ -1036,8 +1052,65 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "app/models/seminar.rb",
+					"settings":
+					{
+						"buffer_size": 12058,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10531,
+								10531
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5681.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "test/unit/seminar_test.rb",
+					"settings":
+					{
+						"buffer_size": 13614,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1090,6 +1163,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"gitkee",
+				"lib/tasks/.gitkeep"
+			],
+			[
+				"seminartest",
+				"test/unit/seminar_test.rb"
+			],
+			[
+				"seminarrb",
+				"app/models/seminar.rb"
+			],
 			[
 				"seminar",
 				"app/models/seminar.rb"
@@ -1589,18 +1674,6 @@
 			[
 				"animalcontr",
 				"spec/controllers/animals_controller_spec.rb"
-			],
-			[
-				"muanigi",
-				"lib/multiple_animal_gift.rb"
-			],
-			[
-				"animagifs",
-				"spec/modules/animal_gift_spec.rb"
-			],
-			[
-				"multipleanimal",
-				"spec/models/multiple_animal_spec.rb"
 			]
 		],
 		"width": 0.0

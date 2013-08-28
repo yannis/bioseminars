@@ -107,8 +107,9 @@ class SeminarsController < ApplicationController
           summary << seminar.speakers.map{|s| s.name_and_affiliation}
           summary << "Hosted by "+seminar.hosts.map(&:name).join(', ')
           cal_event.summary = summary.join(' | ')
+          # cal_event.summary = 'paffff'
           cal_event.url = seminar_url(seminar)
-          cal_event.description = seminar.description unless seminar.description.blank?
+          # cal_event.description = seminar.description.gsub("\\n", "\r\n") unless seminar.description.blank?
           cal.add_event(cal_event.to_ical)
         end
         render :text => cal.to_ical

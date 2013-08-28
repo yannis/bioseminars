@@ -8,7 +8,7 @@ require 'capybara/dsl'
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess # to allow file upload
   include Paperclip::Shoulda::Matchers
-  fixtures :all 
+  fixtures :all
 end
 
 

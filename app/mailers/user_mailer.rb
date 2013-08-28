@@ -1,7 +1,7 @@
 class UserMailer < ActionMailer::Base
-  
-  default :from => "noreply_bioseminars@unige.ch"
-  
+
+  default :from => "genev-webapps@unige.ch"
+
   def signup_notification(user)
     @url  = new_user_session_url
     @user = user

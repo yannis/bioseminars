@@ -25,7 +25,7 @@ gem "newrelic_rpm"
 group :test, :development do
   gem 'capistrano'
   gem "shoulda"
-  gem "factory_girl_rails"
+  gem "factory_girl_rails", "1.6.0"
   gem "capybara"
   gem 'rb-fsevent'
   gem "database_cleaner"

@@ -1,10 +1,10 @@
 # define an incremental username
 Factory.sequence :name do |n|
-  "#{n}" 
+  "#{n}"
 end
 
 Factory.sequence :user_email do |n|
-  "email_#{n}@email.com" 
+  "email_#{n}@email.com"
 end
 
 Factory.define :category do |i|
@@ -15,7 +15,7 @@ Factory.define :category do |i|
 end
 
 Factory.define :document do |i|
-  # i.attach  :data, "/test/fixtures/files/30_278_H.pdf", "application/pdf" 
+  # i.attach  :data, "/test/fixtures/files/30_278_H.pdf", "application/pdf"
   i.data File.new("#{Rails.root}/test/fixtures/files/30_278_H.pdf")
   i.association :model, :factory => :seminar
 end
@@ -46,7 +46,7 @@ Factory.define :location do |i|
 end
 
 Factory.define :picture do |i|
-  # i.attach  :data, "/test/fixtures/files/30_278_H.pdf", "application/pdf" 
+  # i.attach  :data, "/test/fixtures/files/30_278_H.pdf", "application/pdf"
   i.data File.new("#{Rails.root}/test/fixtures/files/rails.png")
   i.association :model, :factory => :seminar
 end
