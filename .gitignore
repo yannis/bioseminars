@@ -1,4 +1,6 @@
 .DS_Store
+.sasscache
+.yardoc
 db/schema.rb
 db/schema.sql
 db/*.sqlite3
