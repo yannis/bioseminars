@@ -1,0 +1,159 @@
+/*$darkgreen: #007E64 */
+/*$verydarkgreen: $darkgreen - #222222 */
+/*$lightgreen: #E5F3E5 */
+form {
+  background-color: white;
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  margin-bottom: 1em;
+  padding: 1em; }
+  form h1, form h2, form h3, form h4 {
+    color: #df223c; }
+  form h1 {
+    padding-bottom: 0.6em;
+    margin-bottom: 0.6em;
+    border-bottom: 2px solid #df223c;
+    font-size: 2em; }
+  form h4, form p {
+    margin: 0 0 0.6em 0;
+    padding: 0; }
+  form p {
+    margin-bottom: 1em; }
+    form p:last-child {
+      margin-bottom: 0; }
+  form label, form .label {
+    display: block;
+    font-weight: bold; }
+    form label.for_check_box, form .label.for_check_box {
+      display: inline; }
+  form input {
+    display: inline; }
+    form input[type=checkbox], form input[type=hidden] {
+      background-color: red;
+      display: inline;
+      width: auto; }
+  form textarea {
+    width: 100%;
+    height: 3em; }
+  form #mandatory_fields {
+    float: right;
+    margin: 0; }
+  form .label_and_input {
+    margin-bottom: 1em; }
+  form#new_or_edit_form {
+    position: fixed;
+    width: 20%; }
+  form#user_new {
+    width: 20em; }
+  form .group {
+    padding: 0;
+    margin-bottom: 1em; }
+    form .group label {
+      text-align: left;
+      float: left;
+      width: 30%; }
+    form .group input, form .group textarea, form .group select {
+      float: left;
+      width: 65%; }
+  form .field_with_errors {
+    display: inline; }
+    form .field_with_errors input[type=text], form .field_with_errors textarea, form .field_with_errors input[type=password] {
+      background-color: #ff88a2;
+      border-color: #df223c; }
+  form .error_message {
+    color: #df223c; }
+  form fieldset {
+    margin: 0 0 1em 0;
+    padding: 1em;
+    border: 2px solid #f7f2e5; }
+    form fieldset legend {
+      -moz-border-radius: 0.5em;
+      -webkit-border-radius: 0.5em;
+      -border-radius: 0.5em;
+      padding: 0.5em;
+      font-size: 1em;
+      font-weight: bold;
+      border: 2px solid #f7f2e5; }
+    form fieldset textarea {
+      height: 6em;
+      width: 50%; }
+    form fieldset#speakers .inline_in_form, form fieldset#hosts .inline_in_form {
+      display: block;
+      width: 100%;
+      margin-bottom: 0; }
+      form fieldset#speakers .inline_in_form .label_and_input, form fieldset#hosts .inline_in_form .label_and_input {
+        display: block;
+        float: left;
+        width: 20%;
+        margin-right: 2em; }
+        form fieldset#speakers .inline_in_form .label_and_input label, form fieldset#speakers .inline_in_form .label_and_input input, form fieldset#speakers .inline_in_form .label_and_input .formError, form fieldset#speakers .inline_in_form .label_and_input select, form fieldset#speakers .inline_in_form .label_and_input .label, form fieldset#hosts .inline_in_form .label_and_input label, form fieldset#hosts .inline_in_form .label_and_input input, form fieldset#hosts .inline_in_form .label_and_input .formError, form fieldset#hosts .inline_in_form .label_and_input select, form fieldset#hosts .inline_in_form .label_and_input .label {
+          display: block;
+          width: 100%; }
+        form fieldset#speakers .inline_in_form .label_and_input select, form fieldset#hosts .inline_in_form .label_and_input select {
+          position: relative;
+          top: 5px; }
+        form fieldset#speakers .inline_in_form .label_and_input.seminar_title, form fieldset#hosts .inline_in_form .label_and_input.seminar_title {
+          width: 40%;
+          max-width: 40%; }
+        form fieldset#speakers .inline_in_form .label_and_input.remove_link, form fieldset#hosts .inline_in_form .label_and_input.remove_link {
+          width: 5%; }
+          form fieldset#speakers .inline_in_form .label_and_input.remove_link a, form fieldset#hosts .inline_in_form .label_and_input.remove_link a {
+            -moz-background-clip: border;
+            -moz-background-inline-policy: continuous;
+            -moz-background-origin: padding;
+            padding: 1px 0 5px 19px;
+            background: transparent url("/images/delete.png") no-repeat scroll left top;
+            display: block;
+            margin-top: 2em; }
+        form fieldset#speakers .inline_in_form .label_and_input.or_create, form fieldset#hosts .inline_in_form .label_and_input.or_create {
+          display: block;
+          margin-top: 2em;
+          width: 8em;
+          font-weight: bold; }
+    form fieldset#speakers .add_link, form fieldset#hosts .add_link {
+      -moz-background-clip: border;
+      -moz-background-inline-policy: continuous;
+      -moz-background-origin: padding;
+      padding: 1px 0 5px 19px;
+      background: transparent url("/images/add.png") no-repeat scroll left top; }
+    form fieldset #documents, form fieldset #pictures, form fieldset .document_or_picture {
+      margin-bottom: 1em; }
+    form fieldset #pictures a img {
+      border: 0.2em solid white;
+      -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      -moz-border-radius: 0.2em;
+      -webkit-border-radius: 0.2em;
+      -border-radius: 0.2em; }
+
+.red_asterisk {
+  color: #bd001a; }
+
+input#seminar_all_day {
+  margin-left: 1em; }
+
+#errorExplanation {
+  width: 98%;
+  margin: auto;
+  border: 2px solid;
+  border-color: #9b0000;
+  color: #9b0000;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #ff88a2;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -border-radius: 0.5em; }
+  #errorExplanation h2 {
+    color: white;
+    border-bottom: 0;
+    padding-bottom: 0.6em; }
+  #errorExplanation p {
+    font-weight: bold; }
+  #errorExplanation li {
+    list-style: disc inside;
+    color: white;
+    font-size: 118%;
+    font-weight: bold; }

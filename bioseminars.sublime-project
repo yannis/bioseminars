@@ -1,10 +1,10 @@
 {
-	"folders":
-	[
-		{
-			"path": "/Users/Yannis/Dropbox/railsapp/bioseminars",
+  "folders":
+  [
+    {
+      "path": "~/railsapps/bioseminars",
       "folder_exclude_patterns": ["rails", "log", ".sass-cache", ".yardoc"],
       "file_exclude_patterns": ["*sublime*"]
-		}
-	]
+    }
+  ]
 }
