@@ -70,5 +70,5 @@ namespace :deploy do
   end
 end
 
-# after "deploy:cleanup", "deploy:restart"
-# after "deploy:restart", "airbrake:deploy"
+after "deploy:cleanup", "deploy:restart"
+after "deploy:restart", "airbrake:deploy"
