@@ -1,6 +1,7 @@
 # config valid only for Capistrano 3.1
 lock '3.1.0'
 set :repo_url, 'git@github.com:yannis/bioseminars.git'
+set :git_enable_submodules, 1
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }

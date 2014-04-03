@@ -28,14 +28,13 @@ module Bioseminars
 
     config.action_mailer.default_url_options = { host: Rails.application.secrets.mailer_host }
 
-    config.assets.paths << "#{Rails.root}/vendor/bootstrap-3"
+    config.assets.paths << "#{Rails.root}/vendor/bootstrap-3/dist"
     config.assets.paths << "#{Rails.root}/vendor/bootstrap-datetimepicker"
     config.assets.paths << "#{Rails.root}/vendor/jquery-miniColors"
     config.assets.paths << "#{Rails.root}/vendor/momentjs"
     config.assets.paths << "#{Rails.root}/vendor/bootbox"
     config.assets.paths << "#{Rails.root}/vendor/fullcalendar"
     config.assets.paths << "#{Rails.root}/vendor/jquery.qtip.custom"
-    # config.assets.paths << "#{Rails.root}/vendor/ember-data-extensions/dist"
     config.assets.paths << "#{Rails.root}/vendor/zeroclipboard"
   end
 end
