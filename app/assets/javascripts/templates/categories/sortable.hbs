@@ -1,0 +1,12 @@
+<li class="categories-category list-group-item"  {{bind-attr data-id="id"}}>
+  {{#if App.Session.authUser.admin}}
+    <span class="category-sortable-handle glyphicon glyphicon-sort"></span>
+  {{/if}}
+  {{view Ember.Checkbox checkedBinding="showMe"}}
+  <span class="category-color" {{bind-attr style="colorStyle"}}></span>
+  {{#link-to "category" this}}{{ name}}{{/link-to}}
+  {{#if description}}
+    <br />
+    {{description}}
+  {{/if}}
+</li>

@@ -1,0 +1,24 @@
+<div class="list-group-item-heading">
+  <em>
+    show: {{show}}
+    <span class="category-color" {{bind-attr style="colorStyle"}}></span>
+    {{date_time_location_and_category}}
+  </em>
+  <h2>
+    {{#link-to "seminar" this}}{{ title }}{{/link-to}}
+  </h2>
+</div>
+<div class="list-group-item-text">
+  <p class='seminars-seminar-speakers'>
+    <em>by</em>
+    {{speakerName}} ({{speakerAffiliation}})
+  </p>
+  {{#if hosts}}
+    <p class='seminars-seminar-hosts'>
+      <em>Hosted by</em>
+      {{#each host in hosts}}
+        {{host.name}}
+      {{/each}}
+    </p>
+  {{/if}}
+</div>

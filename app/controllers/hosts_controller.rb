@@ -1,68 +1,42 @@
 class HostsController < ApplicationController
-  
-  load_and_authorize_resource
-  respond_to :html, :js, :xml
-  
+
   def index
-    @host = Host.new
+    @hosts = @current_resource
+    respond_with @hosts
   end
-  
+
   def show
-    @seminars = @host.seminars.paginate(:page => params[:page])
-    @new_host = Host.new
+    @host = @current_resource
+    respond_with @host
   end
-  
-  def new
-    @origin = params[:origin]
-    respond_with @host do |format|
-      format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
+
+  def create
+    @host = Host.new(params[:host])
+    if @host.save
+      render json: @host, status: :created, location: @host
+    else
+      render json: {errors: @host.errors}, status: :unprocessable_entity
     end
   end
 
-  def edit
-    respond_with @host do |format|
-      format.js { render 'layouts/edit', :content_type => 'text/javascript', :layout => false }
-    end
-  end
-  
-  def create
-    # @host = Host.new(params[:host])
-    if @host.save
-      flash[:notice] = 'Host was successfully created'
-    else
-      flash[:alert] = 'Host not created'
-    end
-    respond_with @host do |format|
-      format.js{
-        @origin = params[:origin]
-        if @origin.nil?
-          render 'layouts/insert_in_table', :content_type => 'text/javascript', :layout => false
-        else
-          render 'create', :content_type => 'text/javascript', :layout => false
-        end
-      }
-    end
-  end
-  
   def update
+    @host = @current_resource
     if @host.update_attributes(params[:host])
-      flash[:notice] = 'Host was successfully updated'
+      render json: nil, status: :ok
     else
-      flash[:alert] = 'Host not updated'
-    end
-    respond_with @host do |format|
-      format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
+      render json: {errors: @host.errors}, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
-    if @host.destroy
-      flash[:notice] = 'Host was successfully deleted'
-    else
-      flash[:alert] = 'Unable to destroy host'
-    end
-    respond_with @host do |format|
-      format.js { render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false }
-    end
+    @host = @current_resource
+    @host.destroy
+    render json: nil, status: :ok
+  end
+
+private
+
+  def current_resource
+    @current_resource ||= params[:id] ? Host.find(params[:id]) : Host.all
   end
 end

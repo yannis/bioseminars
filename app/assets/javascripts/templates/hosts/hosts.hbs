@@ -1,0 +1,15 @@
+<div class="row" id='hosts'>
+  <div class="col-md-8 col-xs-12">
+    <h2>{{controller.pageTitle}}</h2>
+    <ul class="hosts-hosts list-group">
+      {{#each controller}}
+        <li class="hosts-host list-group-item">
+          {{#link-to 'host' this}}{{name}}{{/link-to}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    {{outlet}}
+  </div>
+</div>

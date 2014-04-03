@@ -1,88 +1,82 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-  # check_authorization :unless => :devise_controller?
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+  before_filter :authenticate_user_from_token!
+  before_filter :authorize, unless: :devise_controller?
+  before_filter :configure_permitted_parameters, if: :devise_controller?
 
-  # before_filter :login_required, :except => [:back]
-  before_filter :store_location_if_html, :only => ["index", "show"]
+  delegate :allow_action?, to: :current_permission
+  helper_method :allow_param?
 
-  # see http://www.perfectline.co.uk/blog/custom-dynamic-error-pages-in-ruby-on-rails
-  unless Rails.application.config.consider_all_requests_local
-    rescue_from Exception,                            :with => :render_error
-    rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
-    rescue_from ActionController::RoutingError,       :with => :render_not_found
-    rescue_from ActionController::UnknownController,  :with => :render_not_found
-    rescue_from ActionController::UnknownAction,      :with => :render_not_found
-  end
+  delegate :allow_param?, to: :current_permission
+  helper_method :allow_param?
+  layout false
+  respond_to :json, :html
 
-  rescue_from CanCan::AccessDenied do |exception|
-    flash[:alert] = exception.message
-    redirect_to root_url
-  end
+  # # unless Rails.application.config.consider_all_requests_local
+  #   rescue_from Exception,                            with: :render_error
+  #   rescue_from ActiveRecord::RecordNotFound,         with: :render_error
+  #   # rescue_from ActionController::RoutingError,       with: :render_not_found
+  #   # rescue_from ActionController::UnknownController,  with: :render_not_found
+  #   # rescue_from ActionController::UnknownAction,      with: :render_not_found
+  # # end
 
-  def back
-    redirect_back_or_default('/')
-  end
 
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
+  # # def render_not_found(exception)
+  # #   logger.error(exception)
+  # #   notify_airbrake(exception)
+  # #   render json: {errors: exception.message}, status: :unprocessable_entity && return
+  # #   render(json: exception.message, status: :unprocessable_entity) && return
+  # # end
 
-  protected
-
-  # def admin_required
-  #   unless user_signed_in? and current_user.admin?
-  #     redirect_to new_user_session_path, :alert => "No credentials."
-  #   end
-  # end
-  #
-  # def basic_or_admin_required
-  #   unless user_signed_in?
-  #     redirect_to new_user_session_path, :alert => "No credentials."
-  #   end
+  # def render_error(e)
+  #   Rails.logger.debug "e: #{e}"
+  #   # notify_airbrake(e)
+  #   render json: {errors: e.message}, status: :unprocessable_entity && return
   # end
 
-  protected
-  def store_location_if_html
-    respond_to do |format|
-      format.html {store_location}
-      format.js {return false}
-      format.json {return false}
-      format.xml {return false}
-      format.rss {return false}
-      # format.iframe {return false}
-      format.ics {return false}
+protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << :name
+    devise_parameter_sanitizer.for(:sign_up) << :admin
+  end
+
+private
+
+  def current_permission
+    @current_permission ||= Permissions.permission_for(current_user)
+  end
+
+  def current_resource
+    nil
+  end
+
+  def authorize
+    if params[:user_id] && params[:authentication_token] && params[:controller] == "users" && params[:action] == "index"
+      respond_with User.where(id: params[:user_id], authentication_token: params[:authentication_token])
+    else
+      if current_permission.allow_action?(params[:controller], params[:action], current_resource)
+        current_permission.permit_params! params
+      else
+        render json: {success: false, message: "You are not authorized to access this page"}, status: :unauthorized
+      end
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    render(json: (e ? e.message : 'Unable to find object(s)'), status: :unprocessable_entity) && return
+  end
+
+  def authenticate_user_from_token!
+    user_email = params[:user_email].presence
+    user       = user_email && User.find_by_email(user_email)
+
+    # Notice how we use Devise.secure_compare to compare the token
+    # in the database with the token given in the params, mitigating
+    # timing attacks.
+    if user && Devise.secure_compare(user.authentication_token, params[:user_token])
+      sign_in user, store: false
     end
   end
 
-  def back
-    redirect_back_or_default('/')
-  end
-
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
-
-  # def after_sign_in_path_for(resource)
-  #   session[:return_to] || root_path
-  # end
-
-  private
-
-  def store_location
-    session[:return_to] = request.fullpath
-  end
-
-  def render_not_found(exception)
-    logger.error(exception)
-    notify_airbrake(exception)
-    render :template => "/errors/404", :status => 404
-  end
-
-  def render_error(exception)
-    logger.error(exception)
-    notify_airbrake(exception)
-    render :template => "/errors/500", :status => 500
-  end
 end

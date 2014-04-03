@@ -1,0 +1,170 @@
+<div class="panel panel-info seminar-form form-horizontal">
+  <div class="panel-heading">
+    <button type="button" class="close" aria-hidden="true" {{action "cancel" content}}>&times;</button>
+    <h3 class="panel-title">{{controller.pageTitle}}</h3>
+  </div>
+  <div class="panel-body">
+    {{#if validationErrors }}
+      <div class="alert alert-danger">{{validationErrors}}</div>
+    {{/if}}
+    <div class='form-group'>
+      <div class="col-sm-2 control-label">
+        <label for="form-seminar-categorisations" >Categories</label>
+        <span class="help-block">
+          {{#link-to "categories.new" }}Create a new category{{/link-to}}
+        </span>
+      </div>
+      <div class="col-sm-10">
+        <ul class="list-group">
+          {{#each categorisation in categorisations}}
+            <li class="list-group-item">
+              {{#if categorisation.isNew}}
+                {{view Em.Select
+                  viewName="select"
+                  contentBinding="selectCategories"
+                  optionLabelPath="content.name"
+                  optionValuePath="content.id"
+                  selectionBinding="categorisation.category"
+                  id="form-seminar-categorisations"
+                }}
+              {{ else }}
+                {{categorisation.category_name}}
+              {{/if}}
+              <a class="btn btn-xs btn-danger" href="#" {{action "removeCategorisation" categorisation}}>Destroy</a>
+            </li class="list-group-item">
+          {{/each}}
+        </ul>
+        <a href="#" {{action "addCategorisation" content}}>Add a category</a>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <label for="form-seminar-title" class="col-sm-2 control-label">Title</label>
+      <div class="col-sm-10">
+        {{view Em.TextField id='form-seminar-title' valueBinding="title" placeholder='Title' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-speakerName" class="col-sm-2 control-label">Speaker name</label>
+      <div class="col-sm-10">
+        {{view Em.TextField id='form-seminar-speakerName' valueBinding="speakerName" placeholder='Speaker name' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-speakerAffiliation" class="col-sm-2 control-label">Speaker affiliation</label>
+      <div class="col-sm-10">
+        {{view Em.TextField id='form-seminar-speakerAffiliation' valueBinding="speakerAffiliation" placeholder='Speaker affiliation' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class="col-sm-2 control-label">
+        <label for="form-seminar-hostings" >Hosts</label>
+        <span class="help-block">
+          {{#link-to "hosts.new" }}Create a new host{{/link-to}}
+        </span>
+      </div>
+      <div class="col-sm-10">
+        <ul class="list-group">
+          {{#each hosting in hostings}}
+            <li class="list-group-item">
+              {{#if hosting.isNew}}
+                {{view Em.Select
+                  viewName="select"
+                  contentBinding="selectHosts"
+                  optionLabelPath="content.name"
+                  optionValuePath="content.id"
+                  selectionBinding="hosting.host"
+                  id="form-seminar-hostings"
+                }}
+              {{ else }}
+                {{hosting.host_name}}
+              {{/if}}
+              <a class="btn btn-xs btn-danger" href="#" {{action "removeHosting" hosting}}>Destroy</a>
+            </li>
+          {{/each}}
+        </ul>
+        <a href="#" {{action "addHosting" content}}>Add a host</a>
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-locations" class="col-sm-2 control-label">Location (room)</label>
+      <div class="col-sm-10">
+        {{view Em.Select
+            viewName="select"
+            contentBinding="selectLocations"
+            optionLabelPath="content.name_and_building"
+            optionValuePath="content.id"
+            selectionBinding="location"
+            id='form-seminar-locations'
+        }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-startAt" class="col-sm-2 control-label">Start date and time</label>
+      <div class="col-sm-10 input-group">
+        {{view App.DateTimeField valueBinding="startAt" placeholder='Start time' id='form-seminar-startAt' class='form-control' }}
+        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-th icon-th"></i></span>
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-endAt" class="col-sm-2 control-label">End date and time</label>
+      <div class="col-sm-10 input-group">
+        {{view App.DateTimeField valueBinding="endAt" placeholder='End time' id='form-seminar-endAt' class='form-control'}}
+        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        {{view Em.TextArea id='form-seminar-description' valueBinding="description" placeholder='Description' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-pubmed_ids" class="col-sm-2 control-label">Pubmed IDs</label>
+      <div class="col-sm-10">
+        <span class="help-block">If your want to display publication references together with this seminar, enter space-separated Pubmed IDs here.</span>
+        {{view Em.TextArea id='form-seminar-pubmed_ids' valueBinding="pubmed_ids" placeholder='Pubmed IDs' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class="col-sm-10 col-sm-offset-2">
+        {{#if publications}}
+          <ul class="list-group">
+            {{#each pub in publications }}
+              {{#if pub.title }}
+                <li class="list-group-item">
+                  {{pub.title}} ({{pub.pubdate}})
+                </li>
+              {{/if}}
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-seminar-url" class="col-sm-2 control-label">Url</label>
+      <div class="col-sm-10">
+        {{view Em.TextField id='form-seminar-url' valueBinding="url" placeholder='Url' class='form-control'}}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label>
+            {{view Em.Checkbox checkedBinding="internal" placeholder='Internal (private) seminar?'}} Internal?
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    {{#if isNew }}
+      <button class="btn btn-success" type="submit" {{action "create" content}}>Create</button>
+    {{ else }}
+      <button class="btn btn-success" type="submit" {{action "update" content}}>Update</button>
+    {{/if}}
+    or
+    <a href="#" {{action "cancel" content}}>Cancel</a>
+  </div>
+</div>

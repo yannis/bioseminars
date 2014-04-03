@@ -1,0 +1,14 @@
+<fieldset>
+  <legend>Speakers</legend>
+  {{#each speakers}}
+    <div>
+      {{view Ember.TextField valueBinding="title" placeholder='title' type='text'}}
+      <em>by</em>
+      {{view Ember.TextField valueBinding="name" placeholder='name' type='text'}}
+      <em>of</em>
+      {{view Ember.TextField valueBinding="affiliation" placeholder='affiliation' type='text'}}
+      <a class="btn btn-mini btn-danger" href="#" {{action "removeSpeaker" this}}>Destroy</a>
+    </div>
+  {{/each}}
+  <a href="#" {{action "addSpeaker" content}}>Add a speaker</a>
+</fieldset>

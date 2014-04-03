@@ -1,0 +1,20 @@
+<div class="col-md-4 col-md-offset-4">
+  <h1>Sign in</h1>
+  <form class="form-horizontal user-form" role="form" {{action "login" on="submit"}}>
+    <div class="form-group">
+      {{view Ember.TextField valueBinding='email' name='email' placeholder='Email' class="form-control"}}
+      <span class="help-inline">
+        {{errors.email}}
+      </span>
+    </div>
+    <div class="form-group">
+      {{view Ember.TextField type="password" name="password" valueBinding='password' placeholder='Password' class="form-control"}}
+    </div>
+    <button type=submit class="btn btn-large btn-primary">Sign in</button>
+    or
+    <a href='#' {{action "cancel"}}>Cancel</a>
+    <p>
+      {{#link-to "users.reset_password"}}Did you forget your password?{{/link-to}}
+    </p>
+  </form>
+</div>

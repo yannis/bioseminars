@@ -1,0 +1,11 @@
+#= require modernizr
+#= require jquery.cookie
+#= require "js/bootstrap"
+#= require moment
+#= require bootstrap-datetimepicker
+#= require jquery.minicolors
+#= require bootbox
+#= require fullcalendar
+#= require jquery.qtip
+#= require infinite_scroll
+#= require ZeroClipboard

@@ -1,0 +1,21 @@
+<fieldset>
+  <legend>Hosts</legend>
+  {{Em.inspect selectHosts.model}}
+  {{#each hosts}}
+    <div>
+      {{#if isNew}}
+        {{view Ember.Select
+            viewName="select"
+            contentBinding="selectHosts"
+            optionLabelPath="content.name"
+            optionValuePath="content.id"
+            prompt="Pick a host:"
+        }}
+      {{ else }}
+        {{name}}
+        <a class="btn btn-mini btn-danger" href="#" {{action "removeHost" this}}>Destroy</a>
+      {{/if}}
+    </div>
+  {{/each}}
+  <a href="#" {{action "addHost" content}}>Add a host</a>
+</fieldset>

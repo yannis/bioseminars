@@ -1,9 +1,0 @@
-%tr[host]
-  %td
-    = link_to_unless_current host.name, host
-  %td= host.email
-  %td
-    - links = []
-    - links << link_to('Edit', [:edit, host], :method => :get, :remote => true) if can? :update, host
-    - links << destroy_link(host) if can?(:destroy, host)
-    =raw links.join(' · ')

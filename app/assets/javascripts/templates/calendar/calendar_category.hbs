@@ -1,0 +1,7 @@
+<td {{bind-attr data-id="category.id"}}>
+  {{view Em.Checkbox checked=category.showMe name=category.name}}
+</td>
+<td><span class="category-color" {{bind-attr style="category.colorStyle"}}></span></td>
+<td>
+  {{#link-to 'category' category}}{{ category.name}}{{/link-to}}
+</td>

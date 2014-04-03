@@ -1,0 +1,14 @@
+<div class="row" id="feeds">
+  <div class="col-md-8 col-xs-12">
+    <h2>1. Configure your feed</h2>
+    {{ partial 'feeds/form' }}
+    <h2>2. Get your feed</h2>
+    {{em-clipboard text=url}}
+    or click this
+    <a {{bind-attr href="url"}}>feed url</a>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    {{outlet}}
+    {{view App.CalendarCategoriesView}}
+  </div>
+</div>

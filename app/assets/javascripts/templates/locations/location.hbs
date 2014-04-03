@@ -1,0 +1,37 @@
+<div class="panel panel-info location">
+  <div class="panel-heading">
+    <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
+    <h3 class="panel-title">Location “{{name}}”</h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      Building:
+      {{#link-to "building" building}}{{building.name}}{{/link-to}}
+    </p>
+    {{#if description}}
+      <p>{{description}}</p>
+    {{/if}}
+    {{#if seminars}}
+      <h3>Seminars</h3>
+      <ul>
+        {{#each seminar in seminars}}
+          <li>
+            {{#link-to 'seminar' seminar}}{{seminar.title}}{{/link-to}}
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+  {{#if updatable_or_destroyable }}
+    <div class="panel-footer">
+      <div class='seminar-adminlinks'>
+        {{#if updatable }}
+          {{#link-to "locations.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+        {{/if}}
+        {{#if destroyable }}
+          <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+</div>

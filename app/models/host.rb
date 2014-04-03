@@ -1,17 +1,10 @@
 class Host < ActiveRecord::Base
-  has_many :hostings
-  has_many :seminars, :through => :hostings
-  
-  validates :name, :presence => true, :uniqueness => true
-  validates :email, :presence => true, :uniqueness => {:allow_nil => true}, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
-  
-  before_validation :capitalize_name
-  
-  default_scope :order => 'hosts.name ASC'
-  
-  private
-  
-  def capitalize_name
-    self.name = self.name.mb_chars.titleize unless self.name.blank?
-  end
+  attr_accessor :readable, :updatable, :destroyable
+
+  has_many :hostings, inverse_of: :host, dependent: :destroy
+  has_many :seminars, through: :hostings
+
+  validates_presence_of :name, :email
+  validates_uniqueness_of :name, :email
+
 end

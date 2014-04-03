@@ -1,0 +1,33 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: bioseminars_development
+  pool: 5
+  username: username
+  password: password
+  socket: /tmp/mysql.sock
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: bioseminars_test
+  pool: 5
+  username: username
+  password: password
+  socket: /tmp/mysql.sock
+
+staging:
+  adapter: mysql2
+  encoding: utf8
+  database: bioseminars_staging
+  username: username
+  password: password
+  host: localhost
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: bioseminars_production
+  username: username
+  password: password
+  host: localhost

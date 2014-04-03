@@ -1,0 +1,51 @@
+<div class="row"  id='seminars'>
+  <div class="col-md-8 col-xs-12">
+    <h2>{{pageTitle}}</h2>
+    <div id="loading">Loading</div>
+    <ul class="seminars-seminars list-group ">
+      {{#each controller}}
+        <li {{bind-attr class="show:shown:hidden :seminars-seminar :list-group-item"}}>
+          <div class="list-group-item-heading">
+            <em>
+              {{#if categories}}
+                {{#each category in categories}}
+                  <em>
+                    <span class="category-color" {{bind-attr style="category.colorStyle"}}></span>
+                  </em>
+                {{/each}}
+              {{/if}}
+              {{date_time_location_and_category}}
+            </em>
+            <h2>
+              {{#link-to "seminar" this}}{{ title }}{{/link-to}}
+            </h2>
+          </div>
+          <div class="list-group-item-text">
+            <p class='seminars-seminar-speakers'>
+              <em>by</em>
+              {{speakerName}} ({{speakerAffiliation}})
+            </p>
+            {{#if hosts}}
+              <p class='seminars-seminar-hosts'>
+                <em>Hosted by</em>
+                {{#each host in hosts}}
+                  {{host.name}}
+                {{/each}}
+              </p>
+            {{/if}}
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+    {{#if loadingMore}}
+    Loading more
+    {{/if}}
+    {{#if noMoreSeminars}}
+      <p>No more seminars</p>
+    {{/if}}
+  </div>
+  <div class="col-md-4 col-xs-12">
+    {{outlet}}
+    {{view App.CalendarCategoriesView}}
+  </div>
+</div>

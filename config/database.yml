@@ -1,21 +1,33 @@
 development:
   adapter: mysql2
   encoding: utf8
-  database: seminars_development
+  database: bioseminars2_development
+  pool: 5
   username: yannis
   password: '2375'
-  
+  socket: /tmp/mysql.sock
+
 test:
   adapter: mysql2
   encoding: utf8
-  database: seminars_test
+  database: bioseminars2_test
+  pool: 5
   username: yannis
   password: '2375'
-  
+  socket: /tmp/mysql.sock
+
+staging:
+  adapter: mysql2
+  encoding: utf8
+  database: bioseminars_staging
+  username: biosemstaging
+  password: "[Aj88GQcZWGB2J+&@3vk4f$oEu7]Mx"
+  host: localhost
+
 production:
   adapter: mysql2
   encoding: utf8
-  database: seminars_production
-  username: seminarsmaster
-  password: sdb@stag$
+  database: bioseminars_production
+  username: biosemproduction
+  password: "x7U{{3J(8hQKvv7iq@bRqzz7*GP3^A"
   host: localhost

@@ -1,5 +1,0 @@
-- obj_sym = object.class.to_s.humanize.downcase
-= form_for object, :remote => :true, :id => 'new_or_edit_form' do |f|
-  %h1
-    = "Edit “#{object.name}”"
-  = render "#{obj_sym.pluralize}/form", :f => f

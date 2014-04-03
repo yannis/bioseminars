@@ -1,9 +1,0 @@
-- stylesheet 'calendar.css'
-- stylesheet 'calendar_picker'
-- document_ready("set_new_seminar_function('#{new_seminar_path}')".html_safe)if can?(:create, Seminar)
-- @title ||= "Calendar"
-.left_column
-  = render 'calendar', :date => @date
-%aside
-  = render 'categories_menu'
-  = render 'next_seminar_box'

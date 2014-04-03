@@ -1,90 +1,42 @@
 class BuildingsController < ApplicationController
 
-  load_and_authorize_resource
-  respond_to :html, :js, :xml
-
   def index
-    @new_building = Building.new
-    respond_with @buildings
+    @buildings = @current_resource
+    respond_with @current_resource
   end
 
   def show
-    @seminars = @building.seminars.paginate(:page => params[:page])
-    @new_building = Building.new
-
-    respond_to do |format|
-      format.html # show.html.haml
-      format.xml  { render :xml => @building }
-    end
-  end
-
-  def new
-    @origin = params[:origin]
-
-    respond_with @building do |format|
-      format.js { render 'layouts/new', :content_type => 'text/javascript', :layout => false }
-    end
-  end
-
-  def edit
-    respond_with @building do |format|
-      format.js {  render 'layouts/edit', :content_type => 'text/javascript', :layout => false  }
-    end
+    @building = @current_resource
+    respond_with @building
   end
 
   def create
+    @building = Building.new(params[:building])
     if @building.save
-      flash[:notice] = 'Building was successfully created'
-      respond_with @building do |format|
-        format.js{
-          @origin = params[:origin]
-          render (@origin.nil? ? 'layouts/insert_in_table' : 'create'), :content_type => 'text/javascript', :layout => false
-        }
-      end
+      render json: @building, status: :created, location: @building
     else
-      flash[:alert] = 'Building not created'
-      respond_with @building do |format|
-        format.js{
-          @origin = params[:origin]
-          render (@origin.nil? ? 'layouts/insert_in_table' : 'layouts/new'), :content_type => 'text/javascript', :layout => false
-        }
-      end
+      render json: {errors: @building.errors}, status: :unprocessable_entity
     end
   end
 
-  #   def create
-  #   if @building.save
-  #     flash[:notice] = 'Building was successfully created.'
-  #   else
-  #     flash[:alert] = 'Building not created'
-  #   end
-  #   respond_with @building do |format|
-  #     format.js{
-  #       @origin = params[:origin]
-  #       render (@origin.nil? ? 'layouts/insert_in_table' : 'create'), :content_type => 'text/javascript', :template => false
-  #     }
-  #   end
-  # end
-
   def update
+    @building = @current_resource
     if @building.update_attributes(params[:building])
-      flash[:notice] = 'Building was successfully updated'
+      render json: nil, status: :ok
     else
-      flash[:alert] = 'Building not updated'
-    end
-    respond_with @building do |format|
-      format.js{ render 'layouts/update', :content_type => 'text/javascript', :layout => false }
+      render json: {errors: @building.errors}, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @building.destroy
-      flash[:notice] = 'Building was successfully deleted'
-    else
-      flash[:alert] = 'Unable to destroy building'
-    end
-    respond_with @building do |format|
-      format.js { render 'layouts/remove_from_table', :content_type => 'text/javascript', :layout => false }
-    end
+    @building = @current_resource
+    @building.destroy
+    render json: nil, status: :ok
+  end
+
+private
+
+  def current_resource
+    @current_resource ||= params[:id] ? Building.find(params[:id]) : Building.all
   end
 end

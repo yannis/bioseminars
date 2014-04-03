@@ -1,0 +1,55 @@
+<div class="panel panel-info user-form form-horizontal">
+  <div class="panel-heading">
+    <button type="button" class="close" aria-hidden="true" {{action "cancel" content}}>&times;</button>
+    <h3 class="panel-title">{{controller.pageTitle}}</h3>
+  </div>
+  <div class="panel-body">
+    {{#if validationErrors }}
+      <div class="alert alert-danger">{{validationErrors}}</div>
+    {{/if}}
+    <div class='form-group'>
+      <label for="form-user-name" class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        {{view Ember.TextField id='form-user-name' valueBinding="name" placeholder='Name' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-user-email" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        {{view Ember.TextField valueBinding="email" placeholder='Email' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-user-password" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+        {{view Ember.TextField id='form-user-password' type="password" valueBinding="password" placeholder='Password' class='form-control'}}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label for="form-user-password-confirmation" class="col-sm-2 control-label">Password confirmation</label>
+      <div class="col-sm-10">
+        {{view Ember.TextField id='form-user-password-confirmation' type="password" valueBinding="password_confirmation" placeholder='Password confirmation' class='form-control'}}
+      </div>
+    </div>
+    {{#if App.Session.authUser.admin}}
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              {{view Ember.Checkbox valueBinding="admin" placeholder='Admin?'}} Admin?
+            </label>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+  <div class="panel-footer">
+    {{#if isNew }}
+      <button class="btn btn-success" type="submit" {{action "create" content}}>Create</button>
+    {{ else }}
+      <button class="btn btn-success" type="submit" {{action "update" content}}>Update</button>
+    {{/if}}
+    or
+    <a href="#" {{action "cancel" content}}>Cancel</a>
+  </div>
+</div>

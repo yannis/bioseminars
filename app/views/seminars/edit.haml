@@ -1,5 +1,0 @@
-- javascript '/colorpicker/js/colorpicker.js' if admin?
-- @title ||= "Edit seminar#{@seminar.mini_seminar_title.blank? ? '' : ' “'+@seminar.mini_seminar_title+'”'}"
-= form_for @seminar, :html => {:multipart => true} do |f|
-  %h1= @title
-  = render 'form', :f => f

@@ -1,0 +1,40 @@
+<div class="panel panel-info calendar-seminar">
+  <div class="panel-heading">
+    <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
+    <em>
+      <span class="category-color" {{bind-attr style="colorStyle"}}></span>
+      {{date_time_location_and_category}}
+    </em>
+    <h3 class="panel-title">{{title}}</h3>
+  </div>
+  <div class="panel-body">
+    {{#if description}}
+      <p>{{description}}</p>
+    {{/if}}
+    <div class='seminar-speakers'>
+      <em>by</em>
+      {{speakerName}} ({{speakerAffiliation}})
+    </div>
+    {{#if hosts}}
+      <div class='seminar-hosts'>
+        <em>Hosted by</em>
+        {{#each host in hosts}}
+          {{host.name}}
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
+  {{#if updatable_or_destroyable }}
+    <div class="panel-footer">
+      <div class='seminar-adminlinks'>
+        {{#if updatable }}
+          {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+          {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
+        {{/if}}
+        {{#if destroyable }}
+          <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+</div>

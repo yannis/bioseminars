@@ -1,1 +1,0 @@
-page << flash_in_rjs(flash[:notice], flash[:alert])

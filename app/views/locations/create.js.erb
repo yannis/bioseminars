@@ -1,8 +1,0 @@
-<%= flash_in_js %>
-if ($('#<%= params[:controller] %>_div').length != 0) {remove_div_and_overlay('<%= params[:controller] %>_div')}
-<%- if flash[:alert].blank? -%>
-<%- html =  "<option></option>"+option_groups_from_collection_for_select(Building.find(:all), :locations, :name, :id, :name, @location.id)  -%>
-$('#<%= @origin %>_location_id').html('<%= escape_javascript(html).html_safe %>');
-$('#<%= @origin %>_location_id').parent('div').effect("highlight", {}, 3000);
-<%- end -%>
-<%- flash.discard -%>

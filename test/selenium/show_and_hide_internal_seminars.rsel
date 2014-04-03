@@ -1,5 +1,0 @@
-delete_cookie 'display_int_seminar', '/'
-click "//input[@id='internal']"
-wait_for_element_present "link=exact:14:00 ThisIsACategoryName *"
-click "//input[@id='internal']"
-wait_for_element_not_present "link=exact:14:00 ThisIsACategoryName *"

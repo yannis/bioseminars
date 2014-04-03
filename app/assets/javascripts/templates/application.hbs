@@ -1,0 +1,27 @@
+<div id="wrap">
+  <div class="container">
+    {{ partial 'navigation' }}
+    {{bs-notifications}}
+    {{#if App.loading }}
+      <p>Loading data!!!</p>
+    {{/if}}
+    {{outlet}}
+  </div>
+  <div id='push-footer'></div>
+</div>
+<div id="footer">
+  <div class="container">
+    <p>
+      University of Geneva, Section of Biology
+      {{App.Session.year}}
+      -
+      {{#if App.Session.authUser}}
+        Signed in as {{#link-to 'users.user' App.Session.authUser}}{{App.Session.authUser.email}}{{/link-to}}
+        –
+        {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}}
+      {{else}}
+        {{#link-to 'session.new' class="footer-sign_in"}}Sign in{{/link-to}}
+      {{/if}}
+    </p>
+  </div>
+</div>

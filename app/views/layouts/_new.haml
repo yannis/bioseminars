@@ -1,9 +1,0 @@
-%h2
-  = @title || "New #{params[:controller].singularize.humanize.downcase}"
-#ajax_form
-  - path = @model ? [@model, eval('@'+params[:controller].singularize)] : eval('@'+params[:controller].singularize)
-  = form_for path, :remote => true, :class => 'with_blocks', :id => "#{params[:controller].singularize}_form" do |f|
-    = render params[:controller]+'/form', :f => f
-    = hidden_field_tag 'index', @index if @index
-    = hidden_field_tag 'origin', @origin if @origin
-    = hidden_field_tag 'origin_index', @origin_index if @origin_index

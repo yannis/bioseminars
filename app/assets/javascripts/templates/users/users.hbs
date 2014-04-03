@@ -1,0 +1,25 @@
+<div class="row" id='users'>
+  <div class="col-md-8 col-xs-12">
+    <h2>{{controller.pageTitle}}</h2>
+    <ul class="users-users list-group">
+      {{#each controller}}
+        <li class="users-user list-group-item">
+          {{#link-to 'users.user' this}}{{name}}{{/link-to}}
+          {{#if updatable_or_destroyable }}
+            <div class='user-adminlinks'>
+              {{#if updatable }}
+                {{#link-to "users.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+              {{/if}}
+              {{#if destroyable }}
+                <a class="btn btn-xs btn-danger" href="#" {{action "destroy" user}}>Destroy</a>
+              {{/if}}
+            </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    {{outlet}}
+  </div>
+</div>

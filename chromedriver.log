@@ -1,0 +1,3 @@
+[1217/094319:ERROR:proxy_launcher.cc(563)] Failed to ConnectToRunningBrowser
+[1217/094319:ERROR:webdriver_automation.cc(273)] Failed to initialize connection
+[1217/094319:ERROR:automation_proxy.cc(386)] Channel error in AutomationProxy.

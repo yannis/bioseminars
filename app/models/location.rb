@@ -1,15 +1,14 @@
 class Location < ActiveRecord::Base
+  # attr_accessor :readable, :updatable, :destroyable
   belongs_to :building
-  has_many :seminars, :dependent => :nullify
-  
-  validates :name, :presence => {:message => "can't be blank. Please give this location a name."}, :uniqueness => {:scope => :building_id, :message => "must be unique and this one has already been taken. Please chose another one."}
-  
-  default_scope includes('building').order("locations.name ASC")
-  scope :without_building, where("locations.building_id IS NULL")
-  
+  has_many :seminars, inverse_of: :location
+
+  validates_presence_of :name#, :building_id
+  validates_uniqueness_of :name, scope: :building_id
+
   def name_and_building
     name_and_building = [name]
-    name_and_building << "(#{building.name})" unless building.blank?
-    return name_and_building.join(" ")
+    name_and_building << "(#{building.name})" if building
+    name_and_building.join(" ")
   end
 end

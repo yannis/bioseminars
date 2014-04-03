@@ -1,1 +1,0 @@
-page.insert_html :before, "seminar_loader_new_#{params[:person]}_in_form", :partial => "#{params[:person]}.haml", :object => @person
