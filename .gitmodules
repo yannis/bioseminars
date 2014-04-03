@@ -1,0 +1,12 @@
+[submodule "vendor/bootstrap-3"]
+  path = vendor/bootstrap-3
+  url = git://github.com/twbs/bootstrap.git
+[submodule "vendor/bootbox"]
+  path = vendor/bootbox
+  url = git://github.com/makeusabrew/bootbox.git
+[submodule "vendor/jquery-miniColors"]
+  path = vendor/jquery-miniColors
+  url = git://github.com/claviska/jquery-miniColors.git
+[submodule "vendor/zeroclipboard"]
+  path = vendor/zeroclipboard
+  url = git://github.com/zeroclipboard/zeroclipboard.git
