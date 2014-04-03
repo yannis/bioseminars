@@ -27,6 +27,10 @@ RSpec.configure do |config|
     Capybara::Selenium::Driver.new(app, :browser => :chrome)
   end
 
+  Capybara::Screenshot.register_driver(:chrome) do |driver, path|
+   driver.save_screenshot(path)
+ end
+
   Capybara.javascript_driver = :chrome
   Capybara.save_and_open_page_path = "/tmp/capybara"
 
@@ -45,7 +49,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
-    system("rm -rf #{Rails.root.join("tmp/capybara/*")}")
+    # system("rm -rf #{Rails.root.join("tmp/capybara/*")}")
   end
 
   config.before(:each) do

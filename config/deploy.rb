@@ -42,6 +42,7 @@ set :keep_releases, 5
 server '129.194.56.70', user: 'yannis', roles: %w{web app db}
 
 task :staging do
+  set :branch, "ember"
   set :stage, 'staging'
   set :rails_env, 'staging'
   set :application, 'bioseminars_staging'
@@ -52,6 +53,7 @@ end
 
 
 task :production do
+  set :branch, "master"
   set :stage, 'production'
   set :rails_env, 'production'
   set :application, 'bioseminars_production'
@@ -68,5 +70,5 @@ namespace :deploy do
   end
 end
 
-after "deploy:cleanup", "deploy:restart"
+# after "deploy:cleanup", "deploy:restart"
 # after "deploy:restart", "airbrake:deploy"

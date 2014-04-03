@@ -5,7 +5,6 @@
 #= require handlebars
 #= require ember
 #= require ember-data
-#= require embedded-mixin
 
 #= require_tree './utilities/'
 #= require_self

@@ -1,4 +1,4 @@
-App.SeminarSerializer = App.ApplicationSerializer.extend DS.EmbeddedMixin,
+App.SeminarSerializer = App.ApplicationSerializer.extend DS.EmbeddedRecordsMixin,
   attrs:
     categorisations:
       embedded: 'always'
