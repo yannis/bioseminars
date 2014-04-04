@@ -13,3 +13,4 @@ describe "A host" do
   let(:host) { create :host }
   it {expect(host).to be_valid_verbose}
 end
+

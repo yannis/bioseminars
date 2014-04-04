@@ -1,139 +1,133 @@
-<nav class="navbar navbar-default" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">
-      <span class='tk-bd-brick'>bio</span><span class='tk-swingdancer'>Seminars</span>
-    </a>
-  </div>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <span class='tk-bd-brick'>bio</span><span class='tk-swingdancer'>Seminars</span>
+      </a>
+    </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="#">Calendar</a>
-        {{!-- {{#link-to 'calendar'}}Calendar{{/link-to}} --}}
-      </li>
-      <li class='dropdown'>
-        <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-          Seminars
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            {{#link-to 'seminars.next'}}Next seminars{{/link-to}}
-          </li>
-          <li>
-            {{#link-to 'seminars'}}All seminars{{/link-to}}
-          </li>
-        </ul>
-      </li>
-      <li class='dropdown'>
-        <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-          Locations
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            {{#link-to 'locations'}}Locations{{/link-to}}
-          </li>
-          {{#if App.Session.authUser.can_create_locations}}
-            <li>
-              {{#link-to 'locations.new'}}New location{{/link-to}}
-            </li>
-          {{/if}}
-          <li>
-            {{#link-to 'buildings'}}Buildings{{/link-to}}
-          </li>
-          {{#if App.Session.authUser.can_create_buildings}}
-            <li>
-              {{#link-to 'buildings.new'}}New building{{/link-to}}
-            </li>
-          {{/if}}
-        </ul>
-      </li>
-
-      <li class='dropdown'>
-        <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-          Categories
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            {{#link-to 'categories'}}List{{/link-to}}
-          </li>
-          {{#if App.Session.authUser.can_create_categories}}
-            <li>
-              {{#link-to 'categories.new'}}New category{{/link-to}}
-            </li>
-          {{/if}}
-        </ul>
-      </li>
-      <li class='dropdown'>
-        <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-          Hosts
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            {{#link-to 'hosts'}}List{{/link-to}}
-          </li>
-          {{#if App.Session.authUser.can_create_hosts}}
-            <li>
-              {{#link-to 'hosts.new'}}New host{{/link-to}}
-            </li>
-          {{/if}}
-        </ul>
-      </li>
-      {{#if App.Session.authUser}}
-        {{#if App.Session.authUser.admin}}
-          <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-              Users
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                {{#link-to 'users'}}List{{/link-to}}
-              </li>
-              {{#if App.Session.authUser.can_create_users}}
-                <li>
-                  {{#link-to 'users.new'}}New user{{/link-to}}
-                </li>
-              {{/if}}
-            </ul>
-          </li>
-        {{/if}}
-      {{/if}}
-      {{#if App.Session.authUser}}
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#">Calendar</a>
+          {{!-- {{#link-to 'calendar'}}Calendar{{/link-to}} --}}
+        </li>
         <li class='dropdown'>
           <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-            Your account
+            Seminars
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li>
-              {{#link-to 'users.user' App.Session.authUser}}Settings{{/link-to}}
+              {{#link-to 'seminars.next'}}Next seminars{{/link-to}}
             </li>
             <li>
-              {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}}
+              {{#link-to 'seminars'}}All seminars{{/link-to}}
             </li>
           </ul>
         </li>
-      {{/if}}
-    </ul>
-    <div class="nav navbar-form navbar-right">
-      {{#link-to 'feeds' class="btn btn-primary" }}Get your feeds{{/link-to}}
-      {{#if App.Session.authUser}}
-        {{#if App.Session.authUser.can_create_seminars}}
-          {{#link-to 'seminars.new' class="btn btn-primary" id="nav-seminars-new-button"}}New seminar{{/link-to}}
+
+        <li class='dropdown'>
+          <a href='#' class='dropdown-toggle' data-toggle="dropdown">
+            Categories
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              {{#link-to 'categories'}}List{{/link-to}}
+            </li>
+            {{#if App.Session.authUser.can_create_categories}}
+              <li>
+                {{#link-to 'categories.new'}}New category{{/link-to}}
+              </li>
+            {{/if}}
+          </ul>
+        </li>
+
+        <li class='dropdown'>
+          <a href='#' class='dropdown-toggle' data-toggle="dropdown">
+            Others…
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              {{#link-to 'locations'}}Locations{{/link-to}}
+            </li>
+            {{#if App.Session.authUser.can_create_locations}}
+              <li>
+                {{#link-to 'locations.new'}}New location{{/link-to}}
+              </li>
+            {{/if}}
+            <li>
+              {{#link-to 'buildings'}}Buildings{{/link-to}}
+            </li>
+            {{#if App.Session.authUser.can_create_buildings}}
+              <li>
+                {{#link-to 'buildings.new'}}New building{{/link-to}}
+              </li>
+            {{/if}}
+            <li>
+              {{#link-to 'hosts'}}Hosts{{/link-to}}
+            </li>
+            {{#if App.Session.authUser.can_create_hosts}}
+              <li>
+                {{#link-to 'hosts.new'}}New host{{/link-to}}
+              </li>
+            {{/if}}
+            {{#if App.Session.authUser}}
+              {{#if App.Session.authUser.admin}}
+                <li>
+                  {{#link-to 'users'}}Users{{/link-to}}
+                </li>
+                {{#if App.Session.authUser.can_create_users}}
+                  <li>
+                    {{#link-to 'users.new'}}New user{{/link-to}}
+                  </li>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+          </ul>
+        </li>
+      </ul>
+      <div class="navbar-form navbar-left">
+        {{#if App.Session.authUser}}
+          {{#if App.Session.authUser.can_create_seminars}}
+            {{#link-to 'seminars.new' class="btn btn-primary" id="nav-seminars-new-button"}}<i class="glyphicon glyphicon-plus-sign"></i> New seminar{{/link-to}}
+          {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
-  </div><!-- /.navbar-collapse -->
+        {{#link-to 'feeds' class="btn btn-primary" }}<i class="fa fa-rss-square"></i> Get your feeds{{/link-to}}
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        {{#if App.Session.authUser}}
+          <li class='dropdown'>
+            <a href='#' class='dropdown-toggle' data-toggle="dropdown">
+              <i class="fa fa-user"></i> {{App.Session.authUser.name}}
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                {{#link-to 'users.user' App.Session.authUser}}Settings{{/link-to}}
+              </li>
+              <li>
+                {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}}
+              </li>
+            </ul>
+          </li>
+        {{else}}
+          <li>
+            {{!-- {{#link-to 'session.new' class="footer-sign_in"}}Sign in{{/link-to}} --}}
+          </li>
+        {{/if}}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div>
 </nav>

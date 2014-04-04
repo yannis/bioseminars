@@ -14,14 +14,8 @@
     <p>
       University of Geneva, Section of Biology
       {{App.Session.year}}
-      -
-      {{#if App.Session.authUser}}
-        Signed in as {{#link-to 'users.user' App.Session.authUser}}{{App.Session.authUser.email}}{{/link-to}}
-        –
-        {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}}
-      {{else}}
-        {{#link-to 'session.new' class="footer-sign_in"}}Sign in{{/link-to}}
-      {{/if}}
+      –
+      <a href="http://github.com/yannis/bioseminars" target="_blank" class"fa-2x fa-github"><i class="fa fa-2x fa-github"></i></span></a>
     </p>
   </div>
 </div>

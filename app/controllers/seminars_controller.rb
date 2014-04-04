@@ -38,7 +38,7 @@ class SeminarsController < ApplicationController
     @seminars = @seminars.limit(200) if @seminars.count > 200
 
     # Rails.logger.debug "Seminars count: #{@seminars.count}"
-    respond_with @seminars
+    respond_with @seminars.includes(:location, :user, :hostings, :hosts, :categorisations, {categories: [:seminars]})
   end
 
   def show

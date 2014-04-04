@@ -1,4 +1,13 @@
 App.CategoryController = Ember.ObjectController.extend
+
+  seminarSorting: ["startAt:desc"]
+  sortedSeminars: Ember.computed.sort("seminars", 'seminarSorting')
+
+  latestSeminars: (->
+    @get("sortedSeminars").filter (seminar) =>
+      @get("sortedSeminars").indexOf(seminar) < 10
+  ).property("seminars")
+
   actions:
     destroy: (category) ->
       self = @

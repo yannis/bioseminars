@@ -2,7 +2,7 @@ class LocationsController < ApplicationController
 
   def index
     @locations = @current_resource
-    respond_with @locations
+    respond_with @locations.includes({building: [:locations]}, :seminars)
   end
 
   def show

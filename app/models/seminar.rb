@@ -3,7 +3,7 @@ class Seminar < ActiveRecord::Base
   belongs_to :location
   belongs_to :user
   has_many :categorisations, inverse_of: :seminar, dependent: :destroy
-  has_many :categories, through: :categorisations
+  has_many :categories, through: :categorisations, counter_cache: true
   has_many :hostings, inverse_of: :seminar, dependent: :destroy
   has_many :hosts, through: :hostings
   has_many :documents, as: :documentable, dependent: :destroy

@@ -2,7 +2,7 @@ class BuildingsController < ApplicationController
 
   def index
     @buildings = @current_resource
-    respond_with @current_resource
+    respond_with @current_resource.includes(:locations)
   end
 
   def show

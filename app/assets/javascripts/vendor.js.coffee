@@ -1,6 +1,6 @@
 #= require modernizr
 #= require jquery.cookie
-#= require "js/bootstrap"
+#= require "bootstrap"
 #= require moment
 #= require bootstrap-datetimepicker
 #= require jquery.minicolors

@@ -23,9 +23,21 @@ RSpec.configure do |config|
   # config.include Warden::Test::Helpers
   # Warden.test_mode!
 
+
+# DesiredCapabilities capabilities = DesiredCapabilities.Chrome();
+# capabilities.SetCapability("chrome.switches", new List<String>() {
+#     "--start-maximized",
+#     "--disable-popup-blocking" });
+# driver = new OpenQA.Selenium.Chrome.ChromeDriver(capabilities);
+
+
   Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome(chromeOptions: {args: [ "--start-maximized" ]})
+    driver = Capybara::Selenium::Driver.new(app, {browser: :chrome, desired_capabilities: caps})
+    # driver.window_maximize
+    # driver
   end
+
 
   Capybara::Screenshot.register_driver(:chrome) do |driver, path|
    driver.save_screenshot(path)
@@ -53,6 +65,9 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    if example.metadata[:js]
+      page.driver.browser.manage.window.maximize
+    end
     DatabaseCleaner.start
   end
 
