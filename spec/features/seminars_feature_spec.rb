@@ -45,7 +45,7 @@ feature 'seminars', js: true do
       end
 
       page.execute_script "window.scrollBy(0,10000)"
-      expect(page).to have_text "Loading more"
+      expect(page).to have_selector ".data-loader"
       sleep 0.5
       within(".seminars-seminars") do
         expect(page).to have_selector(".seminars-seminar", count: 18)
@@ -121,7 +121,7 @@ feature 'seminars', js: true do
         end
 
         page.execute_script "window.scrollBy(0,10000)"
-        expect(page).to have_text "Loading more"
+        expect(page).to have_text "Loading data…"
         sleep 0.5
         within(".seminars-seminars") do
           expect(page).to have_selector(".seminars-seminar", count: 17)

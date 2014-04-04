@@ -15,6 +15,7 @@ tmp/cache/*
 tmp/sockets/*
 tmp/pids/*
 tmp/capybara/*
+tmp/rspec_guard_result
 
 public/system/*
 public/assets/*

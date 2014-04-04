@@ -3,7 +3,7 @@
     {{ partial 'navigation' }}
     {{bs-notifications}}
     {{#if App.loading }}
-      <p>Loading data!!!</p>
+      <div class="data-loader">Loading data…</div>
     {{/if}}
     {{outlet}}
   </div>
@@ -15,7 +15,7 @@
       University of Geneva, Section of Biology
       {{App.Session.year}}
       –
-      <a href="http://github.com/yannis/bioseminars" target="_blank" class"fa-2x fa-github"><i class="fa fa-2x fa-github"></i></span></a>
+      <a href="http://github.com/yannis/bioseminars" target="_blank" class"fa-2x fa-github" title="Fork me on github!"><i class="fa fa-2x fa-github"></i></span></a>
     </p>
   </div>
 </div>

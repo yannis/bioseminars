@@ -81,7 +81,7 @@ App.CalendarView = Ember.View.extend
             if vyear != year || vmonth != month  || vtype != defaultView
               controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
               self.rerender()
-            $('span.calendar-loader').hide()
+            $('.calendar-loader').hide()
 
           eventAfterRender: (event, element, view) ->
             seminar = event.emSelf
