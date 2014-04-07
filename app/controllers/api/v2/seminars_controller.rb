@@ -66,12 +66,16 @@ protected
   def ics_data(seminars)
     ical = Icalendar::Calendar.new
     # ical.add_x_property 'X-WR-CALNAME',@room.name
+    ical.timezone do |t|
+      t.tzid = "Europe/Zurich"
+    end
     seminars.each do |seminar|
       seminar.alarm = params['alarm']
       ical.event do |event|
         event.summary = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
-        event.dtstart = seminar.start_at
-        event.dtend = seminar.end_at
+        event.dtstart = seminar.start_at.try(:localtime)
+        # event.dtstart = DateTime.new(2014,4,7,18,0)
+        event.dtend = seminar.end_at.try(:localtime)
         event.location = seminar.location.name_and_building unless seminar.location.blank?
         description = []
         description << seminar.speaker_name_and_affiliation

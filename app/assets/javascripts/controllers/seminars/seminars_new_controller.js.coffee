@@ -6,7 +6,7 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
         Flash.NM.push 'You are not authorized to access this page', "danger"
       else
         self = @
-        debugger
+        # debugger
         seminar.set "startAt", moment(@get('startAt')).toDate()
         seminar.set "endAt", moment(seminar.get("startAt")).add('hours', 1).toDate unless seminar.get("endAt")?
         seminar.save({associations: true}).then(
