@@ -145,20 +145,42 @@ class Seminar < ActiveRecord::Base
     return schedule
   end
 
-  def to_rical
-    RiCal.Calendar do
-      event do
-        description "MA-6 First US Manned Spaceflight"
-        dtstart     DateTime.parse("2/20/1962 14:47:39")
-        dtend       DateTime.parse("2/20/1962 19:43:02")
-        location    "Cape Canaveral"
-        add_attendee "john.glenn@nasa.gov"
-        alarm do
-          description "Segment 51"
+  def to_ics(ical)
+    ical.event do |event|
+      event.summary = "#{self.categories.map(&:acronym).compact.join(', ')} – #{self.title}"
+      event.dtstart = self.start_at.try(:localtime)
+      # event.dtstart = DateTime.new(2014,4,7,18,0)
+      event.dtend = self.end_at.try(:localtime)
+      event.location = self.location.name_and_building unless self.location.blank?
+      description = []
+      description << self.speaker_name_and_affiliation
+      description << "Hosted by "+self.hosts.map(&:name).join(', ')
+      event.description = description.join(' | ')
+      event.url = "http://#{Rails.application.secrets.mailer_host}#{self.ember_path}"
+      if self.alarm.present? && self.alarm.to_i >= 0
+        event.alarm do |a|
+          a.trigger = "-PT#{self.alarm}M"
+          a.description = "#{self.categories.map(&:acronym).compact.join(', ')} – #{self.title}"
+          a.action = 'DISPLAY'
         end
       end
     end
   end
+
+  # def to_rical
+  #   RiCal.Calendar do
+  #     event do
+  #       description "MA-6 First US Manned Spaceflight"
+  #       dtstart     DateTime.parse("2/20/1962 14:47:39")
+  #       dtend       DateTime.parse("2/20/1962 19:43:02")
+  #       location    "Cape Canaveral"
+  #       add_attendee "john.glenn@nasa.gov"
+  #       alarm do
+  #         description "Segment 51"
+  #       end
+  #     end
+  #   end
+  # end
 
   def ember_path
     "/#/seminars/#{id}"

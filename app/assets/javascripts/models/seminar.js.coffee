@@ -85,6 +85,10 @@ App.Seminar = DS.Model.extend
     @get("show") == false
   ).property('show')
 
+  icsUrl: (->
+    "http://#{document.domain}/api/v2/seminars/#{@get('id')}.ics"
+  ).property("id")
+
   asJSON: (->
     id: @get('id')
     # title: @get('display_title')

@@ -1,6 +1,6 @@
 require 'spec_helper'
 include Warden::Test::Helpers             ## including some warden magic
-Warden.test_mode!                         ## telling warden we are testing stuff
+Warden.test_mode!                         ## telling warden we are testing stuf
 
 
 feature 'seminars', js: true do
@@ -250,15 +250,8 @@ feature 'seminars', js: true do
       within(".panel.seminar") do
         click_link "Destroy"
       end
-      expect(page.driver.browser.switch_to.alert.text).to match /Are you sure/
-      page.driver.browser.switch_to.alert.accept
-      # expect(current_url).to match /\/#\/seminars\/#{seminar_user.id}/
-      # expect(page).to have_selector(".panel.seminar-form", count: 1)
-      # within(".panel.seminar-form") do
-      #   expect(page).to have_text "Edit seminar “#{seminar_user.title}”"
-      #   page.fill_in "Title", with: "another seminar title"
-      #   click_button "Update"
-      # end
+      expect(page).to have_bootbox /Are you sure/
+      page.accept_bootbox
       flash_is "Seminar successfully destroyed"
       expect(page).to_not have_text seminar_user.title
     end

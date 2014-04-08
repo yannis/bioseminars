@@ -36,17 +36,16 @@
       </ul>
     {{/if}}
   </div>
-  {{#if updatable_or_destroyable }}
-    <div class="panel-footer">
-      <div class='seminar-adminlinks'>
-        {{#if updatable }}
-          {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
-          {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
-        {{/if}}
-        {{#if destroyable }}
-          <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
-        {{/if}}
-      </div>
+  <div class="panel-footer">
+    <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank"><i class="glyphicon glyphicon-calendar"></i></a>
+    <div class='seminar-adminlinks'>
+      {{#if updatable }}
+        {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+        {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
+      {{/if}}
+      {{#if destroyable }}
+        <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
+      {{/if}}
     </div>
-  {{/if}}
+  </div>
 </div>

@@ -37,7 +37,7 @@ class Api::V2::SeminarsController < Api::V2::BaseController
     @seminars = @seminars.limit(200) if @seminars.count > 200
     respond_with @seminars do |format|
       format.json do
-        render json: @seminars, each_serializer: SeminarSerializer
+        render json: @seminars, each_serializer: Api::V2::SeminarSerializer
       end
       format.xml {
         render "index.xml.builder", layout: false
@@ -58,12 +58,21 @@ class Api::V2::SeminarsController < Api::V2::BaseController
   end
 
   def show
-
+    @seminar = Seminar.find params[:id]
+    respond_with @seminar do |format|
+      format.json do
+        render json: @seminar, each_serializer: Api::V2::SeminarSerializer
+      end
+      format.ics do
+        send_data(ics_data([@seminar]).to_ical, file_name: "seminar_#{@seminar.id}.ics", disposition: "inline; filename=seminar_#{@seminar.id}.ics", type: 'text/calendar')
+      end
+    end
   end
 
 protected
 
   def ics_data(seminars)
+    Rails.logger.debug "seminars: #{seminars}"
     ical = Icalendar::Calendar.new
     # ical.add_x_property 'X-WR-CALNAME',@room.name
     ical.timezone do |t|
@@ -71,32 +80,27 @@ protected
     end
     seminars.each do |seminar|
       seminar.alarm = params['alarm']
-      ical.event do |event|
-        event.summary = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
-        event.dtstart = seminar.start_at.try(:localtime)
-        # event.dtstart = DateTime.new(2014,4,7,18,0)
-        event.dtend = seminar.end_at.try(:localtime)
-        event.location = seminar.location.name_and_building unless seminar.location.blank?
-        description = []
-        description << seminar.speaker_name_and_affiliation
-        description << "Hosted by "+seminar.hosts.map(&:name).join(', ')
-        event.description = description.join(' | ')
-        event.url = ember_url(seminar)
-        if seminar.alarm.present? && seminar.alarm.to_i >= 0
-          event.alarm do |a|
-            a.trigger = "-PT#{seminar.alarm}M"
-            a.description = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
-            a.action = 'DISPLAY'
-          end
-        end
-      end
+      seminar.to_ics(ical)
+      # ical.event do |event|
+      #   event.summary = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
+      #   event.dtstart = seminar.start_at.try(:localtime)
+      #   # event.dtstart = DateTime.new(2014,4,7,18,0)
+      #   event.dtend = seminar.end_at.try(:localtime)
+      #   event.location = seminar.location.name_and_building unless seminar.location.blank?
+      #   description = []
+      #   description << seminar.speaker_name_and_affiliation
+      #   description << "Hosted by "+seminar.hosts.map(&:name).join(', ')
+      #   event.description = description.join(' | ')
+      #   event.url = ember_url(seminar)
+      #   if seminar.alarm.present? && seminar.alarm.to_i >= 0
+      #     event.alarm do |a|
+      #       a.trigger = "-PT#{seminar.alarm}M"
+      #       a.description = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
+      #       a.action = 'DISPLAY'
+      #     end
+      #   end
+      # end
     end
     return ical
-  end
-
-private
-
-  def current_resource
-    @current_resource ||= (params[:id] ? Seminar.find(params[:id]) : Seminar.all)
   end
 end

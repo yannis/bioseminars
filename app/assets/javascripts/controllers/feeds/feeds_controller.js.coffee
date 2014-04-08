@@ -27,12 +27,12 @@ App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionContro
   ).property("controllers.categories.@each.showMe")
 
   categoriesParam: (->
-    categoryIds = @get('selectedCategories').mapBy('id')
+    categoryIds = @get('selectedCategories').sortBy('id').mapBy('id')
     "categories=#{categoryIds.join(",")}"
   ).property("selectedCategories")
 
   url: (->
-
+    # debugger
     domain = document.domain
     model = "/api/v2/seminars"
     type = ".#{@get('selectedType')}"
@@ -40,8 +40,8 @@ App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionContro
     parameters = ["internal=#{@get('internal')}"]
     parameters.push "scope=#{@get('selectedScope')}" if @get('selectedScope')
     parameters.push "order=#{if @get('asc') then "asc" else "desc" }"
-    parameters.push "after=#{@get('after')}" if @get('after')
-    parameters.push "before=#{@get('before')}" if @get('before')
+    parameters.push "after=#{moment(@get('after')).format("YYYYMMDD")}" if @get('after')
+    parameters.push "before=#{moment(@get('before')).format("YYYYMMDD")}" if @get('before')
     parameters.push "limit=#{@get('limit')}" if @get('limit')
     parameters.push "alarm=#{@get('alarmMinutes')}" if @get('alarm') && (@get('alarmMinutes') >= 0) && @get("selectedType") == "ics"
     parameters.push @get('categoriesParam')

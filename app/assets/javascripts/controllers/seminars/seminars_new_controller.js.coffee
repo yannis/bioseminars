@@ -30,7 +30,7 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
       if hosting.get('isNew')
         zis.content.get('hostings').removeObject(hosting)
       else
-        confirm "Are you sure you want to remove this host?", (result) ->
+        bootbox.confirm "Are you sure to destroy remove this host?", (result) ->
           zis.content.get('hostings').removeObject(hosting) if result
 
     addCategorisation: (seminar) ->

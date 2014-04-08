@@ -138,14 +138,15 @@ feature 'hosts', js: true do
       end
 
       scenario 'destroying a host' do
+
         visit "/#/hosts/#{host1.id}"
         expect(page).to have_selector(".panel.host", count: 1)
         within(".panel.host") do
           expect(page).to have_text "Host “#{host1.name}”"
           click_link "Destroy"
         end
-        expect(page.driver.browser.switch_to.alert.text).to match /Are you sure/
-        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_bootbox /Are you sure/
+        page.accept_bootbox
         flash_is "Host successfully destroyed"
       end
     end

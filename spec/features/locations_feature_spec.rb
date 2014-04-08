@@ -137,8 +137,8 @@ feature 'locations', js: true do
           expect(page).to have_text "Location “#{location1.name}”"
           click_link "Destroy"
         end
-        expect(page.driver.browser.switch_to.alert.text).to match /Are you sure/
-        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_bootbox /Are you sure/
+        page.accept_bootbox
         flash_is "Location successfully destroyed"
       end
     end
