@@ -1,0 +1,63 @@
+<div class="row" id='locations'>
+  <div class="col-md-12 col-xs-12">
+    <h2>API documentation</h2>
+    <p>
+      Seminar feeds can currently be accessed on <a {{bind-attr href=apiUrl}}>{{apiUrl}}</a>.
+      <br>This basic url can take a variety of parameters to determine wich seminars to get from the database.
+    </p>
+    <ul>
+      <li>
+        Url extension
+        <br>Define the format of output
+        <br>Available extensions: .json, .xml, .ics, .rss, .atom
+        <br>Ex: {{apiUrl}}.json => All seminars in the json format
+      </li>
+      <li>
+        <b>categories</b> parameter
+        <br>Select the categories from which seminars have to be shown
+        <br>The parameter is category id number separated by “+”
+        <br>Ex: {{apiUrl}}.json?categories=1+2 => Shows seminars of categories 1 and 2
+      </li>
+      <li>
+        <b>scope</b> parameter
+        <br>Respectively get “all”, “past” or “future” seminars
+        <br>Possible values: “all”, “past” or “future”
+        <br>Ex: {{apiUrl}}.json?scope=future => Shows future seminars
+        <br>Note that for performance reasons the "all" scope parameter will retrieve only the last 200 seminars
+      </li>
+      <li>
+        <b>before</b> parameter
+        <br>Get seminars that starts before or on the date
+        <br>Requires a valid date in the yyyymmdd format as value
+        <br>Ex: {{apiUrl}}.json?before=20151231 => Get seminars that starts before or on December 31 2015
+      </li>
+      <li>
+        <b>after</b> parameter
+        <br>Get seminars that starts after or on the date
+        <br>Requires a valid date in the yyyymmdd format as value
+        <br>Ex: {{apiUrl}}.json?after=20151231 => Get seminars that starts after or on December 31 2015
+      </li>
+      <li>
+        <b>internal</b> parameter
+        <br>Also show internal seminars when value is “true”
+        <br>Takes true or false as value
+        <br>Ex: {{apiUrl}}.json?internal=false => Get all seminars, except internal seminars
+      </li>
+      <li>
+        <b>order</b> parameter
+        <br>Respectively sort the seminars in ascendant or descendant order (for the start time value)
+        <br>Takes “asc” or “desc” as value
+        <br>Ex: {{apiUrl}}.json?order=desc => Get all seminars sorted in descendant order (from latest to earliest)
+      </li>
+      <li>
+        <b>limit</b> parameter
+        <br>Limits the number of returned seminars to the set value
+        <br>Takes an integer as value
+        <br>Ex: {{apiUrl}}.json?limit=20 => Returns only 20 seminars
+      </li>
+    </ul>
+    <p>
+      All these parameters can be combined to get the desired seminars list.
+      <br>Ex: http://bioseminars.unige.ch/seminars.json?order=asc&scope=past&after=20090101&categories=1+2
+  </div>
+</div>

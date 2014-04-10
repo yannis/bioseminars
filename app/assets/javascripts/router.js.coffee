@@ -15,6 +15,7 @@ App.Router.map ->
     @route 'edit', {path: '/:category_id/edit'} # go to the route to see how I get the :category_id
 
   @route "feeds"
+  @route 'feeds.documentation', {path: 'feeds/documentation'}
 
   @resource 'hosts', {path: '/hosts'}, ->
     @route 'new'
@@ -47,3 +48,4 @@ App.Router.map ->
   @route 'users.edit', {path: 'users/:user_id/edit'}
   @route "users.reset_password", {path: 'users/reset_password'}
   @route "users.new_password", {path: 'users/new_password/:token'}
+
