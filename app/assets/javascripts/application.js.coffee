@@ -1,7 +1,8 @@
 #= require jquery
 #= require jquery_ujs
-# = require jquery.ui.sortable
-# = require jquery.ui.effect
+#= require jquery.ui.sortable
+#= require jquery.ui.effect
+#= require beta_notifications
 #= require handlebars
 #= require ember
 #= require ember-data

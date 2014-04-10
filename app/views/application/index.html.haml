@@ -15,6 +15,15 @@
       = javascript_include_tag 'js/html5shiv.js'
     / = favicon_link_tag
   %body
+    - if Rails.env == 'development'
+      #beta_notification
+        %h2 Warning
+        %p
+          This is a beta version of bioSeminars. It exists for test purpose only.
+          %br
+          No data entered in this version will be saved.
+          %br
+          Please use the “?” link at the bottom right of the page to send your remarks, bug notifications, corrections, etc…
     :javascript
       (function(d) {
         var config = {
