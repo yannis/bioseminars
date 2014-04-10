@@ -1,0 +1,53 @@
+Em.Application.initializer
+  name: 'uservoice'
+  after: 'session'
+
+  initialize: (container, application) ->
+    @store = container.lookup('store:main')
+    App.userVoice = Em.Object.extend(
+
+      init: ->
+        @reloadUserVoice null
+
+      setUserVoice: (->
+        # console.log "App.Session.authUser", App.Session.get("authUser")
+        user = App.Session.get("authUser")
+        @reloadUserVoice user
+      ).observes("App.Session.authUser")
+
+      unsetUserVoice: (->
+        # console.log "App.Session.authToken", App.Session.get("authToken")
+        authToken = App.Session.get("authToken")
+        @reloadUserVoice(null) unless authToken?
+      ).observes("App.Session.authToken")
+
+      reloadUserVoice: (user)->
+
+        console.log "userVoice reloaded", user
+
+        delete window.UserVoice if window.UserVoice
+
+        window.UserVoice = []
+
+        if user?
+          UserVoice.push ['identify',
+            email: user.get('email')
+            name: user.get('name')
+            created_at: user.get('created_at_timestamp')
+            id: user.get('id')
+            account: {}
+          ]
+
+        UserVoice.push(['set', {
+          accent_color: '#e2753a',
+          trigger_color: 'white',
+          trigger_background_color: 'rgba(46, 49, 51, 0.6)'
+        }])
+
+        UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }])
+
+        UserVoice.push(['autoprompt', {}])
+
+        $.getScript("http://widget.uservoice.com/<%= Rails.application.secrets.uservoice_api_key %>.js")
+
+    ).create()

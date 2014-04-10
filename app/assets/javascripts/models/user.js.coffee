@@ -6,6 +6,7 @@ App.User = DS.Model.extend
   password: DS.attr('string')
   password_confirmation: DS.attr('string')
   seminars: DS.hasMany('seminar', { async: true })
+  created_at_timestamp: DS.attr('number', {readOnly: true})
 
   can_create_buildings: DS.attr('boolean', {readOnly: true})
   can_create_categories: DS.attr('boolean', {readOnly: true})

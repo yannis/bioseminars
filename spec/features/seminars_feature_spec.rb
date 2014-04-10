@@ -257,75 +257,88 @@ feature 'seminars', js: true do
     end
   end
 
-  # context "when signed in as admin" do
-  #   let(:user) {create :user, admin: true}
-  #   let(:category) {create :category, name: "A category name"}
-  #   let(:host) {create :host, name: "A host name"}
-  #   let(:location) {create :location, name: "A conf room"}
+  context "when signed in as admin" do
+    let(:user) {create :user, admin: true}
+    let(:category) {create :category, name: "A category name"}
+    let(:host) {create :host, name: "A host name"}
+    let(:location) {create :location, name: "A conf room"}
+    let(:seminar_user) {create :seminar, user: user}
+    before {
+      embersignout
+      embersignin user
+    }
 
-  #   before {
-  #     embersignout
-  #     embersignin user
-  #   }
+    scenario "editing a seminar not own by user"  do
+      visit "/"
+      visit "/#/seminars/#{seminar1.id}"
+      expect(page).to have_selector(".panel.seminar")
+      within(".panel.seminar") do
+        click_link "Edit"
+      end
+      expect(current_url).to match "seminars\/#{seminar1.id}\/edit"
+      expect(page).to have_selector(".panel.seminar-form", count: 1)
+      within(".panel.seminar-form") do
+        expect(page).to have_text "Edit seminar “#{seminar1.title}”"
+        page.fill_in "Title", with: "another seminar title"
+        click_button "Update"
+      end
+      flash_is "Seminar successfully updated"
+      visit "/#/seminars/#{seminar1.id}"
+      within ".seminar" do
+        expect(page).to have_text "another seminar title"
+      end
+      expect(page).to_not have_selector ".panel.seminar-form"
+    end
 
-  #   scenario 'creating a new seminar' do
-  #     category.save
-  #     host.save
-  #     location.save
-  #     visit "/#/seminars"
-  #     visit "/#/seminars/new"
-  #     expect(page).to have_selector(".panel.seminar-form", count: 1)
-  #     within(".panel.seminar-form") do
-  #       expect(page).to have_text "Create a seminar"
-  #       click_link "Add a category"
-  #       page.select category.name, from: "form-seminar-categorisations"
-  #       page.fill_in "Title", with: "a new seminar title"
-  #       page.fill_in "Speaker name", with: "a new speaker name"
-  #       click_link "Add a host"
-  #       page.select host.name, from: "form-seminar-hostings"
-  #       page.select location.name, from: "form-seminar-locations"
-  #       click_button "Create"
-  #     end
-  #     flash_is "Seminar successfully created"
-  #     expect(current_url).to match /\/#\/seminars$/
-  #     within ".seminars-seminars" do
-  #       expect(page).to have_text "a new seminar name"
-  #     end
-  #     expect(page).to_not have_selector ".panel.seminar-form"
-  #   end
+    scenario 'editing seminar own by user' do
+      visit "/"
+      visit "/#/seminars/#{seminar_user.id}"
+      # page.find(".seminars-seminar a", text: seminar1.title).click
+      expect(page).to have_selector(".panel.seminar")
+      within(".panel.seminar") do
+        click_link "Edit"
+      end
+      expect(current_url).to match "seminars\/#{seminar_user.id}\/edit"
+      expect(page).to have_selector(".panel.seminar-form", count: 1)
+      within(".panel.seminar-form") do
+        expect(page).to have_text "Edit seminar “#{seminar_user.title}”"
+        page.fill_in "Title", with: "another seminar title"
+        click_button "Update"
+      end
+      flash_is "Seminar successfully updated"
+      visit "/#/seminars/#{seminar_user.id}"
+      within ".seminar" do
+        expect(page).to have_text "another seminar title"
+      end
+      expect(page).to_not have_selector ".panel.seminar-form"
+    end
 
-  #   scenario 'editing seminar' do
-  #     visit "/#/seminars"
-  #     page.find(".seminars-seminar a", text: seminar1.title).click
-  #     expect(page).to have_selector(".panel.seminar")
-  #     within(".panel.seminar") do
-  #       click_link "Edit"
-  #     end
-  #     expect(current_url).to match "seminars\/#{seminar1.id}\/edit"
-  #     expect(page).to have_selector(".panel.seminar-form", count: 1)
-  #     within(".panel.seminar-form") do
-  #       expect(page).to have_text "Edit seminar “#{seminar1.name}”"
-  #       page.fill_in "Name", with: "another seminar name"
-  #       click_button "Update"
-  #     end
-  #     flash_is "Seminar successfully updated"
-  #     visit "/#/seminars"
-  #     within ".seminars-seminars" do
-  #       expect(page).to have_text "another seminar name"
-  #     end
-  #     expect(page).to_not have_selector ".panel.seminar-form"
-  #   end
+    scenario "destroying a seminar not own by user" do
+      visit "/"
+      visit "/#/seminars/#{seminar1.id}"
+      expect(page).to have_selector(".panel.seminar")
+      expect(page).to have_text seminar1.title
+      within(".panel.seminar") do
+        click_link "Destroy"
+      end
+      expect(page).to have_bootbox /Are you sure/
+      page.accept_bootbox
+      flash_is "Seminar successfully destroyed"
+      expect(page).to_not have_text seminar1.title
+    end
 
-  #   scenario 'destroying a seminar' do
-  #     visit "/#/seminars/#{seminar1.id}"
-  #     expect(page).to have_selector(".panel.seminar", count: 1)
-  #     within(".panel.seminar") do
-  #       expect(page).to have_text "Seminar “#{seminar1.title}”"
-  #       click_link "Destroy"
-  #     end
-  #     expect(page.driver.browser.switch_to.alert.text).to match /Are you sure/
-  #     page.driver.browser.switch_to.alert.accept
-  #     flash_is "Seminar successfully destroyed"
-  #   end
-  # end
+    scenario 'destroying seminar own by user' do
+      visit "/#/seminars"
+      visit "/#/seminars/#{seminar_user.id}"
+      expect(page).to have_selector(".panel.seminar")
+      expect(page).to have_text seminar_user.title
+      within(".panel.seminar") do
+        click_link "Destroy"
+      end
+      expect(page).to have_bootbox /Are you sure/
+      page.accept_bootbox
+      flash_is "Seminar successfully destroyed"
+      expect(page).to_not have_text seminar_user.title
+    end
+  end
 end

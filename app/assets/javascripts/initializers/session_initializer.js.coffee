@@ -1,9 +1,9 @@
-Ember.Application.initializer
+Em.Application.initializer
   name: 'session'
 
   initialize: (container, application) ->
     store = container.lookup('store:main')
-    App.Session = Ember.Object.extend(
+    App.Session = Em.Object.extend(
       init: () ->
         @_super()
         self = @
@@ -14,29 +14,31 @@ Ember.Application.initializer
             authentication_token: $.cookie('authToken')
             user_id: $.cookie('authUserId')
           ).then (user) ->
-            content = user.get('content')
-            if content.length == 1
+            theUser = user.get('firstObject')
+            if user.get('content').length == 1
               self.set 'authToken', $.cookie('authToken')
               self.set 'authUserId', $.cookie('authUserId')
-              self.set 'authUser', user.get('firstObject')
+              self.set 'authUser', theUser
 
       authTokenChanged: (->
         authToken = @get('authToken')
-        # console.log "authTokenChanged", authToken
         if authToken
           $.cookie('authToken', authToken)
         else
           $.removeCookie('authToken')
           $.removeCookie('_bioseminars_session')
-          App.reset()
+          @set 'authToken', undefined
+          @set 'authUserId', undefined
+          @set 'authUser', undefined
+          # App.reset()
       ).observes('authToken')
 
       authUserIdChanged: (->
         authUserId = @get('authUserId')
-        # console.log "authUserIdChanged", authUserId
         if authUserId
           $.cookie('authUserId', authUserId)
         else
           $.removeCookie('authUserId')
       ).observes('authUserId')
+
     ).create()

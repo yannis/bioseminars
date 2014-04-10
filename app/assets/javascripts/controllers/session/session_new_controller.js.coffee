@@ -29,6 +29,7 @@ App.SessionNewController = Ember.Controller.extend
                 App.Session.set('attemptedTransition', null)
               else
                 self.transitionToRoute 'index'
+
             else
               Flash.NM.push 'Unable to log in', 'danger'
           .fail (response, textStatus, jqXHR) ->

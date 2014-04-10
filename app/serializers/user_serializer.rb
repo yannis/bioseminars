@@ -5,7 +5,7 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :seminars
 
-  atts = [:id, :name, :email, :admin, :readable, :updatable, :destroyable]
+  atts = [:id, :name, :email, :admin, :readable, :updatable, :destroyable, :created_at_timestamp]
 
   USER_MODELS.each do |mod|
     method_name = "can_create_#{mod.to_s}"
@@ -17,4 +17,8 @@ class UserSerializer < ActiveModel::Serializer
 
   get_model_permissions_and *atts
   embed :ids
+
+  def created_at_timestamp
+    object.created_at.to_i
+  end
 end

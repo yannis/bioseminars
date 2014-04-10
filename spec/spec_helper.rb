@@ -66,7 +66,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     if example.metadata[:js]
-      page.driver.browser.manage.window.maximize
+      page.driver.browser.manage.window.resize_to(1366,768)
     end
     DatabaseCleaner.start
   end
