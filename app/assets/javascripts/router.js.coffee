@@ -1,6 +1,9 @@
 # For more information see: http://emberjs.com/guides/routing/
 
 App.Router.map ->
+
+  @route 'about'
+
   @resource 'buildings', ->
     @route 'new'
     @resource 'building', {path: '/:building_id'}
