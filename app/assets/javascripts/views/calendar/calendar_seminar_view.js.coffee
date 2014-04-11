@@ -20,6 +20,6 @@ App.CalendarSeminarView = Ember.View.extend
   # ).observes('controller.content')
 
   highlight: (->
-    console.log "$('.panel.seminar')", $('.panel.seminar')
+    # console.log "$('.panel.seminar')", $('.panel.seminar')
     $('.panel.seminar').effect( "highlight", 'slow' )
   ).observes('controller.model.id')

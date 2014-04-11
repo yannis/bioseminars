@@ -11,13 +11,17 @@
 </div>
 <div id="footer">
   <div class="container">
-    <p>
-      University of Geneva, Section of Biology
+    <div class="col-md-6 col-xs-12 footer-logo">
+      <a href="http://unige.ch/sciences" target='_blank'>
+        University of Geneva, Section of Biology
+      </a>
+    </div>
+    <div class="col-md-6 col-xs-12 footer-identity">
       {{App.Session.year}}
       –
       <a href="http://github.com/yannis/bioseminars" target="_blank" class"fa-2x fa-github" title="Fork me on github!"><i class="fa fa-2x fa-github"></i></span></a>
       –
       {{#link-to 'feeds.documentation'}}feeds API{{/link-to}}
-    </p>
+    </div>
   </div>
 </div>
