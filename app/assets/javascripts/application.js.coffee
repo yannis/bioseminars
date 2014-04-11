@@ -11,8 +11,6 @@
 #= require_self
 #= require bioseminars
 
-
-
 Ember.LOG_BINDINGS = true
 # Ember.RSVP.configure 'onerror', (e) ->
 #   console.log(e.message) if e.message
