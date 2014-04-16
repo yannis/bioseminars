@@ -2,7 +2,7 @@ class HostsController < ApplicationController
 
   def index
     @hosts = @current_resource
-    respond_with @hosts
+    respond_with @hosts.includes(hostings: :seminar)
   end
 
   def show

@@ -1,7 +1,7 @@
 App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionControllerMixin,
   needs: ['categories']
 
-  types: ["json", "atom", "rss", "xml", "ics"]
+  types: ["json", "atom", "rss", "xml", "ics", "iframe"]
   selectedType: "json"
   internal: true
   asc: true
@@ -16,6 +16,14 @@ App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionContro
   askForAlarm: (->
     @get("selectedType") == "ics"
   ).property("selectedType")
+
+  iframe: (->
+    @get("selectedType") == "iframe"
+  ).property("selectedType")
+
+  notIframe: (->
+    @get("iframe") == false
+  ).property("iframe")
 
   alarmDisabled: (->
     !@get('alarm')
@@ -55,4 +63,4 @@ App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionContro
     url += type
     url += "?#{parameters}"
     url
-  ).property("selectedType", "selectedScope", "asc", "after", "before", "internal", "limit", "categoriesParam", "alarm", "alarmMinutes")
+  ).property("selectedType", "selectedScope", "asc", "after", "before", "internal", "limit", "categoriesParam", "alarm", "alarmMinutes", "iframe")

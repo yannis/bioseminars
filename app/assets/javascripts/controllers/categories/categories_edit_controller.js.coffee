@@ -4,6 +4,7 @@ App.CategoriesEditController = Ember.ObjectController.extend
   actions:
     update: (category) ->
       self = @
+      category.set "archivedAt", moment(category.get('archivedAt')).toDate()
       category.save().then(
         (->
           Flash.NM.push 'Category successfully updated', "success"

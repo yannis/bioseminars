@@ -21,11 +21,12 @@
               {{#if categorisation.isNew}}
                 {{view Em.Select
                   viewName="select"
-                  contentBinding="selectCategories"
+                  contentBinding="sortedSelectCategories"
                   optionLabelPath="content.name"
                   optionValuePath="content.id"
                   selectionBinding="categorisation.category"
                   id="form-seminar-categorisations"
+                  prompt="Select a category"
                 }}
               {{ else }}
                 {{categorisation.category_name}}
@@ -70,11 +71,12 @@
               {{#if hosting.isNew}}
                 {{view Em.Select
                   viewName="select"
-                  contentBinding="selectHosts"
+                  contentBinding="sortedSelectHosts"
                   optionLabelPath="content.name"
                   optionValuePath="content.id"
                   selectionBinding="hosting.host"
                   id="form-seminar-hostings"
+                  prompt="Select a host"
                 }}
               {{ else }}
                 {{hosting.host_name}}
@@ -91,11 +93,12 @@
       <div class="col-sm-10">
         {{view Em.Select
             viewName="select"
-            contentBinding="selectLocations"
+            contentBinding="sortedSelectLocations"
             optionLabelPath="content.name_and_building"
             optionValuePath="content.id"
             selectionBinding="location"
             id='form-seminar-locations'
+            prompt="Select a location"
         }}
       </div>
     </div>

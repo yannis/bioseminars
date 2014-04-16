@@ -159,25 +159,21 @@ feature 'seminars', js: true do
         category.save
         host.save
         location.save
-        # visit "/#/seminars"
         visit "/#/seminars/new"
         expect(page).to have_selector(".panel.seminar-form", count: 1)
         within(".panel.seminar-form") do
           expect(page).to have_text "Create a seminar"
-          click_link "Add a category"
           first(:select, "form-seminar-categorisations").select category.name
-          # page.select category.name, from: "form-seminar-categorisations"
           page.fill_in "Title", with: "a new seminar title"
           page.fill_in "Speaker name", with: "a new speaker name"
           page.fill_in "Speaker affiliation", with: "a new speaker affiliation"
-          # page.fill_in "Start date and time", with: 2.hours.from_now.to_s(:ember)
-          click_link "Add a host"
-          # page.select host.name, from: "form-seminar-hostings"
+          # page.fill_in "Start date and time", with: 1.day.from_now.to_s(:ember)
           first(:select, "form-seminar-hostings").select host.name
           page.select location.name, from: "form-seminar-locations"
           click_button "Create"
         end
         flash_is "Seminar successfully created"
+        sleep 5
         expect(current_url).to match /\/#\/seminars/
         page.check category.name
         within ".seminars-seminars" do

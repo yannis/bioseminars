@@ -3,7 +3,7 @@ class Api::V2::SeminarsController < Api::V2::BaseController
   respond_to :json
 
   def index
-    @seminars = Seminar.all
+    @seminars = Seminar.active
     @seminars = @seminars.where(:internal => [true, false]) if params[:internal] == 'true'
     if params[:order]
       @seminars = @seminars.order("seminars.start_at #{params[:order] == 'asc' ? 'ASC' : 'DESC'}")
@@ -48,9 +48,9 @@ class Api::V2::SeminarsController < Api::V2::BaseController
       format.rss {
         render layout: false
       }
-      # format.ics {
-      #   render layout: false
-      # }
+      format.iframe {
+        render "application/index.html.haml"
+      }
       format.ics do
         send_data(ics_data(@seminars).to_ical, file_name: 'bioseminars.ics', disposition: 'inline; filename=bioseminars.ics', type: 'text/calendar')
       end

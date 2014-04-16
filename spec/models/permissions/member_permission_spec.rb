@@ -31,14 +31,14 @@ describe Permissions::MemberPermission do
   it "allows categories" do
     should allow_action :categories, :index
     should allow_action :categories, :show
-    should allow_action :categories, :create
-    should allow_action :categories, :update
-    should allow_action :categories, :destroy, category
+    should_not allow_action :categories, :create
+    should_not allow_action :categories, :update
+    should_not allow_action :categories, :destroy, category
 
-    should allow_param :category, :name
-    should allow_param :category, :description
-    should allow_param :category, :acronym
-    should allow_param :category, :color
+    should_not allow_param :category, :name
+    should_not allow_param :category, :description
+    should_not allow_param :category, :acronym
+    should_not allow_param :category, :color
   end
 
   it "allows hosts" do
@@ -84,6 +84,11 @@ describe Permissions::MemberPermission do
     should allow_param :seminar, :internal
     should allow_param :seminar, :hostings_attributes
     should allow_param :seminar, :documents_attributes
+
+    # MATCHERS DOES NOT SUPPORT NESTED PARAMS
+    # should allow_param :seminar, :categorisations
+    # should allow_param :seminar, :hostings
+
     should_not allow_param :seminar, :user_id
   end
 

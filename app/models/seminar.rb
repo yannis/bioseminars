@@ -1,5 +1,6 @@
 class Seminar < ActiveRecord::Base
   attr_accessor :readable, :updatable, :destroyable, :alarm
+
   belongs_to :location
   belongs_to :user
   has_many :categorisations, inverse_of: :seminar, dependent: :destroy
@@ -18,6 +19,10 @@ class Seminar < ActiveRecord::Base
   accepts_nested_attributes_for :hostings, allow_destroy: true
   accepts_nested_attributes_for :categorisations, allow_destroy: true
   accepts_nested_attributes_for :documents, allow_destroy: true
+
+  def self.active
+    includes(:categories).where(categories: {archived_at: nil}).references(:categories)
+  end
 
   def self.past
     where("(seminars.end_at IS NULL AND seminars.start_at < ?) OR (seminars.end_at < ?)", Time.current, Time.current)
@@ -92,7 +97,6 @@ class Seminar < ActiveRecord::Base
     else
       self.hostings.each do |hosting|
         hosting.destroy unless hostings_data.map{|hd| hd.fetch(:id, nil)}.compact.include?(hosting.id.to_s)
-        # hosting.destroy unless hostings_data.map{|hd| hd.fetch(:host_id)}.include?(hosting.host_id.to_s)
       end
       hostings_data.uniq.each do |hosting_data|
         self.hostings.find_or_initialize_by host_id: hosting_data.fetch(:host_id)
@@ -146,21 +150,22 @@ class Seminar < ActiveRecord::Base
   end
 
   def to_ics(ical)
+    seminar = self
     ical.event do |event|
-      event.summary = "#{self.categories.map(&:acronym).compact.join(', ')} – #{self.title}"
-      event.dtstart = self.start_at.try(:localtime)
+      event.summary = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
+      event.dtstart = seminar.start_at.try(:localtime)
       # event.dtstart = DateTime.new(2014,4,7,18,0)
-      event.dtend = self.end_at.try(:localtime)
-      event.location = self.location.name_and_building unless self.location.blank?
+      event.dtend = seminar.end_at.try(:localtime)
+      event.location = seminar.location.name_and_building unless seminar.location.blank?
       description = []
-      description << self.speaker_name_and_affiliation
-      description << "Hosted by "+self.hosts.map(&:name).join(', ')
+      description << seminar.speaker_name_and_affiliation
+      description << "Hosted by "+seminar.hosts.map(&:name).join(', ')
       event.description = description.join(' | ')
-      event.url = "http://#{Rails.application.secrets.mailer_host}#{self.ember_path}"
-      if self.alarm.present? && self.alarm.to_i >= 0
+      event.url = "http://#{Rails.application.secrets.mailer_host}#{seminar.ember_path}"
+      if seminar.alarm.present? && seminar.alarm.to_i >= 0
         event.alarm do |a|
-          a.trigger = "-PT#{self.alarm}M"
-          a.description = "#{self.categories.map(&:acronym).compact.join(', ')} – #{self.title}"
+          a.trigger = "-PT#{seminar.alarm}M"
+          a.description = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
           a.action = 'DISPLAY'
         end
       end

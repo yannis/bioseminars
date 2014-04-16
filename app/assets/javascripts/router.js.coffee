@@ -38,8 +38,7 @@ App.Router.map ->
   @resource 'seminars.next', {path: 'seminars/next'}
   @resource 'seminars.past', {path: 'seminars/past'}
 
-  # @resource 'seminar', {path: '/seminars/:seminar_id'}
-  # @resource 'seminar.edit', {path: '/seminars/:seminar_id/edit'}
+  @resource "iframe", {path: 'iframe/:category_ids'}
 
   @resource 'session', {path: 'sessions'}, ->
     @route 'new'

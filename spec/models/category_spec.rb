@@ -6,6 +6,7 @@ describe Category do
   it {should respond_to :acronym}
   it {should respond_to :color}
   it {should respond_to :position}
+  it {should respond_to :archived_at}
   it {should validate_presence_of :name}
   it {should validate_uniqueness_of :name}
   it {should validate_presence_of :acronym}

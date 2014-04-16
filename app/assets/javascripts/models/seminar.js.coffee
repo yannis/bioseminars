@@ -23,6 +23,7 @@ App.Seminar = DS.Model.extend
   categories: ( ->
     @get('categorisations').getEach('category')
   ).property 'categorisations.@each.relationshipsLoaded'
+
   categorisations_attributes: ( ->
     @get('categorisations')
   ).property "categorisations"

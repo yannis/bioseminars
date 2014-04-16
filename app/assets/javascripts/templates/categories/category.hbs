@@ -1,4 +1,4 @@
-<div class="panel panel-info category">
+<div  {{bind-attr class=":panel :panel-info :category :scrollfollow archived:archived"}}>
   <div class="panel-heading">
     <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
     <h3 class="panel-title">Category “{{name}}”</h3>
@@ -8,10 +8,21 @@
       <strong>Description</strong>
       <p>{{description}}</p>
     {{/if}}
+    {{#if archivedAt}}
+      <p>
+        <strong>ARCHIVED</strong>
+        on {{formattedArchived}}
+      </p>
+
+    {{/if}}
     <strong>Acronym</strong>
     <p>{{acronym}}</p>
     <strong>Color</strong>
     <p>{{color}}</p>
+    {{#if App.Session.authUser.admin}}
+      <strong>Archived on</strong>
+      <p>{{formattedArchived}}</p>
+    {{/if}}
     {{#if seminars}}
       <h3>Latest seminars</h3>
       <ul>
@@ -28,6 +39,9 @@
       <div class='seminar-adminlinks'>
         {{#if updatable }}
           {{#link-to "categories.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+          {{#if App.Session.authUser.admin}}
+            <a {{action "setArchivedAt" this}} class="seminar-adminlinks-archiving" />Toggle archive status</a>
+          {{/if}}
         {{/if}}
         {{#if destroyable }}
           <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>

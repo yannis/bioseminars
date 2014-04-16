@@ -37,6 +37,9 @@ class CategoriesController < ApplicationController
 private
 
   def current_resource
-    @current_resource ||= params[:id] ? Category.includes(:seminars).find(params[:id]) : Category.includes(:seminars).order("categories.position ASC")
+    categories = Category.includes(:seminars)
+    # Rails.logger.debug "current_user: #{current_user.admin}"
+    categories = categories.where("categories.archived_at IS NULL") unless current_user.present? && current_user.admin
+    @current_resource ||= params[:id] ? Category.includes(:seminars).find(params[:id]) : categories.order("categories.position ASC")
   end
 end

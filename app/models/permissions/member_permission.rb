@@ -9,10 +9,10 @@ module Permissions
         building.locations.empty?
       end
 
-      allow_action :categories, [:index, :show, :create, :update]
-      allow_action :categories, [:destroy] do |category|
-        category.seminars.empty?
-      end
+      allow_action :categories, [:index, :show]
+      # allow_action :categories, [:destroy] do |category|
+      #   category.seminars.empty?
+      # end
 
       allow_action :categorisations, [:create, :update, :destroy] do |categorisation|
         categorisation.seminar.user_id == user.id
@@ -45,10 +45,14 @@ module Permissions
       allow_action :sessions, [:create, :destroy]
 
       allow_param :building, [:name]
-      allow_param :category, [:name, :description, :acronym, :color]
+      # allow_param :category, [:name, :description, :acronym, :color]
+      allow_param :categorisation, [:category_id, :seminar_id]
+
       allow_param :host, [:name, :email]
+
       allow_param :location, [:name, :building_id]
-      allow_param :seminar, [:title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :url, :pubmed_ids, :all_day, :hostings_attributes, :documents_attributes, :internal, :description, :categorisations, :hostings]
+
+      allow_param :seminar, [:title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :url, :pubmed_ids, :all_day, :hostings_attributes, :documents_attributes, :internal, :description, {hostings: [:host_id, :seminar_id, :id]}, {categorisations: [:category_id, :seminar_id, :id]}]
 
       allow_param :user, [:name, :email, :password, :password_confirmation]
     end

@@ -5,10 +5,19 @@ App.Category = DS.Model.extend
   acronym: DS.attr('string')
   position: DS.attr('number')
   seminars: DS.hasMany('seminar', { async: true })
+  archivedAt: DS.attr('date')
 
   readable: DS.attr('boolean', {readOnly: true})
   updatable: DS.attr('boolean', {readOnly: true})
   destroyable: DS.attr('boolean', {readOnly: true})
+
+  positions: ->
+    @store.find("category").then (categories)->
+      return categories.mapBy("position")
+
+  maxPosition: Ember.computed.max('positions')
+
+
   updatable_or_destroyable: (->
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable").readOnly()
@@ -49,3 +58,12 @@ App.Category = DS.Model.extend
   colorStyle: (->
     "background-color: #{@get('color')}"
   ).property('color')
+
+  formattedArchived: (->
+    # return moment(@get('archivedAt')).format("MMM Do YYYY, HH:mm")
+    return moment(@get('archivedAt')).format("DD-MM-YYYY HH:mm") if @get('archivedAt')
+  ).property('archivedAt')
+
+  archived: (->
+    @get('archivedAt')?
+  ).property('archivedAt')

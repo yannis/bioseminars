@@ -1,4 +1,14 @@
 App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMixin,
+
+  selectCategoriesSorting: ['position']
+  sortedSelectCategories: Ember.computed.sort('selectCategories', 'selectCategoriesSorting')
+
+  selectHostsSorting: ['name']
+  sortedSelectHosts: Ember.computed.sort('selectHosts', 'selectHostsSorting')
+
+  selectLocationsSorting: ['name']
+  sortedSelectLocations: Ember.computed.sort('selectLocations', 'selectLocationsSorting')
+
   actions:
     create: (seminar) ->
       if App.Session.authUser == undefined || App.Session.authUser.get("can_create_seminars") == false

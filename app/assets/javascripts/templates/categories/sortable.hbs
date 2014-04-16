@@ -1,4 +1,4 @@
-<li class="categories-category list-group-item"  {{bind-attr data-id="id"}}>
+<li {{bind-attr class=":categories-category :list-group-item archived:archived"}} {{bind-attr data-id="id"}}>
   {{#if App.Session.authUser.admin}}
     <span class="category-sortable-handle glyphicon glyphicon-sort"></span>
   {{/if}}

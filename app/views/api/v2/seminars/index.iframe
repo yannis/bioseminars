@@ -53,4 +53,4 @@
 
         ga('create', '#{ Rails.application.secrets.google_account_id }', 'unige.ch');
         ga('send', 'pageview');
-    = javascript_include_tag (params[:controller] == "api/v2/seminars" ? "application_api" : 'application')
+    = javascript_include_tag 'application'

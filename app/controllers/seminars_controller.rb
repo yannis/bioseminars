@@ -38,7 +38,8 @@ class SeminarsController < ApplicationController
     @seminars = @seminars.limit(200) if @seminars.count > 200
 
     # Rails.logger.debug "Seminars count: #{@seminars.count}"
-    respond_with @seminars.includes(:location, :user, :hostings, :hosts, :categorisations, {categories: [:seminars]})
+    # respond_with @seminars.includes(:location, :user, :hostings, :hosts, :categorisations, {categories: [:seminars]})
+    respond_with @seminars
   end
 
   def show
@@ -47,7 +48,7 @@ class SeminarsController < ApplicationController
   end
 
   def create
-    @seminar = Seminar.new(params[:seminar].merge(user_id: current_user.id))
+    @seminar = Seminar.new params[:seminar].merge(user_id: current_user.id)
     if @seminar.save
       render json: @seminar, status: :created, location: @seminar
     else
@@ -73,6 +74,9 @@ class SeminarsController < ApplicationController
 private
 
   def current_resource
-    @current_resource ||= (params[:id] ? Seminar.find(params[:id]) : Seminar.all)
+
+    seminars = Seminar.all
+    seminars = seminars.active unless current_user.present? && current_user.admin
+    @current_resource ||= (params[:id] ? seminars.find(params[:id]) : seminars)
   end
 end

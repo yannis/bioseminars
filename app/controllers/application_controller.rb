@@ -14,28 +14,6 @@ class ApplicationController < ActionController::Base
   layout false
   respond_to :json, :html
 
-  # # unless Rails.application.config.consider_all_requests_local
-  #   rescue_from Exception,                            with: :render_error
-  #   rescue_from ActiveRecord::RecordNotFound,         with: :render_error
-  #   # rescue_from ActionController::RoutingError,       with: :render_not_found
-  #   # rescue_from ActionController::UnknownController,  with: :render_not_found
-  #   # rescue_from ActionController::UnknownAction,      with: :render_not_found
-  # # end
-
-
-  # # def render_not_found(exception)
-  # #   logger.error(exception)
-  # #   notify_airbrake(exception)
-  # #   render json: {errors: exception.message}, status: :unprocessable_entity && return
-  # #   render(json: exception.message, status: :unprocessable_entity) && return
-  # # end
-
-  # def render_error(e)
-  #   Rails.logger.debug "e: #{e}"
-  #   # notify_airbrake(e)
-  #   render json: {errors: e.message}, status: :unprocessable_entity && return
-  # end
-
 protected
 
   def configure_permitted_parameters
@@ -78,5 +56,4 @@ private
       sign_in user, store: false
     end
   end
-
 end

@@ -1,5 +1,7 @@
 App.CategoryController = Ember.ObjectController.extend
 
+  needs: ["categories"]
+
   seminarSorting: ["startAt:desc"]
   sortedSeminars: Ember.computed.sort("seminars", 'seminarSorting')
 
@@ -30,3 +32,23 @@ App.CategoryController = Ember.ObjectController.extend
 
     close: ->
       this.transitionToRoute('categories')
+
+    setArchivedAt: (category)->
+      # debugger
+      console.log "setArchivedAt", category.get("archived")
+      if category.get("archivedAt")?
+        category.set "archivedAt", null
+        message = 'Category successfully unarchived'
+      else
+        category.set "archivedAt", moment().toDate()
+        # debugger
+        category.set "position", @get("controllers.categories.lastObject.position")+1
+        message = 'Category successfully archived'
+      category.save().then(
+        (->
+          Flash.NM.push message, "success"
+        ),
+        ((error) ->
+          self.setValidationErrors error.message
+        )
+      )
