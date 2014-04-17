@@ -5,7 +5,6 @@ App.SessionDestroyController = Ember.Controller.extend
       url:  '/session'
       type: 'DELETE'
     ).always (response) ->
-      console.log "response", response
       if response['status'] && response['status'] > 400
         text = JSON.parse(response['responseText'])['errors']
         if text.length

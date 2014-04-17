@@ -6,7 +6,6 @@ App.CategoriesSelectionControllerMixin = Ember.Mixin.create
 
   limitedCategories: (->
     cats = @get('controllers.categories')
-    # console.log "cats: ", cats
     if @get('showAll')
       cats
     else

@@ -21,5 +21,8 @@
         color: $bioseminars_brand
     &[href*=".pdf"]
       +add_icon("\f15c")
+    &[href*=".ics"]
+      &:after
+        content: none
     &[href^="mailto:"]
       +add_icon("\f0e0")

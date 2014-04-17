@@ -10,10 +10,8 @@ App.LoadSeminarsControllerMixin = Em.Mixin.create
   gotMore: (seminars, page) ->
     @set 'loadingMore', false
     if seminars.length == 0
-      # console.log "no more seminaaaars", seminars
       @set 'noMoreSeminars', true
     else
-      console.log "more seminaaaars", seminars
       @pushObjects(seminars)
       @set('content', @get('content').uniq()) # objects are pushed twice and I don't know why
       @set 'page', page

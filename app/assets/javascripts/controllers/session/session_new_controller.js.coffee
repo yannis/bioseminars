@@ -11,9 +11,6 @@ App.SessionNewController = Ember.Controller.extend
             password: data.password
         $.post('/session', postData)
           .done (response, textStatus, jqXHR) ->
-            # console.log "response", response
-            # console.log "textStatus", textStatus
-            # console.log "jqXHR", jqXHR
             if response.session && response.session.authentication_token
               Flash.NM.push 'Successfully signed in', 'success'
               sessionData = (response.session || {})
@@ -33,9 +30,6 @@ App.SessionNewController = Ember.Controller.extend
             else
               Flash.NM.push 'Unable to log in', 'danger'
           .fail (response, textStatus, jqXHR) ->
-            # console.log "response", response
-            # console.log "textStatus", textStatus
-            # console.log "jqXHR", jqXHR
             Flash.NM.push JSON.parse(response['responseText'])['errors'], "danger"
 
     cancel: ->

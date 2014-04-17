@@ -22,7 +22,6 @@ App.CalendarView = Ember.View.extend
 
     $('#calendar').fullCalendar
 
-    # debugger
     @get('controller.seminars').then(
       ((data) ->
         datajson = data.map((s) -> s.get("asJSON"))
@@ -32,7 +31,6 @@ App.CalendarView = Ember.View.extend
           month: parseInt(controller.get('month'))-1
           day: controller.get('day')
           axisFormat: 'H:mm'
-          # defaultEventMinutes: 60
           header:
             left: 'prev,next today'
             center: 'title'
@@ -70,15 +68,6 @@ App.CalendarView = Ember.View.extend
               else
                 'month'
 
-            # console.log "vyear", vyear
-            # console.log "year", year
-            # console.log "vmonth", vmonth
-            # console.log "month", month
-            # console.log "vday", vday
-            # console.log "day", day
-            # console.log "vtype", vtype
-            # console.log "defaultView", defaultView
-
             if vyear != year || vmonth != month  || vtype != defaultView
               controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
               self.rerender()
@@ -86,7 +75,6 @@ App.CalendarView = Ember.View.extend
 
           eventAfterRender: (event, element, view) ->
             seminar = event.emSelf
-            # console.log "eventAfterRender seminar", seminar
             seminar.addObserver 'show', ->
               if seminar.get('show')
                 $(element).removeClass('hidden')

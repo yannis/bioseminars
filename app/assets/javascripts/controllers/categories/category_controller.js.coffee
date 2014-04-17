@@ -34,8 +34,6 @@ App.CategoryController = Ember.ObjectController.extend
       this.transitionToRoute('categories')
 
     setArchivedAt: (category)->
-      # debugger
-      console.log "setArchivedAt", category.get("archived")
       if category.get("archivedAt")?
         category.set "archivedAt", null
         message = 'Category successfully unarchived'
