@@ -10,20 +10,16 @@ Em.Application.initializer
         @reloadUserVoice null
 
       setUserVoice: (->
-        # console.log "App.Session.authUser", App.Session.get("authUser")
         user = App.Session.get("authUser")
         @reloadUserVoice user
       ).observes("App.Session.authUser")
 
       unsetUserVoice: (->
-        # console.log "App.Session.authToken", App.Session.get("authToken")
         authToken = App.Session.get("authToken")
         @reloadUserVoice(null) unless authToken?
       ).observes("App.Session.authToken")
 
       reloadUserVoice: (user)->
-
-        # console.log "userVoice reloaded", user
 
         delete window.UserVoice if window.UserVoice
 

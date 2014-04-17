@@ -11,7 +11,6 @@ App.HostsEditController = Ember.ObjectController.extend
           history.go -1
         ),
         ((error) ->
-          console.log "error", JSON.parse(error.responseText)
           if error.responseText.length
             Flash.NM.push JSON.parse(error.responseText)["message"], "danger"
           else

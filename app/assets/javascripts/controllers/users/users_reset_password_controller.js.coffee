@@ -1,19 +1,11 @@
 App.UsersResetPasswordController = Ember.Controller.extend
 
-  # needs: ["session_new"]
-
   pageTitle: "Reset your password"
-
-  # email: (->
-  #   @get("controller.session_new.email")
-  #   debugger
-  # ).property("controller.session_new.email")
 
   actions:
     reset_password: ->
       self = @
       data = @getProperties('email')
-      console.log "data", data
       if !Ember.isEmpty(data.email)
         postData =
           user:

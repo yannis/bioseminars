@@ -10,7 +10,6 @@ App.Publication = DS.Model.extend
   abstract: DS.attr('string')
   authors: DS.attr('string')
   fullDetails: (->
-    console.log "@get('pubdate')", @get('pubdate')
     [@get('journal'), @get('volume'), @get('issue'), @get('pages'), @get('pubdate')].compact().join(", ")
   ).property('journal', 'volume', 'issue', 'pages', 'pubdate')
 
@@ -51,7 +50,6 @@ App.PublicationAdapter = DS.RESTAdapter.extend
       Ember.$.ajax(hash)
 
   serializePublicationFromData: (data)->
-    console.log "data", data
     result = data['result'][0]
     json = data['result'][0]['MedlineCitation']['Article']
     params = {pubdate: null}
@@ -76,7 +74,3 @@ App.PublicationAdapter = DS.RESTAdapter.extend
 DS.PublicationSerializer = DS.RESTSerializer.extend
   rootForType: (type) ->
     return 'result'
-  # primaryKey: 'id'
-
-
-# App.Store.registerAdapter("App.Publication", App.publicationAdapter)
