@@ -33,6 +33,8 @@ App.CalendarView = Ember.View.extend
       timeFormat: 'H:mm'
       disableDragging: true
       disableResizing: true
+      loading: (bool)->
+        App.set("loading", bool)
       events: (start, end, callback) ->
         store.find("seminar",
             after: moment(start).format("YYYYMMDD")
@@ -71,16 +73,6 @@ App.CalendarView = Ember.View.extend
             'week'
           else
             'month'
-
-        # store.find("seminar",
-        #     after: moment("#{vyear}-#{vmonth}-01").date(0).format("YYYYMMDD")
-        #     before: moment("#{vyear}-#{vmonth}-01").add('months', 1).date(0).format("YYYYMMDD")
-        #   ).then (data) =>
-        #     controller.set "seminars", data
-        #     seminars = data.get("content")
-        #     for seminar in seminars
-        #       # console.log "seminar", seminar.get("asJSON")
-        #       $('#calendar').fullCalendar "renderEvent", seminar.get("asJSON")
 
         if vyear != year || vmonth != month || vtype != defaultView
           controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
