@@ -2,15 +2,7 @@ App.CalendarSeminarController = Em.ObjectController.extend
   actions:
     close: ->
       this.transitionToRoute('calendar')
-      # window.history.go(-1)
     destroy: (seminar) ->
-      # debugger
-      # if confirm "Are you sure to destroy seminar “#{seminar.name}”?"
-      #   seminar.deleteRecord()
-      #   @get('store').commit()
-      #   alert "seminar destroyed?", seminar.isDestroyed
-      #   @transitionToRoute 'seminars'
-
       self = @
       if seminar.get("destroyable")
         bootbox.confirm "Are you sure you want to destroy this seminar?", (result) ->

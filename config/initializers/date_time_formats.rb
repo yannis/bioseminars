@@ -12,6 +12,7 @@ Time::DATE_FORMATS.merge!(
 
 Date::DATE_FORMATS.merge!(
   :month => '%B',
+  :month_year => '%B %Y',
   :day_month_year => "%e %B %Y",
   :time_only => '%H:%M'
 )

@@ -8,7 +8,6 @@ App.Seminar = DS.Model.extend
   pubmed_ids: DS.attr('string')
   internal: DS.attr('boolean')
   all_day: DS.attr('boolean')
-  # start_at: DS.attr('date')
   startAt: DS.attr('date',
     defaultValue: ->
       moment().add('hours', 1).startOf('hours')
@@ -18,7 +17,6 @@ App.Seminar = DS.Model.extend
   hosts: DS.hasMany('host')
   hostings: DS.hasMany('hosting')
 
-  # categories: DS.hasMany('category')
   categorisations: DS.hasMany('categorisation')
   categories: ( ->
     @get('categorisations').getEach('category')
@@ -39,7 +37,6 @@ App.Seminar = DS.Model.extend
   ).property("updatable", "destroyable")
 
   formatted_start: (->
-    # return moment(@get('startAt')).format("MMM Do YYYY, HH:mm")
     return moment(@get('startAt')).format("DD-MM-YYYY HH:mm") if @get('startAt')
   ).property('startAt')
 
@@ -67,19 +64,16 @@ App.Seminar = DS.Model.extend
   publications: (->
     publications = []
     pubMedIds = @get('pubmed_ids')
-    # console.log "pubMedIds", pubMedIds
     if pubMedIds
       pubMedIds = pubMedIds.match(/\d+/g).unique()
       for pubMedId in pubMedIds
         @store.find("publication", pubMedId).then (publication)->
-          # console.log "publication", publication
           publications.addObject publication
     return publications
   ).property('pubmed_ids')
 
   show: (->
     true in @get('categories').mapBy('showMe')
-    # debugger
   ).property('categories.@each.showMe')
 
   hide: (->
@@ -92,13 +86,13 @@ App.Seminar = DS.Model.extend
 
   asJSON: (->
     id: @get('id')
-    # title: @get('display_title')
     title: @get('acronyms')
     start: moment(@get('startAt')).format("YYYY-MM-DD HH:mm")
     end: if @get('endAt') then moment(@get('endAt')).format("YYYY-MM-DD HH:mm") else null
-    allDay: @get('all_day')
+    allDay: @get('allDay')
     color: @get('color')
+    show: @get('show')
     className: "fc-event-#{@get('id')} #{if @get('show') then '' else 'hidden'}"
     emSelf: @
-  ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color', 'showMe')
+  ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color')
 

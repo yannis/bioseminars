@@ -1,15 +1,12 @@
 App.CalendarRoute = Em.Route.extend
 
   model: (params) ->
-    # debugger
-    # console.log "params.year", params.year
     year: params.year || moment().format('YYYY')
     month: params.month || moment().format('MM')
     day: params.year || moment().format('DD')
     type: params.type || "month"
 
   serialize: (model) ->
-    # console.log "model.year", model.year
     return {
       year: model.year,
       month: model.month,
