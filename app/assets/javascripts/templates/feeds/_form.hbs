@@ -78,9 +78,11 @@
       <label class="col-sm-2 control-label" for="feed-form-after">
         After date
       </label>
-      <div class="col-sm-10 input-group date-field">
-        {{view App.DateField valueBinding="after" placeholder='After date' id='form-feed-after' class='form-control' }}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+      <div class="col-sm-10">
+        <div class="input-group date-field">
+          {{view App.DateField valueBinding="after" placeholder='After date' id='form-feed-after' class='form-control' }}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+        </div>
       </div>
     </div>
 
@@ -88,9 +90,11 @@
       <label class="col-sm-2 control-label" for="feed-form-before">
         Before date
       </label>
-      <div class="col-sm-10 input-group date-field">
-        {{view App.DateField valueBinding="before" placeholder='Before date' id='form-feed-before' class='form-control' }}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+      <div class="col-sm-10">
+        <div class="input-group date-field">
+          {{view App.DateField valueBinding="before" placeholder='Before date' id='form-feed-before' class='form-control' }}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+        </div>
       </div>
     </div>
   {{/if}}
