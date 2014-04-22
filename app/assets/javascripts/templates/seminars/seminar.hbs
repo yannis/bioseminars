@@ -42,7 +42,11 @@
       <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank">Import in calendar <i class="glyphicon glyphicon-calendar"></i></a>
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
-        {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
+      {{/if}}
+      {{#if App.Session.authUser}}
+        {{#if App.Session.authUser.can_create_seminars}}
+          {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
+        {{/if}}
       {{/if}}
       {{#if destroyable }}
         <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>

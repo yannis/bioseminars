@@ -1,4 +1,4 @@
-App.SeminarsNewView = Ember.View.extend
+App.SeminarsNewWithDateView = Ember.View.extend
   templateName: 'seminars/new'
   FormSpeakersView: Ember.View.extend
     templateName: 'seminars/form_speakers'

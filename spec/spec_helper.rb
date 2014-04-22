@@ -38,12 +38,12 @@ RSpec.configure do |config|
     # driver
   end
 
-
   Capybara::Screenshot.register_driver(:chrome) do |driver, path|
    driver.save_screenshot(path)
  end
 
   Capybara.javascript_driver = :chrome
+  # Capybara.javascript_driver = :webkit
   Capybara.save_and_open_page_path = "/tmp/capybara"
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -66,7 +66,11 @@ RSpec.configure do |config|
 
   config.before(:each) do
     if example.metadata[:js]
-      page.driver.browser.manage.window.resize_to(1366,768)
+      if Capybara.current_driver == :webkit
+        page.driver.resize_window(1366,768)
+      else
+        page.driver.browser.manage.window.resize_to(1366,768) # for chrome
+      end
     end
     DatabaseCleaner.start
   end
@@ -109,16 +113,25 @@ RSpec.configure do |config|
   def embersignin(user)
     visit "/"
     login_as user, scope: :user
-    page.driver.browser.manage.add_cookie(name: "authToken", value: user.authentication_token)
-    page.driver.browser.manage.add_cookie(name: "authUserId", value: user.id)
+    if Capybara.current_driver == :webkit
+      page.driver.browser.set_cookie("authToken=#{user.authentication_token}; path=/; domain=127.0.0.1")
+      page.driver.browser.set_cookie("authUserId=#{user.id}; path=/; domain=127.0.0.1")
+    else
+      page.driver.browser.manage.add_cookie(name: "authToken", value: user.authentication_token)
+      page.driver.browser.manage.add_cookie(name: "authUserId", value: user.id)
+    end
     visit "/"
   end
 
   def embersignout
     logout :user
     Capybara.reset_sessions!
-    page.driver.browser.manage.delete_cookie(name: "authToken")
-    page.driver.browser.manage.delete_cookie(name: "authUserId")
+    if Capybara.current_driver == :webkit
+      page.driver.browser.clear_cookies
+    else
+      page.driver.browser.manage.delete_cookie(name: "authToken")
+      page.driver.browser.manage.delete_cookie(name: "authUserId")
+    end
   end
 
   def flash_is(message)

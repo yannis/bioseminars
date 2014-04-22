@@ -16,8 +16,6 @@ feature 'seminars', js: true do
   let!(:seminar6) {create :seminar, categories: [category3]}
   let!(:seminar7) {create :seminar, categories: [category1]}
   let!(:seminar8) {create :seminar, categories: [category2]}
-  # let!(:seminar9) {create :seminar}
-  # let!(:seminar10) {create :seminar}
 
   context "when not logged in" do
     before { embersignout }
@@ -64,6 +62,7 @@ feature 'seminars', js: true do
       within(".panel.seminar") do
         expect(page).to have_text(seminar1.title, count: 1)
         expect(page).to_not have_selector("a", text: 'Edit')
+        expect(page).to_not have_selector("a", text: 'Duplicate')
         page.find("button.close").click
       end
 
@@ -82,14 +81,21 @@ feature 'seminars', js: true do
       visit "/#/seminars/#{seminar1.id}/edit"
       it_does_not_authorize_and_redirect_to "/#/calendar/"
     end
+
+    scenario "duplicating a seminar" do
+      visit "/"
+      visit "/#/seminars/#{seminar1.id}/duplicate"
+      it_does_not_authorize_and_redirect_to "/#/calendar/"
+    end
   end
 
-  for role in ["member", "admin"]
+  ["member", "admin"].each do |role|
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       let(:category) {create :category, name: "A category name"}
       let(:host) {create :host, name: "A host name"}
       let(:location) {create :location, name: "A conf room"}
+
       before {
         embersignout
         embersignin user
@@ -145,7 +151,7 @@ feature 'seminars', js: true do
             expect(page).to have_selector("a", text: 'Destroy')
           else
             expect(page).to_not have_selector("a", text: 'Edit')
-            expect(page).to_not have_selector("a", text: 'Duplicate')
+            expect(page).to have_selector("a", text: 'Duplicate')
             expect(page).to_not have_selector("a", text: 'Destroy')
           end
           page.find("button.close").click
@@ -173,11 +179,35 @@ feature 'seminars', js: true do
           click_button "Create"
         end
         flash_is "Seminar successfully created"
-        sleep 5
         expect(current_url).to match /\/#\/seminars/
         page.check category.name
         within ".seminars-seminars" do
           expect(page).to have_text "a new seminar title"
+        end
+        expect(page).to_not have_selector ".panel.seminar-form"
+      end
+
+      scenario "duplicating a seminar not own by user" do
+        visit "/#/seminars/#{seminar1.id}"
+        expect(page).to have_selector(".panel.seminar")
+        within(".panel.seminar") do
+          expect(page).to have_text("Duplicate")
+          click_link "Duplicate"
+        end
+        expect(current_url).to match "seminars\/#{seminar1.id}\/duplicate"
+        expect(page).to have_selector(".panel.seminar-form", count: 1)
+        within(".panel.seminar-form") do
+          expect(page).to have_text "Duplicate seminar “#{seminar1.title}”"
+          page.fill_in "Title", with: "duplicate seminar title"
+          page.fill_in "Speaker name", with: "duplicate speaker name"
+          page.fill_in "Speaker affiliation", with: "duplicate speaker affiliation"
+          click_button "Create"
+        end
+        flash_is "Seminar successfully created"
+        expect(current_url).to match /\/#\/seminars/
+        page.check category.name
+        within ".seminars-seminars" do
+          expect(page).to have_text "duplicate seminar title"
         end
         expect(page).to_not have_selector ".panel.seminar-form"
       end

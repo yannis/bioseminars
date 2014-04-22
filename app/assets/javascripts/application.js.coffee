@@ -11,6 +11,10 @@
 #= require_self
 #= require bioseminars
 
+@EmberENV =
+  FEATURES:
+    'query-params-new': true
+
 Em.LOG_BINDINGS = true
 # Ember.RSVP.configure 'onerror', (e) ->
 #   console.log(e.message) if e.message

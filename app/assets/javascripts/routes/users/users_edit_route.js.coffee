@@ -3,7 +3,6 @@ App.UsersEditRoute = Ember.Route.extend
     @store.find("user", params.user_id).then(
       null,
       ((error) ->
-        debugger
         Flash.NM.push JSON.parse(error.responseText)["message"], "danger"
         window.history.go(-1)
       )

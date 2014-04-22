@@ -48,14 +48,12 @@ App.CalendarView = Ember.View.extend
         controller.transitionToRoute "calendar_seminar", data.id
         false
 
-      # dayClick: (date, allDay, jsEvent, view) ->
-      #   vyear = moment(date).format("YYYY")
-      #   vmonth = moment(date).format("MM")
-      #   vday = moment(date).format("DD")
-
-      #   # if allDay && view.name == 'month'
-      #   #   controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: 'day'}
-      #   #   self.rerender()
+      dayClick: (date, allDay, jsEvent, view) ->
+        if App.Session.authUser
+          year = moment(date).format("YYYY")
+          month = moment(date).format("MM")
+          day = moment(date).format("DD")
+          controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
 
       viewDisplay: (view) =>
         calendar = @

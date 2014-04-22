@@ -32,7 +32,8 @@ App.Router.map ->
 
   @resource 'seminars', ->
   @resource 'seminar', {path: 'seminars/:seminar_id'}
-  @route 'seminars.new', {path: 'seminars/new'}
+  @resource 'seminars.new', {path: 'seminars/new'}
+  @resource 'seminars.new_with_date', {path: 'seminars/new_with_date/:year/:month/:day'}
   @resource 'seminars.edit', {path: 'seminars/:seminar_id/edit'}
   @resource 'seminars.duplicate', {path: 'seminars/:seminar_id/duplicate'}
   @resource 'seminars.next', {path: 'seminars/next'}

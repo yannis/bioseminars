@@ -1,4 +1,4 @@
-App.SeminarsNewRoute = Ember.Route.extend
+App.SeminarsNewWithDateRoute = Ember.Route.extend
   model: (params) ->
     seminar = @store.createRecord "seminar"
     seminar.get("categorisations").addObject @store.createRecord("categorisation")
