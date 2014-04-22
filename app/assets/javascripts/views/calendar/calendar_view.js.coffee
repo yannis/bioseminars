@@ -86,7 +86,7 @@ App.CalendarView = Ember.View.extend
           else
             $(element).addClass('hidden')
 
-      dayRender: (date, cell) ->
+      dayRender: (date, cell) =>
         if App.Session.authUser
           $link = $("<a class='calendar-new_seminar_link' href='#' >(+)</a>")
           $link.attr "title", "Add event to this day"
@@ -98,7 +98,7 @@ App.CalendarView = Ember.View.extend
             month = moment(date).format("MM")
             day = moment(date).format("DD")
 
-            controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
+            @controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
           cell.find(">div").prepend $link
 
 

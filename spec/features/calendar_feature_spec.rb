@@ -56,7 +56,7 @@ feature 'Calendar', js: true do
     end
 
     for role in ["member", "admin"]
-      context "when signed in as #{role}" do
+      context "when signed in as #{role}", :focus do
         let(:user) {create :user, admin: (role == "admin")}
         before {
           embersignout
@@ -75,8 +75,12 @@ feature 'Calendar', js: true do
             fcday = page.first(".fc-day")
             within fcday do
               expect(page).to have_selector ".calendar-new_seminar_link", count: 1
+              click_link "(+)"
             end
           end
+          expect(current_url).to match /\/#\/seminars\/new_with_date/
+          expect(page).to have_text "Create a seminar on"
+          expect(page).to have_selector ".panel.seminar-form", count: 1
         end
       end
     end
