@@ -146,7 +146,6 @@ feature 'categories', js: true do
       end
     end
 
-
     scenario "reordering as admin" do
       admin = create(:user, admin: true)
       embersignout

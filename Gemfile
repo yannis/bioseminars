@@ -15,11 +15,11 @@ gem "devise-encryptable"
 gem 'uglifier', '>= 1.3.0'
 
 gem 'sass-rails', '~> 4.0'
-gem "jquery-ui-rails"
 gem 'coffee-rails'
 gem 'haml-rails'
 gem 'html5-rails'
 gem 'jquery-rails'
+gem "jquery-ui-rails"
 gem 'ember-rails'
 gem "ember-source", "1.5.0"
 gem "ember-data-source", "1.0.0.beta.7"

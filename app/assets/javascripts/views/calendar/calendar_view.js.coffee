@@ -1,28 +1,39 @@
 App.CalendarView = Ember.View.extend
   templateName: 'calendar/calendar'
 
+  year: ->
+    @controller.get('year')
+
+  month: ->
+    @controller.get('month')
+
+  day: ->
+    @controller.get('day')
+
+  type: ->
+    @controller.get('type')
+
+  store: ->
+    @controller.get("store")
+
+  defaultView: ->
+    if @type() == 'day'
+      'agendaDay'
+    else if @type() == 'week'
+      'agendaWeek'
+    else
+      'month'
+
   didInsertElement: ->
     this._super()
-    self = @
-    controller = @get('controller')
-    store = controller.get("store")
-    type = controller.get('type')
-    defaultView =
-      if type == 'day'
-        'agendaDay'
-      else if type == 'week'
-        'agendaWeek'
-      else
-        'month'
-    year = controller.get('year')
-    month = controller.get('month')
-    day = controller.get('day')
+    @renderCalendar()
 
+  renderCalendar: ->
     $('#calendar').fullCalendar
-      defaultView: defaultView
-      year: controller.get('year')
-      month: parseInt(controller.get('month'))-1
-      day: controller.get('day')
+      defaultView: @defaultView()
+      year: @year()
+      month: parseInt(@month())-1
+      day: @day()
       axisFormat: 'H:mm'
       header:
         left: 'prev,next today'
@@ -35,28 +46,20 @@ App.CalendarView = Ember.View.extend
       disableResizing: true
       loading: (bool)->
         App.set("loading", bool)
-      events: (start, end, callback) ->
-        store.find("seminar",
+      events: (start, end, callback) =>
+        @store().find("seminar",
             after: moment(start).format("YYYYMMDD")
             before: moment(end).format("YYYYMMDD")
           ).then (data) =>
-            controller.set "seminars", data
+            @controller.set "seminars", data
             events = data.get("content").map((s) -> s.get("asJSON"))
             callback(events)
 
-      eventClick: (data, event, view) ->
-        controller.transitionToRoute "calendar_seminar", data.id
+      eventClick: (data, event, view) =>
+        @controller.transitionToRoute "calendar_seminar", data.id
         false
 
-      dayClick: (date, allDay, jsEvent, view) ->
-        if App.Session.authUser
-          year = moment(date).format("YYYY")
-          month = moment(date).format("MM")
-          day = moment(date).format("DD")
-          controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
-
       viewDisplay: (view) =>
-        calendar = @
         $('.calendar-loader').hide()
 
         vyear = moment(view.start).format("YYYY")
@@ -72,9 +75,8 @@ App.CalendarView = Ember.View.extend
           else
             'month'
 
-        if vyear != year || vmonth != month || vtype != defaultView
-          controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
-
+        if vyear != @year() || vmonth != @month() || vtype != @defaultView()
+          @controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
 
       eventAfterRender: (event, element, view) ->
         seminar = event.emSelf
@@ -84,3 +86,25 @@ App.CalendarView = Ember.View.extend
           else
             $(element).addClass('hidden')
 
+      dayRender: (date, cell) ->
+        if App.Session.authUser
+          $link = $("<a class='calendar-new_seminar_link' href='#' >(+)</a>")
+          $link.attr "title", "Add event to this day"
+          $link.on "click", (e)=>
+            e.preventDefault()
+            e.stopPropagation()
+
+            year = moment(date).format("YYYY")
+            month = moment(date).format("MM")
+            day = moment(date).format("DD")
+
+            controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
+          cell.find(">div").prepend $link
+
+
+
+  reRenderCalendar: (->
+    if App.Session.authUser
+      $('#calendar').fullCalendar("destroy")
+      @renderCalendar()
+  ).observes('App.Session.authUser')

@@ -26,6 +26,13 @@ feature 'Calendar', js: true do
           expect(page).to have_selector "tr.calendar-category", count: 2
         end
         within "#calendar.fc" do
+          expect(page).to have_selector ".fc-day"
+
+          fcday = page.first(".fc-day")
+          within fcday do
+            expect(page).to_not have_selector ".calendar-new_seminar_link"
+          end
+
           expect(page).to have_selector ".fc-event", count: 4
 
           within ".fc-header-left" do
@@ -44,6 +51,32 @@ feature 'Calendar', js: true do
           end
           expect(page).to have_selector ".fc-header-title", count: 1, text: 1.month.ago.to_date.to_s(:month_year)
           expect(page).to have_selector ".fc-event", count: 2
+        end
+      end
+    end
+
+    for role in ["member", "admin"]
+      context "when signed in as #{role}" do
+        let(:user) {create :user, admin: (role == "admin")}
+        before {
+          embersignout
+          embersignin user
+        }
+
+        scenario "I see the calendar and (+) links to add events in days" do
+          expect(page).to have_selector "#calendar.fc", count: 1
+          expect(page).to have_selector ".fc-header-title", count: 1, text: Date.current.to_s(:month_year)
+          within ".panel.calendar-categories" do
+            expect(page).to have_selector "tr.calendar-category", count: 2
+          end
+          within "#calendar.fc" do
+            expect(page).to have_selector ".fc-day"
+
+            fcday = page.first(".fc-day")
+            within fcday do
+              expect(page).to have_selector ".calendar-new_seminar_link", count: 1
+            end
+          end
         end
       end
     end

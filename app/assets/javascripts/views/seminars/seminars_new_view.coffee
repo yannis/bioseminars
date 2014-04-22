@@ -9,9 +9,9 @@ App.SeminarsNewView = Ember.View.extend
     @controller.get("selectCategories").sortBy('position')
   ).observes('controller.selectCategories')
 
-  setTitle: (->
-    title = @controller.get("model.title")
-    newTitle = "Create a seminar"
-    newTitle += (if title then " “#{@controller.get("model.title")}”" else "")
-    @set("controller.pageTitle", newTitle)
-  ).observes('controller.model.title')
+  # setTitle: (->
+  #   title = @controller.get("model.title")
+  #   newTitle = "Create a seminar"
+  #   newTitle += (if title then " “#{@controller.get("model.title")}”" else "")
+  #   @set("controller.pageTitle", newTitle)
+  # ).observes('controller.model.title')

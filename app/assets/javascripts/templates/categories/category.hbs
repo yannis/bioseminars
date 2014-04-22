@@ -8,21 +8,16 @@
       <strong>Description</strong>
       <p>{{description}}</p>
     {{/if}}
-    {{#if archivedAt}}
+    {{#if formattedArchived }}
       <p>
         <strong>ARCHIVED</strong>
         on {{formattedArchived}}
       </p>
-
     {{/if}}
     <strong>Acronym</strong>
     <p>{{acronym}}</p>
     <strong>Color</strong>
     <p>{{color}}</p>
-    {{#if App.Session.authUser.admin}}
-      <strong>Archived on</strong>
-      <p>{{formattedArchived}}</p>
-    {{/if}}
     {{#if seminars}}
       <h3>Latest seminars</h3>
       <ul>
