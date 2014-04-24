@@ -1,12 +1,5 @@
-require "get_model_permissions"
 class Api::V2::SeminarSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :speaker_name, :speaker_affiliation, :start_at, :end_at, :url, :all_day, :internal, :pubmed_ids, :location, :hosts, :documents
-  # has_one :location, include: true
-  # has_one :user
-  # has_many :hostings
-  # has_many :hosts
-  # has_many :categories
-  # has_many :categorisations
+  attributes :id, :title, :description, :speaker_name, :speaker_affiliation, :start_at, :end_at, :url, :all_day, :internal, :pubmed_ids, :location, :hosts, :documents, :categories
 
   def hosts
     object.hosts.map do |h|
@@ -16,7 +9,7 @@ class Api::V2::SeminarSerializer < ActiveModel::Serializer
 
   def categories
     object.categories.map do |c|
-      {name: c.name, description: c.description, description: c.description, description: c.description, description: c.description}
+      {id: c.id, name: c.name, description: c.description, description: c.description, description: c.description, description: c.description}
     end
   end
 

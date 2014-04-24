@@ -1,5 +1,7 @@
 class Api::V2::SeminarsController < Api::V2::BaseController
 
+
+  before_filter :allow_iframe_requests, only: :index
   respond_to :json
 
   def index
@@ -28,16 +30,31 @@ class Api::V2::SeminarsController < Api::V2::BaseController
       @seminars = @seminars.past
     end
 
-    if params[:before] && Date.parse(params[:before])
-      @seminars = @seminars.before_date(Date.parse(params['before']))
+    unless params[:start]
+      if params[:before] && Date.parse(params[:before])
+        @seminars = @seminars.before_date(Date.parse(params['before']))
+      end
+      if params[:after] && Date.parse(params[:after])
+        @seminars = @seminars.after_date(Date.parse(params['after']))
+      end
     end
-    if params[:after] && Date.parse(params[:after])
-      @seminars = @seminars.after_date(Date.parse(params['after']))
+
+    #for fullcalendar
+    if params[:start]
+      @seminars = @seminars.after_date(Time.at(params['start'].to_i))
     end
+    if params[:end]
+      @seminars = @seminars.before_date(Time.at(params['end'].to_i))
+    end
+
     @seminars = @seminars.limit(200) if @seminars.count > 200
+
     respond_with @seminars do |format|
       format.json do
         render json: @seminars, each_serializer: Api::V2::SeminarSerializer
+      end
+      format.fullcalendar do
+        render json: @seminars, each_serializer: Api::V2::SeminarFullcalendarSerializer, root: false
       end
       format.xml {
         render "index.xml.builder", layout: false
@@ -49,7 +66,7 @@ class Api::V2::SeminarsController < Api::V2::BaseController
         render layout: false
       }
       format.iframe {
-        render "application/index.html.haml"
+        render "application/iframe.html.haml", layout: false
       }
       format.ics do
         send_data(ics_data(@seminars).to_ical, file_name: 'bioseminars.ics', disposition: 'inline; filename=bioseminars.ics', type: 'text/calendar')
@@ -103,4 +120,10 @@ protected
     end
     return ical
   end
+
+  private
+
+    def allow_iframe_requests
+      response.headers.delete('X-Frame-Options')
+    end
 end

@@ -9,12 +9,14 @@ class Seminar < ActiveRecord::Base
   has_many :hosts, through: :hostings
   has_many :documents, as: :documentable, dependent: :destroy
 
-  validates_presence_of :title, :speaker_name, :speaker_affiliation, :start_at, :location_id, :user_id
+  validates_presence_of :title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :user_id
   validates_uniqueness_of :title, scope: :speaker_name
   validates_associated :hostings, on: :update
   validates_associated :categorisations, on: :update
   validate :presence_of_categorisations
   validate :presence_of_hostings
+
+  before_validation :set_end_at
 
   accepts_nested_attributes_for :hostings, allow_destroy: true
   accepts_nested_attributes_for :categorisations, allow_destroy: true
@@ -172,6 +174,10 @@ class Seminar < ActiveRecord::Base
     end
   end
 
+  def main_color
+    categories.order(:position).first.color
+  end
+
   # def to_rical
   #   RiCal.Calendar do
   #     event do
@@ -198,5 +204,9 @@ class Seminar < ActiveRecord::Base
 
     def presence_of_hostings
       errors.add(:host, 'must have at least one host') if self.hostings.blank?
+    end
+
+    def set_end_at
+      self.end_at = self.start_at+1.hour if self.start_at.present? && self.end_at.blank?
     end
 end

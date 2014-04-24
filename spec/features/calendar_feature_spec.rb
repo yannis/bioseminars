@@ -56,7 +56,7 @@ feature 'Calendar', js: true do
     end
 
     for role in ["member", "admin"]
-      context "when signed in as #{role}", :focus do
+      context "when signed in as #{role}" do
         let(:user) {create :user, admin: (role == "admin")}
         before {
           embersignout

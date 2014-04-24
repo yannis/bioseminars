@@ -10,20 +10,13 @@
     %meta{name: "robots", content: "all"}
     %meta{name: 'description', content: "Calendar of all Life Sciences seminars organized at the University of Geneva (Switzerland), Faculty of Sciences"}
     = csrf_meta_tag
-    = stylesheet_link_tag 'application', media: nil, rel: "stylesheet"
+    = stylesheet_link_tag 'iframe', media: nil, rel: "stylesheet"
     /[if IE]
       = javascript_include_tag 'js/html5shiv.js'
     / = favicon_link_tag
-  %body
-    - if Rails.env == 'staging'
-      #beta_notification
-        %h2 Warning
-        %p
-          This is a beta version of bioSeminars. It exists for test purpose only.
-          %br
-          No data entered in this version will be saved.
-          %br
-          Please use the “?” link at the bottom right of the page to send your remarks, bug notifications, corrections, etc…
+  %body.iframe
+    .iframe-calendar
+      iframe calendar
     :javascript
       (function(d) {
         var config = {
@@ -42,4 +35,4 @@
 
         ga('create', '#{ Rails.application.secrets.google_account_id }', 'unige.ch');
         ga('send', 'pageview');
-    = javascript_include_tag (params[:controller] == "api/v2/seminars" ? "application_api" : 'application')
+    = javascript_include_tag 'iframe'

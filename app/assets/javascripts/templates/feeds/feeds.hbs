@@ -11,6 +11,11 @@
       or follow this
       <a {{bind-attr href="url"}} target="_blank">feed url</a>
     </p>
+
+    {{#unless notIframe }}
+      <iframe {{bind-attr src="url"}} width="600px" height="400px">feed url</iframe>
+    {{/unless}}
+
   </div>
   <div class="col-md-4 col-xs-12">
     {{outlet}}
