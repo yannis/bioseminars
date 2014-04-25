@@ -16,7 +16,9 @@
     / = favicon_link_tag
   %body.iframe
     .iframe-calendar
-      iframe calendar
+    %p.iframe-link
+      Powered by
+      = link_to "bioSeminars", "http://bioseminars.unige.ch", target: "_blank"
     :javascript
       (function(d) {
         var config = {
