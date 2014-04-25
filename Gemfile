@@ -30,7 +30,6 @@ gem "bootstrap-sass"
 gem "calendar_helper"
 gem 'momentjs-rails', '~> 2.5.0'
 gem 'compass-rails'
-gem 'zeroclipboard-rails'
 
 gem 'airbrake'
 gem "newrelic_rpm"
