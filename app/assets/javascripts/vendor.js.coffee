@@ -6,6 +6,5 @@
 #= require jquery.minicolors
 #= require bootbox
 #= require fullcalendar
-#= require jquery.qtip
 #= require infinite_scroll
 #= require ZeroClipboard

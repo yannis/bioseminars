@@ -28,7 +28,6 @@ module Bioseminars
 
     config.action_mailer.default_url_options = { host: Rails.application.secrets.mailer_host }
 
-    config.assets.precompile += %w( application_iframe.js )
 
     config.assets.paths << "#{Rails.root}/vendor/assets/ember"
     config.assets.paths << "#{Rails.root}/vendor/bootstrap-datetimepicker"
@@ -36,7 +35,6 @@ module Bioseminars
     config.assets.paths << "#{Rails.root}/vendor/momentjs"
     config.assets.paths << "#{Rails.root}/vendor/bootbox"
     config.assets.paths << "#{Rails.root}/vendor/fullcalendar"
-    config.assets.paths << "#{Rails.root}/vendor/jquery.qtip.custom"
     config.assets.paths << "#{Rails.root}/vendor/zeroclipboard"
   end
 end
