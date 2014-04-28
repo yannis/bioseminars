@@ -1,47 +1,67 @@
-<div  {{bind-attr class=":panel :panel-info :category archived:archived"}}>
-  <div class="panel-heading">
-    <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
-    <h3 class="panel-title">Category “{{name}}”</h3>
-  </div>
-  <div class="panel-body">
-    {{#if description}}
-      <strong>Description</strong>
-      <p>{{description}}</p>
-    {{/if}}
-    {{#if formattedArchived }}
-      <p>
-        <strong>ARCHIVED</strong>
-        on {{formattedArchived}}
-      </p>
-    {{/if}}
-    <strong>Acronym</strong>
-    <p>{{acronym}}</p>
-    <strong>Color</strong>
-    <p>{{color}}</p>
-    {{#if seminars}}
-      <h3>Latest seminars</h3>
-      <ul>
-        {{#each latestSeminars}}
-          <li>
-            {{#link-to 'seminar' this}}{{title}}{{/link-to}} ({{formatted_start}})
-          </li>
-        {{/each}}
-      </ul>
-    {{/if}}
-  </div>
-  {{#if updatable_or_destroyable }}
-    <div class="panel-footer">
-      <div class='seminar-adminlinks'>
-        {{#if updatable }}
-          {{#link-to "categories.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
-          {{#if App.Session.authUser.admin}}
-            <a {{action "setArchivedAt" this}} class="seminar-adminlinks-archiving" />Toggle archive status</a>
-          {{/if}}
-        {{/if}}
-        {{#if destroyable }}
-          <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
-        {{/if}}
-      </div>
+<div class="affix">
+  <div  {{bind-attr class=":panel :panel-info :category archived:archived"}}>
+    <div class="panel-heading">
+      <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
+      <h3 class="panel-title">
+        <span class="category-color" {{bind-attr style="colorStyle"}}></span>
+        Category “{{name}}”
+      </h3>
     </div>
-  {{/if}}
+    <div class="panel-body">
+      <table class="table">
+        <tbody>
+        {{#if description}}
+          <tr>
+            <th>Description</th>
+            <td>{{description}}</td>
+          </tr>
+        {{/if}}
+        {{#if formattedArchived}}
+          <tr>
+            <th>Archived on</th>
+            <td>{{formattedArchived}}</td>
+          </tr>
+        {{/if}}
+        <tr>
+          <th>Acronym</th>
+          <td>{{acronym}}</td>
+        </tr>
+        <tr>
+          <th>Hex color</th>
+          <td>
+            {{color}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {{#if seminars}}
+      <h3 class="panel-body">Latest seminars</h3>
+      <div class="category-seminars list-group">
+        {{#each latestSeminars}}
+          {{#link-to 'seminar' this class="list-group-item category-seminars-seminar"}}
+            <h4>{{title}}</h4>
+            <em>{{formatted_start}}</em>
+          {{/link-to}}
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if updatable_or_destroyable }}
+      <div class="panel-footer">
+        <div class='seminar-adminlinks'>
+          {{#if updatable }}
+            {{#link-to "categories.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+            {{#if App.Session.authUser.admin}}
+              <a {{action "setArchivedAt" this}} class="seminar-adminlinks-archiving" />Toggle archive status</a>
+            {{/if}}
+          {{/if}}
+          {{#if destroyable }}
+            <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </div>

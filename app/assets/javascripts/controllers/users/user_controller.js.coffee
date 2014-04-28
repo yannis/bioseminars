@@ -1,6 +1,14 @@
 App.UsersUserController = Ember.ObjectController.extend
   pageTitle: "All users"
 
+  seminarSorting: ["startAt:desc"]
+  sortedSeminars: Ember.computed.sort("seminars", 'seminarSorting')
+
+  latestSeminars: (->
+    @get("sortedSeminars").filter (seminar) =>
+      @get("sortedSeminars").indexOf(seminar) < 10
+  ).property("seminars")
+
   actions:
 
     destroy: (user) ->

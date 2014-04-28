@@ -1,37 +1,56 @@
-<div class="panel panel-info location">
-  <div class="panel-heading">
-    <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
-    <h3 class="panel-title">Location “{{name}}”</h3>
-  </div>
-  <div class="panel-body">
-    <p>
-      Building:
-      {{#link-to "building" building}}{{building.name}}{{/link-to}}
-    </p>
-    {{#if description}}
-      <p>{{description}}</p>
-    {{/if}}
-    {{#if seminars}}
-      <h3>Seminars</h3>
-      <ul>
-        {{#each seminar in seminars}}
-          <li>
-            {{#link-to 'seminar' seminar}}{{seminar.title}}{{/link-to}}
-          </li>
-        {{/each}}
-      </ul>
-    {{/if}}
-  </div>
-  {{#if updatable_or_destroyable }}
-    <div class="panel-footer">
-      <div class='seminar-adminlinks'>
-        {{#if updatable }}
-          {{#link-to "locations.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
-        {{/if}}
-        {{#if destroyable }}
-          <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
-        {{/if}}
-      </div>
+<div class="affix">
+  <div class="panel panel-info location">
+    <div class="panel-heading">
+      <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
+      <h3 class="panel-title">Location “{{name}}”</h3>
     </div>
-  {{/if}}
+
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <th>Building</th>
+          <td>{{#link-to "building" building}}{{building.name}}{{/link-to}}</td>
+        </tr>
+        {{#if description}}
+          <tr>
+            <th>Description</th>
+            <td>{{description}}</td>
+          </tr>
+        {{/if}}
+        {{#if formattedArchived}}
+          <tr>
+            <th>Archived on</th>
+            <td>{{formattedArchived}}</td>
+          </tr>
+        {{/if}}
+      </table>
+    </div>
+
+
+    {{#if seminars}}
+      <h3 class="panel-body">Latest seminars</h3>
+      <div class="category-seminars list-group">
+        {{#each latestSeminars}}
+          {{#link-to 'seminar' this class="list-group-item category-seminars-seminar"}}
+            <h4>{{title}}</h4>
+            <em>{{formatted_start}}</em>
+          {{/link-to}}
+        {{/each}}
+      </div>
+    {{/if}}
+
+
+    {{#if updatable_or_destroyable }}
+      <div class="panel-footer">
+        <div class='seminar-adminlinks'>
+          {{#if updatable }}
+            {{#link-to "locations.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
+          {{/if}}
+          {{#if destroyable }}
+            <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}>Destroy</a>
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </div>

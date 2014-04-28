@@ -3,11 +3,30 @@
     <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
     <h3 class="panel-title">Host “{{name}}”</h3>
   </div>
+
   <div class="panel-body">
-    <p>
-      <strong>Email:</strong> {{email}}
-    </p>
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Email</th>
+          <td>{{email}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  {{#if seminars}}
+    <h3 class="panel-body">Latest seminars</h3>
+    <div class="category-seminars list-group">
+      {{#each latestSeminars}}
+        {{#link-to 'seminar' this class="list-group-item category-seminars-seminar"}}
+          <h4>{{title}}</h4>
+          <em>{{formatted_start}}</em>
+        {{/link-to}}
+      {{/each}}
+    </div>
+  {{/if}}
+
   {{#if updatable_or_destroyable }}
     <div class="panel-footer">
       <div class='seminar-adminlinks'>

@@ -1,13 +1,9 @@
 window.Utilities ||= {}
 window.Utilities.affixPanel =
   set: ->
-    $('.panel.panel-info').affix
+    $affixElement = $('.affix')
+    $affixElement.width($affixElement.parent().width()).affix
       offset:
         top: 100
         bottom: ->
           @bottom = $('#footer').outerHeight(true)
-
-# Ember.View.reopen
-#   didInsertElement: ->
-#     @_super()
-#     Utilities.affixPanel.set()

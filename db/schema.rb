@@ -75,19 +75,6 @@ ActiveRecord::Schema.define(version: 20140414141751) do
 
   add_index "locations", ["building_id"], name: "index_locations_on_building_id", using: :btree
 
-  create_table "pictures", force: true do |t|
-    t.integer  "model_id",          null: false
-    t.string   "model_type",        null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "data_file_name"
-    t.string   "data_content_type"
-    t.integer  "data_file_size"
-    t.datetime "data_updated_at"
-  end
-
-  add_index "pictures", ["model_type", "model_id"], name: "index_pictures_on_model_type_and_model_id", using: :btree
-
   create_table "seminars", force: true do |t|
     t.string   "title"
     t.text     "description"
@@ -107,18 +94,6 @@ ActiveRecord::Schema.define(version: 20140414141751) do
 
   add_index "seminars", ["location_id"], name: "index_seminars_on_location_id", using: :btree
   add_index "seminars", ["user_id"], name: "index_seminars_on_user_id", using: :btree
-
-  create_table "speakers", force: true do |t|
-    t.string   "name"
-    t.string   "affiliation"
-    t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "title"
-    t.integer  "seminar_id"
-  end
-
-  add_index "speakers", ["seminar_id"], name: "index_speakers_on_seminar_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -1,7 +1,9 @@
 <div class="row" id='categories'>
   <div class="col-md-8 col-xs-12">
-    <h2>{{controller.pageTitle}}</h2>
-    <a class="btn btn-default btn-xs" href="#" {{action "toggleShowMe" }}>Toggle all categories visibility</a>
+    <h2>
+      {{controller.pageTitle}}
+      <small><a class="btn btn-default btn-xs" href="#" {{action "toggleShowMe" }}>Toggle all categories visibility</a></small>
+    </h2>
     <ul class="categories-categories list-group">
       {{#each controller}}
         {{view App.CategorySortableView}}

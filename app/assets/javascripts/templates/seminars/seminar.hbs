@@ -11,17 +11,17 @@
     {{#if description}}
       <p>{{description}}</p>
     {{/if}}
-    <div class='seminar-speakers'>
+    <p class='seminar-speakers'>
       <em>by</em>
-      {{speakerName}} ({{speakerAffiliation}})
-    </div>
+      <strong>{{speakerName}}</strong> ({{speakerAffiliation}})
+    </p>
     {{#if hosts}}
-      <div class='seminar-hosts'>
+      <p class='seminar-hosts'>
         <em>Hosted by</em>
         {{#each host in hosts}}
           {{host.name}}
         {{/each}}
-      </div>
+      </p>
     {{/if}}
     {{#if publications}}
       <h3>Associated publications</h3>

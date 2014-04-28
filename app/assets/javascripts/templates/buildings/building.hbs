@@ -3,18 +3,18 @@
     <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
     <h3 class="panel-title">Building “{{name}}”</h3>
   </div>
-  <div class="panel-body">
-    {{#if locations}}
-      <h3>Locations</h3>
-      <ul class="building-locations list-group">
-        {{#each location in locations}}
-          <li class="building-locations-location list-group-item">
-            {{#link-to 'location' location}}{{location.name}}{{/link-to}}
-          </li>
-        {{/each}}
-      </ul>
-    {{/if}}
-  </div>
+
+  {{#if locations}}
+    <h3 class="panel-body">Locations</h3>
+    <div class="building-locations list-group">
+      {{#each locations}}
+        {{#link-to 'location' this class="list-group-item building-locations-location"}}
+          {{name}}
+        {{/link-to}}
+      {{/each}}
+    </div>
+  {{/if}}
+
   {{#if updatable_or_destroyable }}
     <div class="panel-footer">
       <div class='seminar-adminlinks'>

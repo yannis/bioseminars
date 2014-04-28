@@ -2,6 +2,7 @@ App.Host = DS.Model.extend
   name: DS.attr('string')
   email: DS.attr('string')
   hostings: DS.hasMany('hosting')
+  seminars: DS.hasMany({ async: true })
 
   readable: DS.attr('boolean')
   updatable: DS.attr('boolean')
