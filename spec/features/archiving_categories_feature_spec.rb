@@ -65,7 +65,7 @@ feature 'categories', js: true do
     end
   end
 
-  context "when not logged in as admin"do
+  context "when logged in as admin"do
     let(:user) {create :user, admin: true}
     before {
       embersignout
@@ -73,7 +73,7 @@ feature 'categories', js: true do
     }
 
     context "when showing a category" do
-      scenario "The category panel don't show the archiving link"  do
+      scenario "The category panel don't show the archived class"  do
         visit "/#/categories/#{category1.id}"
         within(".categories-categories") do
           expect(page).to_not have_selector(".categories-category.archived")
@@ -97,8 +97,9 @@ feature 'categories', js: true do
       end
     end
     context "when showing a category and an archived category exists" do
-      let!(:archived_category){create :category, archived_at: 2.weeks.ago}
+      let!(:archived_category){create :category, name: "archived category", archived_at: 2.weeks.ago}
       scenario "the categories list shows archived categories"  do
+        visit(current_path) #required to reload the page
         visit "/#/categories/"
         within(".categories-categories") do
           expect(page).to have_selector(".categories-category.archived", count: 1)

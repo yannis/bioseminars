@@ -205,7 +205,6 @@ feature 'seminars', js: true do
         end
         flash_is "Seminar successfully created"
         expect(current_url).to match /\/#\/seminars/
-        page.check category.name
         within ".seminars-seminars" do
           expect(page).to have_text "duplicate seminar title"
         end

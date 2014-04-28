@@ -27,6 +27,7 @@ App.CategoriesSelectionRouteMixin = Ember.Mixin.create
 
   setupController: (controller, model) ->
     @_super controller, model
-    @controllerFor('categories').set "model", @store.find "category" # do not set "content"
+    if @controllerFor('categories').get("model").length == 0
+      @controllerFor('categories').set "model", @store.find "category" # do not set "content"
     @controllerFor('categories').set "sortProperties", ["position"]
     @controllerFor('categories').set "sortAscending", true

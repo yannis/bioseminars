@@ -1,6 +1,7 @@
 App.CategoriesRoute = Ember.Route.extend
   model: ->
-    @store.find "category"
+    if @controllerFor('categories').get("model").length == 0
+      @store.find "category"
 
   setupController: (controller, model) ->
     @_super controller, model

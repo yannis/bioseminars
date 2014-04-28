@@ -1,4 +1,4 @@
-App.CalendarRoute = Em.Route.extend
+App.CalendarRoute = Em.Route.extend  App.CategoriesSelectionRouteMixin,
 
   model: (params) ->
     year: params.year || moment().format('YYYY')
@@ -20,6 +20,3 @@ App.CalendarRoute = Em.Route.extend
     controller.set 'seminars', @store.find "seminar",
       after: moment("#{model.year}-#{model.month}-01").subtract('months', 1).date(0).format("YYYYMMDD")
       before: moment("#{model.year}-#{model.month}-01").add('months', 1).date(0).format("YYYYMMDD")
-    @controllerFor('categories').set "model", @store.find "category" # do not set "content"
-    @controllerFor('categories').set "sortProperties", ["position"]
-    @controllerFor('categories').set "sortAscending", true
