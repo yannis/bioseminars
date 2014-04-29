@@ -153,11 +153,23 @@ class Seminar < ActiveRecord::Base
 
   def to_ics(ical)
     seminar = self
+
+    event_start = seminar.start_at
+    event_end = seminar.end_at
+
+    # tzid = Rails.application.config.time_zone
+    # tz = TZInfo::Timezone.get tzid
+    # timezone = tz.ical_timezone event_start
+    # ical.add_timezone timezone
+
     ical.event do |event|
       event.summary = "#{seminar.categories.map(&:acronym).compact.join(', ')} – #{seminar.title}"
+      # event.dtstart = Icalendar::Value::DateTime.new event_start, 'tzid' => tzid
       event.dtstart = seminar.start_at.try(:localtime)
-      # event.dtstart = DateTime.new(2014,4,7,18,0)
+      # event.dtstart = seminar.start_at.to_ical
+      # event.dtend   = Icalendar::Value::DateTime.new event_end, 'tzid' => tzid
       event.dtend = seminar.end_at.try(:localtime)
+      # event.dtend = seminar.end_at.to_ical
       event.location = seminar.location.name_and_building unless seminar.location.blank?
       description = []
       description << seminar.speaker_name_and_affiliation
@@ -177,21 +189,6 @@ class Seminar < ActiveRecord::Base
   def main_color
     categories.order(:position).first.color
   end
-
-  # def to_rical
-  #   RiCal.Calendar do
-  #     event do
-  #       description "MA-6 First US Manned Spaceflight"
-  #       dtstart     DateTime.parse("2/20/1962 14:47:39")
-  #       dtend       DateTime.parse("2/20/1962 19:43:02")
-  #       location    "Cape Canaveral"
-  #       add_attendee "john.glenn@nasa.gov"
-  #       alarm do
-  #         description "Segment 51"
-  #       end
-  #     end
-  #   end
-  # end
 
   def ember_path
     "/#/seminars/#{id}"

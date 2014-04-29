@@ -9,7 +9,7 @@ gem "bio", '~>1.4.3'
 gem 'htmlentities'
 gem "actionview-encoded_mail_to"
 gem "active_model_serializers"
-gem "icalendar"
+gem "icalendar", "2.0.1"
 gem "devise"
 gem "devise-encryptable"
 gem 'uglifier', '>= 1.3.0'
