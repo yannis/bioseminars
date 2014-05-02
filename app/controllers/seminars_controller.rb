@@ -1,8 +1,8 @@
 class SeminarsController < ApplicationController
 
+  load_and_authorize_resource param_method: :sanitizer
+
   def index
-    # Rails.logger.info "params: #{params}"
-    @seminars = @current_resource
     @seminars = @seminars.page(params[:page]).per(params[:per_page]) if params[:page] && params[:per_page]
     @seminars = @seminars.where(:internal => [true, false]) if params[:internal] == 'true'
     if params[:order]
@@ -37,18 +37,15 @@ class SeminarsController < ApplicationController
 
     @seminars = @seminars.limit(200) if @seminars.count > 200
 
-    # Rails.logger.debug "Seminars count: #{@seminars.count}"
-    # respond_with @seminars.includes(:location, :user, :hostings, :hosts, :categorisations, {categories: [:seminars]})
     respond_with @seminars
   end
 
   def show
-    @seminar = @current_resource
     respond_with @seminar
   end
 
   def create
-    @seminar = Seminar.new params[:seminar].merge(user_id: current_user.id)
+    # @seminar = Seminar.new params[:seminar].merge(user_id: current_user.id)
     if @seminar.save
       render json: @seminar, status: :created, location: @seminar
     else
@@ -57,8 +54,7 @@ class SeminarsController < ApplicationController
   end
 
   def update
-    @seminar = @current_resource
-    if @seminar.update_attributes(params[:seminar])
+    if @seminar.update_attributes sanitizer
       render json: nil, status: :ok
     else
       render json: {errors: @seminar.errors}, status: :unprocessable_entity
@@ -66,17 +62,17 @@ class SeminarsController < ApplicationController
   end
 
   def destroy
-    @seminar = @current_resource
     @seminar.destroy
     render json: nil, status: :ok
   end
 
-private
+  private
 
-  def current_resource
-
-    seminars = Seminar.all
-    seminars = seminars.active unless current_user.present? && current_user.admin
-    @current_resource ||= (params[:id] ? seminars.find(params[:id]) : seminars)
+  def sanitizer
+    if current_user.admin?
+      params.require(:seminar).permit!
+    elsif current_user.member?
+      params.require(:seminar).permit(:name, :building_id)
+    end
   end
 end

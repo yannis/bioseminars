@@ -177,7 +177,7 @@ describe CategoriesController do
 
     describe "DELETE 'destroy' with bad id" do
       before {delete :destroy, id: rand(99999999), format: 'json'}
-      it {expect(response.status).to eq 422}
+      it {expect(response.status).to eq 404}
       it {expect(response.body).to match /Couldn't find Category with 'id/}
     end
   end

@@ -13,15 +13,15 @@ module GetModelPermissions
 
   module InstanceMethods
     def readable
-      Permissions.permission_for(scope).allow_action?(object.class.to_s.downcase.pluralize.to_sym, :show, object) == true
+      Ability.new(scope).can? :read, object
     end
 
     def updatable
-      Permissions.permission_for(scope).allow_action?(object.class.to_s.downcase.pluralize.to_sym, :update, object) == true
+      Ability.new(scope).can? :update, object
     end
 
     def destroyable
-      Permissions.permission_for(scope).allow_action?(object.class.to_s.downcase.pluralize.to_sym, :destroy, object) == true
+      Ability.new(scope).can? :destroy, object
     end
   end
 end

@@ -22,6 +22,10 @@ class Seminar < ActiveRecord::Base
   accepts_nested_attributes_for :categorisations, allow_destroy: true
   accepts_nested_attributes_for :documents, allow_destroy: true
 
+  def parameters(params, user)
+
+  end
+
   def self.active
     includes(:categories).where(categories: {archived_at: nil}).references(:categories)
   end

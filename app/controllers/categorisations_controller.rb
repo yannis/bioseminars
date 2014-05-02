@@ -1,6 +1,8 @@
 class CategorisationsController < ApplicationController
+
+  load_and_authorize_resource param_method: :sanitizer
+
   def create
-    @categorisation = Categorisation.new(params[:categorisation])
     if @categorisation.save
       render json: @categorisation, status: :created, location: @categorisation
     else
@@ -9,8 +11,7 @@ class CategorisationsController < ApplicationController
   end
 
   def update
-    @categorisation = @current_resource
-    if @categorisation.update_attributes(params[:categorisation])
+    if @categorisation.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
       render json: {errors: @categorisation.errors}, status: :unprocessable_entity
@@ -18,14 +19,19 @@ class CategorisationsController < ApplicationController
   end
 
   def destroy
-    @categorisation = @current_resource
     @categorisation.destroy
     render json: nil, status: :ok
   end
 
-private
+  private
 
-  def current_resource
-    @current_resource ||= params[:id] ? Categorisation.find(params[:id]) : Categorisation.all
-  end
+    def sanitizer
+      if current_user
+        if current_user.admin?
+          params.require(:categorisation).permit!
+        elsif current_user.member?
+          params.require(:categorisation).permit(:category_id, :seminar_id)
+        end
+      end
+    end
 end

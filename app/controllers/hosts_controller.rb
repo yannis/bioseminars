@@ -1,17 +1,16 @@
 class HostsController < ApplicationController
 
+  load_and_authorize_resource param_method: :sanitizer
+
   def index
-    @hosts = @current_resource
     respond_with @hosts.includes(hostings: :seminar)
   end
 
   def show
-    @host = @current_resource
     respond_with @host
   end
 
   def create
-    @host = Host.new(params[:host])
     if @host.save
       render json: @host, status: :created, location: @host
     else
@@ -20,8 +19,7 @@ class HostsController < ApplicationController
   end
 
   def update
-    @host = @current_resource
-    if @host.update_attributes(params[:host])
+    if @host.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
       render json: {errors: @host.errors}, status: :unprocessable_entity
@@ -29,14 +27,17 @@ class HostsController < ApplicationController
   end
 
   def destroy
-    @host = @current_resource
     @host.destroy
     render json: nil, status: :ok
   end
 
-private
+  private
 
-  def current_resource
-    @current_resource ||= params[:id] ? Host.find(params[:id]) : Host.all
-  end
+    def sanitizer
+      if current_user.admin?
+        params.require(:host).permit!
+      elsif current_user.member?
+        params.require(:host).permit(:name, :email)
+      end
+    end
 end

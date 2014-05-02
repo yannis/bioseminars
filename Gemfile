@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0.rc2'
+gem 'rails', '4.1.0'
 gem 'mysql2'
 gem 'bundler'
 gem "kaminari"
@@ -12,6 +12,7 @@ gem "active_model_serializers"
 gem "icalendar", "2.0.1"
 gem "devise"
 gem "devise-encryptable"
+gem "cancancan"
 gem 'uglifier', '>= 1.3.0'
 
 gem 'sass-rails', '~> 4.0'
@@ -53,7 +54,7 @@ group :development do
   gem "binding_of_caller"
   gem "rspec-rails"
   gem "rails_best_practices"
-  gem "brakeman", :require => false
+  # gem "brakeman", :require => false
   gem "debugger"
   gem "bullet"
 end

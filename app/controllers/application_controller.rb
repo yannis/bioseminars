@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_filter :authenticate_user_from_token!
-  before_filter :authorize, unless: :devise_controller?
+  # check_authorization
+  # before_filter :authorize, unless: :devise_controller?
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   delegate :allow_action?, to: :current_permission
@@ -14,6 +15,19 @@ class ApplicationController < ActionController::Base
   layout false
   respond_to :json, :html
 
+  # unless Rails.application.config.consider_all_requests_local
+  #   rescue_from Exception,                            :with => :render_error
+  #   rescue_from ActionController::RoutingError,       :with => :render_not_found
+  #   rescue_from ActionController::UnknownController,  :with => :render_not_found
+  #   rescue_from ActionController::UnknownAction,      :with => :render_not_found
+  # end
+
+  rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: {errors: exception.message}, status: 403
+  end
+
 protected
 
   def configure_permitted_parameters
@@ -22,28 +36,6 @@ protected
   end
 
 private
-
-  def current_permission
-    @current_permission ||= Permissions.permission_for(current_user)
-  end
-
-  def current_resource
-    nil
-  end
-
-  def authorize
-    if params[:user_id] && params[:authentication_token] && params[:controller] == "users" && params[:action] == "index"
-      respond_with User.where(id: params[:user_id], authentication_token: params[:authentication_token])
-    else
-      if current_permission.allow_action?(params[:controller], params[:action], current_resource)
-        current_permission.permit_params! params
-      else
-        render json: {success: false, message: "You are not authorized to access this page"}, status: :unauthorized
-      end
-    end
-  rescue ActiveRecord::RecordNotFound => e
-    render(json: (e ? e.message : 'Unable to find object(s)'), status: :unprocessable_entity) && return
-  end
 
   def authenticate_user_from_token!
     user_email = params[:user_email].presence
@@ -56,4 +48,18 @@ private
       sign_in user, store: false
     end
   end
+
+  def render_not_found(exception)
+    # logger.error(exception)
+    # notify_airbrake(exception)
+    render json: {errors: exception.message}, status: 404
+    # render :template => "/errors/404", :status => 404
+  end
+
+
+  # def render_error(exception)
+  #   # logger.error(exception)
+  #   # notify_airbrake(exception)
+  #   render json: {errors: exception.message}, status: 500
+  # end
 end

@@ -1,17 +1,16 @@
 class BuildingsController < ApplicationController
 
+  load_and_authorize_resource param_method: :sanitizer
+
   def index
-    @buildings = @current_resource
-    respond_with @current_resource.includes(:locations)
+    respond_with @buildings.includes(:locations)
   end
 
   def show
-    @building = @current_resource
     respond_with @building
   end
 
   def create
-    @building = Building.new(params[:building])
     if @building.save
       render json: @building, status: :created, location: @building
     else
@@ -20,8 +19,7 @@ class BuildingsController < ApplicationController
   end
 
   def update
-    @building = @current_resource
-    if @building.update_attributes(params[:building])
+    if @building.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
       render json: {errors: @building.errors}, status: :unprocessable_entity
@@ -29,14 +27,19 @@ class BuildingsController < ApplicationController
   end
 
   def destroy
-    @building = @current_resource
     @building.destroy
     render json: nil, status: :ok
   end
 
-private
+  private
 
-  def current_resource
-    @current_resource ||= params[:id] ? Building.find(params[:id]) : Building.all
-  end
+    def sanitizer
+      if current_user
+        if current_user.admin?
+          params.require(:building).permit!
+        elsif current_user.member?
+          params.require(:building).permit(:name)
+        end
+      end
+    end
 end

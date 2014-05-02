@@ -1,7 +1,7 @@
 require "get_model_permissions"
 class UserSerializer < ActiveModel::Serializer
 
-  USER_MODELS = [:buildings, :categories, :categorisations, :documents, :hostings, :hosts, :locations, :seminars, :users, :speakers]
+  USER_MODELS = [Building, Category, Categorisation, Document, Hosting, Host, Location, Seminar, User]
 
   has_many :seminars
 
@@ -10,8 +10,10 @@ class UserSerializer < ActiveModel::Serializer
   USER_MODELS.each do |mod|
     method_name = "can_create_#{mod.to_s}"
     atts << method_name.to_sym
+
     define_method method_name do
-      return Permissions.permission_for(object).allow_action?(mod, :create) == true
+      return Ability.new(object).can? :create, mod
+      # return Permissions.permission_for(object).allow_action?(mod, :create) == true
     end
   end
 

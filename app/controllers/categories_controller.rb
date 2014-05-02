@@ -1,17 +1,16 @@
 class CategoriesController < ApplicationController
 
+  load_and_authorize_resource param_method: :sanitizer
+
   def index
-    @categories = @current_resource
     respond_with @categories
   end
 
   def show
-    @category = @current_resource
     respond_with @category
   end
 
   def create
-    @category = Category.new(params[:category])
     if @category.save
       render json: @category, status: :created, location: @category
     else
@@ -20,8 +19,7 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @category = @current_resource
-    if @category.update_attributes(params[:category])
+    if @category.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
       render json: {errors: @category.errors}, status: :unprocessable_entity
@@ -29,17 +27,19 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @category = @current_resource
     @category.destroy
     render json: nil, status: :ok
   end
 
-private
+  private
 
-  def current_resource
-    categories = Category.includes(:seminars)
-    # Rails.logger.debug "current_user: #{current_user.admin}"
-    categories = categories.where("categories.archived_at IS NULL") unless current_user.present? && current_user.admin
-    @current_resource ||= params[:id] ? Category.includes(:seminars).find(params[:id]) : categories.order("categories.position ASC")
-  end
+    def sanitizer
+      if current_user
+        if current_user.admin?
+          params.require(:category).permit!
+        elsif current_user.member?
+          params.require(:category).permit(:name, :description, :acronym, :color)
+        end
+      end
+    end
 end

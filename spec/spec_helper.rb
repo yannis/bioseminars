@@ -90,12 +90,12 @@ RSpec.configure do |config|
   end
 
   def should_not_be_authorized
-    it {expect(response.status).to eq 401}
+    it {expect(response.status).to eq 403}
     it {expect(response.body).to match /You are not authorized to access this page/ }
   end
 
   def should_not_find_model
-    it {expect(response.status).to eq 422}
+    it {expect(response.status).to eq 404}
     it {expect(response.body).to match /Couldn't find/ }
   end
 
