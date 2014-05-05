@@ -83,7 +83,7 @@ describe CategoriesController do
     #   let!(:category_count){Category.count}
     #   before {post :create, category: invalid_params, format: 'json'}
     #   it {expect(response.status).to eq 422}
-    #   it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+    #   it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
     #   it {expect(Category.count-category_count).to eq 0}
     #   it {expect(assigns(:category)).to_not be_valid_verbose}
     #   it {expect(assigns(:category).errors[:name]).to eq ["can't be blank"]}
@@ -103,7 +103,7 @@ describe CategoriesController do
     # describe "PATCH 'update' with invalid params" do
     #   before {patch :update, id: category.to_param, category: {name: ""}, format: 'json'}
     #   it {expect(response.status).to eq 422}
-    #   it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+    #   it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
     #   it {expect(assigns(:category)).to_not be_valid_verbose}
     #   it {expect(assigns(:category).errors[:name]).to eq ["can't be blank"]}
     # end
@@ -147,7 +147,7 @@ describe CategoriesController do
       let!(:category_count){Category.count}
       before {post :create, category: attributes_for(:category).merge!({name: ""}), format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Category.count-category_count).to eq 0}
       it {expect(assigns(:category)).to_not be_valid_verbose}
       it {expect(assigns(:category).errors[:name]).to eq ["can't be blank"]}
@@ -163,7 +163,7 @@ describe CategoriesController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: category.to_param, category: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:category)).to_not be_valid_verbose}
       it {expect(assigns(:category).errors[:name]).to eq ["can't be blank"]}
     end

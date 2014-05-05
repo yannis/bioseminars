@@ -14,7 +14,7 @@ class HostsController < ApplicationController
     if @host.save
       render json: @host, status: :created, location: @host
     else
-      render json: {errors: @host.errors}, status: :unprocessable_entity
+      render json: {message: @host.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +22,7 @@ class HostsController < ApplicationController
     if @host.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {errors: @host.errors}, status: :unprocessable_entity
+      render json: {message: @host.errors}, status: :unprocessable_entity
     end
   end
 
@@ -34,10 +34,12 @@ class HostsController < ApplicationController
   private
 
     def sanitizer
-      if current_user.admin?
-        params.require(:host).permit!
-      elsif current_user.member?
-        params.require(:host).permit(:name, :email)
+      if current_user
+        if current_user.admin?
+          params.require(:host).permit!
+        elsif current_user.member?
+          params.require(:host).permit(:name, :email)
+        end
       end
     end
 end

@@ -35,6 +35,8 @@ class SeminarsController < ApplicationController
       @seminars = @seminars.after_date(Date.parse(params['after']))
     end
 
+    @seminars = @seminars.active unless current_user && current_user.admin?
+
     @seminars = @seminars.limit(200) if @seminars.count > 200
 
     respond_with @seminars
@@ -45,11 +47,11 @@ class SeminarsController < ApplicationController
   end
 
   def create
-    # @seminar = Seminar.new params[:seminar].merge(user_id: current_user.id)
+    @seminar.user = current_user if @seminar.user.blank?
     if @seminar.save
       render json: @seminar, status: :created, location: @seminar
     else
-      render json: {errors: @seminar.errors}, status: :unprocessable_entity
+      render json: {message: @seminar.errors}, status: :unprocessable_entity
     end
   end
 
@@ -57,7 +59,7 @@ class SeminarsController < ApplicationController
     if @seminar.update_attributes sanitizer
       render json: nil, status: :ok
     else
-      render json: {errors: @seminar.errors}, status: :unprocessable_entity
+      render json: {message: @seminar.errors}, status: :unprocessable_entity
     end
   end
 
@@ -69,10 +71,12 @@ class SeminarsController < ApplicationController
   private
 
   def sanitizer
-    if current_user.admin?
-      params.require(:seminar).permit!
-    elsif current_user.member?
-      params.require(:seminar).permit(:name, :building_id)
+    if current_user
+      if current_user.admin?
+        params.require(:seminar).permit!
+      elsif current_user.member?
+        params.require(:seminar).permit(:title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :url, :pubmed_ids, :all_day, :hostings_attributes, :documents_attributes, :internal, :description, {hostings: [:host_id, :seminar_id, :id]}, {categorisations: [:category_id, :seminar_id, :id]})
+      end
     end
   end
 end

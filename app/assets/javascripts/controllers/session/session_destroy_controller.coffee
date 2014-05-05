@@ -6,7 +6,7 @@ App.SessionDestroyController = Ember.Controller.extend
       type: 'DELETE'
     ).always (response) ->
       if response['status'] && response['status'] > 400
-        text = JSON.parse(response['responseText'])['errors']
+        text = JSON.parse(response['responseText'])['message']
         if text.length
           Flash.NM.push text, "danger"
         else

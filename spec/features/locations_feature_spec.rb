@@ -55,7 +55,7 @@ feature 'locations', js: true do
     end
   end
 
-  for role in ["member", "admin"]
+  for role in ["member"]
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {

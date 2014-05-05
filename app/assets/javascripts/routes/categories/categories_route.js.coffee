@@ -1,7 +1,10 @@
 App.CategoriesRoute = Ember.Route.extend
   model: ->
-    if @controllerFor('categories').get("model").length == 0
+    if App.Session.authUser? && App.Session.authUser.get("admin") == true
       @store.find "category"
+    else
+      @store.find "category",
+        archivedAt: null
 
   setupController: (controller, model) ->
     @_super controller, model

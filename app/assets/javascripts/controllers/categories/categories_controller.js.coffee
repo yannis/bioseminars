@@ -2,10 +2,7 @@ App.CategoriesController = Ember.ArrayController.extend
 
   pageTitle: "All categories"
 
-  # needs: ['calendar']
-
-  sortProperties: ['position']
-
+  sortProperties: ['archivedAt', 'position']
   sortAscending: true
 
   actions:
@@ -18,7 +15,10 @@ App.CategoriesController = Ember.ArrayController.extend
 
     sortModel: (ids) ->
       $.each ids, (i, id) =>
-        @findBy("id", id).set("position", i+1)
+        category = @findBy("id", id)
+        category.set("position", i+1)
+
+
       try
         @invoke("save")
         Flash.NM.push 'Categories successfully reordered', "success"

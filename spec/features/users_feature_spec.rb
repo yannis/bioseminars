@@ -79,8 +79,8 @@ feature 'users', js: true do
       expect(current_url).to match /\/#\/calendar\//
     end
 
-    scenario 'Showing a user'  do
-      visit "/#/users/#{user1}"
+    scenario 'Showing a user' do
+      visit "/#/users/#{user1.id}"
       within(".notifications") do
         expect(page).to have_text "You are not authorized to access this page"
       end

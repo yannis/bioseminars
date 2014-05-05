@@ -8,7 +8,7 @@ class UserSerializer < ActiveModel::Serializer
   atts = [:id, :name, :email, :admin, :readable, :updatable, :destroyable, :created_at_timestamp]
 
   USER_MODELS.each do |mod|
-    method_name = "can_create_#{mod.to_s}"
+    method_name = "can_create_#{mod.to_s.tableize}"
     atts << method_name.to_sym
 
     define_method method_name do

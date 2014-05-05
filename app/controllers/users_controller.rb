@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user, status: :created
     else
-      render json: {errors: @user.errors}, status: :unprocessable_entity
+      render json: {message: @user.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {errors: @user.errors}, status: :unprocessable_entity
+      render json: {message: @user.errors}, status: :unprocessable_entity
     end
   end
 
@@ -34,10 +34,12 @@ class UsersController < ApplicationController
   private
 
     def sanitizer
-      if current_user.admin?
-        params.require(:user).permit!
-      elsif current_user.member?
-        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      if current_user
+        if current_user.admin?
+          params.require(:user).permit!
+        elsif current_user.member?
+          params.require(:user).permit(:name, :email, :password, :password_confirmation)
+        end
       end
     end
 end

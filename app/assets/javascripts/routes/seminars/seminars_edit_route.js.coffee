@@ -1,4 +1,4 @@
-App.SeminarsEditRoute = Ember.Route.extend
+App.SeminarsEditRoute = Ember.Route.extend App.CategoriesSelectionRouteMixin,
   model: (params) ->
     @store.find "seminar", params.seminar_id
 
@@ -10,8 +10,14 @@ App.SeminarsEditRoute = Ember.Route.extend
 
   setupController: (controller, model) ->
     @_super controller, model
-    controller.set 'selectCategories', @store.find "category"
-    controller.set 'selectLocations', @store.find "location"
-    controller.set 'selectHosts', @store.find "host"
     controller.set "pageTitle", "Edit seminar “#{model.get('title')}”"
-    # controller.set 'selectHostings', @store.find "hosting"
+
+    if @controllerFor('locations').get("model").length == 0
+      @controllerFor('locations').set "model", @store.find "location" # do not set "content"
+    @controllerFor('locations').set "sortProperties", ["name"]
+    @controllerFor('locations').set "sortAscending", true
+
+    if @controllerFor('hosts').get("model").length == 0
+      @controllerFor('hosts').set "model", @store.find "host" # do not set "content"
+    @controllerFor('hosts').set "sortProperties", ["name"]
+    @controllerFor('hosts').set "sortAscending", true

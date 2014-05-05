@@ -5,4 +5,8 @@ class Category < ActiveRecord::Base
   validates_presence_of :name, :acronym, :color
   validates_uniqueness_of :name, :acronym, :color
   validates :color, css_hex_color: true
+
+  def self.active
+    where(archived_at: nil)
+  end
 end

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :authenticate_user_from_token!
   # check_authorization
-  # before_filter :authorize, unless: :devise_controller?
+  before_filter :authorize, unless: :devise_controller?
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   delegate :allow_action?, to: :current_permission
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: {errors: exception.message}, status: 403
+    render json: {message: exception.message}, status: 403
   end
 
 protected
@@ -37,7 +37,14 @@ protected
 
 private
 
+  def authorize
+    if params[:user_id] && params[:authentication_token] && params[:controller] == "users" && params[:action] == "index"
+      respond_with User.where(id: params[:user_id], authentication_token: params[:authentication_token])
+    end
+  end
+
   def authenticate_user_from_token!
+    Rails.logger.debug "authenticate_user_from_token! called: #{params}"
     user_email = params[:user_email].presence
     user       = user_email && User.find_by_email(user_email)
 
@@ -52,7 +59,7 @@ private
   def render_not_found(exception)
     # logger.error(exception)
     # notify_airbrake(exception)
-    render json: {errors: exception.message}, status: 404
+    render json: {message: exception.message}, status: 404
     # render :template => "/errors/404", :status => 404
   end
 
@@ -60,6 +67,6 @@ private
   # def render_error(exception)
   #   # logger.error(exception)
   #   # notify_airbrake(exception)
-  #   render json: {errors: exception.message}, status: 500
+  #   render json: {message: exception.message}, status: 500
   # end
 end

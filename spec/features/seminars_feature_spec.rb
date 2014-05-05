@@ -92,7 +92,7 @@ feature 'seminars', js: true do
   ["member", "admin"].each do |role|
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
-      let(:category) {create :category, name: "A category name"}
+      let!(:category) {create :category, name: "A category name"}
       let(:host) {create :host, name: "A host name"}
       let(:location) {create :location, name: "A conf room"}
 

@@ -1,10 +1,10 @@
-App.SeminarsNewRoute = Ember.Route.extend
+App.SeminarsNewRoute = Ember.Route.extend App.CategoriesSelectionRouteMixin,
   model: (params) ->
     seminar = @store.createRecord "seminar"
     seminar.get("categorisations").addObject @store.createRecord("categorisation")
     seminar.get("hostings").addObject @store.createRecord("hosting")
-    @store.find("location").then (categories)->
-      seminar.set "location", categories.sortBy("name").get("firstObject")
+    @store.find("location").then (locations)->
+      seminar.set "location", locations.sortBy("name").get("firstObject")
     seminar
 
   beforeModel: (transition) ->
@@ -16,7 +16,14 @@ App.SeminarsNewRoute = Ember.Route.extend
 
   setupController: (controller, model) ->
     @_super controller, model
-    controller.set 'selectCategories', @store.find("category")
-    controller.set 'selectLocations', @store.find("location")
-    controller.set 'selectHosts', @store.find "host"
     controller.set 'pageTitle', "Create a seminar"
+
+    if @controllerFor('locations').get("model").length == 0
+      @controllerFor('locations').set "model", @store.find "location" # do not set "content"
+    @controllerFor('locations').set "sortProperties", ["name"]
+    @controllerFor('locations').set "sortAscending", true
+
+    if @controllerFor('hosts').get("model").length == 0
+      @controllerFor('hosts').set "model", @store.find "host" # do not set "content"
+    @controllerFor('hosts').set "sortProperties", ["name"]
+    @controllerFor('hosts').set "sortAscending", true

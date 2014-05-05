@@ -14,7 +14,7 @@ class BuildingsController < ApplicationController
     if @building.save
       render json: @building, status: :created, location: @building
     else
-      render json: {errors: @building.errors}, status: :unprocessable_entity
+      render json: {message: @building.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +22,7 @@ class BuildingsController < ApplicationController
     if @building.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {errors: @building.errors}, status: :unprocessable_entity
+      render json: {message: @building.errors}, status: :unprocessable_entity
     end
   end
 

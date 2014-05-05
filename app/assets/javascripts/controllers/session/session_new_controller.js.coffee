@@ -30,7 +30,7 @@ App.SessionNewController = Ember.Controller.extend
             else
               Flash.NM.push 'Unable to log in', 'danger'
           .fail (response, textStatus, jqXHR) ->
-            Flash.NM.push JSON.parse(response['responseText'])['errors'], "danger"
+            Flash.NM.push JSON.parse(response['responseText'])['message'], "danger"
 
     cancel: ->
       @transitionToRoute('index')

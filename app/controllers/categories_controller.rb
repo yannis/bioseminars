@@ -3,6 +3,8 @@ class CategoriesController < ApplicationController
   load_and_authorize_resource param_method: :sanitizer
 
   def index
+    @categories = @categories.active unless current_user && current_user.admin?
+
     respond_with @categories
   end
 
@@ -14,7 +16,7 @@ class CategoriesController < ApplicationController
     if @category.save
       render json: @category, status: :created, location: @category
     else
-      render json: {errors: @category.errors}, status: :unprocessable_entity
+      render json: {message: @category.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +24,7 @@ class CategoriesController < ApplicationController
     if @category.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {errors: @category.errors}, status: :unprocessable_entity
+      render json: {message: @category.errors}, status: :unprocessable_entity
     end
   end
 

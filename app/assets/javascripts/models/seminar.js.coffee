@@ -45,7 +45,7 @@ App.Seminar = DS.Model.extend
   ).property('endAt')
 
   acronyms: (->
-    @get('categories').mapBy('acronym').join("; ")
+    @get('categories').mapBy('acronym').join(" | ")
   ).property('categories.@each.acronym')
 
   color: (->
@@ -86,10 +86,10 @@ App.Seminar = DS.Model.extend
 
   asJSON: (->
     id: @get('id')
-    title: @get('acronyms')
-    start: moment(@get('startAt')).format("YYYY-MM-DD HH:mm")
-    end: if @get('endAt') then moment(@get('endAt')).format("YYYY-MM-DD HH:mm") else null
-    allDay: @get('allDay')
+    title: "#{@get('acronyms')}\n#{@get("speakerName")}"
+    start: @get('startAt')
+    end: if @get('endAt') then @get('endAt') else null
+    allDay: @get('all_day')
     color: @get('color')
     show: @get('show')
     className: "fc-event-#{@get('id')} #{if @get('show') then '' else 'hidden'}"

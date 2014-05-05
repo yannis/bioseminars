@@ -1,13 +1,18 @@
 App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
-  selectCategoriesSorting: ['position']
-  sortedSelectCategories: Ember.computed.sort('selectCategories', 'selectCategoriesSorting')
+  needs: ["categories", "hosts", "locations"]
 
-  selectHostsSorting: ['name']
-  sortedSelectHosts: Ember.computed.sort('selectHosts', 'selectHostsSorting')
+  selectCategories: (->
+    @get('controllers.categories')
+  ).property('controllers.categories')
 
-  selectLocationsSorting: ['name']
-  sortedSelectLocations: Ember.computed.sort('selectLocations', 'selectLocationsSorting')
+  sortedSelectHosts: (->
+    @get('controllers.hosts')
+  ).property('controllers.hosts')
+
+  sortedSelectLocations: (->
+    @get('controllers.locations')
+  ).property('controllers.locations')
 
   actions:
     create: (seminar) ->

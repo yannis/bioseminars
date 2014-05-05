@@ -71,7 +71,7 @@ describe SeminarsController do
       let!(:seminar_count){Seminar.count}
       before {post :create, seminar: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"title\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"title\":[\"can't be blank\"]}}"}
       it {expect(Seminar.count-seminar_count).to eq 0}
       it {expect(assigns(:seminar)).to_not be_valid_verbose}
       it {expect(assigns(:seminar).errors[:title]).to eq ["can't be blank"]}
@@ -87,9 +87,9 @@ describe SeminarsController do
 
     describe "PATCH 'update' a seminar own by user with invalid params" do
       let!(:seminar_member) { create :seminar, user: member }
-      before { patch :update, id: seminar_member.to_param, seminar: {title: ""}, format: 'json'}
+      before { patch :update, id: seminar_member.to_param, seminar: {title: nil}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"title\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"title\":[\"can't be blank\"]}}"}
       it {expect(assigns(:seminar)).to_not be_valid_verbose}
       it {expect(assigns(:seminar).errors[:title]).to eq ["can't be blank"]}
     end
@@ -143,7 +143,7 @@ describe SeminarsController do
       let!(:seminar_count){Seminar.count}
       before {post :create, seminar: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"title\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"title\":[\"can't be blank\"]}}"}
       it {expect(Seminar.count-seminar_count).to eq 0}
       it {expect(assigns(:seminar)).to_not be_valid_verbose}
       it {expect(assigns(:seminar).errors[:title]).to eq ["can't be blank"]}
@@ -161,7 +161,7 @@ describe SeminarsController do
       let!(:seminar_admin) { create :seminar, user: admin }
       before { patch :update, id: seminar_admin.to_param, seminar: {title: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"title\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"title\":[\"can't be blank\"]}}"}
       it {expect(assigns(:seminar)).to_not be_valid_verbose}
       it {expect(assigns(:seminar).errors[:title]).to eq ["can't be blank"]}
     end

@@ -1,11 +1,11 @@
 <div class="row" id='categories'>
   <div class="col-md-8 col-xs-12">
     <h2>
-      {{controller.pageTitle}}
+      {{pageTitle}}
       <small><a class="btn btn-default btn-xs" href="#" {{action "toggleShowMe" }}>Toggle all categories visibility</a></small>
     </h2>
     <ul class="categories-categories list-group">
-      {{#each controller}}
+      {{#each }}
         {{view App.CategorySortableView}}
       {{/each}}
     </ul>

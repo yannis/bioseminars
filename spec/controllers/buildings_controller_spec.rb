@@ -69,7 +69,7 @@ describe BuildingsController do
       let!(:building_count){Building.count}
       before {post :create, building: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Building.count-building_count).to eq 0}
       it {expect(assigns(:building)).to_not be_valid_verbose}
       it {expect(assigns(:building).errors[:name]).to eq ["can't be blank"]}
@@ -89,7 +89,7 @@ describe BuildingsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: building.to_param, building: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:building)).to_not be_valid_verbose}
       it {expect(assigns(:building).errors[:name]).to eq ["can't be blank"]}
     end
@@ -133,7 +133,7 @@ describe BuildingsController do
       let!(:building_count){Building.count}
       before {post :create, building: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Building.count-building_count).to eq 0}
       it {expect(assigns(:building)).to_not be_valid_verbose}
       it {expect(assigns(:building).errors[:name]).to eq ["can't be blank"]}
@@ -149,7 +149,7 @@ describe BuildingsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: building.to_param, building: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:building)).to_not be_valid_verbose}
       it {expect(assigns(:building).errors[:name]).to eq ["can't be blank"]}
     end

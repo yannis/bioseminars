@@ -5,9 +5,9 @@ App.SeminarsNewView = Ember.View.extend
   FormHostsView: Ember.View.extend
     templateName: 'seminars/form_hosts'
 
-  sortLists: (->
-    @controller.get("selectCategories").sortBy('position')
-  ).observes('controller.selectCategories')
+  # sortLists: (->
+  #   @controller.get("selectCategories").sortBy('position')
+  # ).observes('controller.selectCategories')
 
   # setTitle: (->
   #   title = @controller.get("model.title")

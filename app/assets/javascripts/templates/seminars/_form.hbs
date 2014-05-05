@@ -10,9 +10,13 @@
     <div class='form-group'>
       <div class="col-sm-2 control-label">
         <label for="form-seminar-categorisations" >Categories</label>
-        <span class="help-block">
-          {{#link-to "categories.new" }}Create a new category{{/link-to}}
-        </span>
+        {{#if App.Session.authUser}}
+          {{#if App.Session.authUser.can_create_categories}}
+            <span class="help-block">
+              {{#link-to "categories.new" }}Create a new category{{/link-to}}
+            </span>
+          {{/if}}
+        {{/if}}
       </div>
       <div class="col-sm-10">
         <ul class="list-group">
@@ -21,7 +25,7 @@
               {{#if categorisation.isNew}}
                 {{view Em.Select
                   viewName="select"
-                  contentBinding="sortedSelectCategories"
+                  contentBinding="selectCategories"
                   optionLabelPath="content.name"
                   optionValuePath="content.id"
                   selectionBinding="categorisation.category"
@@ -60,9 +64,13 @@
     <div class='form-group'>
       <div class="col-sm-2 control-label">
         <label for="form-seminar-hostings" >Hosts</label>
-        <span class="help-block">
-          {{#link-to "hosts.new" }}Create a new host{{/link-to}}
-        </span>
+        {{#if App.Session.authUser}}
+          {{#if App.Session.authUser.can_create_hosts}}
+            <span class="help-block">
+              {{#link-to "hosts.new" }}Create a new host{{/link-to}}
+            </span>
+          {{/if}}
+        {{/if}}
       </div>
       <div class="col-sm-10">
         <ul class="list-group">

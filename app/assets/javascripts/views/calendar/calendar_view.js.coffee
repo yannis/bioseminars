@@ -52,7 +52,9 @@ App.CalendarView = Ember.View.extend
             before: moment(end).format("YYYYMMDD")
           ).then (data) =>
             @controller.set "seminars", data
-            events = data.get("content").map((s) -> s.get("asJSON"))
+            events = data.get("content").map (s) ->
+              console.log 's.get("asJSON")', s.get("asJSON")
+              s.get("asJSON")
             callback(events)
 
       eventClick: (data, event, view) =>
