@@ -1,15 +1,11 @@
 <div class="panel panel-default calendar-categories">
   <div class="panel-heading">
-    <h3>Seminar series</h3>
+    <h3>
+      Seminar series <a class="btn btn-default btn-xs" href="#" {{action "toggleShowMe"}}>Toggle all series visibility</a>
+    </h3>
   </div>
-  {{!-- limitedCategories: {{limitedCategories.length}} --}}
   <table class='table' id='categories'>
     <tbody>
-      <tr>
-        <td colspan='3'>
-          <a class="btn btn-default btn-xs" href="#" {{action "toggleShowMe"}}>Toggle all series visibility</a>
-        </td>
-      </tr>
       {{#each category in limitedCategories}}
         {{view App.CalendarCategoryView}}
       {{/each}}
