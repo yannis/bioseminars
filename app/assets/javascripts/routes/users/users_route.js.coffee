@@ -12,7 +12,6 @@ App.UsersRoute = Ember.Route.extend
   #     window.history.go(-1)
 
   setupController: (controller, model) ->
-    console.log "controller", controller
     @_super controller, model
     title = "All users"
     controller.set 'pageTitle', title

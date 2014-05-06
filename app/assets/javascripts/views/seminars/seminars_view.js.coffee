@@ -10,10 +10,7 @@ App.SeminarsView = Ember.View.extend
     $(window).unbind "scroll"
 
   didScroll: ->
-    # console.log "didScroll"
-
     if @isScrolledToBottom()
-      # console.log "isScrolledToBottom"
       @get('controller').send('getMore')# if @get('controller')
 
   isScrolledToBottom: ->
