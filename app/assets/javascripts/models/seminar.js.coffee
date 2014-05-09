@@ -36,6 +36,8 @@ App.Seminar = DS.Model.extend
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable")
 
+  calendarTooltip: null
+
   formatted_start: (->
     return moment(@get('startAt')).format("DD-MM-YYYY HH:mm") if @get('startAt')
   ).property('startAt')
@@ -86,6 +88,7 @@ App.Seminar = DS.Model.extend
 
   asJSON: (->
     id: @get('id')
+    date_time_location_and_category: @get("date_time_location_and_category")
     title: "#{@get('acronyms')}\n#{@get("speakerName")}"
     start: @get('startAt')
     end: if @get('endAt') then @get('endAt') else null
@@ -94,5 +97,4 @@ App.Seminar = DS.Model.extend
     show: @get('show')
     className: "fc-event-#{@get('id')} #{if @get('show') then '' else 'hidden'}"
     emSelf: @
-  ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color')
-
+  ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color', 'date_time_location_and_category')

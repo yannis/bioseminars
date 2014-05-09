@@ -1,32 +1,30 @@
-<div class="panel panel-info calendar-seminar">
-  <div class="panel-heading">
-    <button type="button" class="close" aria-hidden="true" {{action "close"}}>&times;</button>
+<div class="calendar-seminar-tooltip">
+  <div class="calendar-seminar-tooltip-title">
     <em>
       <span class="category-color" {{bind-attr style="colorStyle"}}></span>
       {{date_time_location_and_category}}
     </em>
-    <h3 class="panel-title">{{title}}</h3>
+    <h4>{{title}}</h4>
   </div>
-  <div class="panel-body">
+  <div class="calendar-seminar-tooltip-content">
     {{#if description}}
       <p>{{description}}</p>
     {{/if}}
     <div class='seminar-speakers'>
       <em>by</em>
-      {{speakerName}} ({{speakerAffiliation}})
+      <strong>{{speakerName}} ({{speakerAffiliation}})</strong>
     </div>
     {{#if hosts}}
       <div class='seminar-hosts'>
         <em>Hosted by</em>
         {{#each host in hosts}}
-          {{host.name}}
+          <strong>{{host.name}}</strong>
         {{/each}}
       </div>
     {{/if}}
-  </div>
-  <div class="panel-footer">
     <div class='seminar-adminlinks'>
       {{#link-to "seminar" this class="btn btn-xs btn-primary"}}Details{{/link-to}}
+      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank">Import in calendar <i class="glyphicon glyphicon-calendar"></i></a>
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
         {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}

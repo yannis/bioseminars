@@ -24,7 +24,6 @@ $ ->
 
     eventRender: (event, element) ->
       $(element).on "click", (e)->
-        # debugger
         e.preventDefault()
         $('.fc-event.fc-event-hori').not(@).popover('hide')
       $(element).popover

@@ -21,6 +21,7 @@ gem 'haml-rails'
 gem 'html5-rails'
 gem 'jquery-rails'
 gem "jquery-ui-rails"
+gem "jquery-qtip2-rails"
 gem 'ember-rails'
 gem "ember-source", "1.5.0"
 gem "ember-data-source", "1.0.0.beta.7"

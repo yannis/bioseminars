@@ -1,6 +1,8 @@
 App.CalendarView = Ember.View.extend
   templateName: 'calendar/calendar'
 
+  fullCalendarRendered: false
+
   year: ->
     @controller.get('year')
 
@@ -29,6 +31,7 @@ App.CalendarView = Ember.View.extend
     @renderCalendar()
 
   renderCalendar: ->
+    self = @
     $('#calendar').fullCalendar
       defaultView: @defaultView()
       year: @year()
@@ -44,21 +47,45 @@ App.CalendarView = Ember.View.extend
       timeFormat: 'H:mm'
       disableDragging: true
       disableResizing: true
-      loading: (bool)->
+
+      loading: (bool)=>
         App.set("loading", bool)
+
       events: (start, end, callback) =>
         @store().find("seminar",
             after: moment(start).format("YYYYMMDD")
             before: moment(end).format("YYYYMMDD")
           ).then (data) =>
             @controller.set "seminars", data
-            events = data.get("content").map (s) ->
-              s.get("asJSON")
+            events = data.get("content")
             callback(events)
+
+      eventDataTransform: (seminar) ->
+
+        event =
+          id: seminar.get('id')
+          id: seminar.get('id')
+          date_time_location_and_category: seminar.get("date_time_location_and_category")
+          title: "#{seminar.get('acronyms')}\n#{seminar.get("speakerName")}"
+          start: seminar.get('startAt')
+          end: if seminar.get('endAt') then seminar.get('endAt') else null
+          allDay: seminar.get('all_day')
+          color: seminar.get('color')
+          show: seminar.get('show')
+          className: "fc-event-#{seminar.get('id')} #{if seminar.get('show') then '' else 'hidden'}"
+          seminar: seminar
+        # debugger
+        # seminar.addObserver 'date_time_location_and_category', ->
+        #   $('#calendar').fullCalendar('updateEvent', event)
+        return event
+
 
       eventClick: (data, event, view) =>
         @controller.transitionToRoute "calendar_seminar", data.id
         false
+
+      eventAfterAllRender: (view)=>
+        @set "fullCalendarRendered", true
 
       viewDisplay: (view) =>
         $('.calendar-loader').hide()
@@ -79,8 +106,9 @@ App.CalendarView = Ember.View.extend
         if vyear != @year() || vmonth != @month() || vtype != @defaultView()
           @controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
 
-      eventAfterRender: (event, element, view) ->
-        seminar = event.emSelf
+      eventAfterRender: (event, element, view) =>
+        # debugger
+        seminar = event.seminar
         seminar.addObserver 'show', ->
           if seminar.get('show')
             $(element).removeClass('hidden')
@@ -101,8 +129,6 @@ App.CalendarView = Ember.View.extend
 
             @controller.transitionToRoute "seminars.new_with_date", {year: year, month: month, day: day}
           cell.find(">div").prepend $link
-
-
 
   reRenderCalendar: (->
     if App.Session.authUser

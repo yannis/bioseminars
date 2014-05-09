@@ -1,1 +1,2 @@
-App.CalendarController = Em.ObjectController.extend App.CategoriesSelectionControllerMixin
+App.CalendarController = Em.ObjectController.extend App.CategoriesSelectionControllerMixin,
+  seminarsLoaded: null

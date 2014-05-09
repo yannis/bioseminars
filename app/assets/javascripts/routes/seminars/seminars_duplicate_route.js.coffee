@@ -1,4 +1,4 @@
-App.SeminarsDuplicateRoute = Ember.Route.extend
+App.SeminarsDuplicateRoute = Ember.Route.extend App.CategoriesSelectionRouteMixin,
   originalSeminar: null
 
   model: (params) ->
@@ -27,8 +27,15 @@ App.SeminarsDuplicateRoute = Ember.Route.extend
     model.get('hosts').forEach (host) ->
       newSeminar.get("hostings").addObject @store.createRecord("hosting", {host: host})
     @_super controller, newSeminar
-    controller.set 'selectCategories', @store.find("category")
-    controller.set 'selectLocations', @store.find("location")
-    controller.set 'selectHosts', @store.find "host"
     controller.set "pageTitle", "Duplicate seminar “#{model.get('title')}”"
+
+    if @controllerFor('locations').get("model").length == 0
+      @controllerFor('locations').set "model", @store.find "location" # do not set "content"
+    @controllerFor('locations').set "sortProperties", ["name"]
+    @controllerFor('locations').set "sortAscending", true
+
+    if @controllerFor('hosts').get("model").length == 0
+      @controllerFor('hosts').set "model", @store.find "host" # do not set "content"
+    @controllerFor('hosts').set "sortProperties", ["name"]
+    @controllerFor('hosts').set "sortAscending", true
 

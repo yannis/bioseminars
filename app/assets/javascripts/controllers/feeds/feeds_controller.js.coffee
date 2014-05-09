@@ -56,8 +56,8 @@ App.FeedsController = Ember.ArrayController.extend App.CategoriesSelectionContro
     parameters = parameters.join("&")
 
     url = [domain, model]
-    url = (if @get('selectedType') == 'ics' then "webcal://" else "http://")
-    # url = "http://"
+    # url = (if @get('selectedType') == 'ics' then "webcal://" else "http://")
+    url = "http://"
     url += domain
     url += model
     url += type
