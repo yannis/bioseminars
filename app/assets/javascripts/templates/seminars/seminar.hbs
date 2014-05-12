@@ -23,6 +23,9 @@
         {{/each}}
       </p>
     {{/if}}
+    {{#if internal}}
+      <p class="alert alert-warning">This seminar is not public</p>
+    {{/if}}
     {{#if publications}}
       <h3>Associated publications</h3>
       {{#each pub in publications }}
@@ -39,7 +42,7 @@
   </div>
   <div class="panel-footer">
     <div class='seminar-adminlinks'>
-      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank">Import in calendar <i class="glyphicon glyphicon-calendar"></i></a>
+      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
       {{/if}}

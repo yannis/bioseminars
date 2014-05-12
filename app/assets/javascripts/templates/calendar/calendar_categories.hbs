@@ -6,6 +6,14 @@
   </div>
   <table class='table' id='categories'>
     <tbody>
+      <tr>
+        <td>
+          {{view Em.Checkbox checked=App.Internal.show id="internal_seminars_selection"}}
+        </td>
+        <td  colspan=2>
+          <label for="internal_seminars_selection">Internal seminars</label>
+        </td>
+      </tr>
       {{#each category in limitedCategories}}
         {{view App.CalendarCategoryView}}
       {{/each}}

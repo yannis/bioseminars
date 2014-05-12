@@ -15,11 +15,11 @@ describe Location do
 end
 
 describe "A location" do
-  let(:location){create :location, name: "room4059"}
+  let(:location){create :location, name: "room4059", building: nil}
   it {expect(location).to be_valid_verbose}
   it {expect(location.name_and_building).to eq "room4059"}
   context "with a building" do
-    let(:building) {create :building, name: "ScIII"}
+    let(:building) {create :building, name: "ScIII ()"}
     before {location.update_attributes building: building}
     it {expect(location.name_and_building).to eq "room4059 (ScIII)"}
   end

@@ -30,5 +30,7 @@ App.CalendarSeminarView = Ember.View.extend
         hide:
           fixed: true
           event: 'click'
+          target: $('body')
+
 
   ).observes("parentView.fullCalendarRendered", "controller.model.id")

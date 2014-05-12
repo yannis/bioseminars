@@ -75,8 +75,12 @@ App.Seminar = DS.Model.extend
   ).property('pubmed_ids')
 
   show: (->
-    true in @get('categories').mapBy('showMe')
-  ).property('categories.@each.showMe')
+    showCat = true in @get('categories').mapBy('showMe')
+    if @get('internal') == true
+      showCat && App.Internal.get('show') == true
+    else
+      showCat
+  ).property('categories.@each.showMe', 'internal', 'App.Internal.show')
 
   hide: (->
     @get("show") == false

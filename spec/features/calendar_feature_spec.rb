@@ -55,19 +55,24 @@ feature 'Calendar', js: true do
           expect(page).to have_selector ".fc-header-title", count: 1, text: 2.month.ago.to_date.to_s(:month_year)
           expect(page).to have_selector ".fc-event", count: 2
         end
-
-
       end
 
       scenario "I click on a seminar and see the tooltip" do
-        visit "/#/calendar/month/2014/05/09/seminar/#{seminar1.id}"
-        sleep 30
+        visit "/"
+        expect(page).to_not have_selector ".qtip"
+        within "#calendar.fc" do
+          expect(page).to have_selector ".fc-event-#{seminar2.id}", count: 1
+          page.find(".fc-event-#{seminar2.id}").click
+        end
+        expect(current_url).to match /\/seminar\/#{seminar2.id}/
+        expect(page).to have_selector ".qtip", count: 1, text: seminar2.title
         within "#calendar.fc" do
           expect(page).to have_selector ".fc-event-#{seminar1.id}", count: 1
-          expect(page).to_not have_selector ".qtip"
           page.find(".fc-event-#{seminar1.id}").click
-          expect(page).to have_selector ".qtip", count: 1
         end
+        expect(current_url).to match /\/seminar\/#{seminar1.id}/
+        expect(page).to_not have_selector ".qtip", text: seminar2.title
+        expect(page).to have_selector ".qtip", count: 1, text: seminar1.title
       end
     end
 

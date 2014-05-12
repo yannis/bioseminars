@@ -45,6 +45,7 @@ FactoryGirl.define do
   factory :location do
     name {Faker::Company.name}
     # association :building not mandatory
+    association :building
   end
 
   factory :seminar do
