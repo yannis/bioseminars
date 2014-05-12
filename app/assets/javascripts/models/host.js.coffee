@@ -8,6 +8,10 @@ App.Host = DS.Model.extend
   updatable: DS.attr('boolean')
   destroyable: DS.attr('boolean')
 
+  mailto: (->
+    "mailto:" + @get("email")
+  ).property("email")
+
   updatable_or_destroyable: (->
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable")

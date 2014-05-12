@@ -7,8 +7,6 @@ App.CalendarSeminarView = Ember.View.extend
 
     if @get("parentView.fullCalendarRendered") == true && seminar.get("location.building.isLoaded") == true
 
-      console.log "CAALLLLLED"
-
       element = $(".fc-event-#{seminar.get("id")}")
 
       element.qtip

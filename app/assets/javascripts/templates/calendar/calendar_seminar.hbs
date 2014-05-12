@@ -12,13 +12,14 @@
     {{/if}}
     <div class='seminar-speakers'>
       <em>by</em>
-      <strong>{{speakerName}} ({{speakerAffiliation}})</strong>
+      <strong>{{speakerName}}</strong>
+      ({{speakerAffiliation}})
     </div>
     {{#if hosts}}
-      <div class='seminar-hosts'>
+      <div class='calendar-seminar-hosts'>
         <em>Hosted by</em>
         {{#each host in hosts}}
-          <strong>{{host.name}}</strong>
+          <strong><a {{bind-attr href="host.mailto"}}>{{host.name}}</a></strong>
         {{/each}}
       </div>
     {{/if}}
