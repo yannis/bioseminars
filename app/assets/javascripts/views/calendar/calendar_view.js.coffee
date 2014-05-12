@@ -47,6 +47,7 @@ App.CalendarView = Ember.View.extend
       timeFormat: 'H:mm'
       disableDragging: true
       disableResizing: true
+      weekMode: 'fluid'
 
       loading: (bool)=>
         App.set("loading", bool)

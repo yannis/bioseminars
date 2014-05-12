@@ -16,6 +16,7 @@ $ ->
     timeFormat: 'H:mm'
     disableDragging: true
     disableResizing: true
+    weekMode: 'fluid'
 
     events:
       url: "/api/v2/seminars.fullcalendar"
