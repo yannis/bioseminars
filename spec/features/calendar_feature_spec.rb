@@ -59,7 +59,7 @@ feature 'Calendar', js: true do
 
       end
 
-      scenario "I click on a seminar and see the tooltip", :focus do
+      scenario "I click on a seminar and see the tooltip" do
         visit "/#/calendar/month/2014/05/09/seminar/#{seminar1.id}"
         sleep 30
         within "#calendar.fc" do

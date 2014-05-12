@@ -1,7 +1,0 @@
-$ ->
-  Modernizr.load
-    test: Modernizr.fontface
-    yep : "http://use.typekit.com/#{ Rails.application.secrets.typekit_api_key }.js"
-    complete: ->
-      try
-        Typekit.load()

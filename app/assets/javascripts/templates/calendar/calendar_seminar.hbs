@@ -22,9 +22,9 @@
         {{/each}}
       </div>
     {{/if}}
-    <div class='seminar-adminlinks'>
+    <div class='calendar-seminar-adminlinks'>
       {{#link-to "seminar" this class="btn btn-xs btn-primary"}}Details{{/link-to}}
-      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank">Import in calendar <i class="glyphicon glyphicon-calendar"></i></a>
+      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
         {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}

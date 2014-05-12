@@ -74,9 +74,6 @@ App.CalendarView = Ember.View.extend
           show: seminar.get('show')
           className: "fc-event-#{seminar.get('id')} #{if seminar.get('show') then '' else 'hidden'}"
           seminar: seminar
-        # debugger
-        # seminar.addObserver 'date_time_location_and_category', ->
-        #   $('#calendar').fullCalendar('updateEvent', event)
         return event
 
 
