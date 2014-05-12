@@ -39,11 +39,34 @@ class SeminarsController < ApplicationController
 
     @seminars = @seminars.limit(200) if @seminars.count > 200
 
-    respond_with @seminars
+    # to redirect legacy requests
+    old_params = {}
+    old_params[:categories] = params[:categories].split(' ').join(',') if params[:categories]
+    old_params[:scope] = params[:scope] if params[:scope]
+    old_params[:order] = params[:order] if params[:order]
+    old_params[:limit] = params[:limit] if params[:limit]
+    old_params[:before] = params[:before] if params[:before]
+    old_params[:after] = params[:after] if params[:after]
+    old_params[:internal] = params[:internal] if params[:internal]
+
+    respond_with @seminars do |format|
+      format.rss {
+        old_params.merge! format: 'rss'
+        redirect_to api_v2_seminars_path(old_params), status: 301
+      }
+      format.ics {
+        old_params.merge! format: 'ics'
+        redirect_to api_v2_seminars_path(old_params), status: 301
+      }
+    end
   end
 
   def show
-    respond_with @seminar
+    respond_with @seminar do |format|
+      format.ics {
+        redirect_to api_v2_seminar_path(@seminar, format: 'ics'), status: 301
+      }
+    end
   end
 
   def create
