@@ -74,28 +74,33 @@ feature 'categories', js: true do
 
     context "when showing a category" do
       scenario "The category panel don't show the archived class"  do
-        visit "/#/categories/#{category1.id}"
+        visit "/#/categories"
         within(".categories-categories") do
           expect(page).to_not have_selector(".categories-category.archived")
         end
+        visit "/#/categories/#{category1.id}"
         within(".panel.category") do
           expect(page).to have_selector("a.seminar-adminlinks-archiving", count: 1, text: "Toggle archive status")
           page.find("a.seminar-adminlinks-archiving").click
         end
         flash_is "Category successfully archived"
+        visit "/#/categories"
         within(".categories-categories") do
           expect(page).to have_selector(".categories-category.archived", count: 1)
         end
+        visit "/#/categories/#{category1.id}"
         within(".panel.category.archived") do
           expect(page).to have_selector("a.seminar-adminlinks-archiving", count: 1, text: "Toggle archive status")
           page.find("a.seminar-adminlinks-archiving").click
         end
         flash_is "Category successfully unarchived"
+        visit "/#/categories"
         within(".categories-categories") do
           expect(page).to_not have_selector(".categories-category.archived")
         end
       end
     end
+
     context "when showing a category and an archived category exists" do
       let!(:archived_category){create :category, name: "archived category", archived_at: 2.weeks.ago}
       scenario "the categories list shows archived categories"  do

@@ -1,4 +1,4 @@
-App.CategoryController = Ember.ObjectController.extend
+App.CategoryController = Ember.ObjectController.extend App.CategoriesSelectionControllerMixin,
 
   needs: ["categories"]
 

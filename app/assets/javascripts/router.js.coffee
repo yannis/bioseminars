@@ -12,10 +12,10 @@ App.Router.map ->
   @resource 'calendar', {path: '/calendar/:type/:year/:month/:day'}, ->
     @resource 'calendar_seminar', {path: '/seminar/:seminar_id'}
 
-  @resource 'categories', ->
-    @route 'new'
-    @resource 'category', {path: '/:category_id'}, ->
-    @route 'edit', {path: '/:category_id/edit'} # go to the route to see how I get the :category_id
+  @resource 'categories'
+  @resource 'category', {path: '/categories/:category_id'}
+  @resource 'categories.new', {path: '/categories/new'}
+  @resource 'categories.edit', {path: '/categories/:category_id/edit'} # go to the route to see how I get the :category_id
 
   @route "feeds"
   @route 'feeds.documentation', {path: 'feeds/documentation'}
