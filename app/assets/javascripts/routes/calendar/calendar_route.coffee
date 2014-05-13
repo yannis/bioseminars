@@ -17,6 +17,3 @@ App.CalendarRoute = Em.Route.extend  App.CategoriesSelectionRouteMixin,
 
   setupController: (controller, model) ->
     @_super controller, model
-    controller.set 'seminars', @store.find "seminar",
-      after: moment("#{model.year}-#{model.month}-01").subtract('months', 1).date(0).format("YYYYMMDD")
-      before: moment("#{model.year}-#{model.month}-01").add('months', 1).date(0).format("YYYYMMDD")

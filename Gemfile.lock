@@ -148,13 +148,13 @@ GEM
       mail (~> 2.2)
     ember-data-source (1.0.0.beta.7)
       ember-source
-    ember-rails (0.14.1)
+    ember-rails (0.15.0)
       active_model_serializers
       barber (>= 0.4.1)
-      ember-data-source
-      ember-source
+      ember-data-source (>= 1.0.0.beta.5)
+      ember-source (>= 1.1.0)
       execjs (>= 1.2)
-      handlebars-source
+      handlebars-source (> 1.0.0)
       jquery-rails (>= 1.0.17)
       railties (>= 3.1)
     ember-source (1.5.0)
@@ -412,7 +412,7 @@ DEPENDENCIES
   email_spec
   ember-data-source (= 1.0.0.beta.7)
   ember-rails
-  ember-source (= 1.5.0)
+  ember-source (= 1.5)
   factory_girl_rails
   faker
   font-awesome-sass

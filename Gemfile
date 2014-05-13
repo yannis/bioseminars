@@ -23,7 +23,7 @@ gem 'jquery-rails'
 gem "jquery-ui-rails"
 gem "jquery-qtip2-rails"
 gem 'ember-rails'
-gem "ember-source", "1.5.0"
+gem "ember-source", "1.5"
 gem "ember-data-source", "1.0.0.beta.7"
 gem "calendar_date_select"
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.0'
