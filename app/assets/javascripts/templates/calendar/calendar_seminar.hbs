@@ -26,6 +26,11 @@
         {{/each}}
       </div>
     {{/if}}
+    {{#if App.Session.authUser.admin}}
+      <p class='small text-right'>
+        <em>Created by</em> {{user.name}}
+      </p>
+    {{/if}}
     <div class='calendar-seminar-adminlinks'>
       {{#link-to "seminar" this class="btn btn-xs btn-primary"}}Details{{/link-to}}
       <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>

@@ -27,6 +27,7 @@ App.Seminar = DS.Model.extend
   ).property "categorisations"
 
   location: DS.belongsTo('location')
+  user: DS.belongsTo('user')
 
   readable: DS.attr('boolean', {readOnly: true})
   updatable: DS.attr('boolean', {readOnly: true})

@@ -8,6 +8,9 @@
     <h3 class="panel-title">{{title}}</h3>
   </div>
   <div class="panel-body">
+    {{#if internal}}
+      <p class="alert alert-warning">This seminar is not public</p>
+    {{/if}}
     {{#if description}}
       <p>{{description}}</p>
     {{/if}}
@@ -23,8 +26,10 @@
         {{/each}}
       </p>
     {{/if}}
-    {{#if internal}}
-      <p class="alert alert-warning">This seminar is not public</p>
+    {{#if App.Session.authUser.admin}}
+      <p class='small text-right'>
+        <em>Created by</em> {{user.name}}
+      </p>
     {{/if}}
     {{#if publications}}
       <h3>Associated publications</h3>
