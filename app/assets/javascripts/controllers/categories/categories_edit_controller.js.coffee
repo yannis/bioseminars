@@ -1,5 +1,8 @@
 App.CategoriesEditController = Ember.ObjectController.extend
-  pageTitle: "Edit category"
+
+  pageTitle: (->
+    "Edit category “#{@get('model.name')}”"
+  ).property("model.name")
 
   actions:
     update: (category) ->
@@ -8,7 +11,7 @@ App.CategoriesEditController = Ember.ObjectController.extend
       category.save().then(
         (->
           Flash.NM.push 'Category successfully updated', "success"
-          history.go -1
+          self.send('closeModal')
         ),
         ((error) ->
           if error.responseText.length
@@ -17,7 +20,3 @@ App.CategoriesEditController = Ember.ObjectController.extend
             self.setValidationErrors error.message
         )
       )
-
-    cancel: (category) ->
-      category.rollback()
-      history.go -1

@@ -1,4 +1,7 @@
 App.CalendarView = Ember.View.extend
+
+  needs: ['seminars']
+
   templateName: 'calendar/calendar'
 
   fullCalendarRendered: false
@@ -62,20 +65,7 @@ App.CalendarView = Ember.View.extend
             callback(events)
 
       eventDataTransform: (seminar) ->
-
-        event =
-          id: seminar.get('id')
-          id: seminar.get('id')
-          date_time_location_and_category: seminar.get("date_time_location_and_category")
-          title: "#{seminar.get('acronyms')}\n#{seminar.get("speakerName")}"
-          start: seminar.get('startAt')
-          end: if seminar.get('endAt') then seminar.get('endAt') else null
-          allDay: seminar.get('all_day')
-          color: seminar.get('color')
-          show: seminar.get('show')
-          className: "fc-event-#{seminar.get('id')} #{if seminar.get('show') then '' else 'hidden'}"
-          seminar: seminar
-        return event
+        seminar.get("forFullCalendar")
 
 
       eventClick: (data, event, view) =>
@@ -104,14 +94,20 @@ App.CalendarView = Ember.View.extend
         if vyear != @year() || vmonth != @month() || vtype != @defaultView()
           @controller.transitionToRoute "calendar", {year: vyear, month: vmonth, day: vday, type: ntype}
 
+      updateEvent: (event) ->
+
       eventAfterRender: (event, element, view) =>
-        # debugger
         seminar = event.seminar
         seminar.addObserver 'show', ->
           if seminar.get('show')
             $(element).removeClass('hidden')
           else
             $(element).addClass('hidden')
+        seminar.one 'didUpdate', ->
+          $('#calendar').fullCalendar('refetchEvents')
+          window.location = "/"+window.location.hash.replace("/seminar/#{event.id}", "").replace("/seminars/#{event.id}", "")
+        seminar.one 'didDelete', ->
+          $('#calendar').fullCalendar('refetchEvents')
 
       dayRender: (date, cell) =>
         if App.Session.authUser
@@ -133,3 +129,7 @@ App.CalendarView = Ember.View.extend
       $('#calendar').fullCalendar("destroy")
       @renderCalendar()
   ).observes('App.Session.authUser')
+
+  reRenderEvents: (->
+    $('#calendar').fullCalendar("refetchEvents")
+  ).observes('controllers.seminars.model')

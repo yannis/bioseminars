@@ -1,2 +1,5 @@
 App.HostsNewView = Ember.View.extend
-  templateName: 'hosts/new'
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'

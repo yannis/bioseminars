@@ -1,14 +1,16 @@
 App.LocationsNewRoute = Ember.Route.extend
-  model: (params) ->
+
+  model: ->
     @store.createRecord "location"
 
-  afterModel: (model, transition) ->
+  afterModel: (location, transition) ->
     if App.Session.authUser == undefined || App.Session.authUser.get("can_create_locations") == false
-      model.deleteRecord()
+      location.deleteRecord()
       Flash.NM.push 'You are not authorized to access this page', "danger"
-      window.history.go(-1)
-
-  setupController: (controller, model) ->
-    @_super controller, model
-    controller.set 'selectBuildings', @store.find "building"
-    controller.set 'pageTitle', "New location"
+      @goBackOr 'locations'
+    else
+      @send 'openModal', 'locations', 'new', location
+      @controllerFor('buildings').set('content', @store.find( "building"))
+      @controllerFor('buildings').set "sortProperties", ["name"]
+      @controllerFor('buildings').set "sortAscending", true
+      transition.abort()

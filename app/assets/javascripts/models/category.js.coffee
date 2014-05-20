@@ -17,7 +17,6 @@ App.Category = DS.Model.extend
 
   maxPosition: Ember.computed.max('positions')
 
-
   updatable_or_destroyable: (->
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable").readOnly()

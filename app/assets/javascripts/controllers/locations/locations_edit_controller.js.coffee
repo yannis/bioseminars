@@ -1,6 +1,10 @@
 App.LocationsEditController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
-  pageTitle: "Edit location"
+  needs: ['buildings']
+
+  pageTitle: (->
+    "Edit location “#{@get('model.name')}”"
+  ).property("model.name")
 
   actions:
     update: (location) ->
@@ -8,15 +12,9 @@ App.LocationsEditController = Ember.ObjectController.extend App.ValidationErrors
       location.save().then(
         (->
           Flash.NM.push 'Location successfully updated', "success"
-          # self.transitionToRoute 'locations.location', location
-          history.go -1
+          self.send('closeModal')
         ),
         ((error) ->
-          self.setValidationErrors error.message
+          self.setValidationErrors error
         )
       )
-
-    cancel: (location) ->
-      location.rollback()
-      history.go -1
-

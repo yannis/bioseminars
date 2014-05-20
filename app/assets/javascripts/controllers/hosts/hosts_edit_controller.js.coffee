@@ -1,6 +1,8 @@
-App.HostsEditController = Ember.ObjectController.extend
+App.HostsEditController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
-  pageTitle: "Edit host"
+  pageTitle: (->
+    "Edit host “#{@get('model.name')}”"
+  ).property("model.name")
 
   actions:
     update: (host) ->
@@ -8,17 +10,9 @@ App.HostsEditController = Ember.ObjectController.extend
       host.save().then(
         (->
           Flash.NM.push 'Host successfully updated', "success"
-          history.go -1
+          self.send('closeModal')
         ),
         ((error) ->
-          if error.responseText.length
-            Flash.NM.push JSON.parse(error.responseText)["message"], "danger"
-          else
-            self.setValidationErrors error.message
+          self.setValidationErrors error
         )
       )
-
-    cancel: (host) ->
-      host.rollback()
-      history.go -1
-

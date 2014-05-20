@@ -11,12 +11,3 @@ App.Building = DS.Model.extend
   updatable_or_destroyable: (->
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable").readOnly()
-
-
-  # becameError: ->
-  #     # handle error case here
-  #     alert 'there was an error!'
-
-  # becameInvalid: (errors) ->
-  #   # record was invalid
-  #   alert "Record was invalid because: #{errors}"

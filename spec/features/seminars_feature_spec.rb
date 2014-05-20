@@ -71,19 +71,16 @@ feature 'seminars', js: true do
     end
 
     scenario "creating a seminar" do
-      visit "/#/locations"
       visit "/#/seminars/new"
-      it_does_not_authorize_and_redirect_to /\/#\/locations$/
+      it_does_not_authorize_and_redirect_to "/#/calendar/"
     end
 
     scenario "editing a seminar" do
-      visit "/"
       visit "/#/seminars/#{seminar1.id}/edit"
       it_does_not_authorize_and_redirect_to "/#/calendar/"
     end
 
     scenario "duplicating a seminar" do
-      visit "/"
       visit "/#/seminars/#{seminar1.id}/duplicate"
       it_does_not_authorize_and_redirect_to "/#/calendar/"
     end
@@ -166,8 +163,8 @@ feature 'seminars', js: true do
         host.save
         location.save
         visit "/#/seminars/new"
-        expect(page).to have_selector(".panel.seminar-form", count: 1)
-        within(".panel.seminar-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "Create a seminar"
           first(:select, "form-seminar-categorisations").select category.name
           page.fill_in "Title", with: "a new seminar title"
@@ -179,12 +176,13 @@ feature 'seminars', js: true do
           click_button "Create"
         end
         flash_is "Seminar successfully created"
-        expect(current_url).to match /\/#\/seminars/
+        visit "/#/seminars/"
         page.check category.name
         within ".seminars-seminars" do
           expect(page).to have_text "a new seminar title"
         end
-        expect(page).to_not have_selector ".panel.seminar-form"
+        sleep 10
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario "duplicating a seminar not own by user" do
@@ -194,9 +192,9 @@ feature 'seminars', js: true do
           expect(page).to have_text("Duplicate")
           click_link "Duplicate"
         end
-        expect(current_url).to match "seminars\/#{seminar1.id}\/duplicate"
-        expect(page).to have_selector(".panel.seminar-form", count: 1)
-        within(".panel.seminar-form") do
+        expect(current_url).to match "seminars\/#{seminar1.id}"
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "Duplicate seminar “#{seminar1.title}”"
           page.fill_in "Title", with: "duplicate seminar title"
           page.fill_in "Speaker name", with: "duplicate speaker name"
@@ -204,11 +202,11 @@ feature 'seminars', js: true do
           click_button "Create"
         end
         flash_is "Seminar successfully created"
-        expect(current_url).to match /\/#\/seminars/
+        visit "/#/seminars/next"
         within ".seminars-seminars" do
           expect(page).to have_text "duplicate seminar title"
         end
-        expect(page).to_not have_selector ".panel.seminar-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
     end
   end
@@ -225,14 +223,13 @@ feature 'seminars', js: true do
     }
 
     scenario "editing a seminar not own by user" do
-      visit "/"
       visit "/#/seminars/#{seminar1.id}"
       expect(page).to have_selector(".panel.seminar")
       within(".panel.seminar") do
         expect(page).to_not have_text("Edit")
       end
       visit "/#/seminars/#{seminar1.id}/edit"
-      it_does_not_authorize_and_redirect_to "/#/seminars/#{seminar1.id}"
+      it_does_not_authorize_and_redirect_to "/#/calendar/"
     end
 
     scenario 'editing seminar own by user' do
@@ -243,10 +240,10 @@ feature 'seminars', js: true do
       within(".panel.seminar") do
         click_link "Edit"
       end
-      expect(current_url).to match "seminars\/#{seminar_user.id}\/edit"
-      expect(page).to have_selector(".panel.seminar-form", count: 1)
-      within(".panel.seminar-form") do
-        expect(page).to have_text "Edit seminar “#{seminar_user.title}”"
+      expect(current_url).to match "seminars\/#{seminar_user.id}"
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
+        expect(page).to have_text "Edit seminar"
         page.fill_in "Title", with: "another seminar title"
         click_button "Update"
       end
@@ -255,7 +252,7 @@ feature 'seminars', js: true do
       within ".seminar" do
         expect(page).to have_text "another seminar title"
       end
-      expect(page).to_not have_selector ".panel.seminar-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario "destroying a seminar not own by user" do
@@ -293,17 +290,16 @@ feature 'seminars', js: true do
       embersignin user
     }
 
-    scenario "editing a seminar not own by user"  do
-      visit "/"
+    scenario "editing a seminar not own by user" do
       visit "/#/seminars/#{seminar1.id}"
       expect(page).to have_selector(".panel.seminar")
       within(".panel.seminar") do
         click_link "Edit"
       end
-      expect(current_url).to match "seminars\/#{seminar1.id}\/edit"
-      expect(page).to have_selector(".panel.seminar-form", count: 1)
-      within(".panel.seminar-form") do
-        expect(page).to have_text "Edit seminar “#{seminar1.title}”"
+      expect(current_url).to match "seminars\/#{seminar1.id}"
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
+        expect(page).to have_text "Edit seminar"
         page.fill_in "Title", with: "another seminar title"
         click_button "Update"
       end
@@ -312,21 +308,19 @@ feature 'seminars', js: true do
       within ".seminar" do
         expect(page).to have_text "another seminar title"
       end
-      expect(page).to_not have_selector ".panel.seminar-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario 'editing seminar own by user' do
-      visit "/"
       visit "/#/seminars/#{seminar_user.id}"
-      # page.find(".seminars-seminar a", text: seminar1.title).click
       expect(page).to have_selector(".panel.seminar")
       within(".panel.seminar") do
         click_link "Edit"
       end
-      expect(current_url).to match "seminars\/#{seminar_user.id}\/edit"
-      expect(page).to have_selector(".panel.seminar-form", count: 1)
-      within(".panel.seminar-form") do
-        expect(page).to have_text "Edit seminar “#{seminar_user.title}”"
+      expect(current_url).to match "seminars\/#{seminar_user.id}"
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
+        expect(page).to have_text "Edit seminar"
         page.fill_in "Title", with: "another seminar title"
         click_button "Update"
       end
@@ -335,7 +329,7 @@ feature 'seminars', js: true do
       within ".seminar" do
         expect(page).to have_text "another seminar title"
       end
-      expect(page).to_not have_selector ".panel.seminar-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario "destroying a seminar not own by user" do

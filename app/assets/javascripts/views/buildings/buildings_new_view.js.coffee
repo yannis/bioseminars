@@ -1,3 +1,5 @@
 App.BuildingsNewView = Ember.View.extend
-  templateName: 'buildings/new'
-  tagName: 'form'
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'

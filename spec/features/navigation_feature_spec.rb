@@ -29,8 +29,8 @@ feature 'seminars', js: true do
           expect(page).to have_selector "#nav-seminars-new-button", count: 1
         end
         click_link "nav-seminars-new-button"
-        expect(current_url).to match /\/#\/seminars\/new/
-        expect(page).to have_selector ".panel.seminar-form", count: 1
+        # expect(current_url).to match /\/#\/seminars\/new/
+        expect(page).to have_selector ".modal-dialog", count: 1
       end
     end
   end

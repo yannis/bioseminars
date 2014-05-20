@@ -95,19 +95,20 @@ feature 'categories', js: true do
 
       scenario 'creating a new category' do
         visit "/#/categories/new"
-        expect(page).to have_selector(".panel.category-form", count: 1)
-        within(".panel.category-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "New category"
           page.fill_in "Name", with: "a new category name"
           page.fill_in "Acronym", with: "ANCN"
           click_button "Create"
         end
         flash_is "Category successfully created"
-        expect(current_url).to match /\/#\/categories$/
+        expect(current_url).to match /\/#\/categories/
+        visit "/#/categories"
         within ".categories-categories" do
           expect(page).to have_text "a new category name"
         end
-        expect(page).to_not have_selector ".panel.category-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'editing category' do
@@ -117,9 +118,9 @@ feature 'categories', js: true do
         within(".panel.category") do
           click_link "Edit"
         end
-        expect(current_url).to match "categories\/#{category1.id}\/edit"
-        expect(page).to have_selector(".panel.category-form", count: 1)
-        within(".panel.category-form") do
+        # expect(current_url).to match "categories\/#{category1.id}\/edit"
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "Edit category “#{category1.name}”"
           page.fill_in "Name", with: "another category name"
           page.fill_in "Acronym", with: "ACN"
@@ -130,7 +131,7 @@ feature 'categories', js: true do
         within ".categories-categories" do
           expect(page).to have_text "another category name"
         end
-        expect(page).to_not have_selector ".panel.category-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'destroying a category' do

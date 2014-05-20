@@ -1,4 +1,4 @@
-App.LocationsEditView = Ember.View.extend
+App.HostsEditView = Ember.View.extend
   didInsertElement: ->
     $("#app-modal").modal 'show'
   willDestroyElement: ->

@@ -1,42 +1,37 @@
 App.SeminarsEditController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
+  pageTitle: (->
+    "Edit seminar “#{@get('model.title')}”"
+  ).property("model.title")
+
   needs: ["categories", "hosts", "locations"]
 
-  selectCategories: (->
-    @get('controllers.categories')
-  ).property('controllers.categories')
-
-  sortedSelectHosts: (->
-    @get('controllers.hosts')
-  ).property('controllers.hosts')
-
-  sortedSelectLocations: (->
-    @get('controllers.locations')
-  ).property('controllers.locations')
+  limitedCategories: (->
+    cats = @get('controllers.categories')
+    activeCats = cats.filter (model) =>
+      !model.get("archivedAt")?
+  ).property('controllers.categories.model.length')
 
 
   actions:
 
     update: (seminar) ->
       self = @
-      seminar.set "startAt", moment(seminar.get('startAt')).toDate()
+      seminar.set "startAt", moment(@get('startAt')).toDate()
       seminar.set "endAt", moment(seminar.get("startAt")).add('hours', 1).toDate unless seminar.get("endAt")?
-      seminar.save().then(
-        (->
+      seminar.save({associations: true}).then(
+        ((seminar)->
           Flash.NM.push 'Seminar successfully updated', "success"
-          history.go -1
+          self.send "closeModal"
         ),
         ((error) ->
           self.setValidationErrors error.message
         )
       )
 
-    cancel: (seminar) ->
-      seminar.rollback()
-      history.go -1
-
     addHosting: (seminar) ->
       seminar.get('hostings').addObject @store.createRecord("hosting", {seminar: seminar})
+
     removeHosting: (hosting) ->
       @get("model.hostings").removeObject(hosting)
 

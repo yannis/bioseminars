@@ -1,1 +1,3 @@
-App.SeminarsDuplicateController = App.SeminarsNewController.extend()
+# App.SeminarsDuplicateController = App.SeminarsNewController.extend
+
+#   pageTitle: "Duplicate seminar"

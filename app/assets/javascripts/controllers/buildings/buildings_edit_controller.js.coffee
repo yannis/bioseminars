@@ -1,6 +1,8 @@
 App.BuildingsEditController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
-  pageTitle: "Edit building"
+  pageTitle: (->
+    "Edit building “#{@get('model.name')}”"
+  ).property("model.name")
 
   actions:
     update: (building) ->
@@ -8,15 +10,9 @@ App.BuildingsEditController = Ember.ObjectController.extend App.ValidationErrors
       building.save().then(
         (->
           Flash.NM.push 'Building successfully updated', "success"
-          # self.transitionToRoute 'buildings.building', building
-          history.go -1
+          self.send('closeModal')
         ),
         ((error) ->
-          self.setValidationErrors error.message
+          self.setValidationErrors error
         )
       )
-
-    cancel: (building) ->
-      building.rollback()
-      history.go -1
-      # @transitionToRoute 'building', building

@@ -1,6 +1,8 @@
 App.UsersEditController = Ember.ObjectController.extend
 
-  pageTitle: "Edit user"
+  pageTitle: (->
+    "Edit user “#{@get('model.name')}”"
+  ).property("model.name")
 
   actions:
     update: (user) ->
@@ -8,7 +10,7 @@ App.UsersEditController = Ember.ObjectController.extend
       user.save().then(
         (->
           Flash.NM.push 'User successfully updated', "success"
-          history.go -1
+          self.send('closeModal')
         ),
         ((error) ->
           if error.responseText.length
@@ -17,8 +19,3 @@ App.UsersEditController = Ember.ObjectController.extend
             self.setValidationErrors error.message
         )
       )
-
-    cancel: (user) ->
-      user.rollback()
-      history.go -1
-

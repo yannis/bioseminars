@@ -1,5 +1,8 @@
 App.LocationsNewController = Ember.ObjectController.extend App.ValidationErrorsMixin,
-  pageTitle: "Create a new location"
+
+  needs: ['buildings']
+
+  pageTitle: "New location"
 
   actions:
     create: (location) ->
@@ -18,6 +21,8 @@ App.LocationsNewController = Ember.ObjectController.extend App.ValidationErrorsM
           )
         )
 
-    cancel: (location) ->
-      location.deleteRecord() if location
-      @transitionToRoute 'locations'
+    # cancel: (location) ->
+    #   location.deleteRecord() if location
+    #   $("#app-modal").modal 'hide'
+    #   # window.history.go(-1)
+    #   # @transitionToRoute 'locations'

@@ -43,19 +43,17 @@ feature 'locations', js: true do
     end
 
     scenario "creating a location" do
-      visit "/#/locations"
       visit "/#/locations/new"
       it_does_not_authorize_and_redirect_to /\/#\/locations$/
     end
 
     scenario "editing a location" do
-      visit "/#/locations"
       visit "/#/locations/#{location1.id}/edit"
       it_does_not_authorize_and_redirect_to /\/#\/locations$/
     end
   end
 
-  for role in ["member"]
+  for role in ["member", "admin"]
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {
@@ -91,21 +89,20 @@ feature 'locations', js: true do
       end
 
       scenario 'creating a new location' do
-        visit "/#/locations"
         visit "/#/locations/new"
-        expect(page).to have_selector(".panel.location-form", count: 1)
-        within(".panel.location-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "New location"
           page.fill_in "Name", with: "a new location name"
           page.select building.name, from: "Building"
           click_button "Create"
         end
         flash_is "Location successfully created"
-        expect(current_url).to match /\/#\/locations$/
+        visit "/#/locations"
         within ".locations-locations" do
           expect(page).to have_text "a new location name"
         end
-        expect(page).to_not have_selector ".panel.location-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'editing location' do
@@ -115,9 +112,9 @@ feature 'locations', js: true do
         within(".panel.location") do
           click_link "Edit"
         end
-        expect(current_url).to match "locations\/#{location1.id}\/edit"
-        expect(page).to have_selector(".panel.location-form", count: 1)
-        within(".panel.location-form") do
+        expect(current_url).to match "/#/locations"
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "Edit location “#{location1.name}”"
           page.fill_in "Name", with: "another location name"
           click_button "Update"
@@ -127,7 +124,7 @@ feature 'locations', js: true do
         within ".locations-locations" do
           expect(page).to have_text "another location name"
         end
-        expect(page).to_not have_selector ".panel.location-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'destroying a location' do

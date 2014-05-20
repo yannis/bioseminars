@@ -1,2 +1,5 @@
 App.BuildingsEditView = Ember.View.extend
-  tagName: 'form'
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'
