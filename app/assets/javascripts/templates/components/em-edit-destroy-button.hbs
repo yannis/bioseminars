@@ -1,0 +1,6 @@
+{{#if updatable }}
+  {{#link-to "buildings.edit" this class="btn btn-xs btn-primary"}}<span class="glyphicon glyphicon-edit"></span> Edit{{/link-to}}
+{{/if}}
+{{#if destroyable }}
+  <a class="btn btn-xs btn-danger" href="#" {{action "destroy" this}}><span class="glyphicon glyphicon-trash"></span> Destroy</a>
+{{/if}}

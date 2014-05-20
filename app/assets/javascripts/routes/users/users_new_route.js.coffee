@@ -1,11 +1,13 @@
 App.UsersNewRoute = Ember.Route.extend
-  model: (params) ->
+
+  model: ->
     @store.createRecord "user"
 
-  beforeModel: (transition) ->
+  afterModel: (model, transition) ->
     if App.Session.authUser == undefined || App.Session.authUser.get("can_create_users") == false
+      model.rollback()
       Flash.NM.push 'You are not authorized to access this page', "danger"
-      window.history.go(-1)
-
-  setupController: (controller, model) ->
-    @_super controller, model
+      @goBackOr '/'
+    else
+      @send 'openModal', 'users', 'new', model
+      transition.abort()

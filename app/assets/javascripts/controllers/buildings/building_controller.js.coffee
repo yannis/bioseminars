@@ -13,7 +13,7 @@ App.BuildingController = Ember.ObjectController.extend
               ),
               ((error)->
                 building.rollback()
-                Flash.NM.push "An error occured: #{error}", "danger"
+                Flash.NM.push "An error occured: #{error.message}", "danger"
               )
             )
       else

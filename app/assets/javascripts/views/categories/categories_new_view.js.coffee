@@ -1,3 +1,5 @@
 App.CategoriesNewView = Ember.View.extend
-  tagName: 'form'
-  classNames: ['form-horizontal']
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'

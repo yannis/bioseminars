@@ -42,22 +42,13 @@ feature 'buildings', js: true do
     end
 
     scenario "creating a building" do
-      visit "/#/buildings"
       visit "/#/buildings/new"
-      # sleep 10
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/buildings$/
+      it_does_not_authorize_and_redirect_to /\/#\/buildings$/
     end
 
     scenario "editing a building" do
-      visit "/#/buildings"
       visit "/#/buildings/#{building1.id}/edit"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/buildings$/
+      it_does_not_authorize_and_redirect_to /\/#\/buildings$/
     end
   end
 
@@ -97,20 +88,19 @@ feature 'buildings', js: true do
       end
 
       scenario 'creating a new building' do
-        visit "/#/buildings"
         visit "/#/buildings/new"
-        expect(page).to have_selector(".panel.building-form", count: 1)
-        within(".panel.building-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "New building"
           page.fill_in "Name", with: "a new building name"
           click_button "Create"
         end
         flash_is "Building successfully created"
-        expect(current_url).to match /\/#\/buildings$/
+        visit "/#/buildings"
         within ".buildings-buildings" do
           expect(page).to have_text "a new building name"
         end
-        expect(page).to_not have_selector ".panel.building-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'editing building' do
@@ -120,19 +110,19 @@ feature 'buildings', js: true do
         within(".panel.building") do
           click_link "Edit"
         end
-        expect(current_url).to match "buildings\/#{building1.id}\/edit"
-        expect(page).to have_selector(".panel.building-form", count: 1)
-        within(".panel.building-form") do
-          expect(page).to have_text "Edit building “#{building1.name}”"
+        # expect(current_url).to match "buildings\/#{building1.id}\/edit"
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
+          expect(page).to have_text "Edit building"
           page.fill_in "Name", with: "another building name"
           click_button "Update"
         end
         flash_is "Building successfully updated"
+        expect(page).to_not have_selector ".modal-dialog"
         visit "/#/buildings"
         within ".buildings-buildings" do
           expect(page).to have_text "another building name"
         end
-        expect(page).to_not have_selector ".panel.building-form"
       end
 
       scenario 'destroying a building' do

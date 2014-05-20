@@ -3,7 +3,7 @@ App.CategoriesNewController = Ember.ObjectController.extend App.ValidationErrors
   actions:
     create: (category) ->
       if App.Session.authUser == undefined || App.Session.authUser.get("can_create_categories") == false
-        category.deleteRecord()
+        building.rollback()
         Flash.NM.push 'You are not authorized to access this page', "danger"
       else
         self = @
@@ -11,13 +11,9 @@ App.CategoriesNewController = Ember.ObjectController.extend App.ValidationErrors
         category.save().then(
           (->
             Flash.NM.push 'Category successfully created', "success"
-            self.transitionToRoute 'categories'
+            self.send "closeModal"
           ),
           ((error) ->
             self.setValidationErrors error.message
           )
         )
-
-    cancel: (category) ->
-      category.deleteRecord() if category
-      @transitionToRoute 'categories'

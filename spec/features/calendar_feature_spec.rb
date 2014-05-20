@@ -6,6 +6,8 @@ feature 'Calendar', js: true do
   context "with a few seminars" do
     let!(:category1) {create :category}
     let!(:category2) {create :category}
+    let!(:host) {create :host}
+    let!(:location) {create :location}
     let!(:seminar1) {create :seminar, categories: [category1], start_at: 1.days.from_now}
     let!(:seminar2) {create :seminar, categories: [category2], start_at: 2.days.from_now}
     let!(:seminar3) {create :seminar, categories: [category1], start_at: 2.days.from_now+2.hours}
@@ -76,7 +78,7 @@ feature 'Calendar', js: true do
       end
     end
 
-    for role in ["member", "admin"]
+    for role in ["admin", "member"]
       context "when signed in as #{role}" do
         let(:user) {create :user, admin: (role == "admin")}
         before {
@@ -99,9 +101,47 @@ feature 'Calendar', js: true do
               click_link "(+)"
             end
           end
-          expect(current_url).to match /\/#\/seminars\/new_with_date/
           expect(page).to have_text "Create a seminar on"
-          expect(page).to have_selector ".panel.seminar-form", count: 1
+          expect(page).to have_selector ".modal-dialog", count: 1
+          within(".modal-dialog") do
+            first(:select, "form-seminar-categorisations").select category1.name
+            page.fill_in "Title", with: "a new seminar title"
+            page.fill_in "Speaker name", with: "a new speaker name"
+            page.fill_in "Speaker affiliation", with: "a new speaker affiliation"
+            first(:select, "form-seminar-hostings").select host.name
+            page.select location.name, from: "form-seminar-locations"
+            click_button "Create"
+          end
+          flash_is "Seminar successfully created"
+          within "#calendar.fc" do
+            expect(page).to have_selector ".fc-event", text: "a new speaker name", count: 1
+            page.find(".fc-event", text: "a new speaker name").click
+          end
+          expect(page).to have_selector ".qtip", count: 1, text: "a new seminar title"
+          within ".qtip" do
+            click_link "Edit"
+          end
+          expect(page).to have_selector ".modal-dialog", text: "a new seminar title", count: 1
+          within(".modal-dialog") do
+            page.fill_in "Title", with: "another seminar title"
+            page.fill_in "Speaker name", with: "another speaker name"
+            click_button "Update"
+          end
+          flash_is "Seminar successfully updated"
+          within "#calendar.fc" do
+            expect(page).to have_selector ".fc-event", text: "another speaker name", count: 1
+            page.find(".fc-event", text: "another speaker name").click
+          end
+          expect(page).to have_selector ".qtip", count: 1
+          within ".qtip" do
+            click_link "Destroy"
+          end
+          expect(page).to have_bootbox /Are you sure/
+          page.accept_bootbox
+          flash_is "Seminar successfully destroyed"
+          within "#calendar.fc" do
+            expect(page).to_not have_selector ".fc-event", text: "another speaker name"
+          end
         end
       end
     end

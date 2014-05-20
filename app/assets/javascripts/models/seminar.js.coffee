@@ -103,3 +103,22 @@ App.Seminar = DS.Model.extend
     className: "fc-event-#{@get('id')} #{if @get('show') then '' else 'hidden'}"
     emSelf: @
   ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color', 'date_time_location_and_category')
+
+  forFullCalendar: (->
+    id: @get('id')
+    date_time_location_and_category: @get("date_time_location_and_category")
+    title: "#{@get('acronyms')}\n#{@get("speakerName")}"
+    start: @get('startAt')
+    end: if @get('endAt') then @get('endAt') else null
+    allDay: @get('all_day')
+    color: @get('color')
+    show: @get('show')
+    className: "fc-event-#{@get('id')} #{if @get('show') then '' else 'hidden'}"
+    seminar: @
+  ).property('title', 'acronyms', 'startAt', 'endAt', 'allDay', 'color', 'date_time_location_and_category')
+
+  updateFullCalendar: (->
+    debugger
+    $('#calendar').fullCalendar('updateEvent', @get("forFullCalendar"))if @get('isDirty') == true
+    $('#calendar').fullCalendar('removeEvents', @get("id"))if @get('isDeleted') == true
+  ).property("isDirty", "isDeleted")

@@ -19,35 +19,22 @@ feature 'users', js: true do
 
     scenario 'showing the list of users' do
       visit "/#/users"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
     scenario 'Showing a user' do
       visit "/#/users/#{user1.id}"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
     scenario "creating a user" do
       visit "/#/users/new"
-      # sleep 10
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
     scenario "editing a user" do
       visit "/#/users/#{user1.id}/edit"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
   end
 
@@ -97,9 +84,8 @@ feature 'users', js: true do
 
     scenario 'editing the current user' do
       visit "/#/users/#{member.id}/edit"
-      # sleep 10
-      expect(page).to have_selector(".panel.user-form", count: 1)
-      within(".panel.user-form") do
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
         expect(page).to have_text "Edit user “#{member.name}”"
         page.fill_in "Name", with: "another user name"
         click_button "Update"
@@ -109,7 +95,7 @@ feature 'users', js: true do
       within ".panel.user" do
         expect(page).to have_text "another user name"
       end
-      expect(page).to_not have_selector ".panel.user-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario 'editing a user' do
@@ -158,8 +144,8 @@ feature 'users', js: true do
 
     scenario 'creating a new user' do
       visit "/#/users/new"
-      expect(page).to have_selector(".panel.user-form", count: 1)
-      within(".panel.user-form") do
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
         expect(page).to have_text "New user"
         page.fill_in "Name", with: "a new user name"
         page.fill_in "Email", with: "anemail@bioseminars.dev"
@@ -169,10 +155,11 @@ feature 'users', js: true do
       end
       flash_is "User successfully created"
       expect(current_url).to match /\/#\/users\//
-      within ".panel.user" do
+      visit "/#/users"
+      within ".users-users" do
         expect(page).to have_text "a new user name"
       end
-      expect(page).to_not have_selector ".panel.user-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario 'editing user' do
@@ -182,9 +169,8 @@ feature 'users', js: true do
       within(".panel.user") do
         click_link "Edit"
       end
-      expect(current_url).to match "users\/#{user1.id}\/edit"
-      expect(page).to have_selector(".panel.user-form", count: 1)
-      within(".panel.user-form") do
+      expect(page).to have_selector(".modal-dialog", count: 1)
+      within(".modal-dialog") do
         expect(page).to have_text "Edit user “#{user1.name}”"
         page.fill_in "Name", with: "another user name"
         click_button "Update"
@@ -194,7 +180,7 @@ feature 'users', js: true do
       within ".users-users" do
         expect(page).to have_text "another user name"
       end
-      expect(page).to_not have_selector ".panel.user-form"
+      expect(page).to_not have_selector ".modal-dialog"
     end
 
     scenario 'destroying a user' do

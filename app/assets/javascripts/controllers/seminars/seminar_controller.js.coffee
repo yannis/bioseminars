@@ -1,21 +1,15 @@
 App.SeminarController = Ember.ObjectController.extend
   actions:
     destroy: (seminar) ->
-      # debugger
-      # if confirm "Are you sure to destroy seminar “#{seminar.name}”?"
-      #   seminar.deleteRecord()
-      #   @get('store').commit()
-      #   alert "seminar destroyed?", seminar.isDestroyed
-      #   @transitionToRoute 'seminars'
-
       self = @
       if seminar.get("destroyable")
         bootbox.confirm "Are you sure you want to destroy this seminar?", (result) ->
           if result
             seminar.deleteRecord()
+            # $("#calendar").fullCalendar('removeEvents', seminar.get('id'))
             seminar.save().then(
-              (->
-                self.transitionToRoute "seminars"
+              ((seminar)->
+                self.transitionTo "/"
                 Flash.NM.push 'Seminar successfully destroyed', "success"
               ),
               ((error)->

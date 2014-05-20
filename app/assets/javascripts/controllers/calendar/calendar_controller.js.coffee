@@ -1,2 +1,7 @@
 App.CalendarController = Em.ObjectController.extend App.CategoriesSelectionControllerMixin,
-  seminarsLoaded: null
+
+  needs: ["seminars"]
+
+  reRenderEvents: (->
+    $('#calendar').fullCalendar("refetchEvents")
+  ).property('controllers.seminars@each.speaker_name')

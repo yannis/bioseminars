@@ -14,21 +14,19 @@ class BuildingsController < ApplicationController
     if @building.save
       render json: @building, status: :created, location: @building
     else
-      render json: {message: @building.errors}, status: :unprocessable_entity
+      render json: {errors: @building.errors}, status: :unprocessable_entity
     end
   end
 
   def update
-    if @building.update_attributes(sanitizer)
-      render json: nil, status: :ok
-    else
-      render json: {message: @building.errors}, status: :unprocessable_entity
-    end
+    @building.update_attributes(sanitizer)
+    respond_with @building
   end
 
   def destroy
     @building.destroy
-    render json: nil, status: :ok
+    respond_with @building
+    # render json: nil, status: :ok
   end
 
   private

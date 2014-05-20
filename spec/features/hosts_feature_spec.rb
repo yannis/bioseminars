@@ -42,9 +42,7 @@ feature 'hosts', js: true do
     end
 
     scenario "creating a host" do
-      visit "/#/hosts"
       visit "/#/hosts/new"
-      # sleep 10
       within(".notifications") do
         expect(page).to have_text "You are not authorized to access this page"
       end
@@ -97,21 +95,20 @@ feature 'hosts', js: true do
       end
 
       scenario 'creating a new host' do
-        visit "/#/hosts"
         visit "/#/hosts/new"
-        expect(page).to have_selector(".panel.host-form", count: 1)
-        within(".panel.host-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "New host"
           page.fill_in "Name", with: "a new host name"
           page.fill_in "Email", with: "anew@email"
           click_button "Create"
         end
         flash_is "Host successfully created"
-        expect(current_url).to match /\/#\/hosts$/
+        visit "/#/hosts"
         within ".hosts-hosts" do
           expect(page).to have_text "a new host name"
         end
-        expect(page).to_not have_selector ".panel.host-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'editing host' do
@@ -121,9 +118,8 @@ feature 'hosts', js: true do
         within(".panel.host") do
           click_link "Edit"
         end
-        expect(current_url).to match "hosts\/#{host1.id}\/edit"
-        expect(page).to have_selector(".panel.host-form", count: 1)
-        within(".panel.host-form") do
+        expect(page).to have_selector(".modal-dialog", count: 1)
+        within(".modal-dialog") do
           expect(page).to have_text "Edit host “#{host1.name}”"
           page.fill_in "Name", with: "another host name"
           page.fill_in "Email", with: "another@email"
@@ -134,7 +130,7 @@ feature 'hosts', js: true do
         within ".hosts-hosts" do
           expect(page).to have_text "another host name"
         end
-        expect(page).to_not have_selector ".panel.host-form"
+        expect(page).to_not have_selector ".modal-dialog"
       end
 
       scenario 'destroying a host' do

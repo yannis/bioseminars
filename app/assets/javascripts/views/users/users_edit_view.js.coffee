@@ -1,3 +1,5 @@
 App.UsersEditView = Ember.View.extend
-  tagName: 'form'
-  classNames: ['inline-form']
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'

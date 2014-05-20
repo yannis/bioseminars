@@ -1,7 +1,6 @@
 App.CategoriesEditView = Ember.View.extend
-  tagName: 'form'
-  classNames: ['form-horizontal']
+  didInsertElement: ->
+    $("#app-modal").modal 'show'
+  willDestroyElement: ->
+    $("#app-modal").modal 'hide'
 
-  willInsertElement: ->
-    unless @get('controller.updatable')
-      window.history.go(-1)
