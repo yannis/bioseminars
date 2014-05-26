@@ -14,7 +14,7 @@ feature 'users', js: true do
   context "when not logged in" do
     before {
       embersignout
-      visit ""
+      visit "/"
     }
 
     scenario 'showing the list of users' do
@@ -39,22 +39,21 @@ feature 'users', js: true do
   end
 
   context "when signed in as member" do
-    let(:member) {create :user, admin: false}
+    let!(:member) {create :user, admin: false}
+
     before {
-      embersignout
       embersignin member
+      visit "/"
     }
 
     scenario 'showing the list of users' do
       visit "/#/users"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
-    scenario 'Showing the current user'  do
-      visit "/#/users/#{member.id}"
+    scenario 'Showing the current user' do
+      click_link member.name
+      click_link "Settings"
       expect(page).to have_selector(".panel.user", count: 1)
       within(".panel.user") do
         expect(page).to have_text(member.name, count: 1)
@@ -68,18 +67,12 @@ feature 'users', js: true do
 
     scenario 'Showing a user' do
       visit "/#/users/#{user1.id}"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
-    scenario 'creating a new user' do
+    scenario 'creating a new user'do
       visit "/#/users/new"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
 
     scenario 'editing the current user' do
@@ -100,10 +93,7 @@ feature 'users', js: true do
 
     scenario 'editing a user' do
       visit "/#/users/#{user1.id}/edit"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/calendar\//
+      it_does_not_authorize_and_redirect_to /\/#\/calendar\//
     end
   end
 

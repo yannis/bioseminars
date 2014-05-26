@@ -14,7 +14,7 @@ class HostsController < ApplicationController
     if @host.save
       render json: @host, status: :created, location: @host
     else
-      render json: {message: @host.errors}, status: :unprocessable_entity
+      render json: {errors: @host.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +22,7 @@ class HostsController < ApplicationController
     if @host.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {message: @host.errors}, status: :unprocessable_entity
+      render json: {errors: @host.errors}, status: :unprocessable_entity
     end
   end
 

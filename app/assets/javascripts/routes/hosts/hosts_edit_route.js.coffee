@@ -1,4 +1,4 @@
-App.HostsEditRoute = Ember.Route.extend
+App.HostsEditRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
   model: (params) ->
     @store.find "host", params.host_id
 
@@ -7,5 +7,5 @@ App.HostsEditRoute = Ember.Route.extend
       @send 'openModal', 'hosts', 'edit', host
       transition.abort()
     else
-      Flash.NM.push 'You are not authorized to access this page', "danger"
+      Flash.NM.push 'You are not authorized to access this page', "info"
       @goBackOr 'hosts'

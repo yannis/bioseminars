@@ -1,13 +1,14 @@
-App.HostsNewRoute = Ember.Route.extend
+App.HostsNewRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
+
+  beforeModel: (transition)->
+    @_super(transition)
+    if @session.isAuthenticated && @session.get("user.can_create_hosts") != true
+      Flash.NM.push 'You are not authorized to access this page', "info"
+      @goBackOr 'hosts'
 
   model: (params) ->
     @store.createRecord "host"
 
   afterModel: (model, transition) ->
-    if App.Session.authUser == undefined || App.Session.authUser.get("can_create_hosts") == false
-      model.rollback()
-      Flash.NM.push 'You are not authorized to access this page', "danger"
-      @goBackOr 'hosts'
-    else
-      @send 'openModal', 'hosts', 'new', model
-      transition.abort()
+    @send 'openModal', 'hosts', 'new', model
+    transition.abort()

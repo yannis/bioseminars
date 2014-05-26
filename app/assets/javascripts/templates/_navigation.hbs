@@ -34,22 +34,23 @@
             </li>
           </ul>
         </li>
-
-        {{#if App.Session.authUser.can_create_categories}}
-          <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-              Categories
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                {{#link-to 'categories'}}List{{/link-to}}
-              </li>
-              <li>
-                {{#link-to 'categories.new'}}New category{{/link-to}}
-              </li>
-            </ul>
-          </li>
+        {{#if session.isAuthenticated}}
+          {{#if session.user.can_create_categories}}
+            <li class='dropdown'>
+              <a href='#' class='dropdown-toggle' data-toggle="dropdown">
+                Categories
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  {{#link-to 'categories'}}List{{/link-to}}
+                </li>
+                <li>
+                  {{#link-to 'categories.new'}}New category{{/link-to}}
+                </li>
+              </ul>
+            </li>
+          {{/if}}
         {{else}}
           <li>
             {{#link-to 'categories' title="List all categories"}}Categories{{/link-to}}
@@ -65,7 +66,7 @@
             <li>
               {{#link-to 'locations'}}Locations{{/link-to}}
             </li>
-            {{#if App.Session.authUser.can_create_locations}}
+            {{#if session.user.can_create_locations}}
               <li>
                 {{#link-to 'locations.new'}}New location{{/link-to}}
               </li>
@@ -73,7 +74,7 @@
             <li>
               {{#link-to 'buildings'}}Buildings{{/link-to}}
             </li>
-            {{#if App.Session.authUser.can_create_buildings}}
+            {{#if session.user.can_create_buildings}}
               <li>
                 {{#link-to 'buildings.new'}}New building{{/link-to}}
               </li>
@@ -81,17 +82,17 @@
             <li>
               {{#link-to 'hosts'}}Hosts{{/link-to}}
             </li>
-            {{#if App.Session.authUser.can_create_hosts}}
+            {{#if session.user.can_create_hosts}}
               <li>
                 {{#link-to 'hosts.new'}}New host{{/link-to}}
               </li>
             {{/if}}
-            {{#if App.Session.authUser}}
-              {{#if App.Session.authUser.admin}}
+            {{#if session.isAuthenticated}}
+              {{#if session.user.admin}}
                 <li>
                   {{#link-to 'users'}}Users{{/link-to}}
                 </li>
-                {{#if App.Session.authUser.can_create_users}}
+                {{#if session.user.can_create_users}}
                   <li>
                     {{#link-to 'users.new'}}New user{{/link-to}}
                   </li>
@@ -105,8 +106,8 @@
         </li>
       </ul>
       <div class="navbar-form navbar-left">
-        {{#if App.Session.authUser}}
-          {{#if App.Session.authUser.can_create_seminars}}
+        {{#if session.isAuthenticated}}
+          {{#if session.user.can_create_seminars}}
             {{#link-to 'seminars.new' class="btn btn-primary" id="nav-seminars-new-button"}}<i class="glyphicon glyphicon-plus-sign"></i> New seminar{{/link-to}}
           {{/if}}
         {{/if}}
@@ -114,24 +115,25 @@
       </div>
 
       <ul class="nav navbar-nav navbar-right">
-        {{#if App.Session.authUser}}
+        {{#if session.isAuthenticated}}
           <li class='dropdown'>
             <a href='#' class='dropdown-toggle' data-toggle="dropdown">
-              <i class="fa fa-user"></i> {{App.Session.authUser.name}}
+              <i class="fa fa-user"></i> {{session.user.name}}
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
               <li>
-                {{#link-to 'users.user' App.Session.authUser}}Settings{{/link-to}}
+                {{#link-to 'users.user' session.user}}Settings{{/link-to}}
               </li>
               <li>
-                {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}}
+                <a {{ action 'invalidateSession' }}>Logout</a>
+                {{!-- {{#link-to 'session.destroy' class="footer-sign_out"}}Sign out{{/link-to}} --}}
               </li>
             </ul>
           </li>
         {{else}}
           <li>
-            {{#link-to 'session.new' class="footer-sign_in"}}Sign in{{/link-to}}
+            <a {{ action 'authenticateSession' }}>Login</a>
           </li>
         {{/if}}
       </ul>

@@ -11,11 +11,8 @@ class BuildingsController < ApplicationController
   end
 
   def create
-    if @building.save
-      render json: @building, status: :created, location: @building
-    else
-      render json: {errors: @building.errors}, status: :unprocessable_entity
-    end
+    @building.save
+    respond_with @building
   end
 
   def update

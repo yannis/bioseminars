@@ -13,9 +13,9 @@ feature 'Calendar', js: true do
     let!(:seminar3) {create :seminar, categories: [category1], start_at: 2.days.from_now+2.hours}
     let!(:seminar4) {create :seminar, categories: [category2], start_at: 3.days.from_now+2.hours}
     let!(:seminar5) {create :seminar, categories: [category1], start_at: 2.month.from_now+2.hours}
-    let!(:seminar6) {create :seminar, categories: [category2], start_at: 2.month.from_now+36.hours}
+    let!(:seminar6) {create :seminar, categories: [category2], start_at: 2.month.from_now+24.hours}
     let!(:seminar7) {create :seminar, categories: [category1], start_at: 2.month.ago+2.hours}
-    let!(:seminar8) {create :seminar, categories: [category2], start_at: 2.month.ago+36.hours}
+    let!(:seminar8) {create :seminar, categories: [category2], start_at: 2.month.ago+24.hours}
 
     context "when not logged in" do
       before { embersignout }
@@ -33,6 +33,7 @@ feature 'Calendar', js: true do
           fcday = page.first(".fc-day")
           within fcday do
             expect(page).to_not have_selector ".calendar-new_seminar_link"
+            sleep 10
           end
 
           expect(page).to have_selector ".fc-event", count: 4
@@ -72,9 +73,9 @@ feature 'Calendar', js: true do
           expect(page).to have_selector ".fc-event-#{seminar1.id}", count: 1
           page.find(".fc-event-#{seminar1.id}").click
         end
-        expect(current_url).to match /\/seminar\/#{seminar1.id}/
         expect(page).to_not have_selector ".qtip", text: seminar2.title
         expect(page).to have_selector ".qtip", count: 1, text: seminar1.title
+        expect(current_url).to match /\/seminar\/#{seminar1.id}/
       end
     end
 
@@ -82,11 +83,12 @@ feature 'Calendar', js: true do
       context "when signed in as #{role}" do
         let(:user) {create :user, admin: (role == "admin")}
         before {
-          embersignout
           embersignin user
+          # sleep 0.4
         }
 
         scenario "I see the calendar and (+) links to add events in days" do
+          visit "/"
           expect(page).to have_selector "#calendar.fc", count: 1
           expect(page).to have_selector ".fc-header-title", count: 1, text: Date.current.to_s(:month_year)
           within ".panel.calendar-categories" do

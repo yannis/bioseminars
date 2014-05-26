@@ -11,8 +11,9 @@ feature 'categories', js: true do
   let!(:category5) {create :category}
   let!(:building) {create :building}
 
-  context "when not logged in"do
-    before { embersignout
+  context "when not logged in" do
+    before {
+      embersignout
       visit "/#/categories"
     }
 
@@ -43,18 +44,12 @@ feature 'categories', js: true do
 
     scenario "creating a category" do
       visit "/#/categories/new"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/categories$/
+      it_does_not_authorize_and_redirect_to /\/#\/categories$/
     end
 
     scenario "editing a category"  do
       visit "/#/categories/#{category1.id}/edit"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/categories$/
+      it_does_not_authorize_and_redirect_to /\/#\/categories$/
     end
   end
 
@@ -62,7 +57,6 @@ feature 'categories', js: true do
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {
-        embersignout
         embersignin user
       }
 
@@ -151,12 +145,10 @@ feature 'categories', js: true do
       admin = create(:user, admin: true)
       embersignout
       embersignin admin
+      sleep 0.3
 
       visit "/#/categories"
-      within(".categories-category:first-of-type") do
-        expect(page).to have_selector ".category-sortable-handle"
-      end
-      from = page.find(".categories-categories li:nth-of-type(4) .category-sortable-handle")
+      from = page.find(".categories-categories li:nth-of-type(4)")
       to = page.find(".categories-categories")
       drag_to from, to
       flash_is "Categories successfully reordered"

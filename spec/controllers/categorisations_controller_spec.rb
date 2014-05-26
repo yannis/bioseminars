@@ -59,7 +59,7 @@ describe CategorisationsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: categorisation.to_param, categorisation: {seminar_id: nil}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"seminar_id\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"seminar_id\":[\"can't be blank\"]}}"}
       it {expect(assigns(:categorisation)).to_not be_valid_verbose}
       it {expect(assigns(:categorisation).errors[:seminar_id]).to eq ["can't be blank"]}
     end
@@ -102,7 +102,7 @@ describe CategorisationsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: categorisation.to_param, categorisation: {category_id: nil}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"category_id\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"category_id\":[\"can't be blank\"]}}"}
       it {expect(assigns(:categorisation)).to_not be_valid_verbose}
       it {expect(assigns(:categorisation).errors[:category_id]).to eq ["can't be blank"]}
     end

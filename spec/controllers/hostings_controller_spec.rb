@@ -57,7 +57,7 @@ describe HostingsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: hosting.to_param, hosting: {seminar_id: nil}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"seminar_id\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"seminar_id\":[\"can't be blank\"]}}"}
       it {expect(assigns(:hosting)).to_not be_valid_verbose}
       it {expect(assigns(:hosting).errors[:seminar_id]).to eq ["can't be blank"]}
     end
@@ -100,7 +100,7 @@ describe HostingsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: hosting.to_param, hosting: {host_id: nil}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"host_id\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"host_id\":[\"can't be blank\"]}}"}
       it {expect(assigns(:hosting)).to_not be_valid_verbose}
       it {expect(assigns(:hosting).errors[:host_id]).to eq ["can't be blank"]}
     end

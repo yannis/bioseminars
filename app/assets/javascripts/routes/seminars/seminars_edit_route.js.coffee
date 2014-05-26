@@ -24,5 +24,5 @@ App.SeminarsEditRoute = Ember.Route.extend
 
       transition.abort()
     else
-      Flash.NM.push 'You are not authorized to access this page', "danger"
+      Flash.NM.push 'You are not authorized to access this page', "info"
       @goBackOr '/'

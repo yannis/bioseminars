@@ -2,6 +2,8 @@
 
 App.Router.map ->
 
+  @route 'login'
+  @route 'logout'
   @route 'about'
 
   @resource 'buildings', ->

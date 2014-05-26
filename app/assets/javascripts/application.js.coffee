@@ -7,6 +7,8 @@
 #= require handlebars
 #= require ember
 #= require ember-data
+#= require "ember-simple-auth-0.4.0"
+#= require "ember-simple-auth-devise-0.4.0"
 
 #= require_tree './utilities/'
 #= require_self

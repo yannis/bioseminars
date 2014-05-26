@@ -54,7 +54,7 @@
           <div class='seminar-adminlinks'>
             {{#if updatable }}
               {{#link-to "categories.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
-              {{#if App.Session.authUser.admin}}
+              {{#if session.user.admin}}
                 <a {{action "setArchivedAt" this}} class="seminar-adminlinks-archiving" />Toggle archive status</a>
               {{/if}}
             {{/if}}

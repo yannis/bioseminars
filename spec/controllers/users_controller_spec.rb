@@ -86,7 +86,7 @@ describe UsersController do
     describe "PATCH 'update' with valid id but invalid params" do
       before {patch :update, id: member.to_param, user: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:user)).to_not be_valid_verbose}
       it {expect(assigns(:user).errors[:name]).to eq ["can't be blank"]}
     end
@@ -129,7 +129,7 @@ describe UsersController do
       let!(:user_count){User.count}
       before {post :create, user: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(User.count-user_count).to eq 0}
       it {expect(assigns(:user)).to_not be_valid_verbose}
       it {expect(assigns(:user).errors[:name]).to eq ["can't be blank"]}
@@ -145,7 +145,7 @@ describe UsersController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: user.to_param, user: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:user)).to_not be_valid_verbose}
       it {expect(assigns(:user).errors[:name]).to eq ["can't be blank"]}
     end

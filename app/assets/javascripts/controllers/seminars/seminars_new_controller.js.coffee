@@ -12,9 +12,9 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
 
   actions:
     create: (seminar) ->
-      if App.Session.authUser == undefined || App.Session.authUser.get("can_create_seminars") == false
+      if @session? && @session.get("user.can_create_seminars") == false
         seminar.rollback()
-        Flash.NM.push 'You are not authorized to access this page', "danger"
+        Flash.NM.push 'You are not authorized to access this page', "info"
       else
         self = @
         seminar.set "startAt", moment(@get('startAt')).toDate()
@@ -24,10 +24,9 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
             Flash.NM.push 'Seminar successfully created', "success"
             self.send "closeModal"
             $('#calendar').fullCalendar('refetchEvents')
-            # $("#calendar").fullCalendar('renderEvent', seminar.get("forFullCalendar"), true)
           ),
           ((error) ->
-            self.setValidationErrors error.message
+            self.setValidationErrors error
           )
         )
 
@@ -51,3 +50,4 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
       else
         bootbox.confirm "Are you sure you want to remove this host?", (result) ->
           zis.content.get('categorisations').removeObject(categorisation) if result
+

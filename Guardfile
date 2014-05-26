@@ -49,7 +49,7 @@ end
 #   end
 # end
 
-guard :rspec,  cmd: "spring rspec --profile --color -f progress" do
+guard :rspec,  cmd: "spring rspec --profile --color -f progress --order rand", all_after_pass: false, all_on_start: false, failed_mode: :none do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

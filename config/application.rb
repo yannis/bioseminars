@@ -35,6 +35,7 @@ module Bioseminars
     config.assets.paths << "#{Rails.root}/vendor/momentjs"
     config.assets.paths << "#{Rails.root}/vendor/bootbox"
     config.assets.paths << "#{Rails.root}/vendor/fullcalendar"
+    config.assets.paths << "#{Rails.root}/vendor/ember-simple-auth"
 
     config.assets.precompile += %w(iframe.js iframe.css)
   end

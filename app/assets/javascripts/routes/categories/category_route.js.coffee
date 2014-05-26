@@ -3,7 +3,7 @@ App.CategoryRoute = Ember.Route.extend  App.CategoriesSelectionRouteMixin,
     @store.find( "category", params.category_id).then(
       null,
       ((error) =>
-        Flash.NM.push JSON.parse(error.responseText)["message"], "danger"
+        Flash.NM.push JSON.parse(error.responseText)["errors"], "danger"
         return null
       )
     )

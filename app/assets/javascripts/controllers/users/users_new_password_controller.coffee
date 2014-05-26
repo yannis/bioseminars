@@ -25,7 +25,7 @@ App.UsersNewPasswordController = Ember.Controller.extend
       )
       .done (response, textStatus, jqXHR) ->
         Flash.NM.push "Your password was changed successfully.", "success"
-        self.transitionToRoute 'session.new'
+        self.transitionToRoute 'login'
       .fail (response, textStatus, jqXHR) ->
         Flash.NM.push Em.inspect(JSON.parse(response['responseText'])['message']), "danger"
 

@@ -16,4 +16,5 @@ App.CalendarRoute = Em.Route.extend  App.CategoriesSelectionRouteMixin,
 
 
   setupController: (controller, model) ->
+    window.sess = this.session
     @_super controller, model

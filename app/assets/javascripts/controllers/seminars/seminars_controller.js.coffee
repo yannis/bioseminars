@@ -3,10 +3,3 @@ App.SeminarsController = Ember.ArrayController.extend App.CategoriesSelectionCon
   pageTitle: "All seminars"
   sortProperties: ['startAt']
   sortAscending: false
-
-  # actions:
-  #   createSeminar: (name, description) ->
-  #     App.Seminar.createRecord
-  #       title: title
-  #       description: description
-  #     @get('store').commit()

@@ -12,10 +12,13 @@ feature 'buildings', js: true do
   let!(:building5) {create :building}
 
   context "when not logged in" do
-    before { embersignout }
+
+    before {
+      embersignout
+      visit "/#/buildings"
+    }
 
     scenario 'showing the list of buildings' do
-      visit "/#/buildings"
       expect(page).to have_title "All buildings"
       expect(page).to have_selector(".buildings-buildings")
       within(".buildings-buildings") do
@@ -25,7 +28,6 @@ feature 'buildings', js: true do
     end
 
     scenario 'Showing a building' do
-      visit "/#/buildings"
       within(".buildings-buildings") do
         click_link building1.name
       end
@@ -56,7 +58,6 @@ feature 'buildings', js: true do
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {
-        embersignout
         embersignin user
       }
 

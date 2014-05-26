@@ -110,7 +110,7 @@ App.CalendarView = Ember.View.extend
           $('#calendar').fullCalendar('refetchEvents')
 
       dayRender: (date, cell) =>
-        if App.Session.authUser
+        if @get("controller.session.isAuthenticated")
           $link = $("<a class='calendar-new_seminar_link' href='#' >(+)</a>")
           $link.attr "title", "Add event to this day"
           $link.on "click", (e)=>
@@ -125,10 +125,10 @@ App.CalendarView = Ember.View.extend
           cell.find(">div").prepend $link
 
   reRenderCalendar: (->
-    if App.Session.authUser
+    if @get("controller.session.isAuthenticated")
       $('#calendar').fullCalendar("destroy")
       @renderCalendar()
-  ).observes('App.Session.authUser')
+  ).observes('controller.session.isAuthenticated')
 
   reRenderEvents: (->
     $('#calendar').fullCalendar("refetchEvents")

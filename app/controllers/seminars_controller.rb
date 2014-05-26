@@ -74,7 +74,7 @@ class SeminarsController < ApplicationController
     if @seminar.save
       render json: @seminar, status: :created, location: @seminar
     else
-      render json: {message: @seminar.errors}, status: :unprocessable_entity
+      render json: {errors: @seminar.errors}, status: :unprocessable_entity
     end
   end
 
@@ -82,7 +82,7 @@ class SeminarsController < ApplicationController
     if @seminar.update_attributes sanitizer
       render json: nil, status: :ok
     else
-      render json: {message: @seminar.errors}, status: :unprocessable_entity
+      render json: {errors: @seminar.errors}, status: :unprocessable_entity
     end
   end
 

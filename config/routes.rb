@@ -1,6 +1,9 @@
 Bioseminars::Application.routes.draw do
 
-  devise_for :users
+  # devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'sessions'
+  }
 
   resources :buildings, only: [:index, :show, :create, :update, :destroy]
   resources :categories, only: [:index, :show, :create, :update, :destroy]
@@ -9,7 +12,7 @@ Bioseminars::Application.routes.draw do
   resources :hostings, only: [:create, :update, :destroy]
   resources :locations, only: [:index, :show, :create, :update, :destroy]
   resources :seminars, only: [:index, :show, :create, :update, :destroy]
-  resource :session, only: [:create, :destroy]
+  # resource :session, only: [:create, :destroy]
   resources :users, only: [:index, :show, :create, :update, :destroy] do
     member do
       get :authenticate

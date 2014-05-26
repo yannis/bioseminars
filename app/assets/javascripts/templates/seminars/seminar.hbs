@@ -26,7 +26,7 @@
         {{/each}}
       </p>
     {{/if}}
-    {{#if App.Session.authUser.admin}}
+    {{#if session.user.admin}}
       <p class='small text-right'>
         <em>Created by</em> {{user.name}}
       </p>
@@ -51,8 +51,8 @@
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
       {{/if}}
-      {{#if App.Session.authUser}}
-        {{#if App.Session.authUser.can_create_seminars}}
+      {{#if session.isAuthenticated}}
+        {{#if session.user.can_create_seminars}}
           {{#link-to "seminars.duplicate" this class="btn btn-xs btn-primary"}}Duplicate{{/link-to}}
         {{/if}}
       {{/if}}

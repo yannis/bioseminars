@@ -111,27 +111,25 @@ RSpec.configure do |config|
   end
 
   def embersignin(user)
-    visit "/"
-    login_as user, scope: :user
-    if Capybara.current_driver == :webkit
-      page.driver.browser.set_cookie("authToken=#{user.authentication_token}; path=/; domain=127.0.0.1")
-      page.driver.browser.set_cookie("authUserId=#{user.id}; path=/; domain=127.0.0.1")
-    else
-      page.driver.browser.manage.add_cookie(name: "authToken", value: user.authentication_token)
-      page.driver.browser.manage.add_cookie(name: "authUserId", value: user.id)
-    end
-    visit "/"
+    visit "/#/login"
+    # login_as user, scope: :user
+    page.execute_script %{
+      sess = App.__container__.lookup("controller:application").get("session");
+      sess.authenticate("ember-simple-auth-authenticator:devise", {identification: "#{user.email}", password: "#{user.password}"})
+    }
+    sleep 0.3
   end
 
   def embersignout
     logout :user
     Capybara.reset_sessions!
-    if Capybara.current_driver == :webkit
-      page.driver.browser.clear_cookies
-    else
-      page.driver.browser.manage.delete_cookie(name: "authToken")
-      page.driver.browser.manage.delete_cookie(name: "authUserId")
-    end
+    page.execute_script %{
+      if (!!window.App) {
+        sess = window.App.__container__.lookup("controller:application").get("session");
+        sess.inactivate();
+      };
+      window.location = "/";
+    }
   end
 
   def flash_is(message)

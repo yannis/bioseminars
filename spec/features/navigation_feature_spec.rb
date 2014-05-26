@@ -19,7 +19,6 @@ feature 'seminars', js: true do
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {
-        embersignout
         embersignin user
       }
 

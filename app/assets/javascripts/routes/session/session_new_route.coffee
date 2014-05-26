@@ -1,6 +1,8 @@
-App.SessionNewRoute = Em.Route.extend
-  model: ->
-    {}
+# App.SessionNewRoute = Em.Route.extend
 
-  setupController: (controller, model) ->
-    @_super controller, model
+
+#   model: ->
+#     {}
+
+#   setupController: (controller, model) ->
+#     @_super controller, model

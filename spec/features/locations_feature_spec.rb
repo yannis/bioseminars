@@ -13,10 +13,12 @@ feature 'locations', js: true do
   let!(:building) {create :building}
 
   context "when not logged in" do
-    before { embersignout }
+    before {
+      embersignout
+      visit "/#/locations"
+    }
 
     scenario 'showing the list of locations' do
-      visit "/#/locations"
       expect(page).to have_title "All rooms"
       expect(page).to have_selector(".locations-locations")
       within(".locations-locations") do
@@ -26,7 +28,6 @@ feature 'locations', js: true do
     end
 
     scenario 'Showing a location' do
-      visit "/#/locations"
       within(".locations-locations") do
         click_link location1.name
       end
@@ -57,12 +58,11 @@ feature 'locations', js: true do
     context "when signed in as #{role}" do
       let(:user) {create :user, admin: (role == "admin")}
       before {
-        embersignout
         embersignin user
+        visit "/#/locations"
       }
 
       scenario 'showing the list of locations'do
-        visit "/#/locations"
         expect(page).to have_title "All rooms"
         expect(page).to have_selector(".locations-locations")
         within(".locations-locations") do
@@ -71,8 +71,7 @@ feature 'locations', js: true do
         end
       end
 
-      scenario 'Showing a location'  do
-        visit "/#/locations"
+      scenario 'Showing a location' do
         within(".locations-locations") do
           click_link location1.name
         end
@@ -106,7 +105,6 @@ feature 'locations', js: true do
       end
 
       scenario 'editing location' do
-        visit "/#/locations"
         page.find(".locations-location a", text: location1.name).click
         expect(page).to have_selector(".panel.location")
         within(".panel.location") do

@@ -1,6 +1,6 @@
 Em.Application.initializer
   name: 'uservoice'
-  after: 'session'
+  after: 'authentication'
 
   initialize: (container, application) ->
     @store = container.lookup('store:main')

@@ -42,20 +42,15 @@ feature 'hosts', js: true do
     end
 
     scenario "creating a host" do
+      visit "/#/hosts"
       visit "/#/hosts/new"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/hosts$/
+      it_does_not_authorize_and_redirect_to /\/#\/hosts$/
     end
 
     scenario "editing a host" do
       visit "/#/hosts"
       visit "/#/hosts/#{host1.id}/edit"
-      within(".notifications") do
-        expect(page).to have_text "You are not authorized to access this page"
-      end
-      expect(current_url).to match /\/#\/hosts$/
+      it_does_not_authorize_and_redirect_to /\/#\/hosts$/
     end
   end
 

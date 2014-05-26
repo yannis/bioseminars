@@ -47,6 +47,6 @@ App.CategoryController = Ember.ObjectController.extend App.CategoriesSelectionCo
           Flash.NM.push message, "success"
         ),
         ((error) ->
-          self.setValidationErrors error.message
+          self.setValidationErrors error
         )
       )

@@ -14,8 +14,8 @@ App.UsersEditController = Ember.ObjectController.extend
         ),
         ((error) ->
           if error.responseText.length
-            Flash.NM.push JSON.parse(error.responseText)["message"], "danger"
+            Flash.NM.push JSON.parse(error.responseText)["errors"], "danger"
           else
-            self.setValidationErrors error.message
+            self.setValidationErrors error
         )
       )

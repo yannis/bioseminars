@@ -4,7 +4,7 @@ App.SeminarsNextController = Ember.ArrayController.extend App.CategoriesSelectio
   sortProperties: ['startAt']
   sortAscending: true
 
-  actions:
-    createSeminar: (name, description) ->
-      App.Seminar.createRecord(title: title, description: description)
-      @get('store').commit()
+  # actions:
+  #   createSeminar: (name, description) ->
+  #     App.Seminar.createRecord(title: title, description: description)
+  #     @get('store').commit()

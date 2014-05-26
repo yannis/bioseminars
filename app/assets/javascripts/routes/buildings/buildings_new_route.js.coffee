@@ -1,13 +1,14 @@
-App.BuildingsNewRoute = Ember.Route.extend
+App.BuildingsNewRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
+
+  beforeModel: (transition)->
+    @_super(transition)
+    if @session.isAuthenticated && @session.get("user.can_create_buildings") != true
+      Flash.NM.push 'You are not authorized to access this page', "info"
+      @goBackOr 'buildings'
 
   model: ->
     @store.createRecord "building"
 
   afterModel: (model, transition) ->
-    if App.Session.authUser == undefined || App.Session.authUser.get("can_create_buildings") == false
-      model.rollback()
-      Flash.NM.push 'You are not authorized to access this page', "danger"
-      @goBackOr 'buildings'
-    else
-      @send 'openModal', 'buildings', 'new', model
-      transition.abort()
+    @send 'openModal', 'buildings', 'new', model
+    transition.abort()

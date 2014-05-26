@@ -10,8 +10,8 @@
         <div class='form-group'>
           <div class="col-sm-3 control-label">
             <label for="form-seminar-categorisations">Categories</label>
-            {{#if App.Session.authUser}}
-              {{#if App.Session.authUser.can_create_categories}}
+            {{#if session.isAuthenticated}}
+              {{#if session.user.can_create_categories}}
                 <span class="help-block">
                   {{#link-to "categories.new" }}Create a new category{{/link-to}}
                 </span>
@@ -67,8 +67,8 @@
         <div class='form-group'>
           <div class="col-sm-3 control-label">
             <label for="form-seminar-hostings" >Hosts</label>
-            {{#if App.Session.authUser}}
-              {{#if App.Session.authUser.can_create_hosts}}
+            {{#if session.isAuthenticated}}
+              {{#if session.user.can_create_hosts}}
                 <span class="help-block">
                   {{#link-to "hosts.new" }}Create a new host{{/link-to}}
                 </span>

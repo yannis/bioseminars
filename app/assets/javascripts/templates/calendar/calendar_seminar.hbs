@@ -26,7 +26,7 @@
         {{/each}}
       </div>
     {{/if}}
-    {{#if App.Session.authUser.admin}}
+    {{#if session.user.admin}}
       <p class='small text-right'>
         <em>Created by</em> {{user.name}}
       </p>

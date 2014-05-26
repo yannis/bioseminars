@@ -70,7 +70,7 @@ describe LocationsController do
       let!(:location_count){Location.count}
       before {post :create, location: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Location.count-location_count).to eq 0}
       it {expect(assigns(:location)).to_not be_valid_verbose}
       it {expect(assigns(:location).errors[:name]).to eq ["can't be blank"]}
@@ -87,7 +87,7 @@ describe LocationsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: location.to_param, location: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:location)).to_not be_valid_verbose}
       it {expect(assigns(:location).errors[:name]).to eq ["can't be blank"]}
     end
@@ -131,7 +131,7 @@ describe LocationsController do
       let!(:location_count){Location.count}
       before {post :create, location: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Location.count-location_count).to eq 0}
       it {expect(assigns(:location)).to_not be_valid_verbose}
       it {expect(assigns(:location).errors[:name]).to eq ["can't be blank"]}
@@ -147,7 +147,7 @@ describe LocationsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: location.to_param, location: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:location)).to_not be_valid_verbose}
       it {expect(assigns(:location).errors[:name]).to eq ["can't be blank"]}
     end

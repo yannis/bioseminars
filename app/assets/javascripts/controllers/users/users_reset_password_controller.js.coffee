@@ -13,7 +13,7 @@ App.UsersResetPasswordController = Ember.Controller.extend
         $.post('/users/password', postData)
           .done (response, textStatus, jqXHR) ->
             Flash.NM.push "You will receive an email with instructions about how to reset your password in a few minutes.", "success"
-            self.transitionToRoute 'session.new'
+            self.transitionToRoute 'login'
           .fail ->
             Flash.NM.push "Invalid email.", "danger"
       else

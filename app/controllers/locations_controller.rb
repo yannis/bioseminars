@@ -14,7 +14,7 @@ class LocationsController < ApplicationController
     if @location.save
       render json: @location, status: :created, location: @location
     else
-      render json: {message: @location.errors}, status: :unprocessable_entity
+      render json: {errors: @location.errors}, status: :unprocessable_entity
     end
   end
 
@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
     if @location.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {message: @location.errors}, status: :unprocessable_entity
+      render json: {errors: @location.errors}, status: :unprocessable_entity
     end
   end
 

@@ -1,8 +1,7 @@
-App.ApplicationRoute = Em.Route.extend
+App.ApplicationRoute = Em.Route.extend Em.SimpleAuth.ApplicationRouteMixin,
 
   actions:
     openModal: (resources, action, model) ->
-      $("#app-modal").modal 'hide'
       controllerName = "#{resources}_#{action}"
       modalName = "#{resources}/#{action}"
       @controllerFor(controllerName).set('model', model)
@@ -25,3 +24,14 @@ App.ApplicationRoute = Em.Route.extend
         @disconnectOutlet
           outlet: 'modal'
           parentView: 'application'
+
+    sessionAuthenticationSucceeded: ->
+      @_super()
+      Flash.NM.push 'Successfully signed in', 'success'
+
+    sessionAuthenticationFailed: ->
+      Flash.NM.push 'Invalid email or password', 'danger'
+
+    sessionInvalidationSucceeded: ->
+      @_super()
+      Flash.NM.push 'Successfully signed out', 'success'

@@ -1,4 +1,4 @@
-App.CategoriesEditRoute = Ember.Route.extend
+App.CategoriesEditRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
   model: (params) ->
     @store.find "category", params.category_id
 
@@ -7,5 +7,5 @@ App.CategoriesEditRoute = Ember.Route.extend
       @send 'openModal', 'categories', 'edit', model
       transition.abort()
     else
-      Flash.NM.push 'You are not authorized to access this page', "danger"
+      Flash.NM.push 'You are not authorized to access this page', "info"
       @goBackOr 'categories'

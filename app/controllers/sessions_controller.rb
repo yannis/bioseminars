@@ -1,18 +1,25 @@
-class SessionsController < ApplicationController
+class SessionsController < Devise::SessionsController
 
-  skip_before_filter :authenticate_user_from_token!, :authorize
+  skip_before_filter :authenticate_user_from_token!, only: :create
 
   def create
-    user = User.find_for_database_authentication(email: params[:session][:email])
+    user = User.find_for_database_authentication(email: params[:user][:email])
 
-    if user && user.valid_password?(params[:session][:password])
+    if user && user.valid_password?(params[:user][:password])
       user.update_attributes authentication_token: Devise.friendly_token
       sign_in user
-      render json: {
-        session: { user_id: user.id, email: user.email, authentication_token: user.authentication_token }
-      }, status: :created
+
+      data = {
+        user_token: user.authentication_token, # must be prefixed auth: to work with ember-simple-auth-devise
+        user_email: user.email, # must be prefixed auth: to work with ember-simple-auth-devise
+        user_id: user.id
+      }
+      render json: data, status: 201
+      # render json: {
+      #   session: { user_id: user.id, email: user.email, authentication_token: user.authentication_token }
+      # }, status: :created
     else
-      render json: {message: "invalid email or password"}, status: :unprocessable_entity
+      render json: {errors: "invalid email or password"}, status: :unprocessable_entity
     end
   end
 

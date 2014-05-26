@@ -25,7 +25,7 @@ App.SeminarsEditController = Ember.ObjectController.extend App.ValidationErrorsM
           self.send "closeModal"
         ),
         ((error) ->
-          self.setValidationErrors error.message
+          self.setValidationErrors error
         )
       )
 

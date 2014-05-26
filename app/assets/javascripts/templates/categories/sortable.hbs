@@ -1,5 +1,5 @@
 <li {{bind-attr class=":categories-category :list-group-item archived:archived"}} {{bind-attr data-id="id"}}>
-  {{#if App.Session.authUser.admin}}
+  {{#if view.parentView.session.user.admin}}
     <span class="category-sortable-handle glyphicon glyphicon-sort"></span>
   {{/if}}
   {{view Ember.Checkbox checkedBinding="showMe"}}

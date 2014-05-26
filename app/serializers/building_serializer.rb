@@ -3,5 +3,5 @@ class BuildingSerializer < ActiveModel::Serializer
   get_model_permissions_and :id, :name
   embed :ids
 
-  has_many :locations
+  has_many :locations, embed: :id
 end

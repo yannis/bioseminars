@@ -31,7 +31,7 @@
             {{view Ember.TextField id='form-user-password-confirmation' type="password" valueBinding="password_confirmation" placeholder='Password confirmation' class='form-control'}}
           </div>
         </div>
-        {{#if App.Session.authUser.admin}}
+        {{#if session.user.admin}}
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <div class="checkbox">

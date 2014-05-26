@@ -3,9 +3,9 @@ App.UsersNewController = Ember.ObjectController.extend App.ValidationErrorsMixin
 
   actions:
     create: (user) ->
-      if App.Session.authUser == undefined || App.Session.authUser.get("can_create_users") == false
+      if @session? && @session.get("user.can_create_users") == false
         user.rollback()
-        Flash.NM.push 'You are not authorized to access this page', "danger"
+        Flash.NM.push 'You are not authorized to access this page', "info"
       else
         self = @
         user.save().then(
@@ -14,6 +14,6 @@ App.UsersNewController = Ember.ObjectController.extend App.ValidationErrorsMixin
             self.send "closeModal"
           ),
           ((error) ->
-            self.setValidationErrors error.message
+            self.setValidationErrors error
           )
         )

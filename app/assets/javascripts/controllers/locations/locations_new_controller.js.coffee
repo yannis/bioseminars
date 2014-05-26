@@ -6,23 +6,17 @@ App.LocationsNewController = Ember.ObjectController.extend App.ValidationErrorsM
 
   actions:
     create: (location) ->
-      if App.Session.authUser == undefined || App.Session.authUser.get("can_create_locations") == false
-        location.deleteRecord()
-        Flash.NM.push 'You are not authorized to access this page', "danger"
+      if @session? && @session.get("user.can_create_locations") == false
+        location.rollback()
+        Flash.NM.push 'You are not authorized to access this page', "info"
       else
         self = @
         location.save().then(
           (->
             Flash.NM.push 'Location successfully created', "success"
-            self.transitionToRoute 'locations'
+            self.send "closeModal"
           ),
           ((error) ->
-            self.setValidationErrors error.message
+            self.setValidationErrors error
           )
         )
-
-    # cancel: (location) ->
-    #   location.deleteRecord() if location
-    #   $("#app-modal").modal 'hide'
-    #   # window.history.go(-1)
-    #   # @transitionToRoute 'locations'

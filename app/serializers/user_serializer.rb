@@ -13,7 +13,6 @@ class UserSerializer < ActiveModel::Serializer
 
     define_method method_name do
       return Ability.new(object).can? :create, mod
-      # return Permissions.permission_for(object).allow_action?(mod, :create) == true
     end
   end
 

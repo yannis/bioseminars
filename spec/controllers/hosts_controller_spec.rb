@@ -69,7 +69,7 @@ describe HostsController do
       let!(:host_count){Host.count}
       before {post :create, host: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Host.count-host_count).to eq 0}
       it {expect(assigns(:host)).to_not be_valid_verbose}
       it {expect(assigns(:host).errors[:name]).to eq ["can't be blank"]}
@@ -89,7 +89,7 @@ describe HostsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: host.to_param, host: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:host)).to_not be_valid_verbose}
       it {expect(assigns(:host).errors[:name]).to eq ["can't be blank"]}
     end
@@ -133,7 +133,7 @@ describe HostsController do
       let!(:host_count){Host.count}
       before {post :create, host: invalid_params, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(Host.count-host_count).to eq 0}
       it {expect(assigns(:host)).to_not be_valid_verbose}
       it {expect(assigns(:host).errors[:name]).to eq ["can't be blank"]}
@@ -149,7 +149,7 @@ describe HostsController do
     describe "PATCH 'update' with invalid params" do
       before {patch :update, id: host.to_param, host: {name: ""}, format: 'json'}
       it {expect(response.status).to eq 422}
-      it {expect(response.body).to eq "{\"message\":{\"name\":[\"can't be blank\"]}}"}
+      it {expect(response.body).to eq "{\"errors\":{\"name\":[\"can't be blank\"]}}"}
       it {expect(assigns(:host)).to_not be_valid_verbose}
       it {expect(assigns(:host).errors[:name]).to eq ["can't be blank"]}
     end

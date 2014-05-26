@@ -6,7 +6,7 @@ class CategorisationsController < ApplicationController
     if @categorisation.save
       render json: @categorisation, status: :created, location: @categorisation
     else
-      render json: {message: @categorisation.errors}, status: :unprocessable_entity
+      render json: {errors: @categorisation.errors}, status: :unprocessable_entity
     end
   end
 
@@ -14,7 +14,7 @@ class CategorisationsController < ApplicationController
     if @categorisation.update_attributes(sanitizer)
       render json: nil, status: :ok
     else
-      render json: {message: @categorisation.errors}, status: :unprocessable_entity
+      render json: {errors: @categorisation.errors}, status: :unprocessable_entity
     end
   end
 

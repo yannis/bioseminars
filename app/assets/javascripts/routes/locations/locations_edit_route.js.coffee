@@ -1,4 +1,4 @@
-App.LocationsEditRoute = Ember.Route.extend
+App.LocationsEditRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
   model: (params) ->
     @store.find "location", params.location_id
 
@@ -8,5 +8,5 @@ App.LocationsEditRoute = Ember.Route.extend
       @send 'openModal', 'locations', 'edit', model
       transition.abort()
     else
-      Flash.NM.push 'You are not authorized to access this page', "danger"
+      Flash.NM.push 'You are not authorized to access this page', "info"
       @goBackOr 'locations'

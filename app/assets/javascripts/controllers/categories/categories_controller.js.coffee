@@ -17,8 +17,6 @@ App.CategoriesController = Ember.ArrayController.extend
       $.each ids, (i, id) =>
         category = @findBy("id", id)
         category.set("position", i+1)
-
-
       try
         @invoke("save")
         Flash.NM.push 'Categories successfully reordered', "success"

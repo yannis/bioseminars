@@ -1,6 +1,6 @@
 App.CategoriesRoute = Ember.Route.extend
   model: ->
-    if App.Session.authUser? && App.Session.authUser.get("admin") == true
+    if @session? && @session.get("user.can_create_categories")
       @store.find "category"
     else
       @store.find "category",

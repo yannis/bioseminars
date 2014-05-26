@@ -25,6 +25,7 @@ gem "jquery-qtip2-rails"
 gem 'ember-rails'
 gem "ember-source", "1.5"
 gem "ember-data-source", "1.0.0.beta.7"
+# gem 'ember_simple_auth-rails'
 gem "calendar_date_select"
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.0'
 gem "font-awesome-sass"

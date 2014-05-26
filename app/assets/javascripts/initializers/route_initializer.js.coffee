@@ -4,4 +4,7 @@ Em.Application.initializer
   initialize: (container, application) ->
     Em.Route.reopen
       goBackOr: (route)->
-        @transitionTo route
+        if document.referrer == ""
+          @transitionTo route
+        else
+          window.history.go(-2)
