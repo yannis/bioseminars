@@ -30,24 +30,24 @@ App.SeminarsNewController = Ember.ObjectController.extend App.ValidationErrorsMi
           )
         )
 
-    addHosting: (seminar) ->
-      seminar.get('hostings').addObject @store.createRecord("hosting", {seminar: seminar})
-    removeHosting: (hosting) ->
-      zis = @
-      if hosting.get('isNew')
-        zis.content.get('hostings').removeObject(hosting)
-      else
-        bootbox.confirm "Are you sure to destroy remove this host?", (result) ->
-          zis.content.get('hostings').removeObject(hosting) if result
+    # addHosting: (seminar) ->
+    #   seminar.get('hostings').addObject @store.createRecord("hosting", {seminar: seminar})
+    # removeHosting: (hosting) ->
+    #   zis = @
+    #   if hosting.get('isNew')
+    #     zis.content.get('hostings').removeObject(hosting)
+    #   else
+    #     bootbox.confirm "Are you sure to destroy remove this host?", (result) ->
+    #       zis.content.get('hostings').removeObject(hosting) if result
 
-    addCategorisation: (seminar) ->
-      seminar.get('categorisations').addObject @store.createRecord("categorisation", {seminar: seminar})
+    # addCategorisation: (seminar) ->
+    #   seminar.get('categorisations').addObject @store.createRecord("categorisation", {seminar: seminar})
 
-    removeCategorisation: (categorisation) ->
-      zis = @
-      if categorisation.get('isNew')
-        zis.content.get('categorisations').removeObject(categorisation)
-      else
-        bootbox.confirm "Are you sure you want to remove this host?", (result) ->
-          zis.content.get('categorisations').removeObject(categorisation) if result
+    # removeCategorisation: (categorisation) ->
+    #   zis = @
+    #   if categorisation.get('isNew')
+    #     zis.content.get('categorisations').removeObject(categorisation)
+    #   else
+    #     bootbox.confirm "Are you sure you want to remove this host?", (result) ->
+    #       zis.content.get('categorisations').removeObject(categorisation) if result
 

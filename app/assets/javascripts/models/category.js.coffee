@@ -1,5 +1,7 @@
 App.Category = DS.Model.extend
   name: DS.attr('string')
+  text: Em.computed.alias('name') # for select2 component
+  locked: false # for select2 component
   description: DS.attr('string')
   color: DS.attr('string')
   acronym: DS.attr('string')
@@ -66,3 +68,5 @@ App.Category = DS.Model.extend
   archived: (->
     @get('archivedAt')?
   ).property('archivedAt')
+
+

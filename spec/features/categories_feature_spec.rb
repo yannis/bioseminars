@@ -44,12 +44,12 @@ feature 'categories', js: true do
 
     scenario "creating a category" do
       visit "/#/categories/new"
-      it_does_not_authorize_and_redirect_to /\/#\/categories$/
+      it_does_not_authorize_and_redirect_to /\/#\/login$/
     end
 
     scenario "editing a category"  do
       visit "/#/categories/#{category1.id}/edit"
-      it_does_not_authorize_and_redirect_to /\/#\/categories$/
+      it_does_not_authorize_and_redirect_to /\/#\/login$/
     end
   end
 

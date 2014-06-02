@@ -21,9 +21,9 @@ App.SeminarsDuplicateRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRo
       updatable: model.get("updatable")
       destroyable: model.get("destroyable")
     model.get('categories').forEach (category) ->
-      newSeminar.get("categorisations").addObject @store.createRecord("categorisation", {category: category})
+      newSeminar.get("categories").addObject category
     model.get('hosts').forEach (host) ->
-      newSeminar.get("hostings").addObject @store.createRecord("hosting", {host: host})
+      newSeminar.get("hosts").addObject host
 
     @controllerFor('seminars_new').set "content", newSeminar
     @controllerFor('seminars_new').set "pageTitle", "Duplicate seminar “#{model.get('title')}”"

@@ -63,6 +63,9 @@ class SeminarsController < ApplicationController
 
   def show
     respond_with @seminar do |format|
+      format.html {
+        redirect_to @seminar.ember_path, status: 301
+      }
       format.ics {
         redirect_to api_v2_seminar_path(@seminar, format: 'ics'), status: 301
       }
@@ -95,10 +98,11 @@ class SeminarsController < ApplicationController
 
   def sanitizer
     if current_user
+      Rails.logger.debug "current_user member?: #{current_user.member?}"
       if current_user.admin?
         params.require(:seminar).permit!
       elsif current_user.member?
-        params.require(:seminar).permit(:title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :url, :pubmed_ids, :all_day, :hostings_attributes, :documents_attributes, :internal, :description, {hostings: [:host_id, :seminar_id, :id]}, {categorisations: [:category_id, :seminar_id, :id]})
+        params.require(:seminar).permit(:title, {host_ids: []}, {category_ids: []}, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :url, :pubmed_ids, :all_day, :documents_attributes, :internal, :description)
       end
     end
   end

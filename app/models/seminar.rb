@@ -13,18 +13,18 @@ class Seminar < ActiveRecord::Base
   validates_uniqueness_of :title, scope: :speaker_name
   validates_associated :hostings, on: :update
   validates_associated :categorisations, on: :update
-  validate :presence_of_categorisations
-  validate :presence_of_hostings
+  validate :presence_of_categories
+  validate :presence_of_hosts
 
   before_validation :set_end_at
 
-  accepts_nested_attributes_for :hostings, allow_destroy: true
-  accepts_nested_attributes_for :categorisations, allow_destroy: true
+  # accepts_nested_attributes_for :hostings, allow_destroy: true
+  # accepts_nested_attributes_for :categorisations, allow_destroy: true
   accepts_nested_attributes_for :documents, allow_destroy: true
 
-  def parameters(params, user)
+  # def parameters(params, user)
 
-  end
+  # end
 
   def self.active
     includes(:categories).where(categories: {archived_at: nil}).references(:categories)
@@ -84,30 +84,12 @@ class Seminar < ActiveRecord::Base
     speaker_name_and_affiliation.join(" ")
   end
 
-  def categorisations=(categorisations_data)
-    if categorisations_data.blank?
-      self.categorisations.destroy_all
-    else
-      self.categorisations.each do |categorisation|
-        categorisation.destroy unless categorisations_data.map{|cd| cd.fetch(:category_id)}.include?(categorisation.category_id.to_s)
-      end
-      categorisations_data.uniq.each do |categorisation_data|
-        self.categorisations.find_or_initialize_by category_id: categorisation_data.fetch(:category_id)
-      end
-    end
+  def category_ids=(category_ids)
+    self.categories = category_ids.blank? ? [] : Category.find(category_ids).uniq
   end
 
-  def hostings=(hostings_data)
-    if hostings_data.blank?
-      self.hostings.destroy_all
-    else
-      self.hostings.each do |hosting|
-        hosting.destroy unless hostings_data.map{|hd| hd.fetch(:id, nil)}.compact.include?(hosting.id.to_s)
-      end
-      hostings_data.uniq.each do |hosting_data|
-        self.hostings.find_or_initialize_by host_id: hosting_data.fetch(:host_id)
-      end
-    end
+  def host_ids=(host_ids)
+    self.hosts = host_ids.blank? ? [] : Host.find(host_ids).uniq
   end
 
   def human_date(datetime)
@@ -199,12 +181,12 @@ class Seminar < ActiveRecord::Base
   end
 
   private
-    def presence_of_categorisations
-      errors.add(:category, 'must have at least one category') if self.categorisations.blank?
+    def presence_of_categories
+      errors.add(:base, 'A seminar must have at least one category') if self.categories.blank?
     end
 
-    def presence_of_hostings
-      errors.add(:host, 'must have at least one host') if self.hostings.blank?
+    def presence_of_hosts
+      errors.add(:base, 'A seminar must have at least one host') if self.hosts.blank?
     end
 
     def set_end_at

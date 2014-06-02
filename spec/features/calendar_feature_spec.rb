@@ -17,7 +17,7 @@ feature 'Calendar', js: true do
     let!(:seminar7) {create :seminar, categories: [category1], start_at: 2.month.ago+2.hours}
     let!(:seminar8) {create :seminar, categories: [category2], start_at: 2.month.ago+24.hours}
 
-    context "when not logged in" do
+    context "when not logged in", :focus do
       before { embersignout }
 
       scenario "I see the calendar and seminars" do
@@ -84,7 +84,6 @@ feature 'Calendar', js: true do
         let(:user) {create :user, admin: (role == "admin")}
         before {
           embersignin user
-          # sleep 0.4
         }
 
         scenario "I see the calendar and (+) links to add events in days" do
@@ -106,15 +105,22 @@ feature 'Calendar', js: true do
           expect(page).to have_text "Create a seminar on"
           expect(page).to have_selector ".modal-dialog", count: 1
           within(".modal-dialog") do
-            first(:select, "form-seminar-categorisations").select category1.name
+
+            multiple_select2 category1.name, 'form-seminar-categories'
+
             page.fill_in "Title", with: "a new seminar title"
             page.fill_in "Speaker name", with: "a new speaker name"
             page.fill_in "Speaker affiliation", with: "a new speaker affiliation"
-            first(:select, "form-seminar-hostings").select host.name
-            page.select location.name, from: "form-seminar-locations"
+
+            multiple_select2 host.name, 'form-seminar-hosts'
+
+            select2 location.name, 'form-seminar-locations'
+
             click_button "Create"
           end
+
           flash_is "Seminar successfully created"
+
           within "#calendar.fc" do
             expect(page).to have_selector ".fc-event", text: "a new speaker name", count: 1
             page.find(".fc-event", text: "a new speaker name").click

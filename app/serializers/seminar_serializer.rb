@@ -4,8 +4,8 @@ class SeminarSerializer < ActiveModel::Serializer
   embed :ids
   has_one :location
   has_one :user
-  has_many :hostings, include: true
-  has_many :hosts, include: true#, embed: :ids, include: true
+  # has_many :hostings, include: true
+  has_many :hosts, include: true
   has_many :categories, include: true
-  has_many :categorisations, include: true
+  # has_many :categorisations, include: true
 end

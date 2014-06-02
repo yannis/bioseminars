@@ -15,16 +15,18 @@ App.Seminar = DS.Model.extend
   endAt: DS.attr('date')
 
   hosts: DS.hasMany('host')
-  hostings: DS.hasMany('hosting')
+  hosts_attributes: Em.computed.alias('hosts')
+  # hostings: DS.hasMany('hosting')
 
-  categorisations: DS.hasMany('categorisation')
-  categories: ( ->
-    @get('categorisations').getEach('category')
-  ).property 'categorisations.@each.relationshipsLoaded'
+  # categorisations: DS.hasMany('categorisation')
+  categories: DS.hasMany('category')
+  # categories: ( ->
+  #   @get('categorisations').getEach('category')
+  # ).property 'categorisations.@each.relationshipsLoaded'
 
-  categorisations_attributes: ( ->
-    @get('categorisations')
-  ).property "categorisations"
+  # categorisations_attributes: ( ->
+  #   @get('categorisations')
+  # ).property "categorisations"
 
   location: DS.belongsTo('location')
   user: DS.belongsTo('user')

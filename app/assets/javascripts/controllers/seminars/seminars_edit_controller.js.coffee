@@ -19,7 +19,7 @@ App.SeminarsEditController = Ember.ObjectController.extend App.ValidationErrorsM
       self = @
       seminar.set "startAt", moment(@get('startAt')).toDate()
       seminar.set "endAt", moment(seminar.get("startAt")).add('hours', 1).toDate unless seminar.get("endAt")?
-      seminar.save({associations: true}).then(
+      seminar.save().then(
         ((seminar)->
           Flash.NM.push 'Seminar successfully updated', "success"
           self.send "closeModal"

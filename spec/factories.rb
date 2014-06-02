@@ -56,7 +56,7 @@ FactoryGirl.define do
     association :user
     # categorisations_attributes {{one: {category_id: create(:category).id}}}
     categories {[create(:category)]}
-    hostings_attributes {{one: {host_id: create(:host).id}}}
+    hosts {[create(:host)]}
     start_at { 2.weeks.since }
   end
 

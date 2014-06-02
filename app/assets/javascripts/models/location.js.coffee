@@ -1,6 +1,7 @@
 App.Location = DS.Model.extend
   name: DS.attr('string')
-  # description: DS.attr('string')
+  text: Em.computed.alias('name_and_building') # for select2 component
+  locked: false # for select2 component
   building: DS.belongsTo('building')
   seminars: DS.hasMany({ async: true })
 

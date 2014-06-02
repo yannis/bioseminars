@@ -166,13 +166,12 @@ feature 'seminars', js: true do
         expect(page).to have_selector(".modal-dialog", count: 1)
         within(".modal-dialog") do
           expect(page).to have_text "Create a seminar"
-          first(:select, "form-seminar-categorisations").select category.name
+          multiple_select2 category.name, 'form-seminar-categories'
           page.fill_in "Title", with: "a new seminar title"
           page.fill_in "Speaker name", with: "a new speaker name"
           page.fill_in "Speaker affiliation", with: "a new speaker affiliation"
-          # page.fill_in "Start date and time", with: 1.day.from_now.to_s(:ember)
-          first(:select, "form-seminar-hostings").select host.name
-          page.select location.name, from: "form-seminar-locations"
+          multiple_select2 host.name, 'form-seminar-hosts'
+          select2 location.name, 'form-seminar-locations'
           click_button "Create"
         end
         flash_is "Seminar successfully created"

@@ -8,3 +8,4 @@
 #= require fullcalendar
 #= require infinite_scroll
 #= require ZeroClipboard
+#= require select2

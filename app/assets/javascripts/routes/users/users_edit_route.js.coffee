@@ -3,9 +3,7 @@ App.UsersEditRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin
     @store.find("user", params.user_id).then(
       null,
       ((error) ->
-        debugger
-        Flash.NM.push JSON.parse(error.responseText)["errors"], "danger"
-        @goBackOr '/'
+        Flash.NM.push JSON.parse(error.responseText)["errors"], "info"
       )
     )
 

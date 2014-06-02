@@ -161,6 +161,22 @@ RSpec.configure do |config|
     page.find("div#flash").should have_content text
   end
 
+  def multiple_select2(text, container)
+    select2_container = find("#s2id_#{container}")
+    select2_container.find(".select2-choices").click
+    drop_container = ".select2-drop"
+    [text].flatten.each do |value|
+      find(:xpath, "//body").find("#{drop_container} li", text: value).click
+    end
+  end
+
+  def select2(text, container)
+    select2_container = find("#s2id_#{container}")
+    select2_container.find(".select2-choice").click
+    drop_container = ".select2-drop"
+    find(:xpath, "//body").find("#{drop_container} li", text: text).click
+  end
+
   def the_path
     uri = URI.parse(current_url)
     return "#{uri.path}?#{uri.query}"

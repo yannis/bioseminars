@@ -9,8 +9,6 @@ App.SeminarsNewWithDateRoute = Ember.Route.extend Ember.SimpleAuth.Authenticated
   afterModel: (model, transition) ->
     seminar = @store.createRecord "seminar",
       startAt: moment("#{model.year}-#{model.month}-#{model.day} 12:00")
-    seminar.get("categorisations").addObject @store.createRecord("categorisation")
-    seminar.get("hostings").addObject @store.createRecord("hosting")
 
     @controllerFor('seminars_new').set "content", seminar
     @controllerFor('seminars_new').set "pageTitle", "Create a seminar on #{model.year}-#{model.month}-#{model.day}"

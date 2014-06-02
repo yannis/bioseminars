@@ -28,7 +28,6 @@ module Bioseminars
 
     config.action_mailer.default_url_options = { host: Rails.application.secrets.mailer_host }
 
-
     config.assets.paths << "#{Rails.root}/vendor/assets/ember"
     config.assets.paths << "#{Rails.root}/vendor/bootstrap-datetimepicker"
     config.assets.paths << "#{Rails.root}/vendor/jquery-miniColors"

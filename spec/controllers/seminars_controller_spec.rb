@@ -4,13 +4,22 @@ describe SeminarsController do
 
   def valid_params
     # attributes_for :seminar, hostings: [{host_id: create(:host).id}], categorisations: [{category_id: create(:category).id}], location_id: create(:location).id
-    {title: "valid seminar title", speaker_name: "a speaker name", speaker_affiliation: "a speaker affiliation", start_at: 2.weeks.since, hostings: [{host_id: create(:host).id}], categorisations: [{category_id: create(:category).id}], location_id: create(:location).id }
+    host = create(:host)
+    cat = create(:category)
+    {
+      title: "valid seminar title",
+      speaker_name: "a speaker name",
+      speaker_affiliation: "a speaker affiliation",
+      start_at: 2.weeks.since,
+      host_ids: [host.id],
+      category_ids: [cat.id],
+      location_id: create(:location).id
+    }
   end
 
   def invalid_params
     valid_params.merge! title: ""
   end
-
 
   context "as guest" do
     let!(:seminar) { create :seminar }

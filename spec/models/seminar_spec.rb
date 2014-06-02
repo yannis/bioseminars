@@ -34,15 +34,15 @@ describe Seminar do
   it {should have_many :hosts}
   it {should have_many(:documents).dependent(:destroy)}
 
-  it {should accept_nested_attributes_for(:hostings)}
-  it {should accept_nested_attributes_for(:documents)}
+  # it {should accept_nested_attributes_for(:hostings)}
+  # it {should accept_nested_attributes_for(:documents)}
 
   it "has named_scope" do
     @basic_user = create :user
     @admin_user = create :user, admin: true
     @category = create :category
-    @today = create :seminar, title: "today", start_at: Time.current+2.minutes, categorisations_attributes: {one: {category_id: @category.id}}
-    @two_days_ago = create :seminar, title: "two_days_ago", start_at: 2.days.ago, categorisations_attributes: {one: {category_id: @category.id}}
+    @today = create :seminar, title: "today", start_at: Time.current+2.minutes, categories: [@category]
+    @two_days_ago = create :seminar, title: "two_days_ago", start_at: 2.days.ago, categories: [@category]
     @in_two_days = create :seminar, title: "in_two_days", start_at: 2.days.from_now, internal: true
     @in_one_month = create :seminar, title: "in_one_month", start_at: 1.months.from_now, user: @basic_user
     @one_month_ago = create :seminar, title: "one_month_ago", start_at: 1.months.ago

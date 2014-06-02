@@ -9,7 +9,7 @@
         {{em-validation-errors validationErrors=validationErrors}}
         <div class='form-group'>
           <div class="col-sm-3 control-label">
-            <label for="form-seminar-categorisations">Categories</label>
+            <label for="s2id_form-seminar-categories">Categories</label>
             {{#if session.isAuthenticated}}
               {{#if session.user.can_create_categories}}
                 <span class="help-block">
@@ -19,30 +19,14 @@
             {{/if}}
           </div>
           <div class="col-sm-9">
-            <ul class="list-group">
-              {{#each categorisation in categorisations}}
-                <li class="list-group-item col-sm-12">
-                  <div class="col-sm-11">
-                    {{#if categorisation.isNew}}
-                      {{view Em.Select
-                        viewName="select"
-                        contentBinding="limitedCategories"
-                        optionLabelPath="content.name"
-                        optionValuePath="content.id"
-                        selectionBinding="categorisation.category"
-                        id="form-seminar-categorisations"
-                        prompt="Select a category"
-                        class="form-control"
-                      }}
-                    {{ else }}
-                      {{categorisation.category_name}}
-                    {{/if}}
-                  </div>
-                  <a class="btn btn-xs btn-danger col-sm-1" href="#" {{action "removeCategorisation" categorisation}}><span class="glyphicon glyphicon-trash"></span></a>
-                </li>
-              {{/each}}
-            </ul>
-            <a href="#" {{action "addCategorisation" content}}>Add a category</a>
+            {{select-2
+              content=controllers.categories
+              value=categories.content
+              multiple=true
+              description=false
+              placeholder="Select some categories"
+              id="form-seminar-categories"
+            }}
           </div>
         </div>
 
@@ -66,7 +50,7 @@
         </div>
         <div class='form-group'>
           <div class="col-sm-3 control-label">
-            <label for="form-seminar-hostings" >Hosts</label>
+            <label for="form-seminar-hosts" >Hosts</label>
             {{#if session.isAuthenticated}}
               {{#if session.user.can_create_hosts}}
                 <span class="help-block">
@@ -76,44 +60,26 @@
             {{/if}}
           </div>
           <div class="col-sm-9">
-            <ul class="list-group">
-              {{#each hosting in hostings}}
-                <li class="list-group-item col-sm-12">
-                  <div class="col-sm-11">
-                    {{#if hosting.isNew}}
-                      {{view Em.Select
-                        viewName="select"
-                        contentBinding="controllers.hosts"
-                        optionLabelPath="content.name"
-                        optionValuePath="content.id"
-                        selectionBinding="hosting.host"
-                        id="form-seminar-hostings"
-                        prompt="Select a host"
-                        class="form-control"
-                      }}
-                    {{ else }}
-                      {{hosting.host_name}}
-                    {{/if}}
-                  </div>
-                  <a class="btn btn-xs btn-danger col-sm-1" href="#" {{action "removeHosting" hosting}}><span class="glyphicon glyphicon-trash"></span></a>
-                </li>
-              {{/each}}
-            </ul>
-            <a href="#" {{action "addHosting" content}}>Add a host</a>
+            {{select-2
+              content=controllers.hosts
+              value=hosts.content
+              multiple=true
+              description=false
+              name=hosts_attributes
+              placeholder="Select some hosts"
+              id="form-seminar-hosts"
+            }}
           </div>
         </div>
         <div class='form-group'>
           <label for="form-seminar-locations" class="col-sm-3 control-label">Location (room)</label>
           <div class="col-sm-9">
-            {{view Em.Select
-                viewName="select"
-                contentBinding="controllers.locations.content"
-                optionLabelPath="content.name_and_building"
-                optionValuePath="content.id"
-                selectionBinding="location"
-                id='form-seminar-locations'
-                prompt="Select a location"
-                class="form-control"
+            {{select-2
+              content=controllers.locations
+              value=location
+              description=false
+              placeholder="Select a location"
+              id="form-seminar-locations"
             }}
           </div>
         </div>

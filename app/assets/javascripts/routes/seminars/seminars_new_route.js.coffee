@@ -8,8 +8,8 @@ App.SeminarsNewRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMix
 
   model: (params) ->
     seminar = @store.createRecord "seminar"
-    seminar.get("categorisations").addObject @store.createRecord("categorisation")
-    seminar.get("hostings").addObject @store.createRecord("hosting")
+    # seminar.get("categorisations").addObject @store.createRecord("categorisation")
+    # seminar.get("hostings").addObject @store.createRecord("hosting")
     return seminar
 
   afterModel: (model, transition) ->

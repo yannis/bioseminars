@@ -26,7 +26,3 @@ App.User = DS.Model.extend
   updatable_or_destroyable: (->
     @get("updatable") || @get("destroyable")
   ).property("updatable", "destroyable").readOnly()
-
-
-  authenticate: ->
-    console.log "authenticating"

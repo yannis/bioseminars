@@ -19,4 +19,8 @@ App.Store = DS.Store.extend
 
 App.ApplicationSerializer = DS.ActiveModelSerializer.extend
   serializeAttribute: (record, json, key, attribute) ->
+    # console.log "record", record
+    # console.log "key", key
+    # console.log "json", json
+    # console.log "attribute", attribute
     @_super(record, json, key, attribute) unless attribute.options && attribute.options.readOnly
