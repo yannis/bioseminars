@@ -47,7 +47,10 @@
   </div>
   <div class="panel-footer">
     <div class='seminar-adminlinks'>
-      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>
+      <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" target="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>
+      {{#if url }}
+        <a {{bind-attr href="url"}} title="seminar external website" target="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-globe"></i> Website</a>
+      {{/if}}
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}
       {{/if}}

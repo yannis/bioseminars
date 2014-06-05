@@ -33,6 +33,9 @@
     {{/if}}
     <div class='calendar-seminar-adminlinks'>
       {{#link-to "seminar" this class="btn btn-xs btn-primary"}}Details{{/link-to}}
+      {{#if url }}
+        <a {{bind-attr href="url"}} title="seminar external website" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-globe"></i> Website</a>
+      {{/if}}
       <a {{bind-attr href="icsUrl"}} title="Import seminar in iCal/ics" taget="_blank" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-calendar"></i> Import in calendar</a>
       {{#if updatable }}
         {{#link-to "seminars.edit" this class="btn btn-xs btn-primary"}}Edit{{/link-to}}

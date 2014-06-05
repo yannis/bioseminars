@@ -17,7 +17,7 @@ feature 'Calendar', js: true do
     let!(:seminar7) {create :seminar, categories: [category1], start_at: 2.month.ago+2.hours}
     let!(:seminar8) {create :seminar, categories: [category2], start_at: 2.month.ago+24.hours}
 
-    context "when not logged in", :focus do
+    context "when not logged in" do
       before { embersignout }
 
       scenario "I see the calendar and seminars" do
