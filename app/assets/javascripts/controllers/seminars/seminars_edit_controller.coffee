@@ -29,14 +29,14 @@ App.SeminarsEditController = Ember.ObjectController.extend App.ValidationErrorsM
         )
       )
 
-    addHosting: (seminar) ->
-      seminar.get('hostings').addObject @store.createRecord("hosting", {seminar: seminar})
+    # addHosting: (seminar) ->
+    #   seminar.get('hostings').addObject @store.createRecord("hosting", {seminar: seminar})
 
-    removeHosting: (hosting) ->
-      @get("model.hostings").removeObject(hosting)
+    # removeHosting: (hosting) ->
+    #   @get("model.hostings").removeObject(hosting)
 
-    addCategorisation: (seminar) ->
-      seminar.get('categorisations').addObject @store.createRecord("categorisation", {seminar: seminar})
+    # addCategorisation: (seminar) ->
+    #   seminar.get('categorisations').addObject @store.createRecord("categorisation", {seminar: seminar})
 
-    removeCategorisation: (categorisation) ->
-      @get("model.categorisations").removeObject(categorisation)
+    # removeCategorisation: (categorisation) ->
+    #   @get("model.categorisations").removeObject(categorisation)

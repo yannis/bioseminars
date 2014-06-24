@@ -15,9 +15,6 @@ class SessionsController < Devise::SessionsController
         user_id: user.id
       }
       render json: data, status: 201
-      # render json: {
-      #   session: { user_id: user.id, email: user.email, authentication_token: user.authentication_token }
-      # }, status: :created
     else
       render json: {errors: "invalid email or password"}, status: :unprocessable_entity
     end
