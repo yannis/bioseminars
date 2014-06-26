@@ -1,4 +1,4 @@
-App.UsersEditController = Ember.ObjectController.extend
+App.UsersEditController = Ember.ObjectController.extend App.ValidationErrorsMixin,
 
   pageTitle: (->
     "Edit user “#{@get('model.name')}”"

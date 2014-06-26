@@ -24,6 +24,7 @@ feature 'password', js: true do
     expect(uri.fragment).to eq "/login"
 
     admin.update_attributes! reset_password_token: digested_token
+    expect(admin.reload.reset_password_token).to_not be_nil
 
 
     visit "http://bioseminars.dev/#/users/new_password/#{token}"

@@ -1,4 +1,4 @@
-App.UsersNewPasswordController = Ember.Controller.extend
+App.UsersNewPasswordController = Ember.Controller.extend App.ValidationErrorsMixin,
 
   pageTitle: "Change your password"
 
@@ -7,10 +7,10 @@ App.UsersNewPasswordController = Ember.Controller.extend
       self = @
       data = @getProperties('password', 'password_confirmation')
       if Ember.isEmpty(data.password) && Ember.isEmpty(data.password_confirmation)
-        Flash.NM.push "Your password can't be blank", "danger"
+        self.set 'validationErrors', ["Your password can't be blank"]
         return false
       if data.password != data.password_confirmation
-        Flash.NM.push "Your password doesn't match the confirmation", "danger"
+        self.set 'validationErrors', ["Your password doesn't match the confirmation"]
         return false
       putData =
         user:
@@ -27,7 +27,7 @@ App.UsersNewPasswordController = Ember.Controller.extend
         Flash.NM.push "Your password was changed successfully.", "success"
         self.transitionToRoute 'login'
       .fail (response, textStatus, jqXHR) ->
-        Flash.NM.push Em.inspect(JSON.parse(response['responseText'])['message']), "danger"
+        self.setValidationErrors JSON.parse(response['responseText'])
 
     cancel: ->
       @transitionToRoute('index')
