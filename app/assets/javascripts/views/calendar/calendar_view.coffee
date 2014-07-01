@@ -35,6 +35,7 @@ App.CalendarView = Ember.View.extend
 
   renderCalendar: ->
     self = @
+    control = @controller
     $('#calendar').fullCalendar
       defaultView: @defaultView()
       year: @year()
@@ -60,7 +61,7 @@ App.CalendarView = Ember.View.extend
             after: moment(start).format("YYYYMMDD")
             before: moment(end).format("YYYYMMDD")
           ).then (data) =>
-            @controller.set "seminars", data
+            control.set "seminars", data
             events = data.get("content")
             callback(events)
 

@@ -10,7 +10,7 @@ class Seminar < ActiveRecord::Base
   has_many :documents, as: :documentable, dependent: :destroy
 
   validates_presence_of :title, :speaker_name, :speaker_affiliation, :start_at, :end_at, :location_id, :user_id
-  validates_uniqueness_of :title, scope: :speaker_name
+  # validates_uniqueness_of :title, scope: :speaker_name
   validates_associated :hostings, on: :update
   validates_associated :categorisations, on: :update
   validate :presence_of_categories
