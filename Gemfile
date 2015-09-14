@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.1.13'
 gem 'mysql2'
 gem 'bundler'
 gem "kaminari"
@@ -39,14 +39,11 @@ gem 'airbrake'
 gem "newrelic_rpm"
 
 group :development do
-  gem "spring"
-  gem 'spring-commands-rspec'
   gem "capistrano"
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv', '~> 2.0'
   gem "guard-livereload"
-  gem 'guard-spring'
   gem 'guard-rspec', require: false
   gem 'guard-bundler'
   gem 'rb-inotify', require: false
@@ -58,7 +55,7 @@ group :development do
   gem "rspec-rails"
   gem "rails_best_practices"
   # gem "brakeman", :require => false
-  gem "debugger"
+  gem "byebug"
   gem "bullet"
 end
 

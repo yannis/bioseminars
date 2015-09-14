@@ -170,7 +170,7 @@ App.Select2Component = Ember.Component.extend({
 
           // also, remove the holes that exist because there were values that
           // could not have been matched
-          filteredContent.filter(function(item) { return item === undefined; });
+           filteredContent.filter(function(item) { return item === undefined; });
 
           Ember.warn("select2#initSelection was not able to map each \"" +
             optionValuePath +"\" to an object from \"content\". The remaining " +

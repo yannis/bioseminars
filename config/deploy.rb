@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.1
-lock '3.1.0'
+lock '3.4.0'
 set :repo_url, 'git@github.com:yannis/bioseminars.git'
 
 # Default branch is :master
@@ -32,7 +32,7 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # }
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.0.0-p451'
+set :rbenv_ruby, '2.1.3'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /usr/local/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
@@ -42,33 +42,63 @@ set :keep_releases, 5
 server '129.194.56.70', user: 'yannis', roles: %w{web app db}
 
 task :staging do
-  set :branch, "calendar_tooltip"
+  set :branch, "staging"
   set :stage, 'staging'
-  set :rails_env, 'staging'
-  set :application, 'bioseminars_staging'
-  set :deploy_to, "/var/www/#{fetch(:application)}"
-  set :god_unicorn_config, "#{fetch(:deploy_to)}/current/config/unicorn_staging.god"
-  set :god_with_path, "/Users/yannis/.rbenv/shims/god"
 end
 
 
 task :production do
   set :branch, "master"
   set :stage, 'production'
-  set :rails_env, 'production'
-  set :application, 'bioseminars_production'
-  set :deploy_to, "/var/www/#{fetch(:application)}"
-  set :god_unicorn_config, "#{fetch(:deploy_to)}/current/config/unicorn_production.god"
-  set :god_with_path, "/Users/yannis/.rbenv/shims/god"
 end
 
+set :rails_env, fetch(:stage)
+set :application, "bioseminars_#{fetch(:stage)}"
+set :deploy_to, "/var/www/#{fetch(:application)}"
+set :eye_unicorn_config, "#{fetch(:deploy_to)}/current/config/unicorn_#{fetch(:stage)}.eye"
+# set :god_unicorn_config, "#{fetch(:deploy_to)}/current/config/unicorn_#{fetch(:stage)}.god"
+# set :god_with_path, "/Users/yannis/.rbenv/shims/god"
+
 namespace :deploy do
+
+  task :start do
+    on roles(:app) do
+      execute "/usr/local/bin/eye start #{fetch(:application)}"
+    end
+  end
+
+  task :stop do
+    on roles(:app) do
+      execute "/usr/local/bin/eye stop #{fetch(:application)}"
+    end
+  end
+
   task :restart do
     on roles(:app) do
-      execute "kill -s QUIT $(cat #{release_path}/tmp/pids/bioseminars_#{fetch(:stage)}_unicorn.pid)"
+      execute "/usr/local/bin/eye stop #{fetch(:application)}"
+      execute "/usr/local/bin/eye l #{fetch(:eye_unicorn_config)}"
+      execute "/usr/local/bin/eye start #{fetch(:application)}"
+      # execute "/usr/local/bin/eye restart #{fetch(:application)}"
+    end
+  end
+
+  desc "Start or reload eye config"
+  task :load_eye do
+    on roles(:app) do
+      execute "/usr/local/bin/eye l #{fetch(:eye_unicorn_config)}"
+    end
+  end
+
+  task :add_log do
+    on roles(:app) do
+      within repo_path do
+        execute :git, :log, "--date=local", "--pretty=format:'%ad: %s (%an)'", "--no-merges #{fetch(:branch)}", ">", "#{fetch(:deploy_to)}/current/public/log.txt"
+      end
     end
   end
 end
 
+before "deploy:restart", "deploy:load_eye"
 after "deploy:cleanup", "deploy:restart"
 after "deploy:restart", "airbrake:deploy"
+after "airbrake:deploy", "deploy:add_log"
